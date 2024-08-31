@@ -1,12 +1,7 @@
-import React, {useState,useEffect} from "react";
+import {React, useState, useEffect} from "react";
 import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function Login() {
-    const [email, setEmail]=useState(initialState,null);
-    const [password, setPassword]=useState(initialState,null); 
-
-    //Sending the form
-    
 
   return (
     <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2">
@@ -23,12 +18,12 @@ export default function Login() {
         <View>
           <View className="space-y-1">
             <Text className="text-[16px]">E-mail</Text>
-            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" onChangeText={text=>setEmail(text)} />
+            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com"/>
           </View>
 
           <View className="space-y-1 pt-4">
             <Text className="text-[16px]">Senha</Text>
-            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Digite sua senha" onChangeText={text=>setPassword(text)} secureTextEntry={true} />
+            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Digite sua senha" secureTextEntry={true} />
           </View>          
         </View>
 

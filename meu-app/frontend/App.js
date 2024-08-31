@@ -1,11 +1,18 @@
-import React from "react";
+import { React, useState, useEffect} from "react";
 import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
 
-export default function App() {
+export default function Login() {
+  
+  const [email, setEmail]= useState(null);
+  const [password, setPassword]= useState(null); 
 
   return (
     <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2">
       <View className="flex w-full h-[300px] bg-[#EFEFF0] rounded-xl p-5">
+        <View>
+            <Image/>
+
+        </View>
 
         <View>
           <Text>Usuário ou senha inválidos</Text>
@@ -14,12 +21,12 @@ export default function App() {
         <View>
           <View className="space-y-1">
             <Text className="text-[16px]">E-mail</Text>
-            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" />
+            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" onChangeText={text=>setEmail(text)}/>
           </View>
 
           <View className="space-y-1 pt-4">
             <Text className="text-[16px]">Senha</Text>
-            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Digite sua senha" secureTextEntry={true} />
+            <TextInput className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Digite sua senha" onChangeText={text=>setPassword(text)} secureTextEntry={true} />
           </View>          
         </View>
 
