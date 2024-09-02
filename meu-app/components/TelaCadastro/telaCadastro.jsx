@@ -53,7 +53,7 @@ export default TelaCadastro;
 
 const styles = StyleSheet.create({
     cadastroConatiner: {
-        padding: 5,
+        padding: 4,
     },
     containerTitulo: {
         padding: 25,
