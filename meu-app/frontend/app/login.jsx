@@ -1,8 +1,8 @@
 import { React, useState, useEffect} from "react";
-import { KeyboardAvoidingView, TextInput, Text, View, Image, Pressable, TouchableOpacity } from "react-native";
-import ShowHide from "./components/showHide";
-import ToggleButton from "./components/toggleButton";
-import { FaLinesLeaning } from "react-icons/fa6";
+import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
+import { Link } from 'expo-router'
+import ShowHide from "../components/showHide";
+import ToggleButton from "../components/toggleButton";
 
 export default function Login() {
   
@@ -12,17 +12,15 @@ export default function Login() {
   const [errorPassword, setErrorPassword]= useState(null);
 
   const validar = () => {
-    setErrorEmail("Prencha")
+    setErrorEmail("Prencha corretamente")
     return false
   }
-
-  
 
   return (
     <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2">
       <View className="pb-[32px]">
         <Image className="w-[76px] h-[66px] shrink-0"
-        source={require('./assets/images/user.webp')}/>
+        source={require('../assets/images/user.webp')}/>
       </View>
 
       <View className="flex-shrink-0 w-[350px] h-[385px] bg-[#EDF3FF] rounded-[16px] p-5">
@@ -67,9 +65,7 @@ export default function Login() {
       <View className="flex gap-[16px] justify-center items-center m-[8px]">
         <View className="flex flex-row text-[14px]">
           <Text className="pt-[10px] text-[#464646]">Não possui uma conta? </Text>
-          <TouchableOpacity>
-            <Text className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">Cadastre-se!</Text>
-          </TouchableOpacity>
+          <Link href={"/telaCadastro"} className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
         </View>
         
 
