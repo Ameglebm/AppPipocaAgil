@@ -65,7 +65,7 @@ export default function Login() {
       <View className="flex gap-[16px] justify-center items-center m-[8px]">
         <View className="flex flex-row text-[14px]">
           <Text className="pt-[10px] text-[#464646]">Não possui uma conta? </Text>
-          <Link href={"/telaCadastro"} className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
+          <Link href={"/cadastro"} className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
         </View>
         
 
