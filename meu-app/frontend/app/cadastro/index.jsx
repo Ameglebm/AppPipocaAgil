@@ -19,12 +19,6 @@ function TelaCadastro() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity >
-                    <AntDesign name="left" size={24} color="black" style={styles.btnVoltar} />
-                </TouchableOpacity>
-                <Text style={styles.title}>Crie a sua conta</Text>
-            </View>
             <ScrollView style={styles.dadosContainer}>
                 <View style={styles.containerInput}>
                     <Dados></Dados>
@@ -41,7 +35,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        paddingTop: 56,
     },
     header: {
         flexDirection: 'row',
@@ -63,7 +56,7 @@ const styles = StyleSheet.create({
     dadosContainer: {
         flex: 1,
         backgroundColor: '#EDF3FF',
-        marginTop: 16,
+        marginTop: 5,
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
     },
