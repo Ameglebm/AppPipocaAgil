@@ -2,7 +2,8 @@ import { React, useState, useEffect} from "react";
 import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
 import { Link } from 'expo-router'
 import ShowHide from "../components/showHide";
-import ToggleButton from "../components/toggleButton";
+import ButtonLogin from "../components/ButtonLogin";
+// import ToggleButton from "../components/toggleButton";   [MVP]
 
 export default function Login() {
   
@@ -11,9 +12,16 @@ export default function Login() {
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
-  const validar = () => {
+  //Enviar dados do formulário para o Backend
+ 
+
+ /* const validar = () => {
     setErrorEmail("Prencha corretamente")
     return false
+  }*/
+
+  const signIn = () => {
+    console.log('click');
   }
 
   return (
@@ -25,16 +33,17 @@ export default function Login() {
 
       <View className="flex-shrink-0 w-[350px] h-[385px] bg-[#EDF3FF] rounded-[16px] p-5">
 
-        <View>
+        {/* <View>              //Botão ocultado [MVP]
           <ToggleButton />
-        </View>
+        </View> 
+        */}
 
         <View>
           <View className="space-y-1">
             <Text className="text-[14px] pb-3 text-[#282828]">E-mail</Text>
             <TextInput 
             className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" 
-            onChangeText={value =>setEmail(value)}
+            onChangeText={(text) => setEmail(text)}
             keyboardType="email-address"
             errorMessage={errorEmail}
             />
@@ -42,7 +51,7 @@ export default function Login() {
 
           <View className="space-y-1 pt-4">
             <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
-            <ShowHide placeholder="Digite sua senha" onChangeText={text=>setPassword(text)} secureTextEntry={true} />
+            <ShowHide placeholder="Digite sua senha" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
           </View>          
         </View>
 
@@ -52,28 +61,16 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <View className="flex bg-[#2F39D3] p-4 mt-[58px] w-[320px] min-h-[42px] items-center rounded-2xl">
-          <TouchableOpacity>
-            <Text className="text-[#FDFDFD] text-[22px]">Entrar</Text>
-          </TouchableOpacity>
+        <View>
+          <ButtonLogin labelButton="Entrar" onpress={signIn}></ButtonLogin>
         </View>
 
       </View>
-
-      
 
       <View className="flex gap-[16px] justify-center items-center m-[8px]">
         <View className="flex flex-row text-[14px]">
           <Text className="pt-[10px] text-[#464646]">Não possui uma conta? </Text>
           <Link href={"/cadastro"} className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
-        </View>
-        
-
-        <View className="flex flex-row">
-          <Text className="pt-[10px] text-[#464646] text-[14px]">Dúvidas? </Text>
-          <TouchableOpacity>
-            <Text className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">Fale com a gente</Text>
-          </TouchableOpacity>
         </View>
         
       </View>

@@ -1,13 +1,12 @@
 import { KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from "react-native";
 import React from 'react'
-import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function checkSucess() {
   return (
     <KeyboardAvoidingView className="flex flex-1 justify-center items-center">
 
         <View>
-            <AntDesign name="checkcircleo" size={70} color="green" />
+            <Image className="w-[168px] h-[180px]" source={require('../assets/images/sucess.webp')} />
         </View>
 
         <View className="mt-[32px]">
