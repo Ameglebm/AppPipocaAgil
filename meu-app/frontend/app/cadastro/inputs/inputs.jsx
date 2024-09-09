@@ -13,11 +13,11 @@ function inputs() {
 
     const handlePress = () => {
         setIsChecked(prevState => {
-          const newState = !prevState;
-          setButtonColor(newState ? '#2F39D3' : '#7A98FF');
-          return newState;
+            const newState = !prevState;
+            setButtonColor(newState ? '#2F39D3' : '#7A98FF');
+            return newState;
         });
-      };
+    };
 
     const [fonteLoaded] = useFonts({
         Urbanist_600SemiBold,
@@ -165,12 +165,17 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         paddingLeft: 80,
         gap: 8,
-        backgroundColor: '#7A98FF',
+        backgroundColor: '#2F39D3',
         alignItems: 'center',
         marginTop: 32,
+        shadowColor: '#0C0C0D',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        elevation: 2,
     },
     txtBtn: {
-        fontFamily:'Urbanist_600SemiBold',
+        fontFamily: 'Urbanist_600SemiBold',
         color: '#FDFDFD',
         fontSize: 18,
     }
