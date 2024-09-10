@@ -1,58 +1,82 @@
-import { React, useState, useEffect} from "react";
+import { React, useState } from "react";
 import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
-import { Link } from 'expo-router'
+import { Link } from 'expo-router';
 import ShowHide from "../components/showHide";
-import ButtonLogin from "../components/ButtonLogin";
-// import ToggleButton from "../components/toggleButton";   [MVP]
+import ToggleButton from "../components/toggleButton";
 
 export default function Login() {
-  
-  const [email, setEmail]= useState(null);
-  const [password, setPassword]= useState(null);
-  const [errorEmail, setErrorEmail]= useState(null);
-  const [errorPassword, setErrorPassword]= useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorEmail, setErrorEmail] = useState(null);
+  const [errorPassword, setErrorPassword] = useState(null);
 
-  //Enviar dados do formulário para o Backend
- 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
- /* const validar = () => {
-    setErrorEmail("Prencha corretamente")
-    return false
-  }*/
+  const validar = () => {
+    let isValid = false;
 
-  const signIn = () => {
-    console.log('click');
-  }
+    if (!validateEmail(email)) {
+      setErrorEmail("Insira um e-mail válido.");
+      isValid = false;
+    } else {
+      setErrorEmail(null);
+    }
+
+    if (!password || password.length < 8) {
+      setErrorPassword("Deve conter no mínimo 8 caracteres.");
+      isValid = false;
+    } else {
+      setErrorPassword(null);
+    }
+
+    return isValid;
+  };
+
+  const handleSubmit = () => {
+    const isValid = validar();
+    if (isValid) {
+      console.log("Login bem-sucedido");
+    }
+  };
 
   return (
     <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2">
       <View className="pb-[32px]">
-        <Image className="w-[76px] h-[66px] shrink-0"
-        source={require('../assets/images/user.webp')}/>
+        <Image className="w-[76px] h-[66px] shrink-0" source={require('../assets/images/user.webp')} />
       </View>
 
       <View className="flex-shrink-0 w-[350px] h-[385px] bg-[#EDF3FF] rounded-[16px] p-5">
 
-        {/* <View>              //Botão ocultado [MVP]
+        <View>
           <ToggleButton />
-        </View> 
-        */}
+        </View>
 
         <View>
           <View className="space-y-1">
             <Text className="text-[14px] pb-3 text-[#282828]">E-mail</Text>
-            <TextInput 
-            className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" 
-            onChangeText={(text) => setEmail(text)}
-            keyboardType="email-address"
-            errorMessage={errorEmail}
+            <TextInput
+              className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md"
+              placeholder="Email@correto.com"
+              onChangeText={value => setEmail(value)}
+              keyboardType="email-address"
+              value={email}
             />
+            {errorEmail && <Text style={{ color: '#DF353F' }}>{errorEmail}</Text>}
           </View>
 
           <View className="space-y-1 pt-4">
             <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
-            <ShowHide placeholder="Digite sua senha" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
-          </View>          
+            <ShowHide
+              placeholder="Digite sua senha"
+              onChangeText={text => setPassword(text)}
+              secureTextEntry={true}
+              value={password}
+            />
+            {errorPassword && <Text style={{ color: '#DF353F' }}>{errorPassword}</Text>}
+          </View>
         </View>
 
         <View className="pt-[10px] pb-[8px] px-3 flex-col inline-flex justify-center items-center gap-4">
@@ -61,8 +85,10 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <View>
-          <ButtonLogin labelButton="Entrar" onpress={signIn}></ButtonLogin>
+        <View className="flex bg-[#2F39D3] p-4 mt-[58px] w-[320px] min-h-[42px] items-center rounded-2xl">
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text className="text-[#FDFDFD] text-[22px]">Entrar</Text>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -72,9 +98,14 @@ export default function Login() {
           <Text className="pt-[10px] text-[#464646]">Não possui uma conta? </Text>
           <Link href={"/cadastro"} className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
         </View>
-        
-      </View>
 
+        <View className="flex flex-row">
+          <Text className="pt-[10px] text-[#464646] text-[14px]">Dúvidas? </Text>
+          <TouchableOpacity>
+            <Text className="pt-[10px] text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">Fale com a gente</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </KeyboardAvoidingView>
   );
 }

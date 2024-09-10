@@ -5,11 +5,25 @@ import { Lato_400Regular } from '@expo-google-fonts/lato'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 
-function inputs() {
+function Inputs() {
     const [isChecked, setIsChecked] = useState(false);
     const [secureText, setSecureText] = useState(true);
     const [secureText2, setSecureText2] = useState(true);
-    const [buttonColor, setButtonColor] = useState('#7A98FF')
+    const [buttonColor, setButtonColor] = useState('#7A98FF');
+
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [email, setEmail] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+
+    const [nomeError, setNomeError] = useState('');
+    const [sobrenomeError, setSobrenomeError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [cpfError, setCpfError] = useState('');
+    const [senhaError, setSenhaError] = useState('');
+    const [confirmarSenhaError, setConfirmarSenhaError] = useState('');
 
     const handlePress = () => {
         setIsChecked(prevState => {
@@ -17,6 +31,76 @@ function inputs() {
             setButtonColor(newState ? '#2F39D3' : '#7A98FF');
             return newState;
         });
+    };
+
+    const validateNome = (value) => {
+        setNome(value);
+        if (value.trim().length === 0) {
+            setNomeError('Digite o nome.');
+        } else {
+            setNomeError('');
+        }
+    };
+
+    const validateSobrenome = (value) => {
+        setSobrenome(value);
+        if (value.trim().length === 0) {
+            setSobrenomeError('Digite o sobrenome.');
+        } else {
+            setSobrenomeError('');
+        }
+    };
+
+    const validateEmail = (value) => {
+        setEmail(value);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            setEmailError('E-mail já cadastrado. Tente novamente.');
+        } else {
+            setEmailError('');
+        }
+    };
+
+    const validateCpf = (value) => {
+        setCpf(value);
+        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+        if (!cpfRegex.test(value)) {
+            setCpfError('CPF incorreto. Tente novamente.');
+        } else {
+            setCpfError('');
+        }
+    };
+
+    const validateSenha = (value) => {
+        setSenha(value);
+        if (value.length < 8) {
+            setSenhaError('A senha deve ter pelo menos 8 caracteres.');
+        } else {
+            setSenhaError('');
+        }
+    };
+
+    const validateConfirmarSenha = (value) => {
+        setConfirmarSenha(value);
+        if (value !== senha) {
+            setConfirmarSenhaError('Senhas não conferem. Tente novamente.');
+        } else {
+            setConfirmarSenhaError('');
+        }
+    };
+
+    const handleSubmit = () => {
+        if (!nome) setNomeError('O nome é obrigatório.');
+        if (!sobrenome) setSobrenomeError('O sobrenome é obrigatório.');
+        if (!email) setEmailError('E-mail é obrigatório.');
+        if (!cpf) setCpfError('CPF é obrigatório.');
+        if (!senha) setSenhaError('Senha é obrigatória.');
+        if (!confirmarSenha) setConfirmarSenhaError('Confirmação de senha é obrigatória.');
+        if (!isChecked) return Alert.alert('Erro', 'Você deve aceitar os Termos de uso.');
+
+        if (!nomeError && !sobrenomeError && !emailError && !cpfError && !senhaError && !confirmarSenhaError) {
+            Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
+        }
     };
 
     const [fonteLoaded] = useFonts({
@@ -34,28 +118,46 @@ function inputs() {
             <TextInput
                 placeholder='Digite seu nome'
                 style={styles.inputDados}
+                value={nome}
+                onChangeText={validateNome}
             />
+            {nomeError ? <Text style={styles.errorText}>{nomeError}</Text> : null}
+
             <Text style={styles.label}>Sobrenome*</Text>
             <TextInput
                 placeholder='Digite seu sobrenome'
                 style={styles.inputDados}
+                value={sobrenome}
+                onChangeText={validateSobrenome}
             />
+            {sobrenomeError ? <Text style={styles.errorText}>{sobrenomeError}</Text> : null}
+
             <Text style={styles.label}>E-mail*</Text>
             <TextInput
                 placeholder='Digite seu e-mail'
                 style={styles.inputDados}
+                value={email}
+                onChangeText={validateEmail}
             />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
             <Text style={styles.label}>CPF*</Text>
             <TextInput
                 placeholder='000.000.000-00'
                 style={styles.inputDados}
+                value={cpf}
+                onChangeText={validateCpf}
             />
+            {cpfError ? <Text style={styles.errorText}>{cpfError}</Text> : null}
+
             <Text style={styles.label}>Senha*</Text>
             <View style={styles.senhaContainer}>
                 <TextInput
                     placeholder='Digite sua senha'
                     style={styles.inputDados}
                     secureTextEntry={secureText}
+                    value={senha}
+                    onChangeText={validateSenha}
                 />
                 <TouchableOpacity
                     style={styles.iconBtn}
@@ -69,12 +171,16 @@ function inputs() {
                     />
                 </TouchableOpacity>
             </View>
+            {senhaError ? <Text style={styles.errorText}>{senhaError}</Text> : null}
+
             <Text style={styles.label}>Confirmar a senha*</Text>
             <View style={styles.senhaContainer}>
                 <TextInput
                     placeholder='Confirme sua senha'
                     style={styles.inputDados}
                     secureTextEntry={secureText2}
+                    value={confirmarSenha}
+                    onChangeText={validateConfirmarSenha}
                 />
                 <TouchableOpacity
                     style={styles.iconBtn}
@@ -87,20 +193,23 @@ function inputs() {
                         style={styles.eyeIcon} />
                 </TouchableOpacity>
             </View>
+            {confirmarSenhaError ? <Text style={styles.errorText}>{confirmarSenhaError}</Text> : null}
+
             <TouchableOpacity style={styles.checkboxContainer} onPress={handlePress}>
                 <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
                     {isChecked && <AntDesign name="check" size={16} color='#FDFDFD' />}
                 </View>
                 <Text style={styles.labelCheckBox}>Políticas de privacidade e Termos de uso</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.btnContainer, { backgroundColor: buttonColor }]}>
+
+            <TouchableOpacity style={[styles.btnContainer, { backgroundColor: buttonColor }]} onPress={handleSubmit}>
                 <Text style={styles.txtBtn}>Cadastrar</Text>
             </TouchableOpacity>
         </View>
-    )
+    );
 }
 
-export default inputs;
+export default Inputs;
 
 const styles = StyleSheet.create({
     label: {
@@ -165,18 +274,18 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         paddingLeft: 80,
         gap: 8,
-        backgroundColor: '#2F39D3',
+        backgroundColor: '#7A98FF',
         alignItems: 'center',
         marginTop: 32,
-        shadowColor: '#0C0C0D',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.3,
-        shadowRadius: 2,
-        elevation: 2,
     },
     txtBtn: {
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily:'Urbanist_600SemiBold',
         color: '#FDFDFD',
         fontSize: 18,
+    },
+    errorText: {
+        color: '#DF353F',
+        fontWeight: "500",
+        marginBottom: 10
     }
 });

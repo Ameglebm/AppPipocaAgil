@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; // Biblioteca de ícones do Expo
+import { MaterialIcons } from '@expo/vector-icons'; 
 
-const PasswordInput = () => {
+const ShowHide = ({ placeholder, onChangeText, value }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -11,10 +11,13 @@ const PasswordInput = () => {
 
   return (
     <View>
-      <View className="flex-row justify-between p-2 border-[1px] border-[#b7b7b8] rounded-md">
-        <TextInput className="text-[16px] flex-1"
-          placeholder="Digite sua senha"
-          secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          secureTextEntry={!isPasswordVisible}
+          onChangeText={onChangeText}
+          value={value}
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
           <MaterialIcons
@@ -28,4 +31,20 @@ const PasswordInput = () => {
   );
 };
 
-export default PasswordInput;
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#b7b7b8',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  input: {
+    fontSize: 16,
+    flex: 1,
+  },
+});
+
+export default ShowHide;
