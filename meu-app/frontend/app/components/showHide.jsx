@@ -11,7 +11,7 @@ const PasswordInput = () => {
 
   return (
     <View>
-      <View className="flex-row justify-between p-2 border-[1px] border-[#b7b7b8] rounded-md">
+      <View className="flex-row justify-between p-2 border-[1px] border-[#b7b7b8] bg-[#FDFDFD] rounded-md">
         <TextInput className="text-[16px] flex-1"
           placeholder="Digite sua senha"
           secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha

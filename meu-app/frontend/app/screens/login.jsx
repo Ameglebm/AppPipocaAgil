@@ -1,6 +1,6 @@
 import { React, useState, useEffect} from "react";
 import { KeyboardAvoidingView, TextInput, Text, View, Image, TouchableOpacity } from "react-native";
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import ShowHide from "../components/showHide";
 import ButtonLogin from "../components/ButtonLogin";
 // import ToggleButton from "../components/toggleButton";   [MVP]
@@ -13,25 +13,28 @@ export default function Login() {
   const [errorPassword, setErrorPassword]= useState(null);
 
   //Enviar dados do formulário para o Backend
- 
-
- /* const validar = () => {
-    setErrorEmail("Prencha corretamente")
-    return false
-  }*/
-
-  const signIn = () => {
-    console.log('click');
+  async function sendForm() {
+    let response = await fetch('/url-do-backend', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: email,
+        password: password
+      })
+    });
   }
 
   return (
-    <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2">
+    <KeyboardAvoidingView className="flex-1 justify-center items-center mx-2 bg-[#FDFDFD]">
       <View className="pb-[32px]">
-        <Image className="w-[76px] h-[66px] shrink-0"
+        <Image className="w-[66px] h-[66px] top-[-100]"
         source={require('../assets/images/user.webp')}/>
       </View>
 
-      <View className="flex-shrink-0 w-[350px] h-[385px] bg-[#EDF3FF] rounded-[16px] p-5">
+      <View className="flex-shrink-0 w-[400px] h-[322px] bg-[#EDF3FF] rounded-2xl p-5">
 
         {/* <View>              //Botão ocultado [MVP]
           <ToggleButton />
@@ -40,18 +43,18 @@ export default function Login() {
 
         <View>
           <View className="space-y-1">
-            <Text className="text-[14px] pb-3 text-[#282828]">E-mail</Text>
+            <Text className="text-[14px] pb-3 text-[#282828]">E-mail*</Text>
             <TextInput 
-            className="text-[16px] p-2 border-[1px] border-[#b7b7b8] rounded-md" placeholder="Email@correto.com" 
-            onChangeText={(text) => setEmail(text)}
+            className="text-[16px] p-2 border-[1px] border-[#b7b7b8] bg-[#FDFDFD] rounded-md" placeholder="email@correto.com" 
+            onChangeText={text => setEmail(text)}
             keyboardType="email-address"
             errorMessage={errorEmail}
             />
           </View>
 
           <View className="space-y-1 pt-4">
-            <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
-            <ShowHide placeholder="Digite sua senha" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
+            <Text className="text-[14px] pb-3 text-[#282828]">Senha*</Text>
+            <ShowHide placeholder="Digite sua senha" onChangeText={text => setPassword(text)} secureTextEntry={true} />
           </View>          
         </View>
 
@@ -61,8 +64,8 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <View>
-          <ButtonLogin labelButton="Entrar" onpress={signIn}></ButtonLogin>
+        <View className="flex-1 justify-center items-center">
+          <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
 
       </View>
