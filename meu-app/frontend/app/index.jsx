@@ -1,18 +1,37 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { Link, useRouter } from 'expo-router'
+import React, { useEffect } from "react";
+import { View, Image, StyleSheet } from "react-native";
+import { useRouter } from "expo-router"; // Hook para navegação
 
-export default function Home() {
+export default function SplashScreen() {
   const router = useRouter();
-  return (
-    <View className="flex-1 justify-center items-center space-y-6">
-      <View>
-        <TouchableOpacity className="justify-center items-center bg-[#2F39D3] p-4 mt-[58px] w-[320px] min-h-[42px] rounded-2xl" onPress={() => router.push('./screens/login')}>
-          <Text className="text-[20px] text-[#FDFDFD]">Ir para Login</Text>
-        </TouchableOpacity>
-      </View>
 
-      <Link className="text-[20px]" href={"./screens/checkFailed"}>Register failed</Link>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/onboarding"); // Navega para a tela de onboarding
+    }, 5000); // Tempo que o GIF será exibido (3 segundos)
+
+    return () => clearTimeout(timer); // Limpa o timer quando o componente é desmontado
+  }, [router]);
+
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/images/splashScreen2.gif")} // Caminho para o GIF
+        style={styles.gif}
+      />
     </View>
-  )
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+  },
+  gif: {
+    width: "100%",
+    height: "100%",
+  },
+});
