@@ -8,9 +8,9 @@
     "userInterfaceStyle": "light",
     "scheme": "insucheck",
     "splash": {
-      "image": "",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/splashScreen1.jpg",
+      "resizeMode": "cover",
+      "backgroundColor": "#EDF3FF"
     },
     "ios": {
       "supportsTablet": true
@@ -24,9 +24,6 @@
     "web": {
       "favicon": ""
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ]
+    "plugins": ["expo-router", "expo-font"]
   }
 }
