@@ -1,0 +1,1 @@
+// Arquivo que inicializa o servidor e faz o app escutar em uma porta.
