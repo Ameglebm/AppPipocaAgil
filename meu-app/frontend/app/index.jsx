@@ -16,7 +16,7 @@ export default function SplashScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/splashScreen2.gif")} // Caminho para o GIF
+        source={require("./assets/images/splashScreen2.gif")} // Caminho para o GIF
         style={styles.gif}
       />
     </View>
