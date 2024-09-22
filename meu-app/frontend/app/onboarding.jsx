@@ -4,6 +4,7 @@ import { useRouter } from "expo-router"; // Para a navegação
 import OnboardingItem from './components/OnboardingItem'; // 
 import slides from './components/slides'; // Conteúdo da onboarding 
 import Paginator from './components/Paginator'; // Componente para exibir o indicador
+import NextButton from "./components/NextButton"; // Botão de próximo
 
 export default function OnboardingScreen() {
 
@@ -16,6 +17,14 @@ export default function OnboardingScreen() {
   }).current;
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50}).current;
+
+  const scrollTo = () => {                  // lógica para o botão mover os slides
+    if (currentIndex < slides.length - 1) {
+        slidesRef.current.scrollToIndex({ index: currentIndex + 1});
+    } else {
+        console.log('Last item.');
+    }
+}
 
   return (
     <View style={styles.container}>
@@ -39,7 +48,8 @@ export default function OnboardingScreen() {
         />
       </View>
 
-      <Paginator data={slides} scrollx={scrollx}/> 
+      <Paginator data={slides} scrollx={scrollx}/>
+      <NextButton scrollTo={scrollTo} /> 
     </View>
   );
 }
