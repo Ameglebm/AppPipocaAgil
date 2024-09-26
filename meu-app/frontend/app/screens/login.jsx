@@ -12,26 +12,23 @@ export default function Login() {
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
-  //Enviar dados do formulário para o Backend
+  //Enviar dados para o Backend
  
 
- /* const validar = () => {
-    setErrorEmail("Prencha corretamente")
-    return false
-  }*/
+
 
   const signIn = () => {
     console.log('click');
   }
 
   return (
-    <KeyboardAvoidingView className="bg-[#FDFDFD] flex items-center pt-[48px] w-full h-full">
+    <KeyboardAvoidingView className="bg-[#FDFDFD] flex items-center pt-[100px] w-full h-full">
       <View>
         <Image className="w-[66px] h-[66px]"
         source={require('../assets/images/user.webp')}/>
       </View>
 
-      <View className="w-[392px] h-[300px] top-[32px] bg-[#EDF3FF] rounded-2xl">
+      <View className="w-[392px] h-[300px] top-[120px] bg-[#EDF3FF] rounded-2xl">
 
         {/* Botão de alternância
             <View>
@@ -71,7 +68,7 @@ export default function Login() {
       </View>
 
       {/* Código corrigido */}   
-      <View className="flex-1 flex-row text-[14px] justify-end items-center pt-[24px]">  
+      <View className="flex-1 flex-row text-[14px] justify-end items-center pt-[100px]">  
         <Text className="text-[#464646]">Não possui uma conta? </Text>
         <Link href={"/cadastro"} className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"> Cadastre-se!</Link>
       </View>

@@ -26,6 +26,7 @@ export default function Layout() {
       <Stack.Screen
         name="screens/login"
         options={{
+          headerShown: false,
           title: "Login",
           headerTitleStyle: {
             fontFamily: "Urbanist_600SemiBold",
