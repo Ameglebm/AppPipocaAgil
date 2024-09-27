@@ -10,7 +10,7 @@ import {
 import { useRouter } from "expo-router";
 import OnboardingItem from "./components/OnboardingItem";
 import slides from "./components/slides";
-import Paginator from "./components/Paginator";
+import Paginator from "./components/Paginator"; // Paginador
 import NavigationButtons from "./components/NextButton"; // Certifique-se de que o caminho está correto
 
 export default function OnboardingScreen() {
