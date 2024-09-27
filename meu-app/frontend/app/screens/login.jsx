@@ -12,7 +12,7 @@ export default function Login() {
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
-  //Enviar dados para o Backend
+  // Enviar form para backend
  
 
 
