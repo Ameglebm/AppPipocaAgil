@@ -1,1 +1,0 @@
-// Configuração principal do Express, carrega middlewares globais e rotas
