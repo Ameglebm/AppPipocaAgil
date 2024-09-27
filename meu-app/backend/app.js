@@ -10,7 +10,7 @@ async function runQueries() {
     const users = await getAllUsers();
     console.log('Usuários:', users);
 
-    const newUser = await createUser('bia', 'teste', '12345678999', 'teste@teste.com', '123456');
+    const newUser = await createUser('warley', 'tet', '12345778999', 'tsde@teste.com', '1563456');
     console.log('Novo usuário criado:', newUser);
 
   } catch (err) {
