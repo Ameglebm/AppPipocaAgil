@@ -28,7 +28,7 @@ export default function GifScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../assets/images/splashScreen2.gif")} // O GIF animado
+        source={require("../assets/images/splashScreen2.gif")} // O GIF animado
         style={styles.gif}
       />
     </View>
