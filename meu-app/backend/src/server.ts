@@ -1,14 +1,21 @@
 // Arquivo que inicializa o servidor e faz o app escutar em uma porta.
-import Fastify from "fastify";
-import cors from '@fastify/cors'
-import { userRoutes } from "./routes/user";
+import express, { Application } from "express";
+import cors from "cors";
+import userRoutes from "./routes/user";
 
-const app = Fastify()
+const app: Application = express();
 
-app.register(cors)
-app.register(userRoutes)
+// Middleware para parsear JSON
+app.use(express.json());
 
-app.listen({
-  port: 3333,
-  host: '0.0.0.0' 
-})
+// Configurar CORS
+app.use(cors());
+
+// Configurar as rotas usando o roteador
+app.use("/users", userRoutes);
+
+// Iniciar o servidor
+const PORT = parseInt(process.env.PORT || "3333", 10);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});

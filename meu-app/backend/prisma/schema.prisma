@@ -8,10 +8,12 @@ generator client {
 }
 
 model Users {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   nome      String
   sobrenome String
-  email     String @unique
-  cpf       String @unique
+  email     String   @unique
+  cpf       String   @unique
   senha     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
