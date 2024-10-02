@@ -66,6 +66,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         });
       }
     });
+    
 
   try {
     // Validar os dados de entrada
