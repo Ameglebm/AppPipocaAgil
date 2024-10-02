@@ -1,1 +1,0 @@
-// Executa tarefas intermediárias, como autenticação ou validação, antes de chegar ao controlador
