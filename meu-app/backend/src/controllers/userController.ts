@@ -139,8 +139,8 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   // Definir o esquema de validação usando Zod
   const loginSchema = z.object({
-    email: z.string().email(),
-    senha: z.string().min(8),
+    email: z.string().email("Formato de e-mail inválido"),
+    senha: z.string().min(8, "Confirmação de senha deve ter pelo menos 8 caracteres"),
   });
 
   try {
@@ -170,7 +170,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { userId: user.id },
       process.env.JWT_SECRET as string, 
-      { expiresIn: '1h' },
+      { expiresIn: '8h' },
     );
 
     // Retornar a resposta de sucesso
