@@ -1,13 +1,13 @@
 import { Stack, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export default function Layout() {
   const router = useRouter();
 
   return (
-    <Stack>
+    <Stack 
+    screenOptions={{}} /*config para todas as telas*/ >
       <Stack.Screen
         name="index"
         options={{
