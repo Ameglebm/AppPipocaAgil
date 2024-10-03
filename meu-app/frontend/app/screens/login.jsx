@@ -3,6 +3,9 @@ import { KeyboardAvoidingView, View, SafeAreaView, TextInput, Text, Image, Touch
 import { Link, useRouter } from 'expo-router'
 import ShowHide from "../components/showHide";
 import ButtonLogin from "../components/ButtonLogin";
+// arquivo config da API
+import api from "../../services/api";
+
 // import ToggleButton from "../components/toggleButton";   [MVP]
 
 export default function Login() {
@@ -13,12 +16,18 @@ export default function Login() {
   const [errorPassword, setErrorPassword]= useState(null);
 
   // Enviar form para backend
- 
+  const sendForm = async () => {
+    await api.post('/routes', {
+      name: email,
+      password: password
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-
-
-  const signIn = () => {
-    console.log('click');
   }
 
   return (
@@ -62,7 +71,7 @@ export default function Login() {
 
         {/*Código corrigido */}
         <View className="flex justify-center items-center px-[12px] shadow-3xl"> 
-          <ButtonLogin labelButton="Entrar"></ButtonLogin>
+          <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
 
       </View>
