@@ -1,9 +1,8 @@
-// Arquivo que inicializa o servidor e faz o app escutar em uma porta.
 import express, { Application } from "express";
 import cors from "cors";
 import userRoutes from "./routes/user";
-import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { swaggerDocs } from "./docs/swagger"; 
 
 // Inicializa o aplicativo Express
 const app: Application = express();
@@ -14,28 +13,7 @@ app.use(express.json());
 // Configurar CORS
 app.use(cors());
 
-// Configuração do Swagger
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Minha API",
-      version: "1.0.0",
-      description: "Documentação automática da API",
-    },
-    servers: [
-      {
-        url: "http://localhost:3333",
-      },
-    ],
-  },
-  apis: ["./src/routes/*.ts"], // Caminho para os arquivos de rotas
-};
-
-// Gerar documentação do Swagger
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
-
-// Rota da documentação
+// Rota da documentação Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Configurar as rotas usando o roteador
