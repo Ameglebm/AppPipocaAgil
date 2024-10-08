@@ -1,11 +1,10 @@
 import { React, useState, useEffect} from "react";
-import { KeyboardAvoidingView, View, SafeAreaView, TextInput, Text, Image, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, View, TextInput, Text, Image, TouchableOpacity } from "react-native";
 import { Link, useRouter } from 'expo-router'
 import ShowHide from "../components/showHide";
 import ButtonLogin from "../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-
 // import ToggleButton from "../components/toggleButton";   [MVP]
 
 export default function Login() {
@@ -15,14 +14,36 @@ export default function Login() {
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
+  const router = useRouter();
+
+  // Verificação do usuario
+  /*const checkLogin = async () => {
+    const token = await sessionStorage.getItem('@token');
+    if ('token') {
+      router.push('/');
+    }
+  }*/
+
+  // Toda vez que o componente carregar usa-se essa função
+  /*useEffect(() => {
+    checkLogin();
+  }, []);
+  */
+ 
   // Enviar form para backend
   const sendForm = async () => {
-    await api.post('/routes', {
-      name: email,
-      password: password
+
+    console.log(email)
+    console.log(password)
+
+    await api.post('/users/login', {
+      email: email,
+      password: password,
     })
     .then(function (response) {
       console.log(response);
+      sessionStorage.setItem('token', response.data.token)
+      router.replace('')
     })
     .catch(function (error) {
       console.log(error);

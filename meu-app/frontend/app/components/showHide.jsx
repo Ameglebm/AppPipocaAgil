@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Biblioteca de ícones do Expo
 
 const PasswordInput = () => {
