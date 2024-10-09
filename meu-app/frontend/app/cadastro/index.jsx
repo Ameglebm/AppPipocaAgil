@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular } from "@expo-google-fonts/lato";

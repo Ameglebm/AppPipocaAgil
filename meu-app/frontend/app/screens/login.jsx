@@ -1,28 +1,35 @@
 import { React, useState, useEffect} from "react";
-import { KeyboardAvoidingView, View, SafeAreaView, TextInput, Text, Image, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, View, TextInput, Text, Image, TouchableOpacity } from "react-native";
 import { Link, useRouter } from 'expo-router'
 import ShowHide from "../components/showHide";
 import ButtonLogin from "../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-
 // import ToggleButton from "../components/toggleButton";   [MVP]
 
 export default function Login() {
   
-  const [email, setEmail]= useState(null);
-  const [password, setPassword]= useState(null);
+  const [email, setEmail]= useState("");
+  const [password, setPassword]= useState("");
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
+  const router = useRouter();
+ 
   // Enviar form para backend
   const sendForm = async () => {
-    await api.post('/routes', {
-      name: email,
-      password: password
+
+    console.log(email)
+    console.log(password)
+
+    await api.post('/users/login', {
+      email: email,
+      senha: password,
     })
     .then(function (response) {
       console.log(response);
+      sessionStorage.setItem('token', response.data.token)
+      router.replace('')
     })
     .catch(function (error) {
       console.log(error);
@@ -58,7 +65,12 @@ export default function Login() {
 
           <View className="space-y-1 pt-4">
             <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
-            <ShowHide placeholder="Digite sua senha" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
+            <ShowHide 
+            placeholder="Digite sua senha" 
+            onChangeText={setPassword} 
+            secureTextEntry={true}
+            value={password} 
+            />
           </View>          
         </View>
         
