@@ -12,6 +12,7 @@ import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular } from "@expo-google-fonts/lato";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Dados from "./inputs/inputs";
+import { useNavigation } from "@react-navigation/native";
 
 function TelaCadastro() {
   const [fonteLoaded] = useFonts({
@@ -22,13 +23,13 @@ function TelaCadastro() {
   if (!fonteLoaded) {
     return null;
   }
-
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.btnContainer}>
           <TouchableOpacity
-            onPress={() => alert("Botão de voltar pressionado")}
+            onPress={() => navigation.navigate("screens/login")}
           >
             <Image
               source={require("../assets/images/backIcon.png")}

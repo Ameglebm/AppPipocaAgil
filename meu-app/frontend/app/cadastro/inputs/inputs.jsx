@@ -9,7 +9,7 @@ import {
 import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular } from "@expo-google-fonts/lato";
 import { Inter_400Regular } from "@expo-google-fonts/inter";
-import { useNavigation } from "@react-navigation/native"; // Importar o hook de navegação
+import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import axios from "axios";
@@ -21,13 +21,13 @@ function Inputs() {
   const [cpf, setCpf] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [isChecked, setIsChecked] = useState(false); // Estado do checkbox
+  const [isChecked, setIsChecked] = useState(false);
   const [secureText, setSecureText] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [secureText2, setSecureText2] = useState(true);
   const [buttonColor, setButtonColor] = useState("#7A98FF");
 
-  const navigation = useNavigation(); // Acessar a navegação
+  const navigation = useNavigation();
 
   const sendForm = async () => {
     if (isDisabled) return;
@@ -52,11 +52,8 @@ function Inputs() {
       }
     } catch (error) {
       if (error.response) {
-        console.error("Erro ao cadastrar usuário:", error.response.data);
-        alert("Erro: " + JSON.stringify(error.response.data));
       } else {
         console.error("Erro ao cadastrar usuário:", error.message);
-        alert("Erro ao cadastrar usuário: " + error.message);
       }
       navigation.navigate("screens/checkFailed");
     }
