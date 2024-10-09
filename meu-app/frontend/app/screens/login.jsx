@@ -9,26 +9,12 @@ import api from "../../services/api";
 
 export default function Login() {
   
-  const [email, setEmail]= useState(null);
-  const [password, setPassword]= useState(null);
+  const [email, setEmail]= useState("");
+  const [password, setPassword]= useState("");
   const [errorEmail, setErrorEmail]= useState(null);
   const [errorPassword, setErrorPassword]= useState(null);
 
   const router = useRouter();
-
-  // Verificação do usuario
-  /*const checkLogin = async () => {
-    const token = await sessionStorage.getItem('@token');
-    if ('token') {
-      router.push('/');
-    }
-  }*/
-
-  // Toda vez que o componente carregar usa-se essa função
-  /*useEffect(() => {
-    checkLogin();
-  }, []);
-  */
  
   // Enviar form para backend
   const sendForm = async () => {
@@ -38,7 +24,7 @@ export default function Login() {
 
     await api.post('/users/login', {
       email: email,
-      password: password,
+      senha: password,
     })
     .then(function (response) {
       console.log(response);
@@ -79,7 +65,12 @@ export default function Login() {
 
           <View className="space-y-1 pt-4">
             <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
-            <ShowHide placeholder="Digite sua senha" onChangeText={(text) => setPassword(text)} secureTextEntry={true} />
+            <ShowHide 
+            placeholder="Digite sua senha" 
+            onChangeText={setPassword} 
+            secureTextEntry={true}
+            value={password} 
+            />
           </View>          
         </View>
         
