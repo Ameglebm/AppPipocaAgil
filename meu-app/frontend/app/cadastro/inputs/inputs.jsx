@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Inputs() {
   const [nome, setNome] = useState("");
@@ -47,13 +48,15 @@ function Inputs() {
       );
 
       if (response.status === 201) {
-        console.log("Usuário criado com sucesso!", response.data);
+        const token = response.data.token;
+        await AsyncStorage.setItem("userToken", token);
         navigation.navigate("screens/checkSucess");
       }
     } catch (error) {
       if (error.response) {
+        //console.error("Erro na resposta do servidor:", error.response.data);
       } else {
-        console.error("Erro ao cadastrar usuário:", error.message);
+        //console.error("Erro ao cadastrar usuário:", error.message);
       }
       navigation.navigate("screens/checkFailed");
     }
@@ -69,7 +72,7 @@ function Inputs() {
     setIsChecked((prevState) => {
       const newState = !prevState;
       setButtonColor(newState ? "#2F39D3" : "#7A98FF");
-      setIsDisabled(!newState); // Ativa ou desativa o botão de acordo com o estado do checkbox
+      setIsDisabled(!newState);
       return newState;
     });
   };
@@ -151,7 +154,6 @@ function Inputs() {
         </TouchableOpacity>
       </View>
 
-      {/* Checkbox sem a propriedade disabled */}
       <TouchableOpacity style={styles.checkboxContainer} onPress={handlePress}>
         <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
           {isChecked && <AntDesign name="check" size={16} color="#FDFDFD" />}
@@ -164,7 +166,7 @@ function Inputs() {
       <TouchableOpacity
         style={[styles.btnContainer, { backgroundColor: buttonColor }]}
         onPress={sendForm}
-        disabled={isDisabled} // Controla a habilitação do botão
+        disabled={isDisabled}
       >
         <Text style={styles.txtBtn}>Cadastrar</Text>
       </TouchableOpacity>
