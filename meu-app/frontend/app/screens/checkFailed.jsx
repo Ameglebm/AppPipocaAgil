@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function checkFailed() {
+  const navigation = useNavigation();
   return (
     <KeyboardAvoidingView className="flex flex-1 justify-center items-center">
       <View>
@@ -23,7 +25,10 @@ export default function checkFailed() {
         </Text>
       </View>
 
-      <TouchableOpacity className="mt-[32px]">
+      <TouchableOpacity
+        className="mt-[32px]"
+        onPress={() => navigation.navigate("cadastro/index")}
+      >
         <Text className="underline text-[14px] text-[#2F39D3] p-[2px] font-normal gap-1 leading-[19.6px]">
           Tentar novamente
         </Text>

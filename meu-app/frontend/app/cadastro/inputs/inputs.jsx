@@ -4,32 +4,78 @@ import {
   View,
   Text,
   TextInput,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular } from "@expo-google-fonts/lato";
+import { Inter_400Regular } from "@expo-google-fonts/inter";
+import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function inputs() {
+function Inputs() {
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [secureText, setSecureText] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [secureText2, setSecureText2] = useState(true);
   const [buttonColor, setButtonColor] = useState("#7A98FF");
 
-  const handlePress = () => {
-    setIsChecked((prevState) => {
-      const newState = !prevState;
-      setButtonColor(newState ? "#2F39D3" : "#7A98FF");
-      return newState;
-    });
+  const navigation = useNavigation();
+
+  const sendForm = async () => {
+    if (isDisabled) return;
+    const novoUsuario = {
+      nome,
+      sobrenome,
+      email,
+      cpf_number: cpf,
+      senha,
+      confirmar_senha: confirmarSenha,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3333/users",
+        novoUsuario
+      );
+
+      if (response.status === 201) {
+        const token = response.data.token;
+        await AsyncStorage.setItem("userToken", token);
+        navigation.navigate("screens/checkSucess");
+      }
+    } catch (error) {
+      if (error.response) {
+        //console.error("Erro na resposta do servidor:", error.response.data);
+      } else {
+        //console.error("Erro ao cadastrar usuário:", error.message);
+      }
+      navigation.navigate("screens/checkFailed");
+    }
   };
 
   const [fonteLoaded] = useFonts({
     Urbanist_600SemiBold,
     Lato_400Regular,
+    Inter_400Regular,
   });
+
+  const handlePress = () => {
+    setIsChecked((prevState) => {
+      const newState = !prevState;
+      setButtonColor(newState ? "#2F39D3" : "#7A98FF");
+      setIsDisabled(!newState);
+      return newState;
+    });
+  };
 
   if (!fonteLoaded) {
     return null;
@@ -38,19 +84,41 @@ function inputs() {
   return (
     <View>
       <Text style={styles.label}>Nome*</Text>
-      <TextInput placeholder="Digite seu nome" style={styles.inputDados} />
+      <TextInput
+        placeholder="Digite seu nome"
+        style={styles.inputDados}
+        value={nome}
+        onChangeText={setNome}
+      />
       <Text style={styles.label}>Sobrenome*</Text>
-      <TextInput placeholder="Digite seu sobrenome" style={styles.inputDados} />
+      <TextInput
+        placeholder="Digite seu sobrenome"
+        style={styles.inputDados}
+        value={sobrenome}
+        onChangeText={setSobrenome}
+      />
       <Text style={styles.label}>E-mail*</Text>
-      <TextInput placeholder="Digite seu e-mail" style={styles.inputDados} />
+      <TextInput
+        placeholder="Digite seu e-mail"
+        style={styles.inputDados}
+        value={email}
+        onChangeText={setEmail}
+      />
       <Text style={styles.label}>CPF*</Text>
-      <TextInput placeholder="000.000.000-00" style={styles.inputDados} />
+      <TextInput
+        placeholder="000.000.000-00"
+        style={styles.inputDados}
+        value={cpf}
+        onChangeText={setCpf}
+      />
       <Text style={styles.label}>Senha*</Text>
       <View style={styles.senhaContainer}>
         <TextInput
           placeholder="Digite sua senha"
           style={styles.inputDados}
           secureTextEntry={secureText}
+          value={senha}
+          onChangeText={setSenha}
         />
         <TouchableOpacity
           style={styles.iconBtn}
@@ -70,6 +138,8 @@ function inputs() {
           placeholder="Confirme sua senha"
           style={styles.inputDados}
           secureTextEntry={secureText2}
+          value={confirmarSenha}
+          onChangeText={setConfirmarSenha}
         />
         <TouchableOpacity
           style={styles.iconBtn}
@@ -83,6 +153,7 @@ function inputs() {
           />
         </TouchableOpacity>
       </View>
+
       <TouchableOpacity style={styles.checkboxContainer} onPress={handlePress}>
         <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
           {isChecked && <AntDesign name="check" size={16} color="#FDFDFD" />}
@@ -91,8 +162,11 @@ function inputs() {
           Políticas de privacidade e Termos de uso
         </Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.btnContainer, { backgroundColor: buttonColor }]}
+        onPress={sendForm}
+        disabled={isDisabled}
       >
         <Text style={styles.txtBtn}>Cadastrar</Text>
       </TouchableOpacity>
@@ -100,7 +174,7 @@ function inputs() {
   );
 }
 
-export default inputs;
+export default Inputs;
 
 const styles = StyleSheet.create({
   label: {
@@ -128,6 +202,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 1,
     elevation: 1,
+    color: "#373737",
+    fontFamily: "Inter_400Regular",
+    lineHeight: 24,
   },
   senhaContainer: {
     position: "relative",
@@ -138,7 +215,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   checkboxContainer: {
-    marginTop: 14,
+    marginTop: 16,
     flexDirection: "row",
     alignItems: "center",
   },
