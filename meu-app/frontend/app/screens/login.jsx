@@ -15,27 +15,50 @@ export default function Login() {
   const [errorPassword, setErrorPassword]= useState(null);
 
   const router = useRouter();
- 
+
   // Enviar form para backend
   const sendForm = async () => {
-
+    // Resetando os erros
+    setErrorEmail(null);
+    setErrorPassword(null);
+  
+    let valid = true;
+  
+    // Validação de e-mail
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setErrorEmail("Por favor, insira um e-mail válido.");
+      valid = false;
+    }
+  
+    // Validação de senha
+    if (!password || password.length < 8) {
+      setErrorPassword("A senha deve ter pelo menos 8 caracteres.");
+      valid = false;
+    }
+  
+    // Se a validação falhar, não enviar a requisição
+    if (!valid) {
+      return;
+    }
+    // Mostrar valores no console
     console.log(email)
     console.log(password)
-
-    await api.post('/users/login', {
-      email: email,
-      senha: password,
-    })
-    .then(function (response) {
+  
+    // Enviar form para backend se válido
+    try {
+      const response = await api.post('/users/login', {
+        email: email,
+        senha: password,
+      });
+  
       console.log(response);
-      sessionStorage.setItem('token', response.data.token)
-      router.replace('')
-    })
-    .catch(function (error) {
+      sessionStorage.setItem('token', response.data.token);
+      router.replace('');
+    } catch (error) {
       console.log(error);
-    });
-
-  }
+      // Lidar com o erro na resposta do servidor, se necessário
+    }
+  };  
 
   return (
     <KeyboardAvoidingView className="bg-[#FDFDFD] flex items-center pt-[100px] w-full h-full">
@@ -59,8 +82,9 @@ export default function Login() {
             className="text-[16px] p-2 border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md" placeholder="email@correto.com" 
             onChangeText={text => setEmail(text)}
             keyboardType="email-address"
-            errorMessage={errorEmail}
+            value={email}
             />
+            {errorEmail && <Text className="text-[#FF0000] text-[12px]">{errorEmail}</Text>}
           </View>
 
           <View className="space-y-1 pt-4">
@@ -69,8 +93,9 @@ export default function Login() {
             placeholder="Digite sua senha" 
             onChangeText={setPassword} 
             secureTextEntry={true}
-            value={password} 
+            value={password}
             />
+            {errorPassword && <Text className="text-[#FF0000] text-[12px]">{errorPassword}</Text>}
           </View>          
         </View>
         

@@ -36,7 +36,7 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      router.push("../screens/login"); // Navega para a tela de login quando chega ao último slide
+      router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
     }
   };
 
