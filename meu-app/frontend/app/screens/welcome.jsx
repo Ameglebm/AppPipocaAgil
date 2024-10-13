@@ -19,7 +19,7 @@ export default function welcome() {
                 <Text>Bem vindo ao InsuCheck!</Text>
                 <TouchableOpacity 
                 className="flex justify-center items-center w-full min-h-[46px] px-[12px] mt-[18px] bg-[#2F39D3] shadow-3xl rounded-[8px]" 
-                onPress={() => router.push('../cadastro/index')}>
+                onPress={() => router.push('../cadastro/inputs/inputs')}>
                   <Text className="text-[#FDFDFD] text-[18px] font-bold leading-[19,80px]">Criar sua conta</Text>
                 </TouchableOpacity>
                 
