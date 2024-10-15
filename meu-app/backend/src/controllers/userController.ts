@@ -82,6 +82,15 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       return; 
     }
 
+    const existingUserByCpf = await prisma.users.findUnique({
+      where: { cpf: cpf_number },
+    });
+
+    if (existingUserByCpf) {
+      res.status(409).json({ message: "CPF já está em uso" });
+      return;
+    }
+
     // Hashear a senha antes de salvar
     const hashedPassword = await bcrypt.hash(senha, 10);
 
