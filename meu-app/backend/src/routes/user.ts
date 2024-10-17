@@ -1,7 +1,7 @@
 // src/routes/user.ts
 
 import { Router } from "express";
-import { getUser, createUser, loginUser, deleteUser } from "../controllers/userController";
+import { getUser, createUser, loginUser, deleteUser, requestPasswordReset, resetPassword } from "../controllers/userController";
 
 const router = Router();
 
@@ -125,5 +125,66 @@ router.post("/login", loginUser);
  *         description: Usuário não encontrado
  */
 router.delete("/:id", deleteUser);
+
+/**
+ * @swagger
+ * /users/request-password-reset:
+ *   post:
+ *     summary: Solicitar redefinição de senha
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Instruções para redefinição de senha enviadas por e-mail
+ *       500:
+ *         description: Erro interno do servidor
+ */
+router.post("/request-password-reset", requestPasswordReset);
+
+/**
+ * @swagger
+ * /users/reset-password:
+ *   post:
+ *     summary: Redefinir a senha do usuário
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *               - token
+ *               - novaSenha
+ *               - confirmarNovaSenha
+ *             properties:
+ *               userId:
+ *                 type: integer
+ *               token:
+ *                 type: string
+ *               novaSenha:
+ *                 type: string
+ *               confirmarNovaSenha:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Senha redefinida com sucesso
+ *       400:
+ *         description: Token inválido ou expirado / Erros de validação
+ *       500:
+ *         description: Erro interno do servidor
+ */
+router.post("/reset-password", resetPassword);
 
 export default router;

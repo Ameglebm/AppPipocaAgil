@@ -6,6 +6,9 @@ import { z } from "zod";
 import { cpf } from "cpf-cnpj-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto"; // Importação correta do crypto
+import transporter from "../lib/nodemailer";
+import { addHours } from "date-fns"; 
 
 // Controller para obter um usuário pelo ID
 export const getUser = async (req: Request, res: Response): Promise<void> => {
@@ -202,6 +205,125 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     console.error("Erro no login:", error);
+    res.status(500).json({ message: "Erro interno do servidor." });
+  }
+};
+
+
+export const requestPasswordReset = async (req: Request, res: Response): Promise<void> => {
+  const schema = z.object({
+    email: z.string().email("Formato de e-mail inválido"),
+  });
+
+  try {
+    const { email } = schema.parse(req.body);
+
+    const user = await prisma.users.findUnique({ where: { email } });
+
+    if (!user) {
+      // Por segurança, não indicar se o e-mail existe ou não
+      res.status(200).json({ message: "Se o e-mail estiver registrado, você receberá um link para redefinir a senha." });
+      return;
+    }
+
+    // Gerar um token seguro
+    const token = crypto.randomBytes(32).toString("hex"); // Uso correto do randomBytes
+
+    // Definir a validade do token (ex: 1 hora)
+    const expiresAt = addHours(new Date(), 1);
+
+    // Salvar o token no banco de dados
+    await prisma.passwordResetToken.create({
+      data: {
+        userId: user.id,
+        token,
+        expiresAt,
+      },
+    });
+
+    // Montar o link de redefinição
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user.id}`;
+
+    // Enviar o e-mail
+    await transporter.sendMail({
+      from: `"Insucheck" <${process.env.GMAIL_USER}>`,
+      to: user.email,
+      subject: "Redefinição de Senha",
+      html: `
+        <p>Olá, ${user.nome}!</p>
+        <p>Recebemos uma solicitação para redefinir sua senha. Clique no link abaixo para definir uma nova senha:</p>
+        <a href="${resetLink}">Redefinir Senha</a>
+        <p>Este link expira em 1 hora.</p>
+        <p>Se você não solicitou a redefinição de senha, ignore este e-mail.</p>
+      `,
+    });
+
+    res.status(200).json({ message: "Se o e-mail estiver registrado, você receberá um link para redefinir a senha." });
+  } catch (error) {
+    console.error("Erro ao solicitar redefinição de senha:", error);
+    res.status(500).json({ message: "Erro interno do servidor." });
+  }
+};
+
+// Controller para redefinir a senha
+export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  const schema = z
+    .object({
+      userId: z.string().transform((val) => parseInt(val, 10)),
+      token: z.string(),
+      novaSenha: z.string().min(8, "A senha deve ter pelo menos 8 caracteres"),
+      confirmarNovaSenha: z.string().min(8, "A confirmação da senha deve ter pelo menos 8 caracteres"),
+    })
+    .superRefine((data, ctx) => {
+      if (data.novaSenha !== data.confirmarNovaSenha) {
+        ctx.addIssue({
+          path: ["confirmarNovaSenha"],
+          message: "As senhas não correspondem",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+    });
+
+  try {
+    const { userId, token, novaSenha } = schema.parse(req.body);
+
+    const resetToken = await prisma.passwordResetToken.findFirst({
+      where: {
+        userId,
+        token,
+        expiresAt: {
+          gte: new Date(),
+        },
+      },
+    });
+
+    if (!resetToken) {
+      res.status(400).json({ message: "Token inválido ou expirado." });
+      return;
+    }
+
+    // Hash da nova senha
+    const hashedPassword = await bcrypt.hash(novaSenha, 10);
+
+    // Atualizar a senha do usuário
+    await prisma.users.update({
+      where: { id: userId },
+      data: { senha: hashedPassword },
+    });
+
+    // Invalidate o token após o uso
+    await prisma.passwordResetToken.deleteMany({
+      where: { userId, token },
+    });
+
+    res.status(200).json({ message: "Senha redefinida com sucesso." });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ errors: error.errors });
+      return;
+    }
+
+    console.error("Erro ao redefinir a senha:", error);
     res.status(500).json({ message: "Erro interno do servidor." });
   }
 };
