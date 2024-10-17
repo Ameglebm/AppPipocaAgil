@@ -8,12 +8,22 @@ generator client {
 }
 
 model Users {
+  id                  Int                  @id @default(autoincrement())
+  nome                String
+  sobrenome           String
+  email               String               @unique
+  cpf                 String               @unique
+  senha               String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
   id        Int      @id @default(autoincrement())
-  nome      String
-  sobrenome String
-  email     String   @unique
-  cpf       String   @unique
-  senha     String
+  user      Users    @relation(fields: [userId], references: [id])
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
