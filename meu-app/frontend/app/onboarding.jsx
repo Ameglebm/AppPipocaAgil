@@ -6,6 +6,7 @@ import {
   Animated,
   TouchableOpacity,
   Text,
+  Pressable,
 } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "./components/OnboardingItem";
@@ -36,7 +37,7 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
+      router.push("../screens/home"); // Navega para a tela de Boas-vindas quando chega ao último slide
     }
   };
 
@@ -47,16 +48,15 @@ export default function OnboardingScreen() {
   };
 
   const handleSkip = () => {
-    router.push("../screens/login");
+    router.push("../screens/home");
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerPular}>
-        <TouchableOpacity style={styles.bt} onPress={handleSkip}>
-          <Text style={styles.textBtn}>Pular</Text>
-        </TouchableOpacity>
-      </View>
+      
+      <Pressable style={styles.containerPular} onPress={handleSkip}>
+        <Text style={styles.textBtn}>Pular</Text>
+      </Pressable>
 
       <View style={styles.content}>
         <FlatList
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "flex-end",
     padding: 20,
-    top: 50,
+    marginTop: 50,
   },
   textBtn: {
     color: "#E4732B",
