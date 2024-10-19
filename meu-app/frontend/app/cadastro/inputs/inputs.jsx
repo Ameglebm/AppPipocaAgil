@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -29,6 +29,10 @@ function Inputs() {
   const [buttonColor, setButtonColor] = useState("#7A98FF");
 
   const navigation = useNavigation();
+
+  useEffect(() => { //Ao iniciar a página seta o header dela como false
+    navigation.setOptions({headerShown: false});
+  }, [navigation])
 
   const sendForm = async () => {
     if (isDisabled) return;
