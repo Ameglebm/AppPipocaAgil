@@ -1,1 +1,0 @@
-// Contém a lógica de negócio e interage com o banco de dados (via Prisma)

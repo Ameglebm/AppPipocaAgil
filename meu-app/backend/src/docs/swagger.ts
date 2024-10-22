@@ -14,6 +14,20 @@ const swaggerOptions = {
         url: "http://localhost:3333",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {          // Nome do esquema de segurança
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    // security: [
+    //   {
+    //     bearerAuth: [],         // Aplica globalmente (opcional)
+    //   },
+    // ],
   },
   apis: [path.join(__dirname, "../routes/*.ts")], // Caminho para os arquivos de rotas
 };

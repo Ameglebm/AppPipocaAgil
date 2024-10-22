@@ -1,1 +1,0 @@
-// Funções auxiliares e ferramentas reutilizáveis.
