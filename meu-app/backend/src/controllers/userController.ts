@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/userService';
 import { ZodError } from 'zod';
+import { GetUserParamsDTO, DeleteUserParamsDTO } from '../dtos/userDTO';
 
 const userService = new UserService();
 
 export const getUser = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
-    const userData = await userService.getUser(req.params);
+    const userData = await userService.getUser(req.params as GetUserParamsDTO);
     res.status(200).json({ user: userData });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -28,7 +29,7 @@ export const getUser = async (req: Request<{ id: string }>, res: Response): Prom
 
 export const deleteUser = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {
-    await userService.deleteUser(req.params);
+    await userService.deleteUser(req.params as DeleteUserParamsDTO);
     res.status(200).json({ message: 'Usuário deletado com sucesso' });
   } catch (error) {
     if (error instanceof ZodError) {

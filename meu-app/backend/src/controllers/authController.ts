@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/authService';
 import { ZodError } from 'zod';
+import {
+  RegisterUserDTO,
+  LoginDTO,
+  RequestPasswordResetDTO,
+  ResetPasswordDTO,
+} from '../dtos/authDTO';
 
 const authService = new AuthService();
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+export const registerUser = async (req: Request<{}, {}, RegisterUserDTO>, res: Response): Promise<void> => {
   try {
     await authService.registerUser(req.body);
     res.status(201).json({ message: 'Usuário criado com sucesso' });
@@ -36,7 +42,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
+export const loginUser = async (req: Request<{}, {}, LoginDTO>, res: Response): Promise<void> => {
   try {
     const result = await authService.loginUser(req.body);
     res.status(200).json({
@@ -62,7 +68,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const requestPasswordReset = async (req: Request, res: Response): Promise<void> => {
+export const requestPasswordReset = async (req: Request<{}, {}, RequestPasswordResetDTO>, res: Response): Promise<void> => {
   try {
     await authService.requestPasswordReset(req.body);
     res.status(200).json({ message: 'Se o e-mail estiver registrado, você receberá um link para redefinir a senha.' });
@@ -77,7 +83,7 @@ export const requestPasswordReset = async (req: Request, res: Response): Promise
   }
 };
 
-export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+export const resetPassword = async (req: Request<{}, {}, ResetPasswordDTO>, res: Response): Promise<void> => {
   try {
     await authService.resetPassword(req.body);
     res.status(200).json({ message: 'Senha redefinida com sucesso.' });

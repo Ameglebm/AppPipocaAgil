@@ -1,14 +1,10 @@
 import { UserRepository } from '../repositories/userRepository';
 import { deleteUserParamsSchema, getUserParamsSchema } from '../validators/userValidator';
 import { ZodError } from 'zod';
-
-interface GetUserParams {
-  id: string;
-}
-
-interface DeleteUserParams {
-  id: string;
-}
+import {
+  GetUserParamsDTO,
+  DeleteUserParamsDTO,
+} from '../dtos/userDTO';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -17,7 +13,7 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  async getUser(params: GetUserParams): Promise<any> {
+  async getUser(params: GetUserParamsDTO): Promise<any> {
     try {
       const validatedParams = getUserParamsSchema.parse(params);
       const idNumber = parseInt(validatedParams.id, 10);
@@ -44,7 +40,7 @@ export class UserService {
     }
   }
 
-  async deleteUser(params: DeleteUserParams): Promise<void> {
+  async deleteUser(params: DeleteUserParamsDTO): Promise<void> {
     try {
       const validatedParams = deleteUserParamsSchema.parse(params);
       const idNumber = parseInt(validatedParams.id, 10);

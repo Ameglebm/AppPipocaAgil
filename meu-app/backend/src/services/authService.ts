@@ -7,31 +7,12 @@ import crypto from 'crypto';
 import transporter from '../lib/nodemailer';
 import { addHours } from 'date-fns';
 import { prisma } from '../lib/prisma';
-
-interface RegisterUserDTO {
-  nome: string;
-  sobrenome: string;
-  email: string;
-  cpf_number: string;
-  senha: string;
-  confirmar_senha: string;
-}
-
-interface LoginDTO {
-  email: string;
-  senha: string;
-}
-
-interface RequestPasswordResetDTO {
-  email: string;
-}
-
-interface ResetPasswordDTO {
-  userId: string;
-  token: string;
-  novaSenha: string;
-  confirmarNovaSenha: string;
-}
+import {
+  RegisterUserDTO,
+  LoginDTO,
+  RequestPasswordResetDTO,
+  ResetPasswordDTO,
+} from '../dtos/authDTO';
 
 export class AuthService {
   private userRepository: UserRepository;
