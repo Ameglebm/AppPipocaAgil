@@ -85,11 +85,13 @@ const styles = StyleSheet.create({
   },
   container2: {
     marginTop: 56,
+    alignItems: "center",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    marginLeft: 20,
   },
   btnVoltar: {},
   textHeader: {
