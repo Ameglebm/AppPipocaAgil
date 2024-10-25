@@ -6,9 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
-import { Lato_400Regular } from "@expo-google-fonts/lato";
-import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
@@ -62,12 +59,6 @@ function Inputs() {
     }
   };
 
-  const [fonteLoaded] = useFonts({
-    Urbanist_600SemiBold,
-    Lato_400Regular,
-    Inter_400Regular,
-  });
-
   const handlePress = () => {
     setIsChecked((prevState) => {
       const newState = !prevState;
@@ -77,10 +68,6 @@ function Inputs() {
     });
   };
 
-  if (!fonteLoaded) {
-    return null;
-  }
-
   return (
     <View>
       <Text style={styles.label}>Nome*</Text>
@@ -89,6 +76,7 @@ function Inputs() {
         style={styles.inputDados}
         value={nome}
         onChangeText={setNome}
+        placeholderTextColor="#B1B0AF"
       />
       <Text style={styles.label}>Sobrenome*</Text>
       <TextInput
@@ -96,6 +84,7 @@ function Inputs() {
         style={styles.inputDados}
         value={sobrenome}
         onChangeText={setSobrenome}
+        placeholderTextColor="#B1B0AF"
       />
       <Text style={styles.label}>E-mail*</Text>
       <TextInput
@@ -103,6 +92,7 @@ function Inputs() {
         style={styles.inputDados}
         value={email}
         onChangeText={setEmail}
+        placeholderTextColor="#B1B0AF"
       />
       <Text style={styles.label}>CPF*</Text>
       <TextInput
@@ -110,6 +100,7 @@ function Inputs() {
         style={styles.inputDados}
         value={cpf}
         onChangeText={setCpf}
+        placeholderTextColor="#B1B0AF"
       />
       <Text style={styles.label}>Senha*</Text>
       <View style={styles.senhaContainer}>
@@ -119,6 +110,7 @@ function Inputs() {
           secureTextEntry={secureText}
           value={senha}
           onChangeText={setSenha}
+          placeholderTextColor="#B1B0AF"
         />
         <TouchableOpacity
           style={styles.iconBtn}
@@ -140,6 +132,7 @@ function Inputs() {
           secureTextEntry={secureText2}
           value={confirmarSenha}
           onChangeText={setConfirmarSenha}
+          placeholderTextColor="#B1B0AF"
         />
         <TouchableOpacity
           style={styles.iconBtn}
@@ -179,12 +172,12 @@ export default Inputs;
 const styles = StyleSheet.create({
   label: {
     fontSize: 14,
-    fontWeight: "400",
     fontFamily: "Lato_400Regular",
     lineHeight: 19.6,
     paddingTop: 8,
     paddingBottom: 8,
     marginBottom: 8,
+    color: "#282828",
   },
   inputDados: {
     width: 320,
@@ -203,8 +196,10 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 1,
     color: "#373737",
-    fontFamily: "Inter_400Regular",
-    lineHeight: 24,
+    placeholderTextColor: "red",
+    fontFamily: "Lato_400Regular",
+    lineHeight: 22,
+    fontSize: 16,
   },
   senhaContainer: {
     position: "relative",
@@ -251,7 +246,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   txtBtn: {
-    fontFamily: "Urbanist_600SemiBold",
+    fontFamily: "Urbanist_700Bold",
     color: "#FDFDFD",
     fontSize: 18,
   },
