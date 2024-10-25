@@ -35,7 +35,6 @@ export default function Layout() {
           title: "Home",
           headerShown: false,
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
@@ -51,7 +50,6 @@ export default function Layout() {
           headerShown: false,
           title: "Login",
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
@@ -72,7 +70,6 @@ export default function Layout() {
           headerShown: false,
           title: "Crie a sua conta",
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
@@ -98,7 +95,6 @@ export default function Layout() {
           title: "Inputs",
           headerShown: true,
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
@@ -127,7 +123,6 @@ export default function Layout() {
           title: "Sucesso",
           headerShown: false,
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
@@ -147,7 +142,6 @@ export default function Layout() {
         options={{
           headerShown: false,
           headerTitleStyle: {
-            fontFamily: "Urbanist_600SemiBold",
             fontSize: 28,
             fontWeight: "700",
             lineHeight: 30.8,
