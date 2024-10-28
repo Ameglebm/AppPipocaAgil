@@ -1,5 +1,5 @@
 import { UserRepository } from '../repositories/userRepository';
-import { AuthRepository } from '../repositories/authRepository.js';
+import { AuthRepository } from '../repositories/authRepository';
 
 import bcrypt from 'bcrypt';
 
