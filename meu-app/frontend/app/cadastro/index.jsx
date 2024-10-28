@@ -8,21 +8,12 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { useFonts, Urbanist_600SemiBold } from "@expo-google-fonts/urbanist";
-import { Lato_400Regular } from "@expo-google-fonts/lato";
+
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Dados from "./inputs/inputs";
 import { useNavigation } from "@react-navigation/native";
 
 function TelaCadastro() {
-  const [fonteLoaded] = useFonts({
-    Urbanist_600SemiBold,
-    Lato_400Regular,
-  });
-
-  if (!fonteLoaded) {
-    return null;
-  }
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -78,9 +69,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   title: {
-    fontFamily: "Urbanist_600SemiBold",
+    fontFamily: "Urbanist_700Bold",
     fontSize: 28,
-    fontWeight: "700",
     lineHeight: 30.8,
     color: "#282828",
     alignItems: "center",
