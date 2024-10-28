@@ -1,18 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Animated,
-  TouchableOpacity,
-  Text,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, FlatList, Animated, TouchableOpacity, Text, Pressable } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "./components/OnboardingItem";
-import slides from "./components/slides";
+import slides from "./components/slides"; //slides do carrosel
 import Paginator from "./components/Paginator"; // Paginador
-import NavigationButtons from "./components/NextButton"; // Certifique-se de que o caminho está correto
+import NavigationButtons from "./components/NextButton"; // Botões de avançar e retroceder
 
 export default function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,7 +46,7 @@ export default function OnboardingScreen() {
   return (
     <View style={styles.container}>
       
-      <Pressable style={styles.containerPular} onPress={handleSkip}>
+      <Pressable style={styles.containerSkip} onPress={handleSkip}>
         <Text style={styles.textBtn}>Pular</Text>
       </Pressable>
 
@@ -103,13 +95,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  containerPular: {
+  containerSkip: {
     width: "100%",
     alignItems: "flex-end",
     padding: 20,
-    marginTop: 50,
+    marginTop: 20,
   },
   textBtn: {
     color: "#E4732B",
+    fontSize: 12,
   },
 });

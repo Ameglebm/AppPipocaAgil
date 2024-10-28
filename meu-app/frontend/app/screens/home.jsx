@@ -23,15 +23,13 @@ export default function home() {
 
     const styles = StyleSheet.create ({
       container: {
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        width: '100%',  
       },
 
       title: {
-        paddingTop: 100,
-        paddingBottom: 50,
+        paddingTop: 52,
+        paddingBottom: 40,
         textAlign: "center",
         fontFamily: "Urbanist_700Bold",
         fontSize: 25,
@@ -39,19 +37,19 @@ export default function home() {
       },
 
       text: {
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: "Lato_700Bold",
+        fontStyle: "normal",
         textAlign: "center",
         color: "#282828",
-        paddingVertical: 50,
-        paddingHorizontal: 20,
-        marginBottom: 12, 
+        lineHeight: 21,
+        
       },
 
       btnSignUp: {
         justifyContent: "center",
         alignItems: "center",
-        width: 380,
+        width: 320,
         minHeight: 42,
         paddingHorizontal: 12,
         marginTop: 18,
@@ -73,7 +71,7 @@ export default function home() {
       btnSignIn: {
         justifyContent: "center",
         alignItems: "center",
-        width: 380,
+        width: 320,
         minHeight: 42,
         paddingHorizontal: 12,
         marginTop: 18,
@@ -104,14 +102,14 @@ export default function home() {
     const titulo = "Bem vindo(a) ao InsuCheck!";
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{flex: 1}}>
+    <SafeAreaProvider style={{flex: 1}}>
+      <SafeAreaView>
         <View style={styles.container}>
           <Text style={styles.title}>{titulo}</Text>
 
           <Image 
-          source={require('../assets/images/welcome.webp')}
-          className="w-[314px] h-[249px] mb-4"></Image>
+          source={require('../assets/images/home.webp')}
+          className="w-[314px] h-[249px] mb-[36px]"></Image>
                 
           <Text style={styles.text}>Sua jornada para um diabetes mais controlado começa aqui!</Text>
                 

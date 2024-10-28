@@ -55,15 +55,15 @@ export default TelaCadastro;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
+    width: 320,
+    height: 636,
     backgroundColor: "#fff",
     justifyContent: "center",
   },
   header: {
-    marginTop: 56,
-    marginRight: 127,
-    marginBottom: 16,
-    marginLeft: 20,
+    width: 320,
+    padding: 20,
+    marginTop: 20,
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   btnImage: {
-    width: "100%",
-    height: "100%",
+    width: 24,
+    height: 24,
   },
   title: {
     fontFamily: "Urbanist_600SemiBold",
@@ -87,6 +87,8 @@ const styles = StyleSheet.create({
   },
   dadosContainer: {
     flex: 1,
+    width: 320,
+    height: 636,
     backgroundColor: "#EDF3FF",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

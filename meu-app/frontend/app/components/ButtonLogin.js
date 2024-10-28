@@ -7,7 +7,7 @@ const ButtonLogin = ({ labelButton, onpress }) => {
   const router = useRouter();
    
     return(
-        <TouchableOpacity className="flex justify-center items-center w-full min-h-[46px] px-[12px] mt-[18px] bg-[#2F39D3] shadow-3xl rounded-[8px]" onPress={onpress}>
+        <TouchableOpacity className="flex justify-center items-center w-[300] min-h-[42px] px-[80px] mt-4 bg-[#2F39D3] shadow-3xl rounded-[8px]" onPress={onpress}>
           <Text className="text-[#FDFDFD] text-[18px] font-bold leading-[19,80px]">{labelButton}</Text>
         </TouchableOpacity>
     )

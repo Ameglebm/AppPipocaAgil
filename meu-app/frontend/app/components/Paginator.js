@@ -5,13 +5,13 @@ export default Paginator = ({data, scrollx}) => {
     const { width } = useWindowDimensions()
 
   return (
-    <View style={{ flexDirection: 'row', height: 64}}>
+    <View style={{ flexDirection: 'row', height: 20}}>
         {data.map((_, i) => {
             const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
 
             const dotWidth = scrollx.interpolate({
                 inputRange,
-                outputRange: [10, 50, 10],
+                outputRange: [10, 30, 10],
                 extrapolate: 'clamp',
             });
 
@@ -38,9 +38,9 @@ export default Paginator = ({data, scrollx}) => {
 
 const styles = StyleSheet.create({
     dot: {
-        height: 10,
-        borderRadius: 5,
+        height: 8,
+        borderRadius: 10,
         backgroundColor: '#2F39D3',
-        marginHorizontal: 3,
+        marginHorizontal: 2,
     }
 })

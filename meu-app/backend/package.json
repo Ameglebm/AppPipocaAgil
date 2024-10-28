@@ -26,8 +26,6 @@
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "redoc": "^2.1.5",
-    "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
