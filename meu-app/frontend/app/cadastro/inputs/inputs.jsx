@@ -68,9 +68,6 @@ function Inputs() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
   };
-  
-
-
 
   const sendForm = async () => {
     if (!validateInputs()) return; // Valida antes de enviar
@@ -86,7 +83,7 @@ function Inputs() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3333/users",
+        "http://localhost:3333/auth/register",
         novoUsuario
       );
 
