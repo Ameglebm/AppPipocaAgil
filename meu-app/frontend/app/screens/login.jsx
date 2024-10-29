@@ -21,6 +21,8 @@ export default function Login() {
 
   const router = useRouter();
 
+  const isFilled = email.length > 0 && password.length > 0;
+
   // Enviar form para backend
   const sendForm = async () => {
     setErrorEmail(null);
@@ -43,7 +45,7 @@ export default function Login() {
     }
 
     try {
-      const response = await api.post("/users/login", {
+      const response = await api.post("/auth/login", {
         email: email,
         senha: password,
       });
@@ -57,21 +59,21 @@ export default function Login() {
   };
 
   return (
-    <KeyboardAvoidingView className="bg-[#FDFDFD] flex items-center pt-[100px] w-full h-full">
-      <View>
+    <KeyboardAvoidingView className="flex w-full h-full bg-[#FDFDFD] justify-center items-center pt-[60px] ">
+      <View >
         <Image
-          className="w-[66px] h-[66px]"
+          className="w-[66px] h-[66px] mb-[32px]"
           source={require("../assets/images/user.webp")}
         />
       </View>
 
-      <View className="w-[392px] h-[300px] top-[120px] bg-[#EDF3FF] rounded-2xl">
-        <View className="px-[12px] pt-[22px]">
+      <View className="bg-[#EDF3FF] flex flex-col justify-center w-[320px] h-[305px] py-[24px] px-[12px] rounded-2xl">
+        <View className="p">
           <View className="">
             <Text className="text-[14px] pb-3 text-[#282828]">E-mail*</Text>
             <TextInput
-              className="text-[16px] p-2 border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md"
-              placeholder="email@correto.com"
+              className="text-[16px] py-[10px] px-[14px] h-[44px] border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md"
+              placeholder="Digite seu e-mail"
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
               value={email}
@@ -82,7 +84,7 @@ export default function Login() {
           </View>
 
           <View className="space-y-1 pt-4">
-            <Text className="text-[14px] pb-3 text-[#282828]">Senha</Text>
+            <Text className="text-[14px] pb-3 text-[#282828]">Senha*</Text>
             <ShowHide
               placeholder="Digite sua senha"
               onChangeText={setPassword}
@@ -106,19 +108,21 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <View className="flex justify-center items-center px-[12px] shadow-3xl">
+        <View
+        style={{ opacity: isFilled ? 1 : 0.5 }}
+        className="flex justify-center items-center px-[12px] shadow-3xl">
           <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
       </View>
 
-      <View className="flex-1 flex-row text-[14px] justify-end items-center pt-[100px]">
+      <View className="flex-1 flex-row text-[14px] justify-end items-center">
         <Text className="text-[#464646]">Não possui uma conta? </Text>
         <Link
           href={"/cadastro"}
           className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"
         >
           {" "}
-          Cadastre-se!
+          Cadastre-se
         </Link>
       </View>
     </KeyboardAvoidingView>

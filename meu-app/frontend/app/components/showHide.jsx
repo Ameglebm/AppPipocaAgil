@@ -11,7 +11,7 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
 
   return (
     <View>
-      <View className="flex-row justify-between p-2 border-[1px] border-[#b7b7b8] bg-[#FDFDFD] rounded-md">
+      <View className="flex-row justify-between text-[16px] py-[10px] px-[14px] h-[44px] border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md">
         <TextInput className="text-[16px] flex-1"
           placeholder={placeholder}
           secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
@@ -22,7 +22,7 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
           <MaterialIcons
             name={isPasswordVisible ? 'visibility-off' : 'visibility'}
             size={24}
-            color="black"
+            color="grey"
           />
         </TouchableOpacity>
       </View>
