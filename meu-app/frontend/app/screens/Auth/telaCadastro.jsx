@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Dados from "./inputs/inputs";
+import Input from "../../components/Input";
 import { useNavigation } from "@react-navigation/native";
 
 function TelaCadastro() {
@@ -23,7 +23,7 @@ function TelaCadastro() {
             onPress={() => navigation.navigate("screens/login")}
           >
             <Image
-              source={require("../assets/images/backIcon.png")}
+              source={require("../../assets/images/backIcon.png")}
               style={styles.btnImage}
             />
           </TouchableOpacity>
@@ -34,7 +34,7 @@ function TelaCadastro() {
       </View>
       <ScrollView style={styles.dadosContainer}>
         <View style={styles.containerInput}>
-          <Dados></Dados>
+          <Input></Input>
         </View>
       </ScrollView>
     </View>
@@ -46,15 +46,15 @@ export default TelaCadastro;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 320,
-    height: 636,
+    height: "100%",
     backgroundColor: "#fff",
     justifyContent: "center",
   },
   header: {
-    width: 320,
-    padding: 20,
-    marginTop: 20,
+    marginTop: 56,
+    marginRight: 127,
+    marginBottom: 16,
+    marginLeft: 20,
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   btnImage: {
-    width: 24,
-    height: 24,
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontFamily: "Urbanist_700Bold",
@@ -77,8 +77,6 @@ const styles = StyleSheet.create({
   },
   dadosContainer: {
     flex: 1,
-    width: 320,
-    height: 636,
     backgroundColor: "#EDF3FF",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
