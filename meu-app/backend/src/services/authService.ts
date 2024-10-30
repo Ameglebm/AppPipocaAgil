@@ -1,24 +1,22 @@
 import { UserRepository } from '../repositories/userRepository';
-import { registerUserSchema, loginSchema, requestPasswordResetSchema, resetPasswordSchema } from '../validators/authValidator';
-import { ZodError } from 'zod';
+import { AuthRepository } from '../repositories/authRepository';
+
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import { ZodError } from 'zod';
 import transporter from '../lib/nodemailer';
 import { addHours } from 'date-fns';
-import { prisma } from '../lib/prisma';
-import {
-  RegisterUserDTO,
-  LoginDTO,
-  RequestPasswordResetDTO,
-  ResetPasswordDTO,
-} from '../dtos/authDTO';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import { loginSchema, registerUserSchema, requestPasswordResetSchema, resetPasswordSchema } from '../validators/authValidator';
+import { LoginDTO, RegisterUserDTO, RequestPasswordResetDTO } from '../dtos/authDTO';
 
 export class AuthService {
   private userRepository: UserRepository;
+  private authRepository: AuthRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
+    this.authRepository = new AuthRepository();
   }
 
   async registerUser(data: RegisterUserDTO): Promise<void> {
@@ -42,7 +40,7 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(senha, 10);
 
       // Criar o usuário
-      await this.userRepository.createUser({
+      await this.authRepository.createUser({
         nome,
         sobrenome,
         email,
@@ -119,13 +117,11 @@ export class AuthService {
       const expiresAt = addHours(new Date(), 1);
 
       // Salvar o token no banco de dados
-      await prisma.passwordResetToken.create({
-        data: {
-          userId: user.id,
-          token,
-          expiresAt,
-        },
-      });
+      await this.authRepository.createPasswordResetToken(
+        user.id,
+        token,
+        expiresAt, 
+      );
 
       // Montar o link de redefinição
       const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user.id}`;
@@ -151,41 +147,29 @@ export class AuthService {
     }
   }
 
-  async resetPassword(data: ResetPasswordDTO): Promise<void> {
-    try {
-      const validatedData = resetPasswordSchema.parse(data);
-      const { userId, token, novaSenha } = validatedData;
 
-      // Encontrar o token de redefinição
-      const resetToken = await prisma.passwordResetToken.findFirst({
-        where: {
-          userId: parseInt(userId, 10),
-          token,
-          expiresAt: {
-            gte: new Date(),
-          },
-        },
-      });
+  // Exemplo de método para redefinir senha
+  async resetPassword(userId: number, newPassword: string, confirmNewPassword: string, token: string) {
+    
+    const userIdStr = userId.toString();
+    
+    resetPasswordSchema.parse({
+      userId: userIdStr,
+      token: token,
+      novaSenha: newPassword,
+      confirmarNovaSenha: confirmNewPassword,
+    });
 
-      if (!resetToken) {
-        throw new Error('Token inválido ou expirado.');
-      }
+    const validToken = await this.authRepository.findPasswordResetToken(userId, token);
 
-      // Hashear a nova senha
-      const hashedPassword = await bcrypt.hash(novaSenha, 10);
-
-      // Atualizar a senha do usuário
-      await this.userRepository.updateUserPassword(parseInt(userId, 10), hashedPassword);
-
-      // Invalidar o token após o uso
-      await prisma.passwordResetToken.deleteMany({
-        where: { userId: parseInt(userId, 10), token },
-      });
-    } catch (error) {
-      if (error instanceof ZodError) {
-        throw error;
-      }
-      throw error;
+    if (!validToken) {
+      throw new Error('Token inválido ou expirado');
     }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.authRepository.updateUserPassword(userId, hashedPassword);
+
+    // Deleta o token após o uso
+    await this.authRepository.deletePasswordResetTokens(userId, token);
   }
 }

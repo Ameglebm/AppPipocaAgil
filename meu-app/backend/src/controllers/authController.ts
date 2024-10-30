@@ -85,7 +85,11 @@ export const requestPasswordReset = async (req: Request<{}, {}, RequestPasswordR
 
 export const resetPassword = async (req: Request<{}, {}, ResetPasswordDTO>, res: Response): Promise<void> => {
   try {
-    await authService.resetPassword(req.body);
+    const { userId, novaSenha, confirmarNovaSenha, token } = req.body;
+
+    const numericUserId = Number(userId);
+
+    await authService.resetPassword(numericUserId, novaSenha, confirmarNovaSenha, token);
     res.status(200).json({ message: 'Senha redefinida com sucesso.' });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -94,7 +98,7 @@ export const resetPassword = async (req: Request<{}, {}, ResetPasswordDTO>, res:
     }
 
     if (error instanceof Error) {
-      if (error.message === 'Token inválido ou expirado.') {
+      if (error.message === 'Token inválido ou expirado') {
         res.status(400).json({ message: error.message });
         return;
       }
