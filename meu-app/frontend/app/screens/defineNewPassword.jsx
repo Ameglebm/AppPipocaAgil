@@ -1,38 +1,74 @@
 import React, {useEffect, useState} from 'react'
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular} from "@expo-google-fonts/lato";
+// arquivo config da API
+import api from "../../services/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function defineNewPassword() {
     const navigation = useNavigation();
     
-    const [senha, setSenha] = useState("");
-    const [confirmarSenha, setConfirmarSenha] = useState("");
-    const [secureText, setSecureText] = useState(true);
-    const [secureText2, setSecureText2] = useState(true);
-    
-    const [errors, setErrors] = useState({});
+    const [newPassword, setNewPassword] = useState("");
+    const [verifyPassword, setVerifyPassword] = useState(""); 
+    const [errorPassword, setErrorPassword] = useState(null);
+    const [secureTextNewPassword, setSecureTextNewPassword] = useState(true);    
+    const [secureTextVerifyPassword, setSecureTextVerifyPassword] = useState(true);
 
     useEffect(() => { //Ao iniciar a página seta o header dela como false
         navigation.setOptions({headerShown: false});
-      }, [navigation])
+    }, [navigation])
 
-      const [fonteLoaded] = useFonts({
+    const [fonteLoaded] = useFonts({
         Urbanist_700Bold,
         Lato_400Regular,
-      });
+    });
 
-      const handlePress = () => {
+    const handlePress = () => {
         setIsChecked((prevState) => {
           const newState = !prevState;
           setButtonColor(newState ? "#2F39D3" : "#7A98FF");
           setIsDisabled(!newState);
           return newState;
         });
-      };
+    };
+
+    const sendForm = async () => {
+
+        let valid = true;
+        
+        if (!newPassword || newPassword.length < 8) {
+            setErrorPassword("A senha deve ter pelo menos 8 caracteres.");
+            valid = false;
+        }
+
+        if (newPassword !== verifyPassword) {
+            setErrorPassword("As senhas não coincidem.");
+            valid = false;
+        }
+      
+        if (!valid) {
+            return;
+        }
+
+        try {
+            const response = await api.post("/auth/reset-password", {
+              novaSenha: newPassword,
+              confirmarNovaSenha: verifyPassword,
+              userId: " ",
+              token: " ",
+            });
+      
+            console.log(response);
+            await AsyncStorage.setItem("token", response.data.token);
+            navigation.replace(""); 
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
   return (
     <SafeAreaProvider styles={{flex: 1}}>
@@ -48,22 +84,27 @@ export default function defineNewPassword() {
                         <TextInput 
                         style={styles.inputs} 
                         placeholder='Digite sua senha'
-                        secureTextEntry={secureText}
-                        value={senha}
-                        onChangeText={setSenha}
+                        secureTextEntry={secureTextNewPassword}
+                        value={newPassword}
+                        onChangeText={setNewPassword}
                         placeholderTextColor="#B1B0AF"
                         />
-                        <Pressable
+                        {errorPassword && (
+                            <Text style={styles.errorPass} >
+                                {errorPassword}
+                            </Text>
+                        )}
+                        <TouchableOpacity
                         style={styles.iconBtn}
-                        onPress={() => setSecureText((prevState) => !prevState)}
+                        onPress={() => setSecureTextNewPassword((prevState) => !prevState)}
                         >
                             <Feather
-                              name={secureText ? "eye-off" : "eye"}
+                              name={secureTextNewPassword ? "eye-off" : "eye"}
                               size={17}
                               color="#B1B0AF"
                               style={styles.eyeIcon}
                             />
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
 
                     <View>
@@ -71,26 +112,29 @@ export default function defineNewPassword() {
                         <TextInput 
                         style={styles.inputs} 
                         placeholder='Confirme sua senha'
-                        secureTextEntry={secureText}
-                        value={senha}
-                        onChangeText={setSenha}
+                        secureTextEntry={secureTextVerifyPassword}
+                        value={verifyPassword}
+                        onChangeText={setVerifyPassword}
                         placeholderTextColor="#B1B0AF"
                         />
-                        <Pressable
+                        <TouchableOpacity
                         style={styles.iconBtn}
-                        onPress={() => setSecureText((prevState) => !prevState)}
+                        onPress={() => setSecureTextVerifyPassword((prevState) => !prevState)}
                         >
                             <Feather
-                              name={secureText ? "eye-off" : "eye"}
+                              name={secureTextVerifyPassword ? "eye-off" : "eye"}
                               size={17}
                               color="#B1B0AF"
                               style={styles.eyeIcon}
                             />
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
-                <Pressable style={styles.btn}>
+                <TouchableOpacity 
+                style={styles.btn}
+                onPress={sendForm}
+                >
                     <Text style={styles.textBtn}>Confirmar</Text>
 
                     {/*
@@ -98,7 +142,7 @@ export default function defineNewPassword() {
                     <View style={styles.shadowLayer2}/>
                     */}
 
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     </SafeAreaProvider>
@@ -183,7 +227,10 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
       },
-    
+      errorPass: {
+        fontSize: 12,
+        color: "#ff0000"
+      }
       /*
       shadowLayer1: {
         position: 'absolute',
