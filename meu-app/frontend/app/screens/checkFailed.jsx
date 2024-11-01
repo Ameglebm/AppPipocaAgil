@@ -27,7 +27,7 @@ export default function checkFailed() {
 
       <TouchableOpacity
         className="mt-[32px]"
-        onPress={() => navigation.navigate("cadastro/index")}
+        onPress={() => navigation.navigate("screens/Auth/telaCadastro")}
       >
         <Text className="underline text-[14px] text-[#2F39D3] p-[2px] font-normal gap-1 leading-[19.6px]">
           Tentar novamente

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,13 +13,6 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Inputs() {
-
-  useEffect(() => { //Ao iniciar a página seta o header dela como false
-    navigation.setOptions({headerShown: false});
-  }, [navigation])
-
-  const navigation = useNavigation();
-
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
@@ -32,11 +25,11 @@ function Inputs() {
   const [secureText2, setSecureText2] = useState(true);
   const [buttonColor, setButtonColor] = useState("#7A98FF");
 
+  const navigation = useNavigation();
   const [errors, setErrors] = useState({});
-
   const validateInputs = () => {
     const newErrors = {};
-    
+
     if (!nome) newErrors.nome = "Nome é obrigatório.";
     if (!sobrenome) newErrors.sobrenome = "Sobrenome é obrigatório.";
     if (!email) {
@@ -44,31 +37,30 @@ function Inputs() {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "E-mail inválido.";
     }
-    
+
     if (!cpf) {
       newErrors.cpf = "CPF é obrigatório.";
     } else if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
       newErrors.cpf = "Formato de CPF inválido.";
     }
-  
+
     if (!senha) {
       newErrors.senha = "Senha é obrigatória.";
     } else if (senha.length < 8) {
       newErrors.senha = "A senha deve ter pelo menos 8 caracteres.";
     }
-  
+
     if (senha !== confirmarSenha) {
       newErrors.confirmarSenha = "As senhas não coincidem.";
     }
-  
+
     if (!isChecked) {
       newErrors.termos = "Você deve aceitar os termos.";
     }
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
   };
-
   const sendForm = async () => {
     if (!validateInputs()) return; // Valida antes de enviar
     if (isDisabled) return;
@@ -83,7 +75,7 @@ function Inputs() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3333/auth/register",
+        "http://localhost:3333/users",
         novoUsuario
       );
 
@@ -122,7 +114,6 @@ function Inputs() {
         placeholderTextColor="#B1B0AF"
       />
       {errors.nome && <Text style={styles.error}>{errors.nome}</Text>}
-
       <Text style={styles.label}>Sobrenome*</Text>
       <TextInput
         placeholder="Digite seu sobrenome"
@@ -132,7 +123,6 @@ function Inputs() {
         placeholderTextColor="#B1B0AF"
       />
       {errors.sobrenome && <Text style={styles.error}>{errors.sobrenome}</Text>}
-
       <Text style={styles.label}>E-mail*</Text>
       <TextInput
         placeholder="Digite seu e-mail"
@@ -142,7 +132,6 @@ function Inputs() {
         placeholderTextColor="#B1B0AF"
       />
       {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-
       <Text style={styles.label}>CPF*</Text>
       <TextInput
         placeholder="000.000.000-00"
@@ -152,7 +141,6 @@ function Inputs() {
         placeholderTextColor="#B1B0AF"
       />
       {errors.cpf && <Text style={styles.error}>{errors.cpf}</Text>}
-
       <Text style={styles.label}>Senha*</Text>
       <View style={styles.senhaContainer}>
         <TextInput
@@ -186,7 +174,9 @@ function Inputs() {
           onChangeText={setConfirmarSenha}
           placeholderTextColor="#B1B0AF"
         />
-        {errors.confirmarSenha && <Text style={styles.error}>{errors.confirmarSenha}</Text>}
+        {errors.confirmarSenha && (
+          <Text style={styles.error}>{errors.confirmarSenha}</Text>
+        )}
         <TouchableOpacity
           style={styles.iconBtn}
           onPress={() => setSecureText2((prevState) => !prevState)}
@@ -304,7 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   error: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     marginBottom: 8,
   },
