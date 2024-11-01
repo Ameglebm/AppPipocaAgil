@@ -40,10 +40,20 @@ function RecConta() {
             value={email}
             onChangeText={handleEmailChange}
             error={error}
+            footerMessage="Verifique se o e-mail está correto para receber o link de redefinição."
           ></EmailInput>
           <Button title="Enviar" onPress={handleSend} />
         </View>
       </View>
+      {error ? (
+        <View style={styles.footerMessageContainer}>
+          <Image
+            source={require("../assets/images/alert-triangle.png")}
+            style={styles.warningTriangle}
+          />
+          <Text style={styles.footerMessageText}>Conta não encontrada</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -60,6 +70,7 @@ const styles = StyleSheet.create({
   container2: {
     marginTop: 56,
     alignItems: "center",
+    flex: 1,
   },
   header: {
     flexDirection: "row",
@@ -145,5 +156,29 @@ const styles = StyleSheet.create({
     color: "#F34141",
     fontSize: 14,
     fontFamily: "Lato_400Regular",
+  },
+  footerMessageContainer: {
+    marginTop: 8,
+    marginBottom: 22,
+    paddingTop: 10,
+    paddingRight: 16,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    gap: 16,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 8,
+    width: 320,
+    height: 44,
+    flexDirection: "row",
+  },
+  footerMessageText: {
+    color: "#282828",
+    fontSize: 14,
+    fontFamily: "Lato_400Regular",
+    lineHeight: 21,
+  },
+  warningTriangle: {
+    width: 24,
+    height: 24,
   },
 });
