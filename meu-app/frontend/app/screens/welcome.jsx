@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigation, useRouter } from "expo-router";
-import { Lato_700Bold } from "@expo-google-fonts/lato";
-import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation, useRouter } from "expo-router";
+import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
+import { Lato_700Bold } from "@expo-google-fonts/lato";
 
 export default function welcome() {
   useEffect(() => {
@@ -18,7 +17,6 @@ export default function welcome() {
   const [fonteLoaded] = useFonts({
     Urbanist_700Bold,
     Lato_700Bold,
-    Inter_400Regular,
   });
 
   const styles = StyleSheet.create({
@@ -101,6 +99,7 @@ export default function welcome() {
 
     textBtnSignIn: {
       color: "#2F39D3",
+      fontFamily: "Urbanist_700Bold",
       fontWeight: "bold",
       fontSize: 18,
       lineHeight: 19.80,
@@ -108,6 +107,7 @@ export default function welcome() {
 
     textBtnSignUp: {
       color: "#FDFDFD",
+      fontFamily: "Urbanist_700Bold",
       fontWeight: "bold",
       fontSize: 18,
       lineHeight: 19.80,
