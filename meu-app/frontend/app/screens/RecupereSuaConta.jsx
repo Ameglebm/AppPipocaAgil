@@ -11,6 +11,9 @@ import { useState } from "react";
 import Button from "../components/Button";
 import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
+// arquivo config da API
+import api from "../../services/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RecConta() {
   const navigation = useNavigation();
