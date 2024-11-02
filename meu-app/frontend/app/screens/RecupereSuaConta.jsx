@@ -8,25 +8,13 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import Button from "../components/Button";
+import useRecConta from "../hooks/useRecConta";
+import EmailInput from "../components/EmailInput";
 
-function RecSenha() {
+function RecConta() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
-  const validateEmail = (input) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(input);
-  };
-
-  const handleEmailChange = (text) => {
-    setEmail(text);
-    if (text === "" || validateEmail(text)) {
-      setError("");
-    } else {
-      setError("Insira o e-mail utilizado no cadastro.");
-    }
-  };
+  const { email, error, handleEmailChange } = useRecConta();
 
   const handleSend = () => {
     console.log("Enviar e-mail para redefinir senha");
@@ -48,33 +36,29 @@ function RecSenha() {
           <Text style={styles.title}>
             Insira seu e-mail e enviaremos um link para redefinir a senha.
           </Text>
-          <Text style={styles.emailTitle}>E-mail*</Text>
-          <TextInput
+          <EmailInput
             value={email}
-            placeholder="Digite seu e-mail"
-            placeholderTextColor="#B1B0AF"
             onChangeText={handleEmailChange}
-            style={[styles.inputEmail, error ? styles.inputError : null]}
-          />
-          {error ? (
-            <View style={styles.errorContainer}>
-              <Image
-                source={require("../assets/images/warning-circle.png")}
-                style={styles.warningIcon}
-              />
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-          ) : null}
-          <TouchableOpacity style={styles.btnEnviar} onPress={handleSend}>
-            <Text style={styles.buttonText}>Enviar</Text>
-          </TouchableOpacity>
+            error={error}
+            footerMessage="Verifique se o e-mail está correto para receber o link de redefinição."
+          ></EmailInput>
+          <Button title="Enviar" onPress={handleSend} />
         </View>
       </View>
+      {error ? (
+        <View style={styles.footerMessageContainer}>
+          <Image
+            source={require("../assets/images/alert-triangle.png")}
+            style={styles.warningTriangle}
+          />
+          <Text style={styles.footerMessageText}>Conta não encontrada</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
 
-export default RecSenha;
+export default RecConta;
 
 const styles = StyleSheet.create({
   container: {
@@ -86,6 +70,7 @@ const styles = StyleSheet.create({
   container2: {
     marginTop: 56,
     alignItems: "center",
+    flex: 1,
   },
   header: {
     flexDirection: "row",
@@ -171,5 +156,29 @@ const styles = StyleSheet.create({
     color: "#F34141",
     fontSize: 14,
     fontFamily: "Lato_400Regular",
+  },
+  footerMessageContainer: {
+    marginTop: 8,
+    marginBottom: 22,
+    paddingTop: 10,
+    paddingRight: 16,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    gap: 16,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 8,
+    width: 320,
+    height: 44,
+    flexDirection: "row",
+  },
+  footerMessageText: {
+    color: "#282828",
+    fontSize: 14,
+    fontFamily: "Lato_400Regular",
+    lineHeight: 21,
+  },
+  warningTriangle: {
+    width: 24,
+    height: 24,
   },
 });

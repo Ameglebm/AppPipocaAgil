@@ -65,7 +65,7 @@ export default function Layout() {
 
       {/* Tela de Cadastro */}
       <Stack.Screen
-        name="cadastro/index"
+        name="screens/Auth/telaCadastro"
         options={{
           headerShown: false,
           title: "Crie a sua conta",
@@ -87,30 +87,9 @@ export default function Layout() {
           ),
         }}
       />
-
-      {/* Tela de Inputs */}
-      <Stack.Screen
-        name="cadastro/inputs/inputs"
-        options={{
-          title: "Inputs",
-          headerShown: true,
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
       {/* Tela de Recuperação de Senha */}
       <Stack.Screen
-        name="recuperacaoSenha/index"
+        name="screens/RecupereSuaConta"
         options={{
           headerShown: false, // Sem header na tela de recuperação de senha
         }}
