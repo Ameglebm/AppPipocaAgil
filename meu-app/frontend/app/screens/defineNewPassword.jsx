@@ -150,7 +150,21 @@ export default function defineNewPassword() {
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: "#FDFDFD",
+        alignItems: "center",
+    },
+    container: {
+        width: 320,
+        height: 162,
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 16,
+    },
     titleContainer: {
+        width: '100%', // Define a largura total da tela
+        paddingHorizontal: 20, // Adiciona um padding para evitar que o texto encoste nas bordas
         marginBottom: 64,
     },
     title:{
@@ -160,17 +174,7 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         fontSize: 28,
         lineHeight: 30.8,
-    },
-    container: {
-        width: 320,
-        height: 162,
-        flexDirection: "column",
-        alignItems: "flex-start",
-        gap: 16,
-    },
-    mainContainer: {
-        flex: 1,
-        backgroundColor: "#FDFDFD",
+        textAlign: "left", // Alinha o texto à esquerda
     },
     subTitle: {
         fontFamily: "Lato_400Regular",
