@@ -67,9 +67,9 @@ export default function Login() {
         />
       </View>
 
-      <View className="bg-[#EDF3FF] flex flex-col justify-center w-[320px] h-[305px] py-[24px] px-[12px] rounded-2xl">
-        <View className="p">
-          <View className="">
+      <View className="bg-[#EDF3FF] flex flex-col justify-center w-[345px] h-[305px] py-[24px] px-[12px] rounded-2xl">
+        <View>
+          <View>
             <Text className="text-[14px] pb-3 text-[#282828]">E-mail*</Text>
             <TextInput
               className="text-[16px] py-[10px] px-[14px] h-[44px] border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md"
