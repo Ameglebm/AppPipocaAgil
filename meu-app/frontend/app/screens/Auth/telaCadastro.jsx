@@ -20,7 +20,7 @@ function TelaCadastro() {
       <View style={styles.header}>
         <View style={styles.btnContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("screens/login")}
+            onPress={() => navigation.navigate("screens/welcome")}
           >
             <Image
               source={require("../../assets/images/backIcon.png")}
