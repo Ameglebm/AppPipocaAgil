@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { useNavigation, useRouter } from "expo-router";
-import { Lato_700Bold } from "@expo-google-fonts/lato";
-import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation, useRouter } from "expo-router";
+import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
+import { Lato_700Bold } from "@expo-google-fonts/lato";
 
-export default function home() {
+export default function welcome() {
   useEffect(() => {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
@@ -18,7 +17,6 @@ export default function home() {
   const [fonteLoaded] = useFonts({
     Urbanist_700Bold,
     Lato_700Bold,
-    Inter_400Regular,
   });
 
   const styles = StyleSheet.create({
@@ -28,12 +26,18 @@ export default function home() {
     },
 
     title: {
-      paddingTop: 52,
+      paddingTop: 42,
       paddingBottom: 40,
       textAlign: "center",
       fontFamily: "Urbanist_700Bold",
       fontSize: 25,
       color: "#282828",
+    },
+
+    image: {
+      width: 314,
+      height: 249,
+      marginBottom: 36,
     },
 
     text: {
@@ -42,7 +46,9 @@ export default function home() {
       fontStyle: "normal",
       textAlign: "center",
       color: "#282828",
+      paddingHorizontal: 20,
       lineHeight: 21,
+      marginBottom: 32,
     },
 
     btnSignUp: {
@@ -91,10 +97,20 @@ export default function home() {
       elevationSecondary: 3,
     },
 
-    textBtn: {
+    textBtnSignIn: {
       color: "#2F39D3",
+      fontFamily: "Urbanist_700Bold",
       fontWeight: "bold",
       fontSize: 18,
+      lineHeight: 19.80,
+    },
+
+    textBtnSignUp: {
+      color: "#FDFDFD",
+      fontFamily: "Urbanist_700Bold",
+      fontWeight: "bold",
+      fontSize: 18,
+      lineHeight: 19.80,
     },
   });
 
@@ -102,36 +118,37 @@ export default function home() {
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor:"#FDFDFD"}}>
         <View style={styles.container}>
           <Text style={styles.title}>{titulo}</Text>
 
-          <Image
-            source={require("../assets/images/home.webp")}
-            className="w-[314px] h-[249px] mb-[36px]"
-          ></Image>
+          <Image 
+          source={require("../assets/images/welcome.png")}
+          style={styles.image}
+          resizeMode="contain"
+          />
 
-          <Text style={styles.text}>
+          <View>
+            <Text style={styles.text}>
             Sua jornada para um diabetes mais controlado começa aqui!
-          </Text>
+            </Text>
 
-          <TouchableOpacity
+            <TouchableOpacity
             style={styles.btnSignUp}
-            onPress={() => router.push("screens/Auth/telaCadastro")}
-          >
-            <Text className="text-[#FDFDFD] text-[18px] font-bold leading-[19,80px]">
+            onPress={() => router.push("screens/Auth/telaCadastro")}>
+              <Text style={styles.textBtnSignUp}>
               Criar uma conta
-            </Text>
-          </TouchableOpacity>
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
+            <TouchableOpacity
             style={styles.btnSignIn}
-            onPress={() => router.push("./login")}
-          >
-            <Text style={styles.textBtn} className="leading-[19,80px]">
-              Fazer Login
-            </Text>
-          </TouchableOpacity>
+            onPress={() => router.push("./login")}>
+              <Text style={styles.textBtnSignIn}>
+                Fazer Login
+              </Text>
+            </TouchableOpacity>
+          </View>          
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
