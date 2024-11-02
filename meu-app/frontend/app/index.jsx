@@ -7,7 +7,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/onboarding"); // Navega para a tela de onboarding
+      router.replace("./screens/onboarding"); // Navega para a tela de onboarding
     }, 5000); // Tempo que o GIF será exibido (3 segundos)
 
     return () => clearTimeout(timer); // Limpa o timer quando o componente é desmontado
