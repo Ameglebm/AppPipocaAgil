@@ -43,10 +43,15 @@ export const requestPasswordResetSchema = z.object({
   email: z.string().email('Formato de e-mail inválido'),
 });
 
+export const verifyResetCodeSchema = z.object({
+  email: z.string().email('Formato de e-mail inválido'),
+  code: z.string().length(6, 'Código deve ter 6 dígitos'),
+});
+
 export const resetPasswordSchema = z
   .object({
-    userId: z.string(),
-    token: z.string(),
+    email: z.string().email('Formato de e-mail inválido'),
+    code: z.string().length(6, 'Código deve ter 6 dígitos'),
     novaSenha: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
     confirmarNovaSenha: z.string().min(8, 'A confirmação da senha deve ter pelo menos 8 caracteres'),
   })

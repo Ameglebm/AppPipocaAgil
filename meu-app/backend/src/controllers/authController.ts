@@ -6,6 +6,7 @@ import {
   LoginDTO,
   RequestPasswordResetDTO,
   ResetPasswordDTO,
+  VerifyResetCodeDTO,
 } from '../dtos/authDTO';
 
 const authService = new AuthService();
@@ -26,7 +27,7 @@ export const registerUser = async (req: Request<{}, {}, RegisterUserDTO>, res: R
         return;
       }
 
-      if (error.message === 'Token inválido ou expirado.') {
+      if (error.message === 'Código inválido ou expirado.') {
         res.status(400).json({ message: error.message });
         return;
       }
@@ -71,7 +72,7 @@ export const loginUser = async (req: Request<{}, {}, LoginDTO>, res: Response): 
 export const requestPasswordReset = async (req: Request<{}, {}, RequestPasswordResetDTO>, res: Response): Promise<void> => {
   try {
     await authService.requestPasswordReset(req.body);
-    res.status(200).json({ message: 'Se o e-mail estiver registrado, você receberá um link para redefinir a senha.' });
+    res.status(200).json({ message: 'Se o e-mail estiver registrado, você receberá um código para redefinir a senha.' });
   } catch (error) {
     if (error instanceof ZodError) {
       res.status(400).json({ errors: error.errors });
@@ -83,13 +84,33 @@ export const requestPasswordReset = async (req: Request<{}, {}, RequestPasswordR
   }
 };
 
+export const verifyResetCode = async (req: Request<{}, {}, VerifyResetCodeDTO>, res: Response): Promise<void> => {
+  try {
+    await authService.verifyResetCode(req.body);
+    res.status(200).json({ message: 'Código verificado com sucesso.' });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      res.status(400).json({ errors: error.errors });
+      return;
+    }
+
+    if (error instanceof Error) {
+      if (error.message === 'Código inválido ou expirado') {
+        res.status(400).json({ message: error.message });
+        return;
+      }
+    }
+
+    console.error('Erro na verificação do código:', error);
+    res.status(500).json({ message: 'Erro interno do servidor.' });
+  }
+};
+
 export const resetPassword = async (req: Request<{}, {}, ResetPasswordDTO>, res: Response): Promise<void> => {
   try {
-    const { userId, novaSenha, confirmarNovaSenha, token } = req.body;
+    const { email, code, novaSenha, confirmarNovaSenha } = req.body;
 
-    const numericUserId = Number(userId);
-
-    await authService.resetPassword(numericUserId, novaSenha, confirmarNovaSenha, token);
+    await authService.resetPassword({ email, code, novaSenha, confirmarNovaSenha });
     res.status(200).json({ message: 'Senha redefinida com sucesso.' });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -98,7 +119,7 @@ export const resetPassword = async (req: Request<{}, {}, ResetPasswordDTO>, res:
     }
 
     if (error instanceof Error) {
-      if (error.message === 'Token inválido ou expirado') {
+      if (error.message === 'Código inválido ou expirado') {
         res.status(400).json({ message: error.message });
         return;
       }
