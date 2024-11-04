@@ -63,8 +63,13 @@ export default function defineNewPassword() {
             });
       
             console.log(response);
+
             await AsyncStorage.setItem("token", response.data.token);
-            navigation.replace(""); 
+            // Verifica se a resposta da API indica sucesso
+            if (response.status === 200) {  // Ajuste conforme a estrutura da sua API
+            // Navega para a tela de feedback
+            navigation.navigate("./recoverSucessfull");  // Nome da tela de feedback no seu navegador
+            } 
         } catch (error) {
             console.log(error);
         }

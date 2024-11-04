@@ -27,8 +27,13 @@ function RecConta() {
       });
 
       console.log(response);
+
       await AsyncStorage.setItem("token", response.data.token);
-      router.replace("");
+      // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
+      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
+      // Navega para a tela de feedback
+      navigation.navigate("./recoverAccountEmail.jsx");  // Nome da tela de feedback no seu navegador
+      }
     } catch (error) {
       console.log(error);
     }
