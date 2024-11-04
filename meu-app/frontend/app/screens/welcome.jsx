@@ -6,13 +6,13 @@ import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import { Lato_700Bold } from "@expo-google-fonts/lato";
 
 export default function welcome() {
+  const navigation = useNavigation();
+  const router = useRouter();
+  
   useEffect(() => {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
-
-  const navigation = useNavigation();
-  const router = useRouter();
 
   const [fonteLoaded] = useFonts({
     Urbanist_700Bold,
