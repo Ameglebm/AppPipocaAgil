@@ -24,7 +24,7 @@ export default function welcome() {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={{backgroundColor:"#FDFDFD"}}>
-        <View style={styles.container}>
+        <View style={styles.mainContainer}>
           <Text style={styles.title}>{titulo}</Text>
 
           <Image 
@@ -33,7 +33,7 @@ export default function welcome() {
           resizeMode="contain"
           />
 
-          <View>
+          <View style={styles.container}>
             <Text style={styles.text}>
             Sua jornada para um diabetes mais controlado começa aqui!
             </Text>
@@ -61,11 +61,13 @@ export default function welcome() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     justifyContent: "center",
     alignItems: "center",
   },
-
+  container: {
+    alignItems: "center",
+  },
   title: {
     paddingTop: 42,
     paddingBottom: 40,
