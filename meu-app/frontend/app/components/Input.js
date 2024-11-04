@@ -27,6 +27,7 @@ function Inputs() {
 
   const navigation = useNavigation();
   const [errors, setErrors] = useState({});
+  
   const validateInputs = () => {
     const newErrors = {};
 
@@ -61,6 +62,7 @@ function Inputs() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
   };
+
   const sendForm = async () => {
     if (!validateInputs()) return; // Valida antes de enviar
     if (isDisabled) return;
@@ -75,7 +77,7 @@ function Inputs() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3333/users",
+        "http://localhost:3333/auth/register",
         novoUsuario
       );
 
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 1,
     color: "#373737",
-    placeholderTextColor: "red",
+    placeholderTextColor: "#B1B0AF",
     fontFamily: "Lato_400Regular",
     lineHeight: 22,
     fontSize: 16,
