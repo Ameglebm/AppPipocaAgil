@@ -1,7 +1,7 @@
 import {Text, View, Image, TouchableOpacity} from "react-native"
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import ButtonLogin from './ButtonLogin';
+import ButtonLogin from '../components/ButtonLogin';
 
 export default function recoverSucessfull() {
     const navigation = useNavigation();
@@ -19,7 +19,7 @@ export default function recoverSucessfull() {
             <View>
                 <Image
                     className="w-[168] h-[198.4]"
-                    source={require("../assets/images/undraw_mail_sent_re_0ofv 1.png")}
+                    source={require("../assets/images/undraw_mail_sent_re_0ofv1.png")}
                 />
             </View>
 
@@ -31,7 +31,7 @@ export default function recoverSucessfull() {
 
             <ButtonLogin
                 labelButton="Login"
-                onpress={() => {navigation.navigate("./screens/login.jsx")
+                onpress={() => {navigation.navigate("./login")
                 }}
             />
         </View>

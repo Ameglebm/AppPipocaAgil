@@ -1,7 +1,7 @@
 import {Text, View, Image, TouchableOpacity} from "react-native"
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import ButtonLogin from './ButtonLogin';
+import ButtonLogin from '../components/ButtonLogin';
 
 
 export default function recoverAccountEmail() {
@@ -20,7 +20,7 @@ export default function recoverAccountEmail() {
             <View>
                 <Image
                     className="w-[168] h-[150.809]"
-                    source={require("../assets/images/undraw_mail_sent_re_Oofv 1.png")}
+                    source={require("../assets/images/undraw_confirmed_re_sef71.png")}
                 />
             </View>
 
@@ -32,7 +32,7 @@ export default function recoverAccountEmail() {
 
             <ButtonLogin
                 labelButton="OK"
-                onpress={() => {navigation.navigate("./cadastro/index.jsx")
+                onpress={() => {navigation.navigate("./Auth/telaCadastro")
                 }}
             />
         </View>
