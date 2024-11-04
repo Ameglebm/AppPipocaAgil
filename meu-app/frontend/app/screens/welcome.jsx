@@ -6,112 +6,17 @@ import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import { Lato_700Bold } from "@expo-google-fonts/lato";
 
 export default function welcome() {
+  const navigation = useNavigation();
+  const router = useRouter();
+  
   useEffect(() => {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  const navigation = useNavigation();
-  const router = useRouter();
-
   const [fonteLoaded] = useFonts({
     Urbanist_700Bold,
     Lato_700Bold,
-  });
-
-  const styles = StyleSheet.create({
-    container: {
-      justifyContent: "center",
-      alignItems: "center",
-    },
-
-    title: {
-      paddingTop: 42,
-      paddingBottom: 40,
-      textAlign: "center",
-      fontFamily: "Urbanist_700Bold",
-      fontSize: 25,
-      color: "#282828",
-    },
-
-    image: {
-      width: 314,
-      height: 249,
-      marginBottom: 36,
-    },
-
-    text: {
-      fontSize: 14,
-      fontFamily: "Lato_700Bold",
-      fontStyle: "normal",
-      textAlign: "center",
-      color: "#282828",
-      paddingHorizontal: 20,
-      lineHeight: 21,
-      marginBottom: 32,
-    },
-
-    btnSignUp: {
-      justifyContent: "center",
-      alignItems: "center",
-      width: 320,
-      minHeight: 42,
-      paddingHorizontal: 12,
-      marginTop: 18,
-      backgroundColor: "#2F39D3",
-      borderRadius: 8,
-      shadowColor: "rgba(12, 12, 13, 0.15)",
-      shadowOffset: { width: 0, height: 2 },
-      shadowRadius: 6,
-      shadowOpacity: 1,
-      elevation: 6, // Para Android
-      // Segunda sombra (não suportado diretamente, mas pode ser emulado)
-      shadowColorSecondary: "rgba(12, 12, 13, 0.30)",
-      shadowOffsetSecondary: { width: 0, height: 1 },
-      shadowOpacitySecondary: 1,
-      shadowRadiusSecondary: 2,
-      elevationSecondary: 3,
-    },
-
-    btnSignIn: {
-      justifyContent: "center",
-      alignItems: "center",
-      width: 320,
-      minHeight: 42,
-      paddingHorizontal: 12,
-      marginTop: 18,
-      backgroundColor: "#FDFDFD",
-      borderWidth: 2,
-      borderColor: "#2F39D3",
-      borderRadius: 8,
-      shadowColor: "rgba(12, 12, 13, 0.15)",
-      shadowOffset: { width: 0, height: 2 },
-      shadowRadius: 6,
-      shadowOpacity: 1,
-      elevation: 6, // Para Android
-      // Segunda sombra (não suportado diretamente, mas pode ser emulado)
-      shadowColorSecondary: "rgba(12, 12, 13, 0.30)",
-      shadowOffsetSecondary: { width: 0, height: 1 },
-      shadowOpacitySecondary: 1,
-      shadowRadiusSecondary: 2,
-      elevationSecondary: 3,
-    },
-
-    textBtnSignIn: {
-      color: "#2F39D3",
-      fontFamily: "Urbanist_700Bold",
-      fontWeight: "bold",
-      fontSize: 18,
-      lineHeight: 19.80,
-    },
-
-    textBtnSignUp: {
-      color: "#FDFDFD",
-      fontFamily: "Urbanist_700Bold",
-      fontWeight: "bold",
-      fontSize: 18,
-      lineHeight: 19.80,
-    },
   });
 
   const titulo = "Bem vindo(a) ao InsuCheck!";
@@ -119,7 +24,7 @@ export default function welcome() {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={{backgroundColor:"#FDFDFD"}}>
-        <View style={styles.container}>
+        <View style={styles.mainContainer}>
           <Text style={styles.title}>{titulo}</Text>
 
           <Image 
@@ -128,7 +33,7 @@ export default function welcome() {
           resizeMode="contain"
           />
 
-          <View>
+          <View style={styles.container}>
             <Text style={styles.text}>
             Sua jornada para um diabetes mais controlado começa aqui!
             </Text>
@@ -154,3 +59,100 @@ export default function welcome() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    alignItems: "center",
+  },
+  title: {
+    paddingTop: 42,
+    paddingBottom: 40,
+    textAlign: "center",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 25,
+    color: "#282828",
+  },
+
+  image: {
+    width: 314,
+    height: 249,
+    marginBottom: 36,
+  },
+
+  text: {
+    fontSize: 14,
+    fontFamily: "Lato_700Bold",
+    fontStyle: "normal",
+    textAlign: "center",
+    color: "#282828",
+    paddingHorizontal: 20,
+    lineHeight: 21,
+    marginBottom: 32,
+  },
+
+  btnSignUp: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 320,
+    minHeight: 42,
+    paddingHorizontal: 12,
+    marginTop: 18,
+    backgroundColor: "#2F39D3",
+    borderRadius: 8,
+    shadowColor: "rgba(12, 12, 13, 0.15)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+    elevation: 6, // Para Android
+    // Segunda sombra (não suportado diretamente, mas pode ser emulado)
+    shadowColorSecondary: "rgba(12, 12, 13, 0.30)",
+    shadowOffsetSecondary: { width: 0, height: 1 },
+    shadowOpacitySecondary: 1,
+    shadowRadiusSecondary: 2,
+    elevationSecondary: 3,
+  },
+
+  btnSignIn: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 320,
+    minHeight: 42,
+    paddingHorizontal: 12,
+    marginTop: 18,
+    backgroundColor: "#FDFDFD",
+    borderWidth: 2,
+    borderColor: "#2F39D3",
+    borderRadius: 8,
+    shadowColor: "rgba(12, 12, 13, 0.15)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+    elevation: 6, // Para Android
+    // Segunda sombra (não suportado diretamente, mas pode ser emulado)
+    shadowColorSecondary: "rgba(12, 12, 13, 0.30)",
+    shadowOffsetSecondary: { width: 0, height: 1 },
+    shadowOpacitySecondary: 1,
+    shadowRadiusSecondary: 2,
+    elevationSecondary: 3,
+  },
+
+  textBtnSignIn: {
+    color: "#2F39D3",
+    fontFamily: "Urbanist_700Bold",
+    fontWeight: "bold",
+    fontSize: 18,
+    lineHeight: 19.80,
+  },
+
+  textBtnSignUp: {
+    color: "#FDFDFD",
+    fontFamily: "Urbanist_700Bold",
+    fontWeight: "bold",
+    fontSize: 18,
+    lineHeight: 19.80,
+  },
+});

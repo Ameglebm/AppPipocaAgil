@@ -19,8 +19,24 @@ function RecConta() {
   const navigation = useNavigation();
   const { email, error, handleEmailChange } = useRecConta();
 
-  const handleSend = () => {
-    console.log("Enviar e-mail para redefinir senha");
+  const sendRecPass = async () => {
+
+    try {
+      const response = await api.post("/auth/request-password-reset", {
+        email: email,
+      });
+
+      console.log(response);
+
+      await AsyncStorage.setItem("token", response.data.token);
+      // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
+      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
+      // Navega para a tela de feedback
+      navigation.navigate("./recoverAccountEmail.jsx");  // Nome da tela de feedback no seu navegador
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -45,7 +61,7 @@ function RecConta() {
             error={error}
             footerMessage="Verifique se o e-mail está correto para receber o link de redefinição."
           ></EmailInput>
-          <Button title="Enviar" onPress={handleSend} />
+          <Button title="Enviar" onPress={sendRecPass} />
         </View>
       </View>
       {error ? (

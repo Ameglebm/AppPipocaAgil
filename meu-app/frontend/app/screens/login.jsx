@@ -52,7 +52,11 @@ export default function Login() {
 
       console.log(response);
       sessionStorage.setItem("token", response.data.token);
-      router.replace("");
+
+      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
+      router.replace("./home");
+      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +106,7 @@ export default function Login() {
         {/* Navegação para a tela de recuperação de senha */}
         <View className="pt-[16px] pr-3 items-end">
           <TouchableOpacity
-            onPress={() => router.push("screens/RecupereSuaConta")}
+            onPress={() => router.push("screens/recoverYourAccount")}
           >
             <Text className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">
               Esqueceu a senha?
