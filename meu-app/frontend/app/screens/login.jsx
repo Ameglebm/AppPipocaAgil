@@ -52,7 +52,11 @@ export default function Login() {
 
       console.log(response);
       sessionStorage.setItem("token", response.data.token);
-      router.replace("");
+
+      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
+      router.replace("./home");
+      }
+      
     } catch (error) {
       console.log(error);
     }
