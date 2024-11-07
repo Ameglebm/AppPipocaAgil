@@ -15,6 +15,7 @@ export default function Layout() {
     Urbanist_700Bold,
     Lato_400Regular,
     Lato_700Bold,
+    Lato_400Regular,
   });
 
   useEffect(() => {

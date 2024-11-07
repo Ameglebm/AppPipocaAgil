@@ -1,95 +1,97 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import TabLabelSaude from "../components/TabLabelSaude";
+import TabLabelHistorico from "../components/TabLabelHistorico";
+import TabLabelEvolucao from "../components/TabLabelEvolucao";
 
-function ScreenOne() {
+import ScreenOne from "./screenOne";
+import ScreenTwo from "./screenTwo";
+import ScreenThree from "./screenThree";
+import Medicacao from "./medicacao";
+import Relatorios from "./relatorios";
+import Emergencia from "./emergencia";
+
+import HomeTab from "../components/tabIcons/HomeTab";
+import MedicacaoTab from "../components/tabIcons/MedicacaoTab";
+import EmergenciaTab from "../components/tabIcons/EmergenciaTab";
+import RelatoriosTab from "../components/tabIcons/RelatoriosTab";
+
+import Header from "../components/Header";
+
+const TopTab = createMaterialTopTabNavigator();
+
+const BottomTab = createBottomTabNavigator();
+
+function TopTabs() {
   return (
-    <View style={styles.screen}>
-      <Text>Esta é a Tela Um</Text>
-    </View>
+    <TopTab.Navigator screenOptions={{ headerShown: false }}>
+      <TopTab.Screen
+        name="Saúde"
+        component={ScreenOne}
+        options={{ tabBarLabel: () => <TabLabelSaude /> }}
+      />
+      <TopTab.Screen
+        name="Evolução"
+        component={ScreenTwo}
+        options={{ tabBarLabel: () => <TabLabelEvolucao /> }}
+      />
+      <TopTab.Screen
+        name="Histórico"
+        component={ScreenThree}
+        options={{ tabBarLabel: () => <TabLabelHistorico /> }}
+      />
+    </TopTab.Navigator>
   );
 }
 
-function ScreenTwo() {
+function BottomTabs() {
   return (
-    <View style={styles.screen}>
-      <Text>Esta é a Tela Dois</Text>
-    </View>
+    <BottomTab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: styles.tabBarStyle,
+      }}
+    >
+      <BottomTab.Screen
+        name="Home"
+        component={TopTabs}
+        options={{
+          tabBarIcon: ({ focused }) => <HomeTab focused={focused} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Medicação"
+        component={Medicacao}
+        options={{
+          tabBarIcon: ({ focused }) => <MedicacaoTab focused={focused} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Emergencia"
+        component={Emergencia}
+        options={{
+          tabBarIcon: ({ focused }) => <EmergenciaTab focused={focused} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Relatorios"
+        component={Relatorios}
+        options={{
+          tabBarIcon: ({ focused }) => <RelatoriosTab focused={focused} />,
+        }}
+      />
+    </BottomTab.Navigator>
   );
 }
 
-function ScreenThree() {
-  return (
-    <View style={styles.screen}>
-      <Text>Esta é a Tela Dois</Text>
-    </View>
-  );
-}
-
-const Tab = createMaterialTopTabNavigator();
-// Componente para o rótulo da aba "Saúde"
-const TabLabelSaude = () => (
-  <View style={styles.tabLabelContainer}>
-    <Image
-      source={require("../assets/images/saude-on.png")} // Caminho para a imagem de Saúde
-      style={styles.tabImage}
-    />
-    <Text style={styles.tabText}>Saúde</Text>
-  </View>
-);
-
-// Componente para o rótulo da aba "Evolução"
-const TabLabelEvolucao = () => (
-  <View style={styles.tabLabelContainer}>
-    <Image
-      source={require("../assets/images/bar-line-chart.png")} // Caminho para a imagem de Evolução
-      style={styles.tabImage}
-    />
-    <Text style={styles.tabText}>Evolução</Text>
-  </View>
-);
-
-// Componente para o rótulo da aba "Histórico"
-const TabLabelHistorico = () => (
-  <View style={styles.tabLabelContainer}>
-    <Image
-      source={require("../assets/images/historico.png")} // Caminho para a imagem de Histórico
-      style={styles.tabImage}
-    />
-    <Text style={styles.tabText}>Histórico</Text>
-  </View>
-);
 export default function Home() {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.profileContainer}>
-          <Image
-            source={require("../assets/images/user-03.png")} // Caminho para a imagem local
-            style={styles.image}
-          />
-          <Text style={styles.perfil}>Perfil</Text>
-        </View>
+      <Header />
 
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Image
-            source={require("../assets/images/plus.png")} // Caminho para a imagem local
-            style={styles.imagePlus}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen
-          name="Saúde"
-          options={{
-            tabBarLabel: () => <TabLabelSaude />, // Usa o componente de rótulo para Saúde
-          }}
-          component={ScreenOne}
-        />
-        <Tab.Screen name="Evolução" component={ScreenTwo} />
-        <Tab.Screen name="Histórico" component={ScreenThree} />
-      </Tab.Navigator>
+      <BottomTabs />
     </View>
   );
 }
@@ -97,60 +99,12 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
-  header: {
-    flexDirection: "row",
-    height: 108,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "space-between",
-    gap: 6,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  profileContainer: {
-    backgroundColor: "#6179FA",
-    width: 93,
-    height: 40,
-    borderRadius: 100,
-    paddingTop: 8,
-    paddingRight: 12,
-    paddingBottom: 8,
-    paddingLeft: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 43,
-    marginLeft: 20,
-    gap: 6,
-  },
-  image: {
-    color: "red",
-  },
-  perfil: {
-    color: "#FFFFFF",
-    textAlign: "center",
-    alignItems: "center",
-  },
-  buttonContainer: {
-    backgroundColor: "#6179FA",
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 42,
-    marginRight: 20,
-  },
-  tabLabelContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
+  tabBarStyle: {
+    width: "100%",
+    height: 70,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
   },
 });

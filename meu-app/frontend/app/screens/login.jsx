@@ -123,7 +123,7 @@ export default function Login() {
       <View className="flex-1 flex-row text-[14px] justify-end items-center">
         <Text className="text-[#464646]">Não possui uma conta? </Text>
         <Link
-          href={"screens/Auth/telaCadastro"}
+          href={"screens/animationScreen"}
           className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"
         >
           {" "}
