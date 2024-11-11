@@ -2,14 +2,18 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
-export default function TabLabelSaude() {
+export default function TabLabelSaude({ focused }) {
   return (
     <View style={styles.tabLabelContainer}>
       <Image
         source={require("../assets/images/historico.png")}
         style={styles.tabImage}
       />
-      <Text style={styles.tabText}>Histórico</Text>
+      <Text
+        style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
+      >
+        Histórico
+      </Text>
     </View>
   );
 }
@@ -28,5 +32,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Lato_700Bold",
     lineHeight: 22,
+    color: "#7B7A78",
+  },
+  colorFocused: {
+    fontSize: 16,
+    fontFamily: "Lato_700Bold",
+    lineHeight: 22,
+    color: "#6179FA",
   },
 });

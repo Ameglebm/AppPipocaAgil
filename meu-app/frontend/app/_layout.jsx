@@ -3,6 +3,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { TouchableOpacity } from "react-native";
 import { Urbanist_700Bold, useFonts } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
+import { Roboto_400Regular } from "@expo-google-fonts/roboto";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
@@ -16,6 +17,7 @@ export default function Layout() {
     Lato_400Regular,
     Lato_700Bold,
     Lato_400Regular,
+    Roboto_400Regular,
   });
 
   useEffect(() => {

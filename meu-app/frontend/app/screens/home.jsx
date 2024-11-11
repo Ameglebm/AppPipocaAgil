@@ -30,17 +30,24 @@ function TopTabs() {
       <TopTab.Screen
         name="Saúde"
         component={ScreenOne}
-        options={{ tabBarLabel: () => <TabLabelSaude /> }}
+        options={{
+          tabBarLabel: ({ focused }) => <TabLabelSaude focused={focused} />,
+          headerShown: false,
+        }}
       />
       <TopTab.Screen
         name="Evolução"
         component={ScreenTwo}
-        options={{ tabBarLabel: () => <TabLabelEvolucao /> }}
+        options={{
+          tabBarLabel: ({ focused }) => <TabLabelEvolucao focused={focused} />,
+        }}
       />
       <TopTab.Screen
         name="Histórico"
         component={ScreenThree}
-        options={{ tabBarLabel: () => <TabLabelHistorico /> }}
+        options={{
+          tabBarLabel: ({ focused }) => <TabLabelHistorico focused={focused} />,
+        }}
       />
     </TopTab.Navigator>
   );
@@ -59,6 +66,7 @@ function BottomTabs() {
         component={TopTabs}
         options={{
           tabBarIcon: ({ focused }) => <HomeTab focused={focused} />,
+          headerShown: false,
         }}
       />
       <BottomTab.Screen
@@ -66,6 +74,7 @@ function BottomTabs() {
         component={Medicacao}
         options={{
           tabBarIcon: ({ focused }) => <MedicacaoTab focused={focused} />,
+          headerShown: false,
         }}
       />
       <BottomTab.Screen
