@@ -16,9 +16,14 @@ export interface RequestPasswordResetDTO {
   email: string;
 }
 
+export interface VerifyResetCodeDTO {
+  email: string;
+  code: string;
+}
+
 export interface ResetPasswordDTO {
-  userId: string;
-  token: string;
+  email: string;
+  code: string;
   novaSenha: string;
   confirmarNovaSenha: string;
 }

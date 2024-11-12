@@ -1,7 +1,5 @@
-// src/routes/auth.ts
-
 import { Router } from 'express';
-import { registerUser, loginUser, requestPasswordReset, resetPassword } from '../controllers/authController';
+import { registerUser, loginUser, requestPasswordReset, resetPassword, verifyResetCode } from '../controllers/authController';
 
 const router = Router();
 
@@ -103,13 +101,44 @@ router.post('/login', loginUser);
  *                 type: string
  *     responses:
  *       200:
- *         description: Instruções para redefinição de senha enviadas por e-mail
+ *         description: Se o e-mail estiver registrado, você receberá um código para redefinir a senha.
  *       400:
  *         description: Erro de validação
  *       500:
  *         description: Erro interno do servidor
  */
 router.post('/request-password-reset', requestPasswordReset);
+
+/**
+ * @swagger
+ * /auth/verify-reset-code:
+ *   post:
+ *     summary: Verificar código de redefinição de senha
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - code
+ *             properties:
+ *               email:
+ *                 type: string
+ *               code:
+ *                 type: string
+ *                 description: Código de 6 dígitos enviado por e-mail
+ *     responses:
+ *       200:
+ *         description: Código verificado com sucesso
+ *       400:
+ *         description: Código inválido ou expirado / Erro de validação
+ *       500:
+ *         description: Erro interno do servidor
+ */
+router.post('/verify-reset-code', verifyResetCode);
 
 /**
  * @swagger
@@ -124,15 +153,16 @@ router.post('/request-password-reset', requestPasswordReset);
  *           schema:
  *             type: object
  *             required:
- *               - userId
- *               - token
+ *               - email
+ *               - code
  *               - novaSenha
  *               - confirmarNovaSenha
  *             properties:
- *               userId:
+ *               email:
  *                 type: string
- *               token:
+ *               code:
  *                 type: string
+ *                 description: Código de 6 dígitos enviado por e-mail
  *               novaSenha:
  *                 type: string
  *               confirmarNovaSenha:
@@ -141,7 +171,7 @@ router.post('/request-password-reset', requestPasswordReset);
  *       200:
  *         description: Senha redefinida com sucesso
  *       400:
- *         description: Token inválido ou expirado / Erros de validação
+ *         description: Código inválido ou expirado / Erros de validação
  *       500:
  *         description: Erro interno do servidor
  */

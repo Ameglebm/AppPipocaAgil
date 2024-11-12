@@ -19,7 +19,7 @@ export class AuthRepository {
     });
   }
 
-  // criar um token de redefinição de senha
+  // Criar um token de redefinição de senha
   async createPasswordResetToken(userId: number, token: string, expiresAt: Date) {
     return await prisma.passwordResetToken.create({
       data: {
@@ -30,23 +30,32 @@ export class AuthRepository {
     });
   }
 
-  //encontrar um token de redefinição de senha valido
-  async findPasswordResetToken(userId: number, token: string) {
+  // Encontrar um token de redefinição de senha válido por email e código
+  async findPasswordResetTokenByEmailAndCode(email: string, code: string) {
     return await prisma.passwordResetToken.findFirst({
       where: {
-        userId,
-        token,
+        token: code,
         expiresAt: {
-          gte: new Date(), // vê se o token é valido
+          gte: new Date(),
+        },
+        user: {
+          email: email,
         },
       },
     });
   }
 
-  // deletar tokens de redefinição de senha apos o uso
+  // Deletar tokens de redefinição de senha por userId e token
   async deletePasswordResetTokens(userId: number, token: string) {
     return await prisma.passwordResetToken.deleteMany({
       where: { userId, token },
+    });
+  }
+
+  // Deletar todos os tokens de redefinição de senha por userId
+  async deletePasswordResetTokensByUserId(userId: number) {
+    return await prisma.passwordResetToken.deleteMany({
+      where: { userId },
     });
   }
 }
