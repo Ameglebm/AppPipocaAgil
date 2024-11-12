@@ -82,6 +82,7 @@ function BottomTabs() {
         component={Emergencia}
         options={{
           tabBarIcon: ({ focused }) => <EmergenciaTab focused={focused} />,
+          headerShown: false,
         }}
       />
       <BottomTab.Screen
@@ -89,6 +90,7 @@ function BottomTabs() {
         component={Relatorios}
         options={{
           tabBarIcon: ({ focused }) => <RelatoriosTab focused={focused} />,
+          headerShown: false,
         }}
       />
     </BottomTab.Navigator>
