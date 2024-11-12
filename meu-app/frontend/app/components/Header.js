@@ -33,9 +33,13 @@ export default function Header() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    height: 108,
+    width: 360,
+    height: 142,
+    paddingTop: 42,
+    paddingBottom: 24,
     backgroundColor: "#FFFFFF",
     justifyContent: "space-between",
+    alignItems: "center",
     gap: 6,
   },
   profileContainer: {
