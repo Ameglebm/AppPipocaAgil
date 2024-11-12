@@ -4,7 +4,12 @@ import { View, Text, StyleSheet, Image } from "react-native";
 export default function RelatoriosTab({ focused }) {
   return (
     <View style={styles.tabContainer}>
-      <Image source={require("../../assets/images/relatorios.png")} />
+      <View style={[focused && styles.circleFocused]}>
+        <Image
+          source={require("../../assets/images/relatorios.png")}
+          style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
+        />
+      </View>
       <Text style={styles.tabText}>Relatórios</Text>
     </View>
   );
@@ -21,5 +26,14 @@ const styles = StyleSheet.create({
   tabText: {
     color: "#7B7A78",
     fontFamily: "Lato_400Regular",
+  },
+  circleFocused: {
+    width: 50,
+    height: 50,
+    backgroundColor: "#2F39D3",
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 35,
   },
 });

@@ -7,7 +7,7 @@ export default function TabLabelSaude({ focused }) {
     <View style={styles.tabLabelContainer}>
       <Image
         source={require("../assets/images/saude-on.png")}
-        style={styles.tabImage}
+        style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
       />
       <Text
         style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   tabImage: {
     width: 24,
     height: 24,
+    tintColor: "#7B7A78",
   },
   tabText: {
     fontSize: 16,

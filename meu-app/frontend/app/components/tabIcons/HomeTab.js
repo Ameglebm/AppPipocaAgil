@@ -7,7 +7,7 @@ export default function HomeTab({ focused }) {
       <View style={[focused && styles.circleFocused]}>
         <Image
           source={require("../../assets/images/home-02.png")}
-          style={styles.tabBaricon}
+          style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
       <Text style={styles.tabText}>Home</Text>

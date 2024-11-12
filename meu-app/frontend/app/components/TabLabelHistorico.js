@@ -7,7 +7,7 @@ export default function TabLabelSaude({ focused }) {
     <View style={styles.tabLabelContainer}>
       <Image
         source={require("../assets/images/historico.png")}
-        style={styles.tabImage}
+        style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
       />
       <Text
         style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
