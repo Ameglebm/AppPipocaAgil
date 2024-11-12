@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
   },
   circleFocused: {
-    width: 50,
-    height: 50,
+    width: 56,
+    height: 56,
     backgroundColor: "#2F39D3",
-    borderRadius: 25,
+    borderRadius: 28,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 35,

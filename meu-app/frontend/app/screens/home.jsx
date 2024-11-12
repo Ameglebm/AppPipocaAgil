@@ -26,7 +26,9 @@ const BottomTab = createBottomTabNavigator();
 
 function TopTabs() {
   return (
-    <TopTab.Navigator screenOptions={{ headerShown: false }}>
+    <TopTab.Navigator
+      screenOptions={{ headerShown: false, tabBarStyle: styles.topBarStyle }}
+    >
       <TopTab.Screen
         name="Saúde"
         component={ScreenOne}
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
   },
+  topBarStyle: {},
   tabBarStyle: {
     width: "100%",
     height: 70,
