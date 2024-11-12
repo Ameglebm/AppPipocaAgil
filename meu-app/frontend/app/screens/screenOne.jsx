@@ -42,7 +42,7 @@ export default function ScreenOne() {
     }
 
     return (
-      <View style={styles.butonContainer}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonCoracao}>
           <Image source={item.image} style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
@@ -81,17 +81,20 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
+    paddingTop: 20,
     fontFamily: "Urbanist_700Bold",
     fontSize: 20,
     lineHeight: 22,
   },
   subTitle: {
+    color: 'rgba(0, 0, 0, 0.5)',
     fontFamily: "Roboto_400Regular",
-    color: "#00000080",
     fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
   },
-  butonContainer: {
-    gap: 8,
+  buttonContainer: {
+    top: -6,
   },
   buttonCoracao: {
     flexDirection: "row",
@@ -103,6 +106,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     textAlign: "center",
     borderRadius: 12,
+    // Configuração de sombra para iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    // Configuração de sombra para Android
+    elevation: 3, // Use valores baixos para uma sombra mais sutil
   },
   image: {
     marginLeft: 16,
