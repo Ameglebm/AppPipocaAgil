@@ -86,9 +86,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   subTitle: {
+    color: "rgba(0, 0, 0, 0.5)",
     fontFamily: "Roboto_400Regular",
-    color: "#00000080",
     fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
+    width: 319,
   },
   butonContainer: {
     gap: 8,
@@ -103,6 +106,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     textAlign: "center",
     borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 3,
   },
   image: {
     marginLeft: 16,
