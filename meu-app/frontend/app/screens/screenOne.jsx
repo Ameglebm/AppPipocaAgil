@@ -7,8 +7,10 @@ import {
   Image,
   FlatList,
 } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function ScreenOne() {
+  const router = useRouter();
   const data = [
     { id: "header", isHeader: true },
     {
@@ -43,7 +45,7 @@ export default function ScreenOne() {
 
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonCoracao}>
+        <TouchableOpacity style={styles.buttonCoracao} onPress={() => router.push("screens/tiposDiabetes")}>
           <Image source={item.image} style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
         </TouchableOpacity>
