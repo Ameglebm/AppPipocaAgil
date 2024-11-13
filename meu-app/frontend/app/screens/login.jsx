@@ -105,7 +105,9 @@ export default function Login() {
 
         {/* Navegação para a tela de recuperação de senha */}
         <View className="pt-[16px] pr-3 items-end">
-          <TouchableOpacity onPress={() => router.push("screens/home")}>
+          <TouchableOpacity
+            onPress={() => router.push("screens/recoverYourAccount")}
+          >
             <Text className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">
               Esqueceu a senha?
             </Text>
@@ -123,7 +125,7 @@ export default function Login() {
       <View className="flex-1 flex-row text-[14px] justify-end items-center">
         <Text className="text-[#464646]">Não possui uma conta? </Text>
         <Link
-          href={"screens/animationScreen"}
+          href={"screens/Auth/telaCadastro"}
           className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"
         >
           {" "}
