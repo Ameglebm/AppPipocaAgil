@@ -106,7 +106,7 @@ export default function Login() {
         {/* Navegação para a tela de recuperação de senha */}
         <View className="pt-[16px] pr-3 items-end">
           <TouchableOpacity
-            onPress={() => router.push("screens/recoverYourAccount")}
+            onPress={() => router.push("screens/tiposDiabetes")}
           >
             <Text className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">
               Esqueceu a senha?
