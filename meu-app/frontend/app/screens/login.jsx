@@ -53,10 +53,10 @@ export default function Login() {
       console.log(response);
       sessionStorage.setItem("token", response.data.token);
 
-      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
-      router.replace("./home");
+      if (response.status === 200) {
+        // Ajuste conforme o que sua API retorna como sucesso
+        router.replace("./home");
       }
-      
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +64,7 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView className="flex w-full h-full bg-[#FDFDFD] justify-center items-center pt-[60px] ">
-      <View >
+      <View>
         <Image
           className="w-[66px] h-[66px] mb-[32px]"
           source={require("../assets/images/user.webp")}
@@ -115,8 +115,9 @@ export default function Login() {
         </View>
 
         <View
-        style={{ opacity: isFilled ? 1 : 0.5 }}
-        className="flex justify-center items-center px-[12px] shadow-3xl">
+          style={{ opacity: isFilled ? 1 : 0.5 }}
+          className="flex justify-center items-center px-[12px] shadow-3xl"
+        >
           <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
       </View>
