@@ -1,8 +1,16 @@
 // components/Header.js
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "expo-router";
 
 export default function Header() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    //Ao iniciar a página seta o header dela como false
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
+
   return (
     <View style={styles.header}>
       <View style={styles.profileContainer}>
@@ -10,7 +18,7 @@ export default function Header() {
           source={require("../assets/images/user-03.png")}
           style={styles.image}
         />
-        <Text style={styles.perfil}>Perfil</Text>
+        <Text style={styles.perfil}>Conta</Text>
       </View>
 
       <TouchableOpacity style={styles.buttonContainer}>
@@ -26,9 +34,13 @@ export default function Header() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    height: 108,
+    width: "100%",
+    height: 142,
+    paddingTop: 42,
+    paddingBottom: 24,
     backgroundColor: "#FFFFFF",
     justifyContent: "space-between",
+    alignItems: "center",
     gap: 6,
   },
   profileContainer: {

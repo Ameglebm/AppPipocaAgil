@@ -8,7 +8,7 @@ export default function EmergenciaTab({ focused }) {
       <View style={[focused && styles.circleFocused]}>
         <Image
           source={require("../../assets/images/emergencia.png")}
-          style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
+          style={[styles.tabBarIcon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
       <Text style={styles.tabText}>Emergência</Text>
@@ -26,7 +26,11 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: "#7B7A78",
+    textAlign: "center",
     fontFamily: "Lato_400Regular",
+    fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
   },
   circleFocused: {
     width: 56,

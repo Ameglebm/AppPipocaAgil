@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   tabImage: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     tintColor: "#7B7A78",
   },
   tabText: {

@@ -25,7 +25,11 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: "#7B7A78",
+    textAlign: "center",
     fontFamily: "Lato_400Regular",
+    fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
   },
   circleFocused: {
     width: 56,

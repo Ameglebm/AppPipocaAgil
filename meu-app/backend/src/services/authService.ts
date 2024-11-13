@@ -4,11 +4,10 @@ import { AuthRepository } from '../repositories/authRepository';
 import bcrypt from 'bcrypt';
 import { ZodError } from 'zod';
 import transporter from '../lib/nodemailer';
-import { addHours } from 'date-fns';
+import { addMinutes } from 'date-fns';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import { loginSchema, registerUserSchema, requestPasswordResetSchema, resetPasswordSchema } from '../validators/authValidator';
-import { LoginDTO, RegisterUserDTO, RequestPasswordResetDTO } from '../dtos/authDTO';
+import { loginSchema, registerUserSchema, requestPasswordResetSchema, resetPasswordSchema, verifyResetCodeSchema } from '../validators/authValidator';
+import { LoginDTO, RegisterUserDTO, RequestPasswordResetDTO, ResetPasswordDTO, VerifyResetCodeDTO } from '../dtos/authDTO';
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -110,32 +109,32 @@ export class AuthService {
         return;
       }
 
-      // Gerar um token seguro
-      const token = crypto.randomBytes(32).toString('hex');
+      // Deletar tokens de redefinição de senha existentes para o usuário
+      await this.authRepository.deletePasswordResetTokensByUserId(user.id);
 
-      // Definir a validade do token (1 hora)
-      const expiresAt = addHours(new Date(), 1);
+      // Gerar um código de 6 dígitos
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-      // Salvar o token no banco de dados
+      // Definir a validade do código (15 minutos)
+      const expiresAt = addMinutes(new Date(), 15);
+
+      // Salvar o código no banco de dados
       await this.authRepository.createPasswordResetToken(
         user.id,
-        token,
+        code,
         expiresAt, 
       );
 
-      // Montar o link de redefinição
-      const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user.id}`;
-
-      // Enviar o e-mail
+      // Enviar o e-mail com o código
       await transporter.sendMail({
         from: `"Insucheck" <${process.env.GMAIL_USER}>`,
         to: user.email,
         subject: 'Redefinição de Senha',
         html: `
           <p>Olá, ${user.nome}!</p>
-          <p>Recebemos uma solicitação para redefinir sua senha. Clique no link abaixo para definir uma nova senha:</p>
-          <a href="${resetLink}">Redefinir Senha</a>
-          <p>Este link expira em 1 hora.</p>
+          <p>Recebemos uma solicitação para redefinir sua senha. Use o código abaixo para redefinir sua senha:</p>
+          <h2>${code}</h2>
+          <p>Este código expira em 15 minutos.</p>
           <p>Se você não solicitou a redefinição de senha, ignore este e-mail.</p>
         `,
       });
@@ -147,29 +146,68 @@ export class AuthService {
     }
   }
 
+  async verifyResetCode(data: VerifyResetCodeDTO): Promise<void> {
+    try {
+      const validatedData = verifyResetCodeSchema.parse(data);
+      const { email, code } = validatedData;
 
-  // Exemplo de método para redefinir senha
-  async resetPassword(userId: number, newPassword: string, confirmNewPassword: string, token: string) {
-    
-    const userIdStr = userId.toString();
-    
-    resetPasswordSchema.parse({
-      userId: userIdStr,
-      token: token,
-      novaSenha: newPassword,
-      confirmarNovaSenha: confirmNewPassword,
-    });
+      // Encontrar usuário pelo e-mail
+      const user = await this.userRepository.findByEmail(email);
+      if (!user) {
+        throw new Error('Código inválido ou expirado');
+      }
 
-    const validToken = await this.authRepository.findPasswordResetToken(userId, token);
+      // Encontrar o token válido pelo e-mail e código
+      const validToken = await this.authRepository.findPasswordResetTokenByEmailAndCode(email, code);
+      if (!validToken) {
+        throw new Error('Código inválido ou expirado');
+      }
 
-    if (!validToken) {
-      throw new Error('Token inválido ou expirado');
+      // Opcional: Você pode deletar o token após a verificação para evitar reutilização
+      // await this.authRepository.deletePasswordResetTokens(user.id, code);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw error;
+      }
+      throw error;
     }
+  }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await this.authRepository.updateUserPassword(userId, hashedPassword);
+  async resetPassword(data: ResetPasswordDTO): Promise<void> {
+    try {
+      const { email, code, novaSenha, confirmarNovaSenha } = data;
 
-    // Deleta o token após o uso
-    await this.authRepository.deletePasswordResetTokens(userId, token);
+      // Validar os dados
+      resetPasswordSchema.parse({
+        email,
+        code,
+        novaSenha,
+        confirmarNovaSenha,
+      });
+
+      // Encontrar usuário pelo e-mail
+      const user = await this.userRepository.findByEmail(email);
+      if (!user) {
+        throw new Error('Código inválido ou expirado');
+      }
+
+      // Verificar se o código é válido
+      const validToken = await this.authRepository.findPasswordResetTokenByEmailAndCode(email, code);
+      if (!validToken) {
+        throw new Error('Código inválido ou expirado');
+      }
+
+      // Hashear a nova senha
+      const hashedPassword = await bcrypt.hash(novaSenha, 10);
+      await this.authRepository.updateUserPassword(user.id, hashedPassword);
+
+      // Deletar o token após o uso
+      await this.authRepository.deletePasswordResetTokens(user.id, code);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        throw error;
+      }
+      throw error;
+    }
   }
 }

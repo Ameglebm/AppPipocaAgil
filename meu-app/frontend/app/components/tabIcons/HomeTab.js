@@ -10,7 +10,7 @@ export default function HomeTab({ focused }) {
           style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
-      <Text style={styles.tabText}>Home</Text>
+      <Text style={styles.tabText}>Início</Text>
     </View>
   );
 }
@@ -26,7 +26,11 @@ const styles = StyleSheet.create({
   tabBaricon: {},
   tabText: {
     color: "#7B7A78",
+    textAlign: "center",
     fontFamily: "Lato_400Regular",
+    fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
   },
   circleFocused: {
     width: 56,
