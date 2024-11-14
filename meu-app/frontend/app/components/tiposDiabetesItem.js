@@ -27,7 +27,7 @@ export default function TiposDiabetesItem({ item }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{item.title}</Text>
+      <Text style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 36 }]}>{item.title}</Text>
 
       {isTipoDiabetesScreen && (
         <FlatList
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   container: {
    paddingTop: 28,
    paddingHorizontal: 16,
-   paddingBottom: 28,
   },
   title: {
     color: "#282828",
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontSize: 20,
     lineHeight: 22,
-    paddingBottom: 36,
   },
   list: {
     paddingBottom: 8,
@@ -83,13 +81,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 100,
     backgroundColor: '#FDFDFD',
-    // Configuração de sombra para iOS
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    // Configuração de sombra para Android
-    elevation: 3, // Use valores baixos para uma sombra mais sutil
   },
   selectedTypeContainer: {
     backgroundColor: '#7A98FF', // Cor de destaque para o item selecionado
@@ -100,7 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontStyle: "normal",
     lineHeight: 21,
-    
   },
   selectedTypeText: {
     color: '#FDFDFD', // Cor de destaque do texto selecionado
