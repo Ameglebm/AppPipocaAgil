@@ -61,7 +61,7 @@ export default function TiposDiabetes() {
         style={styles.flatlist}
         data={slidesInfoDiabetes}
         renderItem={({ item }) => (
-          <View style={styles.slideContainer}>
+          <View style={[styles.slideContainer, {height: item.height}]}>
             <TiposDiabetesItem item={item} />
             <AdmInsulinaItem item={item} />
           </View>
@@ -83,7 +83,7 @@ export default function TiposDiabetes() {
         ref={slidesRef}
         />
 
-        {/* Botões na parte inferior */}
+        {/* Botão na parte inferior */}
       <ButtonMove
         scrollTo={scrollTo}
         currentIndex={currentIndex}
@@ -137,6 +137,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDF3FF', // cor de fundo para separar cada tela
     marginHorizontal: 4, // espaço entre as telas
     borderRadius: 16,
-    height: 455,
   },
   });

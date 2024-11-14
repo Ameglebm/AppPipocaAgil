@@ -2,6 +2,7 @@ export default [
     {
         id: '1',
         title: 'Tipo de Diabetes',
+        height: 455,
         typeOne: 'Tipo 1',
         typeTwo: 'Tipo 2',
         typeThree: 'Gestacional',
@@ -14,6 +15,7 @@ export default [
     {
         id: '2',
         title: 'Administração de Insulina',
+        height: 360,
         typeOne: 'Seringa',
         typeTwo: 'Caneta',
         typeThree: 'Caneta Inteligente',
