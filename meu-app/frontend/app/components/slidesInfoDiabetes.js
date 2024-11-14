@@ -14,6 +14,12 @@ export default [
     {
         id: '2',
         title: 'Administração de Insulina',
+        typeOne: 'Seringa',
+        typeTwo: 'Caneta',
+        typeThree: 'Caneta Inteligente',
+        typeFour: 'Bomba',
+        typeFive: 'Injetor de Insulina (Patch)',
+        typeSix: 'Não uso Insulina',
     },
     {
         id: '3',
