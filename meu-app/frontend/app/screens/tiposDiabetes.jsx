@@ -1,9 +1,10 @@
-import { View, Text, FlatList, Pressable, Image, StyleSheet, Animated } from 'react-native'
+import { View, Text, FlatList, Pressable, Image, StyleSheet, Animated, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router'
 import TiposDiabetesItem from "../components/tiposDiabetesItem";
+import AdmInsulinaItem from "../components/admInsulinaItem"
 import slidesInfoDiabetes from '../components/slidesInfoDiabetes';
-import Paginator from "../components/Paginator"; // Paginador
+import PaginatorInfo from "../components/PaginatorInfo"; // Paginador
 import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
 
 export default function TiposDiabetes() {
@@ -26,7 +27,7 @@ export default function TiposDiabetes() {
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
     
     const scrollTo = () => {
-        if (currentIndex < slides.length - 1) {
+        if (currentIndex < slidesInfoDiabetes.length - 1) {
             slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
         } else {
         router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
@@ -44,7 +45,7 @@ export default function TiposDiabetes() {
     };
 
   return (
-    <View>
+    <ScrollView>
         
         <View style={styles.mainHeader}>
             <Pressable style={styles.containerSkip} onPress={handleSkip}>
@@ -58,14 +59,19 @@ export default function TiposDiabetes() {
                 <Text style={styles.textHeader}>Informações do diabetes</Text>
             </View>
 
-            <Paginator data={slidesInfoDiabetes} scrollx={scrollx} />
+            <PaginatorInfo data={slidesInfoDiabetes} scrollx={scrollx} />
         </View> 
 
       <View>
         <FlatList
         style={styles.flatlist}
         data={slidesInfoDiabetes}
-        renderItem={({ item }) => <TiposDiabetesItem item={item} />}
+        renderItem={({ item }) => (
+          <View>
+            <TiposDiabetesItem item={item} />
+            <AdmInsulinaItem item={item} />
+          </View>
+        )}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
@@ -90,7 +96,7 @@ export default function TiposDiabetes() {
         currentIndex={currentIndex}
       />
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
