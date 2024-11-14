@@ -26,12 +26,19 @@ const styles = StyleSheet.create({
         padding: 20
     },
     moveButtton: {
-        width: 162,
+        width: 153,
         height: 36,
         borderRadius: 8,
         backgroundColor: '#2F39D3',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        // Configuração de sombra para iOS
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        // Configuração de sombra para Android
+        elevation: 3, // Use valores baixos para uma sombra mais sutil
     },
     textButton: {
         fontFamily: 'Urbanist_700Bold',
