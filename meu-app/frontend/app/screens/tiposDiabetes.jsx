@@ -30,7 +30,7 @@ export default function TiposDiabetes() {
         if (currentIndex < slidesInfoDiabetes.length - 1) {
             slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
         } else {
-        router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
+        router.push("/"); // Navega para a ultima tela (obs: definir rota)
         }
     };
 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 10,
     flexDirection: "column",
-    alignItems: "center",
+    
   },
   containerSkip: {
     flexDirection: "column",
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   slideContainer: {
     backgroundColor: '#EDF3FF', // cor de fundo para separar cada tela
     marginHorizontal: 4, // espaço entre as telas
-    borderRadius: 16, // arredondamento para dar uma aparência de cartão
+    borderRadius: 16,
     height: 455,
   },
   });
