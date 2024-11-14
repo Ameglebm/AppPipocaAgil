@@ -5,7 +5,7 @@ import TiposDiabetesItem from "../components/tiposDiabetesItem";
 import AdmInsulinaItem from "../components/admInsulinaItem"
 import slidesInfoDiabetes from '../components/slidesInfoDiabetes';
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador
-import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
+import ButtonMove from "../components/ButtonMove"; // Botões de avançar e retroceder
 
 export default function TiposDiabetes() {
     const navigation = useNavigation();
@@ -33,19 +33,13 @@ export default function TiposDiabetes() {
         router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
         }
     };
-    
-    const scrollBack = () => {
-        if (currentIndex > 0) {
-          slidesRef.current.scrollToIndex({ index: currentIndex - 1 });
-        }
-    };
 
     const handleSkip = () => {
         router.push("/");
     };
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: "#FDFDFD"}}>
         
         <View style={styles.mainHeader}>
             <Pressable style={styles.containerSkip} onPress={handleSkip}>
@@ -67,7 +61,7 @@ export default function TiposDiabetes() {
         style={styles.flatlist}
         data={slidesInfoDiabetes}
         renderItem={({ item }) => (
-          <View>
+          <View style={styles.slideContainer}>
             <TiposDiabetesItem item={item} />
             <AdmInsulinaItem item={item} />
           </View>
@@ -90,9 +84,8 @@ export default function TiposDiabetes() {
         />
 
         {/* Botões na parte inferior */}
-      <NavigationButtons
+      <ButtonMove
         scrollTo={scrollTo}
-        scrollBack={scrollBack}
         currentIndex={currentIndex}
       />
       </View>
@@ -102,19 +95,19 @@ export default function TiposDiabetes() {
 
 const styles = StyleSheet.create({
   mainHeader: {
-    backgroundColor: "#FDFDFD",
     width: 360,
     height: "auto",
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
     flexDirection: "column",
     alignItems: "center",
-    gap: 20,
   },
   containerSkip: {
     flexDirection: "column",
     alignItems: "flex-end",
-    paddingTop: 20,
-    gap: 28,
+    paddingTop: 30,
+    paddingBottom: 32,
     alignSelf: "stretch",
   },
   textBtn: {
@@ -135,8 +128,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontStyle: "normal",
     lineHeight: 26.4,
+    paddingBottom: 22,
   },
   flatlist: {
-    backgroundColor: "#EDF3FF",
+    marginBottom: 24,
+  },
+  slideContainer: {
+    backgroundColor: '#EDF3FF', // cor de fundo para separar cada tela
+    marginHorizontal: 4, // espaço entre as telas
+    borderRadius: 16, // arredondamento para dar uma aparência de cartão
+    height: 455,
   },
   });
