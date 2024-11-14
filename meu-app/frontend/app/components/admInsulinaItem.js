@@ -29,10 +29,11 @@ export default function TiposDiabetesItem({ item }) {
         <FlatList
           data={diabetesTypes}
           renderItem={({ item }) => (
-            <TouchableOpacity
+            <View style={styles.list}>
+              <TouchableOpacity
               style={[
                 styles.typeContainer,
-                { width: width - 40 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
+                {  width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
                 selectedType === item && styles.selectedTypeContainer,
               ]}
               onPress={() => handleSelectType(item)}
@@ -46,6 +47,8 @@ export default function TiposDiabetesItem({ item }) {
                 {item}
               </Text>
             </TouchableOpacity>
+            </View>
+            
           )}
           keyExtractor={(type, index) => index.toString()}
         />
@@ -56,34 +59,27 @@ export default function TiposDiabetesItem({ item }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
+    paddingTop: 28,
+    paddingHorizontal: 16,
+  },  
   typeContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 30,
-    marginVertical: 5,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 100,
     backgroundColor: '#FDFDFD',
-    // Configuração de sombra para iOS
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-
-    // Configuração de sombra para Android
-    elevation: 3, // Use valores baixos para uma sombra mais sutil
+  },
+  list: {
+    paddingBottom: 8,
   },
   selectedTypeContainer: {
     backgroundColor: '#7A98FF', // Cor de destaque para o item selecionado
   },
   typeText: {
-    fontSize: 18,
-    color: '#333',
+    color: '#282828',
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    fontStyle: "normal",
+    lineHeight: 21,
   },
   selectedTypeText: {
     color: '#FDFDFD', // Cor de destaque do texto selecionado
