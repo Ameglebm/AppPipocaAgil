@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Biblioteca de ícones do Expo
 
 const PasswordInput = ({onChangeText, value, placeholder}) => {
@@ -11,8 +11,8 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
 
   return (
     <View>
-      <View className="flex-row justify-between text-[16px] py-[10px] px-[14px] h-[44px] border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md">
-        <TextInput className="text-[16px] flex-1"
+      <View style={styles.container}>
+        <TextInput style={styles.textInput}
           placeholder={placeholder}
           secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
           onChangeText={onChangeText}
@@ -29,5 +29,23 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create ({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    fontSize: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    height: 44,
+    borderWidth: 1,
+    borderColor: '#b7b7b8',
+    backgroundColor: '#FDFDFD',
+    borderRadius: 6
+  },
+  textInput: {
+    fontSize: 16
+  }
+})
 
 export default PasswordInput;

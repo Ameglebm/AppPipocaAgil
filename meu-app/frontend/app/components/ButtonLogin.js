@@ -1,16 +1,35 @@
 import React from 'react'
 import { useRouter } from 'expo-router'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 const ButtonLogin = ({ labelButton, onpress }) => {
 
   const router = useRouter();
    
     return(
-        <TouchableOpacity className="flex justify-center items-center w-[300] min-h-[42px] px-[80px] mt-4 bg-[#2F39D3] shadow-3xl rounded-[8px]" onPress={onpress}>
-          <Text className="text-[#FDFDFD] text-[18px] font-bold leading-[19,80px]">{labelButton}</Text>
+        <TouchableOpacity style={styles.container} onPress={onpress}>
+          <Text style={styles.textBtn}>{labelButton}</Text>
         </TouchableOpacity>
     )
 }
+
+const styles = StyleSheet.create ({
+  container: {
+    backgroundColor: '#2F39D3',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 300,
+    minHeight: 42,
+    paddingHorizontal: 80,
+    marginTop: 16,
+    borderRadius: 8
+  },
+  textBtn: {
+    color: '#FDFDFD',
+    fontSize: 18,
+    fontWeight: "700",
+    lineHeight: 19.80
+  }
+})
 
 export default ButtonLogin
