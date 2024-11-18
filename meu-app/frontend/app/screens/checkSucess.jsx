@@ -4,6 +4,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -11,23 +12,23 @@ import { useNavigation } from "@react-navigation/native";
 export default function checkSucess() {
   const navigation = useNavigation();
   return (
-    <KeyboardAvoidingView className="flex flex-1 justify-center items-center">
+    <KeyboardAvoidingView style={styles.container}>
       <View>
         <Image
-          className="w-[168px] h-[180px]"
+          style={styles.image}
           source={require("../assets/images/sucess.webp")}
         />
       </View>
 
-      <View className="mt-[32px]">
-        <Text className="text-[20px] text-[#373737] font-semibold not-italic leading-[22px]">
+      <View style={styles.containerText}>
+        <Text style={styles.textContainer}>
           Cadastro realizado com sucesso!
         </Text>
       </View>
 
-      <TouchableOpacity className="mt-[32px]">
+      <TouchableOpacity style={styles.btn}>
         <Text
-          className="underline text-[14px] text-[#2F39D3] p-[2px] font-normal gap-1 leading-[19.6px]"
+          style={styles.textBtn}
           onPress={() => navigation.navigate("screens/login")}
         >
           Ir para login
@@ -36,3 +37,38 @@ export default function checkSucess() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create ({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 168,
+    height: 180
+  },
+  containerText: {
+    marginTop: 32
+  },
+  textContainer: {
+    fontSize: 20,
+    fontWeight: '600',
+    fontStyle: 'normal',
+    lineHeight: 22,
+    color: '#373737',
+  },
+  btn: {
+    marginTop: 32
+  },
+  textBtn: {
+    color: '#2F39D3',
+    textDecorationLine: 'underline',
+    fontSize: 14,
+    fontStyle:'normal',
+    fontWeight: '400',
+    lineHeight: 19.6,
+    gap: 4,
+    padding: 2
+  }
+})
