@@ -34,7 +34,7 @@ const MetaGlicemicaScreen = () => {
       </View>
 
       {/* Inputs */}
-      {text.map((item) => (
+      {text.map((item, index) => (
       <View key={item.id} style={styles.inputSet}>
         <View style={styles.inputsNumbers}>
             <View style={styles.textContainer}>
@@ -42,41 +42,47 @@ const MetaGlicemicaScreen = () => {
                 {item.text}
                 </Text>
             </View>
-        
-            <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Min</Text>
-                <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={valores.minimo}
-                onChangeText={(value) => handleChange('minimo', value)}
-                placeholder="-"
-                placeholderTextColor="#B1B0AF"
-                />  
-            </View>
-        
-            <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Ideal</Text>
-                <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={valores.ideal}
-                onChangeText={(value) => handleChange('ideal', value)}
-                placeholder="-"
-                placeholderTextColor="#B1B0AF"
-                />
-            </View>
 
-            <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Máx</Text>
-                <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={valores.maximo}
-                onChangeText={(value) => handleChange('maximo', value)}
-                placeholder="-"
-                placeholderTextColor="#B1B0AF"
-                />
+            <View style={styles.inputContainer}>
+              {index === 0 && (
+                <View style={styles.labelGroup}>
+                  <Text style={styles.inputLabel}>Min</Text>
+                  <Text style={styles.inputLabel}>Ideal</Text>
+                  <Text style={styles.inputLabel}>Máx</Text>
+                </View>
+                )}
+              <View style={styles.inputGroup}>
+                  <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={valores.minimo}
+                  onChangeText={(value) => handleChange('minimo', value)}
+                  placeholder="-"
+                  placeholderTextColor="#B1B0AF"
+                  />  
+              </View>
+          
+              <View style={styles.inputGroup}>
+                  <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={valores.ideal}
+                  onChangeText={(value) => handleChange('ideal', value)}
+                  placeholder="-"
+                  placeholderTextColor="#B1B0AF"
+                  />
+              </View>
+
+              <View style={styles.inputGroup}>
+                  <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={valores.maximo}
+                  onChangeText={(value) => handleChange('maximo', value)}
+                  placeholder="-"
+                  placeholderTextColor="#B1B0AF"
+                  />
+              </View>
             </View>
         </View>
       </View>
@@ -93,6 +99,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 24,
     
+  },
+  inputContainer: {
+    flexDirection:"row",
+    gap: 8
   },
   header: {
     flexDirection: 'column',
@@ -122,19 +132,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textContainer: {
-    alignSelf: 'flex-start', // Alinha o texto na parte superior
-    paddingBottom: 15,
-    marginRight: 16, // Adiciona margem à direita para espaçamento entre o texto e os inputs
+    paddingTop: 30,
   },
   inputsNumbers: {
     flexDirection: 'row', // Itens dispostos lado a lado
-    gap: 16, // Espaçamento entre os itens 
-    width: '100%'
+    gap: 8, // Espaçamento entre os itens 
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   inputGroup: {
     gap: 16,
-   flexDirection: 'column',
-   gap: 8, // Espaço entre o rótulo e o campo
+    flexDirection: 'column',
   },
   inputLabel: {
     fontSize: 12,
