@@ -1,9 +1,10 @@
 import { View, Text, FlatList, Pressable, Image, StyleSheet, Animated, ScrollView } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router'
+import slidesInfoDiabetes from '../components/slidesInfoDiabetes';
 import TiposDiabetesItem from "../components/tiposDiabetesItem";
 import AdmInsulinaItem from "../components/admInsulinaItem"
-import slidesInfoDiabetes from '../components/slidesInfoDiabetes';
+import MetaGlicemica from '../components/metaGlicemica';
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador
 import ButtonMove from "../components/ButtonMove"; // Botões de avançar e retroceder
 
@@ -61,11 +62,21 @@ export default function TiposDiabetes() {
         style={styles.flatlist}
         data={slidesInfoDiabetes}
         renderItem={({ item }) => (
-          <View style={[styles.slideContainer, {height: item.height}]}>
-            <TiposDiabetesItem item={item} />
-            <AdmInsulinaItem item={item} />
+          <View style={styles.slideContainer}>
+            {(() => {
+              switch (item.id) {
+                case '1':
+                  return <TiposDiabetesItem item={item} />;
+                case '2':
+                  return <AdmInsulinaItem item={item} />;
+                case '3':
+                  return <MetaGlicemica item={item} />;
+                default:
+                  return <Text>Slide não configurado</Text>;
+              }
+            })()}
           </View>
-        )}
+        )}        
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
