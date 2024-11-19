@@ -25,6 +25,7 @@ export default function TiposDiabetesItem({ item }) {
 
   return (
     <View style={styles.container}>
+      <Text style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 36 }]}>{item.title}</Text>
       {isTipoDiabetesScreen && (
         <FlatList
           data={diabetesTypes}
@@ -61,6 +62,14 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 28,
     paddingHorizontal: 16,
+    backgroundColor: '#EDF3FF'
+  },
+  title: {
+    color: "#282828",
+    fontFamily: "Urbanist_700Bold",
+    fontStyle: "normal",
+    fontSize: 20,
+    lineHeight: 22,
   },  
   typeContainer: {
     paddingVertical: 6,
