@@ -12,7 +12,7 @@ export default function ButtonMove({
   return (
     <View style={styles.container}>
       <Pressable onPress={scrollTo} style={styles.moveButtton}>
-        <Text style={styles.textButton}>Avançar</Text>
+        <Text style={styles.textButton}>Salvar</Text>
       </Pressable>
     </View>
   )
@@ -22,11 +22,10 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'flex-end',
         padding: 20
     },
     moveButtton: {
-        width: 153,
+        width: "100%",
         height: 36,
         borderRadius: 8,
         backgroundColor: '#2F39D3',
