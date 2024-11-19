@@ -26,6 +26,7 @@ export default [
     {
         id: '3',
         title: 'Meta glicêmica',
+        description: 'A meta glicêmica é o valor recomendado de glicose no sangue, definido pelo seu médico.',
     },
     {
         id: '4',
