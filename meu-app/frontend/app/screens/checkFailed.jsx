@@ -4,7 +4,7 @@ import {
   View,
   Image,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -21,54 +21,50 @@ export default function checkFailed() {
       </View>
 
       <View style={styles.containerText}>
-        <Text style={styles.textContainer}>
-          Cadastro não realizado!
-        </Text>
+        <Text style={styles.textContainer}>Cadastro não realizado!</Text>
       </View>
 
       <TouchableOpacity
         style={styles.btn}
         onPress={() => navigation.navigate("screens/Auth/telaCadastro")}
       >
-        <Text style={styles.textBtn}>
-          Tentar novamente
-        </Text>
+        <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     width: 168,
-    height: 180
+    height: 180,
   },
   containerText: {
-    marginTop: 32
+    marginTop: 32,
   },
   textContainer: {
     fontSize: 20,
-    fontWeight: '600',
-    fontStyle: 'normal',
+    fontWeight: "600",
+    fontStyle: "normal",
     lineHeight: 22,
-    color: '#373737',
+    color: "#373737",
   },
   btn: {
-    marginTop: 32
+    marginTop: 32,
   },
   textBtn: {
-    color: '#2F39D3',
-    textDecorationLine: 'underline',
+    color: "#2F39D3",
+    textDecorationLine: "underline",
     fontSize: 14,
-    fontStyle:'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     lineHeight: 19.6,
     gap: 4,
-    padding: 2
-  }
-})
+    padding: 2,
+  },
+});

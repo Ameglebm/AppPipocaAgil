@@ -6,7 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ShowHide from "../components/showHide";
@@ -72,7 +72,7 @@ export default function Login() {
         />
       </View>
 
-      <View style={styles.form}> 
+      <View style={styles.form}>
         <View>
           <View>
             <Text style={styles.textForm}>E-mail*</Text>
@@ -83,9 +83,7 @@ export default function Login() {
               keyboardType="email-address"
               value={email}
             />
-            {errorEmail && (
-              <Text style={styles.error}>{errorEmail}</Text>
-            )}
+            {errorEmail && <Text style={styles.error}>{errorEmail}</Text>}
           </View>
 
           <View style={styles.containerPass}>
@@ -96,11 +94,7 @@ export default function Login() {
               secureTextEntry={true}
               value={password}
             />
-            {errorPassword && (
-              <Text style={styles.error}>
-                {errorPassword}
-              </Text>
-            )}
+            {errorPassword && <Text style={styles.error}>{errorPassword}</Text>}
           </View>
         </View>
 
@@ -109,9 +103,7 @@ export default function Login() {
           <TouchableOpacity
             onPress={() => router.push("screens/tiposDiabetes")}
           >
-            <Text style={styles.textForgetPass}>
-              Esqueceu a senha?
-            </Text>
+            <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
 
@@ -122,10 +114,7 @@ export default function Login() {
 
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Não possui uma conta? </Text>
-        <Link
-          href={"screens/Auth/telaCadastro"}
-          style={styles.textLink}
-        >
+        <Link href={"screens/Auth/telaCadastro"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>
@@ -134,33 +123,33 @@ export default function Login() {
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FDFDFD',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 60
+    backgroundColor: "#FDFDFD",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 60,
   },
   image: {
     width: 66,
     height: 66,
-    marginBottom: 32
+    marginBottom: 32,
   },
   form: {
-    backgroundColor: '#EDF3FF',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    backgroundColor: "#EDF3FF",
+    flexDirection: "column",
+    justifyContent: "center",
     width: 345,
     height: 305,
     paddingVertical: 24,
     paddingHorizontal: 12,
-    borderRadius: 16
+    borderRadius: 16,
   },
   textForm: {
     fontSize: 14,
-    color: '#282828',
-    paddingBottom: 12
+    color: "#282828",
+    paddingBottom: 12,
   },
   textInput: {
     fontSize: 16,
@@ -168,51 +157,51 @@ const styles = StyleSheet.create ({
     paddingHorizontal: 14,
     height: 44,
     borderWidth: 1,
-    borderColor: '#B7B7B8',
-    backgroundColor: '#FDFDFD',
+    borderColor: "#B7B7B8",
+    backgroundColor: "#FDFDFD",
     borderRadius: 6,
   },
   containerPass: {
     paddingTop: 4,
     marginTop: 4,
-    marginBottom: 4
+    marginBottom: 4,
   },
   containerForgetPass: {
     paddingTop: 16,
     paddingRight: 12,
-    alignItems: 'flex-end'
+    alignItems: "flex-end",
   },
   textForgetPass: {
-    color: '#2933AA',
+    color: "#2933AA",
     fontSize: 14,
     fontWeight: "700",
-    fontStyle: 'normal',
-    lineHeight: 19.6
+    fontStyle: "normal",
+    lineHeight: 19.6,
   },
   containerBtn: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 12
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 12,
   },
   containerFooter: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     fontSize: 14,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   textFooter: {
-    color: '#464646'
+    color: "#464646",
   },
   textLink: {
-    color: '#2933AA',
+    color: "#2933AA",
     fontSize: 14,
-    fontWeight: '700',
-    fontStyle: 'normal',
-    lineHeight: 19.6
+    fontWeight: "700",
+    fontStyle: "normal",
+    lineHeight: 19.6,
   },
   error: {
-    color: '#FF0000',
-    fontSize: 12
+    color: "#FF0000",
+    fontSize: 12,
   },
-})
+});

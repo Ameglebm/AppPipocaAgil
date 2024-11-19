@@ -8,7 +8,7 @@ import { Lato_700Bold } from "@expo-google-fonts/lato";
 export default function welcome() {
   const navigation = useNavigation();
   const router = useRouter();
-  
+
   useEffect(() => {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
@@ -23,37 +23,35 @@ export default function welcome() {
 
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView style={{backgroundColor:"#FDFDFD"}}>
+      <SafeAreaView style={{ backgroundColor: "#FDFDFD" }}>
         <View style={styles.mainContainer}>
           <Text style={styles.title}>{titulo}</Text>
 
-          <Image 
-          source={require("../assets/images/welcome.png")}
-          style={styles.image}
-          resizeMode="contain"
+          <Image
+            source={require("../assets/images/welcome.png")}
+            style={styles.image}
+            resizeMode="contain"
           />
 
           <View style={styles.container}>
             <Text style={styles.text}>
-            Sua jornada para um diabetes mais controlado começa aqui!
+              Sua jornada para um diabetes mais controlado começa aqui!
             </Text>
 
             <TouchableOpacity
-            style={styles.btnSignUp}
-            onPress={() => router.push("screens/Auth/telaCadastro")}>
-              <Text style={styles.textBtnSignUp}>
-              Criar uma conta
-              </Text>
+              style={styles.btnSignUp}
+              onPress={() => router.push("screens/Auth/telaCadastro")}
+            >
+              <Text style={styles.textBtnSignUp}>Criar uma conta</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-            style={styles.btnSignIn}
-            onPress={() => router.push("./login")}>
-              <Text style={styles.textBtnSignIn}>
-                Fazer Login
-              </Text>
+              style={styles.btnSignIn}
+              onPress={() => router.push("./login")}
+            >
+              <Text style={styles.textBtnSignIn}>Fazer Login</Text>
             </TouchableOpacity>
-          </View>          
+          </View>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -145,7 +143,7 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     fontWeight: "bold",
     fontSize: 18,
-    lineHeight: 19.80,
+    lineHeight: 19.8,
   },
 
   textBtnSignUp: {
@@ -153,6 +151,6 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     fontWeight: "bold",
     fontSize: 18,
-    lineHeight: 19.80,
+    lineHeight: 19.8,
   },
 });

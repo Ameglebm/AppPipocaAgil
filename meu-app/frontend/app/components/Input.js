@@ -27,7 +27,7 @@ function Inputs() {
 
   const navigation = useNavigation();
   const [errors, setErrors] = useState({});
-  
+
   const validateInputs = () => {
     const newErrors = {};
 

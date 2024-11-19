@@ -13,14 +13,13 @@ import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
 // arquivo config da API
 import api from "../../services/api";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function RecConta() {
   const navigation = useNavigation();
   const { email, error, handleEmailChange } = useRecConta();
 
   const sendRecPass = async () => {
-
     try {
       const response = await api.post("/auth/request-password-reset", {
         email: email,
@@ -30,9 +29,10 @@ function RecConta() {
 
       await AsyncStorage.setItem("token", response.data.token);
       // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
-      if (response.status === 200) {  // Ajuste conforme o que sua API retorna como sucesso
-      // Navega para a tela de feedback
-      navigation.navigate("./recoverAccountEmail.jsx");  // Nome da tela de feedback no seu navegador
+      if (response.status === 200) {
+        // Ajuste conforme o que sua API retorna como sucesso
+        // Navega para a tela de feedback
+        navigation.navigate("./recoverAccountEmail.jsx"); // Nome da tela de feedback no seu navegador
       }
     } catch (error) {
       console.log(error);

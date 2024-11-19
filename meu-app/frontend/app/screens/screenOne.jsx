@@ -45,7 +45,10 @@ export default function ScreenOne() {
 
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonCoracao} onPress={() => router.push("screens/tiposDiabetes")}>
+        <TouchableOpacity
+          style={styles.buttonCoracao}
+          onPress={() => router.push("screens/tiposDiabetes")}
+        >
           <Image source={item.image} style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
         </TouchableOpacity>

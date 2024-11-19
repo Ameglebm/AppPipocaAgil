@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; // Biblioteca de ícones do Expo
+import React, { useState } from "react";
+import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons"; // Biblioteca de ícones do Expo
 
-const PasswordInput = ({onChangeText, value, placeholder}) => {
+const PasswordInput = ({ onChangeText, value, placeholder }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,7 +12,8 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
   return (
     <View>
       <View style={styles.container}>
-        <TextInput style={styles.textInput}
+        <TextInput
+          style={styles.textInput}
           placeholder={placeholder}
           secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
           onChangeText={onChangeText}
@@ -20,7 +21,7 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
           <MaterialIcons
-            name={isPasswordVisible ? 'visibility-off' : 'visibility'}
+            name={isPasswordVisible ? "visibility-off" : "visibility"}
             size={24}
             color="grey"
           />
@@ -30,22 +31,22 @@ const PasswordInput = ({onChangeText, value, placeholder}) => {
   );
 };
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     fontSize: 16,
     paddingVertical: 10,
     paddingHorizontal: 14,
     height: 44,
     borderWidth: 1,
-    borderColor: '#b7b7b8',
-    backgroundColor: '#FDFDFD',
-    borderRadius: 6
+    borderColor: "#b7b7b8",
+    backgroundColor: "#FDFDFD",
+    borderRadius: 6,
   },
   textInput: {
-    fontSize: 16
-  }
-})
+    fontSize: 16,
+  },
+});
 
 export default PasswordInput;

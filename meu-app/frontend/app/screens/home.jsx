@@ -27,15 +27,15 @@ const BottomTab = createBottomTabNavigator();
 function TopTabs() {
   return (
     <TopTab.Navigator
-      screenOptions={{ 
-        headerShown: false, 
+      screenOptions={{
+        headerShown: false,
         tabBarStyle: styles.topBarStyle,
         tabBarIndicatorStyle: {
-          backgroundColor: '#2F39D3', // Cor do indicador
+          backgroundColor: "#2F39D3", // Cor do indicador
           height: 2, // Altura do indicador
           borderRadius: 100, // Arredondamento do indicador
         },
-       }}
+      }}
     >
       <TopTab.Screen
         name="Saúde"
