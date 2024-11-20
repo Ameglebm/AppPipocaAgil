@@ -16,11 +16,18 @@ const MetaGlicemicaScreen = () => {
   const metaGlicemica = data.find((item) => item.id === "3");
 
   // Estado para armazenar os valores inseridos pelo usuário
-  const [valores, setValores] = useState({ minimo: "", ideal: "", maximo: "" });
+  const [valores, setValores] = useState([
+    { minimo: "", ideal: "", maximo: "" },
+    { minimo: "", ideal: "", maximo: "" },
+    { minimo: "", ideal: "", maximo: "" },
+    { minimo: "", ideal: "", maximo: "" },
+  ]);
 
   // Atualiza o estado com os valores alterados pelo usuário
-  const handleChange = (key, value) => {
-    setValores({ ...valores, [key]: value });
+  const handleChange = (index, key, value) => {
+    const updatedValores = [...valores];
+    updatedValores[index][key] = value;
+    setValores(updatedValores);
   };
 
   /* Simula uma ação de salvar (pode ser adaptado para integração com API)
@@ -55,30 +62,29 @@ const MetaGlicemicaScreen = () => {
       {/* Mapeia os rótulos e renderiza os campos de entrada */}
       {text.map((item, index) => (
         <View key={item.id} style={styles.inputSet}>
+          {/* Renderiza os campos de entrada para valores mínimo, ideal e máximo */}
+          {index === 0 && (
+            <View style={styles.labelsContainer}>
+              <Text style={styles.labelText}>Min</Text>
+              <Text style={styles.labelText}>Ideal</Text>
+              <Text style={styles.labelText}>Máx</Text>
+            </View>
+          )}
+
           <View style={styles.inputsNumbers}>
             {/* Exibe o texto que descreve o momento glicêmico */}
             <View style={styles.textContainer}>
               <Text style={styles.textGroup}>{item.text}</Text>
             </View>
 
-            {/* Renderiza os campos de entrada para valores mínimo, ideal e máximo */}
             <View style={styles.inputContainer}>
-              {index === 0 && (
-                <View style={styles.labelGroup}>
-                  {/* Rótulos acima dos campos na primeira linha */}
-                  <Text style={styles.inputLabel}>Min</Text>
-                  <Text style={styles.inputLabel}>Ideal</Text>
-                  <Text style={styles.inputLabel}>Máx</Text>
-                </View>
-              )}
-
               {/* Campos de entrada para valores */}
               <View style={styles.inputGroup}>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
-                  value={valores.minimo}
-                  onChangeText={(value) => handleChange("minimo", value)}
+                  value={valores[index].minimo}
+                  onChangeText={(value) => handleChange(index, "minimo", value)}
                   placeholder="-"
                   placeholderTextColor="#B1B0AF"
                 />
@@ -88,8 +94,8 @@ const MetaGlicemicaScreen = () => {
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
-                  value={valores.ideal}
-                  onChangeText={(value) => handleChange("ideal", value)}
+                  value={valores[index].ideal}
+                  onChangeText={(value) => handleChange(index, "ideal", value)}
                   placeholder="-"
                   placeholderTextColor="#B1B0AF"
                 />
@@ -99,8 +105,8 @@ const MetaGlicemicaScreen = () => {
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
-                  value={valores.maximo}
-                  onChangeText={(value) => handleChange("maximo", value)}
+                  value={valores[index].maximo}
+                  onChangeText={(value) => handleChange(index, "maximo", value)}
                   placeholder="-"
                   placeholderTextColor="#B1B0AF"
                 />
@@ -120,10 +126,6 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 16,
     gap: 24,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    gap: 8,
   },
   header: {
     flexDirection: "column",
@@ -145,15 +147,24 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: "left",
   },
-  textGroup: {
-    color: "#282828",
-    fontFamily: "Urbanist_400Regular",
-    fontSize: 16,
-    lineHeight: 17.6,
-    alignItems: "center",
+  inputSet: {
+    width: "100%", // Garante que o inputSet ocupe toda a largura
+    flexDirection: "column", // Organiza os inputs na coluna
+    gap: 16, // Espaçamento entre os grupos de inputs
+    alignItems: "flex-start", // Alinha os grupos de inputs à esquerda
   },
-  textContainer: {
-    paddingTop: 30,
+  labelsContainer: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    gap: 38,
+    paddingRight: 20,
+  },
+  labelText: {
+    color: "#282828",
+    fontFamily: "Lato_700Bold",
+    fontSize: 12,
+    fontStyle: "normal",
+    lineHeight: 16,
   },
   inputsNumbers: {
     flexDirection: "row", // Itens dispostos lado a lado
@@ -162,15 +173,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  inputGroup: {
-    gap: 16,
-    flexDirection: "column",
+  textContainer: {},
+  textGroup: {
+    color: "#282828",
+    fontFamily: "Urbanist_400Regular",
+    fontSize: 16,
+    lineHeight: 17.6,
+    alignItems: "center",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    gap: 8,
   },
   inputLabel: {
     fontSize: 12,
     fontFamily: "Lato_700Bold",
     lineHeight: 16,
     textAlign: "center",
+  },
+  inputGroup: {
+    gap: 16,
+    flexDirection: "column",
   },
   input: {
     width: 56,
@@ -183,15 +206,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1, // Opacidade da sombra para iOS
     shadowRadius: 1, // Raio da sombra para iOS
     elevation: 5, // Elevação da sombra para Android
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-  inputSet: {
-    width: "100%", // Garante que o inputSet ocupe toda a largura
-    flexDirection: "column", // Organiza os inputs na coluna
-    gap: 24, // Espaçamento entre os grupos de inputs
-    alignItems: "flex-start", // Alinha os grupos de inputs à esquerda
   },
 });
 
