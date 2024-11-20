@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     paddingTop: 28,
     paddingHorizontal: 16,
     backgroundColor: "#EDF3FF",
+    borderRadius: 16,
   },
   title: {
     color: "#282828",
