@@ -98,7 +98,10 @@ export default function TiposDiabetes() {
 
         <View>
           <FlatList
-            style={styles.flatlist}
+            style={[
+              styles.flatlist,
+              currentIndex === 2 && { height: 440 }, // Aplica altura somente no slide 3
+            ]}
             data={slidesInfoDiabetes} // Dados do array de configuração
             renderItem={({ item }) => {
               const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
@@ -205,5 +208,6 @@ const styles = StyleSheet.create({
   alertContainer: {
     justifyContent: "center",
     alignItems: "center",
+    display: "flex", // Forçar renderização no Web
   },
 });
