@@ -10,6 +10,7 @@ import {
   Animated,
   ScrollView,
 } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useRouter } from "expo-router";
 import slidesInfoDiabetes from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
@@ -19,6 +20,7 @@ import MetaGlicemica from "../components/metaGlicemica"; // Tela correspondente 
 import MedicamentosItem from "../components/medicamentosItem"; // Tela correspondente ao slide com id 4
 import TipoDeInsulinaItem from "../components/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
+import AlertToggle from "../components/alertToggle";
 import ButtonSave from "../components/ButtonSave"; // Botões de navegação (Salvar)
 
 export default function TiposDiabetes() {
@@ -57,70 +59,102 @@ export default function TiposDiabetes() {
     router.push("/");
   };
 
+  // Definindo tamanhos variáveis para os slides
+  const getSlideSize = (id) => {
+    switch (id) {
+      case "1":
+        return { height: 455 }; // Tamanho personalizado para o slide 1
+      case "2":
+        return { height: 357 }; // Tamanho personalizado para o slide 2
+      case "3":
+        return { height: 424 }; // Tamanho personalizado para o slide 3
+      case "4":
+        return { width: 352, height: 420 }; // Tamanho personalizado para o slide 4
+      case "5":
+        return { width: 352, height: 370 }; // Tamanho personalizado para o slide 5
+      default:
+        return { width: 300, height: 400 }; // Tamanho padrão para outros slides
+    }
+  };
+
   return (
-    <ScrollView style={{ backgroundColor: "#FDFDFD" }}>
-      {/* Cabeçalho principal com botão "Pular" e título */}
-      <View style={styles.mainHeader}>
-        <Pressable style={styles.containerSkip} onPress={handleSkip}>
-          <Text style={styles.textBtn}>Pular</Text>
-        </Pressable>
-
-        <View style={styles.header}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <Image source={require("../assets/images/backIcon.png")} />
+    <SafeAreaProvider style={{ backgroundColor: "#FDFDFD" }}>
+      <ScrollView>
+        {/* Cabeçalho principal com botão "Pular" e título */}
+        <View style={styles.mainHeader}>
+          <Pressable style={styles.containerSkip} onPress={handleSkip}>
+            <Text style={styles.textBtn}>Pular</Text>
           </Pressable>
-          <Text style={styles.textHeader}>Informações do diabetes</Text>
-        </View>
-        {/* Paginador que exibe o progresso do carrossel */}
-        <PaginatorInfo data={slidesInfoDiabetes} scrollx={scrollx} />
-      </View>
 
-      <View>
-        <FlatList
-          style={styles.flatlist}
-          data={slidesInfoDiabetes} // Dados do array de configuração
-          renderItem={({ item }) => (
-            <View style={styles.slideContainer}>
-              {/* Renderiza o slide com base no ID */}
-              {(() => {
-                switch (item.id) {
-                  case "1":
-                    return <TiposDiabetesItem item={item} />;
-                  case "2":
-                    return <AdmInsulinaItem item={item} />;
-                  case "3":
-                    return <MetaGlicemica item={item} />;
-                  case "4":
-                    return <MedicamentosItem item={item} />;
-                  case "5":
-                    return <TipoDeInsulinaItem item={item} />;
-                  default:
-                    return <Text>Slide não configurado</Text>;
-                }
-              })()}
+          <View style={styles.header}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <Image source={require("../assets/images/backIcon.png")} />
+            </Pressable>
+            <Text style={styles.textHeader}>Informações do diabetes</Text>
+          </View>
+          {/* Paginador que exibe o progresso do carrossel */}
+          <PaginatorInfo data={slidesInfoDiabetes} scrollx={scrollx} />
+        </View>
+
+        <View>
+          <FlatList
+            style={styles.flatlist}
+            data={slidesInfoDiabetes} // Dados do array de configuração
+            renderItem={({ item }) => {
+              const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
+              return (
+                <View
+                  style={[
+                    styles.slideContainer,
+                    { width: slideSize.width, height: slideSize.height },
+                  ]}
+                >
+                  {/* Renderiza o slide com base no ID */}
+                  {(() => {
+                    switch (item.id) {
+                      case "1":
+                        return <TiposDiabetesItem item={item} />;
+                      case "2":
+                        return <AdmInsulinaItem item={item} />;
+                      case "3":
+                        return <MetaGlicemica item={item} />;
+                      case "4":
+                        return <MedicamentosItem item={item} />;
+                      case "5":
+                        return <TipoDeInsulinaItem item={item} />;
+                      default:
+                        return <Text>Slide não configurado</Text>;
+                    }
+                  })()}
+                </View>
+              );
+            }}
+            horizontal={true} // Permite scroll horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled // Ativa o scroll por página
+            bounces={false} // Remove o bounce ao final
+            keyExtractor={(item) => item.id} // Chave única para cada slide
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollx } } }],
+              {
+                useNativeDriver: false,
+              }
+            )}
+            scrollEventThrottle={32}
+            onViewableItemsChanged={viewableItemsChanged} // Callback para atualizar o índice
+            viewabilityConfig={viewConfig} // Configuração de visibilidade
+            ref={slidesRef} // Referência ao FlatList
+          />
+          {currentIndex === 2 && ( // Quando o slide 3 (Meta Glicêmica) estiver ativo
+            <View style={styles.alertContainer}>
+              <AlertToggle />
             </View>
           )}
-          horizontal // Permite scroll horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled // Ativa o scroll por página
-          bounces={false} // Remove o bounce ao final
-          keyExtractor={(item) => item.id} // Chave única para cada slide
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollx } } }],
-            {
-              useNativeDriver: false,
-            }
-          )}
-          scrollEventThrottle={32}
-          onViewableItemsChanged={viewableItemsChanged} // Callback para atualizar o índice
-          viewabilityConfig={viewConfig} // Configuração de visibilidade
-          ref={slidesRef} // Referência ao FlatList
-        />
-
-        {/* Botão na parte inferior */}
-        <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-      </View>
-    </ScrollView>
+          {/* Botão na parte inferior */}
+          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+        </View>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 }
 
@@ -161,11 +195,15 @@ const styles = StyleSheet.create({
     paddingBottom: 22,
   },
   flatlist: {
-    marginBottom: 24,
+    backgroundColor: "#FDFDFD",
   },
   slideContainer: {
     backgroundColor: "#EDF3FF", // cor de fundo para separar cada tela
     marginHorizontal: 4, // espaço entre as telas
     borderRadius: 16,
+  },
+  alertContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
