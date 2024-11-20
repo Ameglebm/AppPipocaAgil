@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons"; // Importa o ícone
 
@@ -8,10 +7,6 @@ export default function NavigationButtons({
   scrollBack,
   currentIndex,
 }) {
-  const [fonteLoaded] = useFonts({
-    Urbanist_700Bold,
-  });
-
   return (
     <View style={styles.container}>
       <View>
