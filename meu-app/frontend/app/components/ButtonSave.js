@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "row",
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 8,
   },
   moveButtton: {
     width: "100%",
