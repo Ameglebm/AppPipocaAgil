@@ -148,14 +148,39 @@ export default function TiposDiabetes() {
             viewabilityConfig={viewConfig} // Configuração de visibilidade
             ref={slidesRef} // Referência ao FlatList
           />
+
           {currentIndex === 2 && ( // Quando o slide 3 (Meta Glicêmica) estiver ativo
             <View style={styles.alertContainer}>
               <AlertToggle />
             </View>
           )}
-          {/* Botão na parte inferior */}
-          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
         </View>
+        {/* Botão na parte inferior */}
+        {currentIndex === 0 && (
+          <View style={{ paddingTop: 20 }}>
+            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+          </View>
+        )}
+        {currentIndex === 1 && (
+          <View style={{ marginTop: -80 }}>
+            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+          </View>
+        )}
+        {currentIndex === 2 && (
+          <View>
+            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+          </View>
+        )}
+        {currentIndex === 3 && (
+          <View>
+            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+          </View>
+        )}
+        {currentIndex === 4 && (
+          <View>
+            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -210,4 +235,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex", // Forçar renderização no Web
   },
+  btnSave: {},
 });
