@@ -16,6 +16,8 @@ import slidesInfoDiabetes from "../components/slidesInfoDiabetes"; // Fonte de d
 import TiposDiabetesItem from "../components/tiposDiabetesItem"; // Tela correspondente ao slide com id 1
 import AdmInsulinaItem from "../components/admInsulinaItem"; // Tela correspondente ao slide com id 2
 import MetaGlicemica from "../components/metaGlicemica"; // Tela correspondente ao slide com id 3
+import MedicamentosItem from "../components/medicamentosItem"; // Tela correspondente ao slide com id 4
+import TipoDeInsulinaItem from "../components/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
 import ButtonSave from "../components/ButtonSave"; // Botões de navegação (Salvar)
 
@@ -88,6 +90,10 @@ export default function TiposDiabetes() {
                     return <AdmInsulinaItem item={item} />;
                   case "3":
                     return <MetaGlicemica item={item} />;
+                  case "4":
+                    return <MedicamentosItem item={item} />;
+                  case "5":
+                    return <TipoDeInsulinaItem item={item} />;
                   default:
                     return <Text>Slide não configurado</Text>;
                 }
