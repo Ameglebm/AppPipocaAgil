@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
   modalContent: {
     width: 360,
     height: 366,
-    gap: 16,
     paddingTop: 16,
     paddingHorizontal: 20,
     backgroundColor: "#FFF",
@@ -180,6 +179,7 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     fontStyle: "normal",
     lineHeight: 30.8,
+    paddingBottom: 16,
   },
   modalsubTitle: {
     color: "#282828",
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     lineHeight: 22,
     marginBottom: 10,
+    paddingBottom: 8,
   },
   modalDescription: {
     color: "#282828",
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
   },
   modalCloseButton: {
     borderRadius: 8,
+    paddingBottom: 16,
     alignSelf: "flex-end",
   },
   modalCloseButtonText: {
