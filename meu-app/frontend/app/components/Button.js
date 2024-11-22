@@ -1,7 +1,13 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 export default function Button({ title, onPress, style }) {
+  Button.propTypes = {
+    title: PropTypes.string.isRequired, // 'title' é obrigatório e deve ser string
+    onPress: PropTypes.func.isRequired, // 'onPress' é obrigatório e deve ser função
+    style: PropTypes.object, // 'style' é opcional e deve ser um objeto
+  };
   return (
     <TouchableOpacity style={[styles.btnEnviar, style]} onPress={onPress}>
       <Text style={styles.buttonText}>{title}</Text>

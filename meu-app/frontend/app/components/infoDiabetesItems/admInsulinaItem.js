@@ -8,8 +8,9 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-export default function TiposDiabetesItem({ item }) {
+export default function AdmInsulinaItem({ item }) {
   const isTipoDiabetesScreen = item.id === "2";
   const diabetesTypes = isTipoDiabetesScreen
     ? [
@@ -22,6 +23,19 @@ export default function TiposDiabetesItem({ item }) {
       ]
     : [];
 
+  // Validação de props
+  AdmInsulinaItem.propTypes = {
+    item: PropTypes.shape({
+      id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
+      title: PropTypes.string,
+      typeOne: PropTypes.string,
+      typeTwo: PropTypes.string,
+      typeThree: PropTypes.string,
+      typeFour: PropTypes.string,
+      typeFive: PropTypes.string,
+      typeSix: PropTypes.string,
+    }).isRequired, // item é obrigatório
+  };
   // Estado para controlar o tipo selecionado
   const [selectedType, setSelectedType] = useState(null);
 

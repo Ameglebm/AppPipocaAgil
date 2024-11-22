@@ -28,15 +28,6 @@ export default function defineNewPassword() {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  const handlePress = () => {
-    setIsChecked((prevState) => {
-      const newState = !prevState;
-      setButtonColor(newState ? "#2F39D3" : "#7A98FF");
-      setIsDisabled(!newState);
-      return newState;
-    });
-  };
-
   const sendForm = async () => {
     let valid = true;
 

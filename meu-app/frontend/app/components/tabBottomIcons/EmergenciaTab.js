@@ -1,8 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 export default function EmergenciaTab({ focused }) {
+  EmergenciaTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>

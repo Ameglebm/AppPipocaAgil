@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 export default function TiposDiabetesItem({ item }) {
   const isTipoDiabetesScreen = item.id === "1"; // Verifica se o slide atual é o da tela de tipos de diabetes
@@ -24,6 +25,22 @@ export default function TiposDiabetesItem({ item }) {
         item.typeEight,
       ]
     : [];
+
+  // Validação de props
+  TiposDiabetesItem.propTypes = {
+    item: PropTypes.shape({
+      id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
+      title: PropTypes.string,
+      typeOne: PropTypes.string,
+      typeTwo: PropTypes.string,
+      typeThree: PropTypes.string,
+      typeFour: PropTypes.string,
+      typeFive: PropTypes.string,
+      typeSix: PropTypes.string,
+      typeSeven: PropTypes.string,
+      typeEight: PropTypes.string,
+    }).isRequired, // item é obrigatório
+  };
 
   // Estado para controlar qual tipo de diabetes está selecionado
   const [selectedType, setSelectedType] = useState(null);

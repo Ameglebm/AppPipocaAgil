@@ -1,8 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 export default function MedicacaoTab({ focused }) {
+  MedicacaoTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>

@@ -1,12 +1,19 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons"; // Importa o ícone
+import PropTypes from "prop-types";
 
 export default function NavigationButtons({
   scrollTo,
   scrollBack,
   currentIndex,
 }) {
+  NavigationButtons.propTypes = {
+    scrollTo: PropTypes.func.isRequired,
+    scrollBack: PropTypes.func.isRequired,
+    currentIndex: PropTypes.number.isRequired,
+  };
+
   return (
     <View style={styles.container}>
       <View>

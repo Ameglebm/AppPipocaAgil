@@ -1,7 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import PropTypes from "prop-types";
 
 export default function RelatoriosTab({ focused }) {
+  RelatoriosTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>

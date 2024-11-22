@@ -1,7 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function ButtonSave({ scrollTo }) {
+  ButtonSave.propTypes = {
+    scrollTo: PropTypes.func.isRequired, // 'scrollTo' é obrigatório e deve ser função
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={scrollTo} style={styles.moveButtton}>

@@ -6,9 +6,18 @@ import {
   useWindowDimensions,
 } from "react-native";
 import React from "react";
+import PropTypes from "prop-types";
 
-export default OnboardingItem = ({ item }) => {
+export default function OnboardingItem({ item }) {
   const { width } = useWindowDimensions();
+
+  OnboardingItem.propTypes = {
+    item: PropTypes.shape({
+      image: PropTypes.any.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    }).isRequired,
+  };
 
   return (
     <View style={[styles.container, { width }]}>
@@ -23,7 +32,7 @@ export default OnboardingItem = ({ item }) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

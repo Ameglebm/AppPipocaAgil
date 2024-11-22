@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     // Configuração de sombra para Android
-    elevation: 3, // Use valores baixos para uma sombra mais sutil
+    elevation: 3, // Use valores baixos para uma sombra mais sutil
   },
   image: {
     marginLeft: 16,

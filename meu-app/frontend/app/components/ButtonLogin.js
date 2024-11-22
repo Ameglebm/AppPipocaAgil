@@ -1,9 +1,13 @@
 import React from "react";
-import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const ButtonLogin = ({ labelButton, onpress }) => {
-  const router = useRouter();
+  // Validação de props
+  ButtonLogin.propTypes = {
+    labelButton: PropTypes.string.isRequired, // 'title' é obrigatório e deve ser string
+    onpress: PropTypes.func.isRequired, // 'onPress' é obrigatório e deve ser função
+  };
 
   return (
     <TouchableOpacity style={styles.container} onPress={onpress}>

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons"; // Biblioteca de ícones do Expo
+import PropTypes from "prop-types";
 
 const PasswordInput = ({ onChangeText, value, placeholder }) => {
+  PasswordInput.propTypes = {
+    onChangeText: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  };
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {

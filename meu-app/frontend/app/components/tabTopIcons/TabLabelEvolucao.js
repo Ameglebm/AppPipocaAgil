@@ -1,8 +1,13 @@
-// components/TabLabelSaude.js
+// components/TabLabelEvolucao.js
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
-export default function TabLabelSaude({ focused }) {
+export default function TabLabelEvolucao({ focused }) {
+  TabLabelEvolucao.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
+
   return (
     <View style={styles.tabLabelContainer}>
       <Image
