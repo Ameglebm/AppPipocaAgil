@@ -10,12 +10,16 @@ export const registerUserSchema = z
       .string()
       .regex(/^[A-Za-zÀ-ÿ\s]+$/, 'Sobrenome deve conter apenas letras e espaços'),
     email: z.string().email('Formato de e-mail inválido'),
-    cpf_number: z.string().min(11, 'CPF deve conter pelo menos 11 caracteres'),
+    cpf_number: z
+      .string()
+      .regex(/^[\d.-]+$/, 'CPF deve conter apenas números, pontos e hífens')
+      .transform((val) => val.replace(/[.-]/g, '')) // Remove apenas pontos e hífens
+      .refine((val) => /^\d{11}$/.test(val), 'CPF deve conter exatamente 11 dígitos numéricos'),
     senha: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres'),
     confirmar_senha: z.string().min(8, 'Confirmação de senha deve ter pelo menos 8 caracteres'),
   })
   .superRefine((data, ctx) => {
-    // Validar CPF
+    // Validar CPF usando o valor já transformado
     if (!cpf.isValid(data.cpf_number)) {
       ctx.addIssue({
         path: ['cpf_number'],
