@@ -18,14 +18,16 @@ export default function ButtonSave({ scrollTo }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: 320,
     flexDirection: "row",
-    paddingTop: 20,
+    paddingTop: 50,
     paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingBottom: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   moveButtton: {
-    width: "100%",
+    width: 320,
     height: 36,
     borderRadius: 8,
     backgroundColor: "#2F39D3",

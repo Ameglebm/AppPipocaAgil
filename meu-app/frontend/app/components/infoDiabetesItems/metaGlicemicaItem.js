@@ -8,8 +8,12 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import ButtonSave from "../ButtonSave";
+import AlertToggle from "../alertToggle";
 
 const MetaGlicemicaScreen = () => {
   // Busca o item com id === '3' no array de dados
@@ -46,76 +50,89 @@ const MetaGlicemicaScreen = () => {
   ];
 
   return (
-    // View que evita problemas de sobreposição com o teclado
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      {/* Cabeçalho com título e descrição */}
-      <View style={styles.header}>
-        <Text style={styles.title}>{metaGlicemica.title}</Text>
-        {metaGlicemica.description && (
-          <Text style={styles.description}>{metaGlicemica.description}</Text>
-        )}
-      </View>
-
-      {/* Mapeia os rótulos e renderiza os campos de entrada */}
-      {text.map((item, index) => (
-        <View key={item.id} style={styles.inputSet}>
-          {/* Renderiza os campos de entrada para valores mínimo, ideal e máximo */}
-          {index === 0 && (
-            <View style={styles.labelsContainer}>
-              <Text style={styles.labelText}>Min</Text>
-              <Text style={styles.labelText}>Ideal</Text>
-              <Text style={styles.labelText}>Máx</Text>
-            </View>
-          )}
-
-          <View style={styles.inputsNumbers}>
-            {/* Exibe o texto que descreve o momento glicêmico */}
-            <View style={styles.textContainer}>
-              <Text style={styles.textGroup}>{item.text}</Text>
-            </View>
-
-            <View style={styles.inputContainer}>
-              {/* Campos de entrada para valores */}
-              <View style={styles.inputGroup}>
-                <TextInput
-                  style={styles.input}
-                  keyboardType="numeric"
-                  value={valores[index].minimo}
-                  onChangeText={(value) => handleChange(index, "minimo", value)}
-                  placeholder="-"
-                  placeholderTextColor="#B1B0AF"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <TextInput
-                  style={styles.input}
-                  keyboardType="numeric"
-                  value={valores[index].ideal}
-                  onChangeText={(value) => handleChange(index, "ideal", value)}
-                  placeholder="-"
-                  placeholderTextColor="#B1B0AF"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <TextInput
-                  style={styles.input}
-                  keyboardType="numeric"
-                  value={valores[index].maximo}
-                  onChangeText={(value) => handleChange(index, "maximo", value)}
-                  placeholder="-"
-                  placeholderTextColor="#B1B0AF"
-                />
-              </View>
-            </View>
+    <SafeAreaProvider>
+      <ScrollView>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          {/* Cabeçalho com título e descrição */}
+          <View style={styles.header}>
+            <Text style={styles.title}>{metaGlicemica.title}</Text>
+            {metaGlicemica.description && (
+              <Text style={styles.description}>
+                {metaGlicemica.description}
+              </Text>
+            )}
           </View>
-        </View>
-      ))}
-    </KeyboardAvoidingView>
+
+          {/* Mapeia os rótulos e renderiza os campos de entrada */}
+          {text.map((item, index) => (
+            <View key={item.id} style={styles.inputSet}>
+              {/* Renderiza os campos de entrada para valores mínimo, ideal e máximo */}
+              {index === 0 && (
+                <View style={styles.labelsContainer}>
+                  <Text style={styles.labelText}>Min</Text>
+                  <Text style={styles.labelText}>Ideal</Text>
+                  <Text style={styles.labelText}>Máx</Text>
+                </View>
+              )}
+
+              <View style={styles.inputsNumbers}>
+                {/* Exibe o texto que descreve o momento glicêmico */}
+                <View style={styles.textContainer}>
+                  <Text style={styles.textGroup}>{item.text}</Text>
+                </View>
+
+                <View style={styles.inputContainer}>
+                  {/* Campos de entrada para valores */}
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      value={valores[index].minimo}
+                      onChangeText={(value) =>
+                        handleChange(index, "minimo", value)
+                      }
+                      placeholder="-"
+                      placeholderTextColor="#B1B0AF"
+                    />
+                  </View>
+
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      value={valores[index].ideal}
+                      onChangeText={(value) =>
+                        handleChange(index, "ideal", value)
+                      }
+                      placeholder="-"
+                      placeholderTextColor="#B1B0AF"
+                    />
+                  </View>
+
+                  <View style={styles.inputGroup}>
+                    <TextInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      value={valores[index].maximo}
+                      onChangeText={(value) =>
+                        handleChange(index, "maximo", value)
+                      }
+                      placeholder="-"
+                      placeholderTextColor="#B1B0AF"
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          ))}
+        </KeyboardAvoidingView>
+        <AlertToggle />
+        <ButtonSave />
+      </ScrollView>
+    </SafeAreaProvider>
   );
 };
 
@@ -127,6 +144,8 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingHorizontal: 16,
     gap: 24,
+    backgroundColor: "#EDF3FF",
+    borderRadius: 16,
   },
   header: {
     flexDirection: "column",

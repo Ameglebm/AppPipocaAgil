@@ -6,9 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import ButtonSave from "../ButtonSave";
 
 export default function TiposDiabetesItem({ item }) {
   const isTipoDiabetesScreen = item.id === "1"; // Verifica se o slide atual é o da tela de tipos de diabetes
@@ -51,42 +53,45 @@ export default function TiposDiabetesItem({ item }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 36 }]}
-      >
-        {item.title}
-      </Text>
-      {/* Renderiza a lista de tipos de diabetes, caso seja a tela correspondente */}
-      {isTipoDiabetesScreen && (
-        <FlatList
-          data={diabetesTypes} // Dados da lista
-          renderItem={({ item }) => (
-            <View style={styles.list}>
-              {/* Renderiza cada tipo de diabetes como um botão selecionável */}
-              <TouchableOpacity
-                style={[
-                  styles.typeContainer,
-                  { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
-                  selectedType === item && styles.selectedTypeContainer, // Aplica estilo ao item selecionado
-                ]}
-                onPress={() => handleSelectType(item)} // Seleciona o tipo ao pressionar
-              >
-                <Text
+    <ScrollView>
+      <View style={styles.container}>
+        <Text
+          style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 36 }]}
+        >
+          {item.title}
+        </Text>
+        {/* Renderiza a lista de tipos de diabetes, caso seja a tela correspondente */}
+        {isTipoDiabetesScreen && (
+          <FlatList
+            data={diabetesTypes} // Dados da lista
+            renderItem={({ item }) => (
+              <View style={styles.list}>
+                {/* Renderiza cada tipo de diabetes como um botão selecionável */}
+                <TouchableOpacity
                   style={[
-                    styles.typeText,
-                    selectedType === item && styles.selectedTypeText,
+                    styles.typeContainer,
+                    { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
+                    selectedType === item && styles.selectedTypeContainer, // Aplica estilo ao item selecionado
                   ]}
+                  onPress={() => handleSelectType(item)} // Seleciona o tipo ao pressionar
                 >
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          keyExtractor={(type, index) => index.toString()} // Define uma chave única para cada item da lista
-        />
-      )}
-    </View>
+                  <Text
+                    style={[
+                      styles.typeText,
+                      selectedType === item && styles.selectedTypeText,
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={(type, index) => index.toString()} // Define uma chave única para cada item da lista
+          />
+        )}
+      </View>
+      <ButtonSave />
+    </ScrollView>
   );
 }
 
@@ -94,6 +99,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 28,
     paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: "#EDF3FF",
+    borderRadius: 16,
   },
   title: {
     color: "#282828",

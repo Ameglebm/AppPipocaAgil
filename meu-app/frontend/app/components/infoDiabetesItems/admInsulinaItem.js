@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import ButtonSave from "../ButtonSave";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function AdmInsulinaItem({ item }) {
   const isTipoDiabetesScreen = item.id === "2";
@@ -45,47 +47,51 @@ export default function AdmInsulinaItem({ item }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 36 }]}
-      >
-        {item.title}
-      </Text>
-      {isTipoDiabetesScreen && (
-        <FlatList
-          data={diabetesTypes}
-          renderItem={({ item }) => (
-            <View style={styles.list}>
-              <TouchableOpacity
-                style={[
-                  styles.typeContainer,
-                  { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
-                  selectedType === item && styles.selectedTypeContainer,
-                ]}
-                onPress={() => handleSelectType(item)}
-              >
-                <Text
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <Text
+          style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 26 }]}
+        >
+          {item.title}
+        </Text>
+        {isTipoDiabetesScreen && (
+          <FlatList
+            data={diabetesTypes}
+            renderItem={({ item }) => (
+              <View style={styles.list}>
+                <TouchableOpacity
                   style={[
-                    styles.typeText,
-                    selectedType === item && styles.selectedTypeText,
+                    styles.typeContainer,
+                    { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
+                    selectedType === item && styles.selectedTypeContainer,
                   ]}
+                  onPress={() => handleSelectType(item)}
                 >
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          keyExtractor={(type, index) => index.toString()}
-        />
-      )}
-    </View>
+                  <Text
+                    style={[
+                      styles.typeText,
+                      selectedType === item && styles.selectedTypeText,
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={(type, index) => index.toString()}
+          />
+        )}
+      </SafeAreaView>
+      <ButtonSave />
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 28,
+    paddingTop: 30,
     paddingHorizontal: 16,
+    paddingBottom: 16,
     backgroundColor: "#EDF3FF",
     borderRadius: 16,
   },

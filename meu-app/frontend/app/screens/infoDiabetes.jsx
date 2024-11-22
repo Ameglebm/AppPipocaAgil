@@ -65,7 +65,7 @@ export default function InfoDiabetes() {
   const getSlideSize = (id) => {
     switch (id) {
       case "1":
-        return { height: 455 }; // Tamanho personalizado para o slide 1
+        return { height: 468 }; // Tamanho personalizado para o slide 1
       case "2":
         return { height: 357 }; // Tamanho personalizado para o slide 2
       case "3":
@@ -81,109 +81,102 @@ export default function InfoDiabetes() {
 
   return (
     <SafeAreaProvider style={{ backgroundColor: "#FDFDFD" }}>
-      <ScrollView>
-        {/* Cabeçalho principal com botão "Pular" e título */}
-        <View style={styles.mainHeader}>
-          <Pressable style={styles.containerSkip} onPress={handleSkip}>
-            <Text style={styles.textBtn}>Pular</Text>
+      {/* Cabeçalho principal com botão "Pular" e título */}
+      <View style={styles.mainHeader}>
+        <Pressable style={styles.containerSkip} onPress={handleSkip}>
+          <Text style={styles.textBtn}>Pular</Text>
+        </Pressable>
+
+        <View style={styles.header}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Image source={require("../assets/images/backIcon.png")} />
           </Pressable>
-
-          <View style={styles.header}>
-            <Pressable onPress={() => navigation.goBack()}>
-              <Image source={require("../assets/images/backIcon.png")} />
-            </Pressable>
-            <Text style={styles.textHeader}>Informações do diabetes</Text>
-          </View>
-          {/* Paginador que exibe o progresso do carrossel */}
-          <PaginatorInfo data={slides} scrollx={scrollx} />
+          <Text style={styles.textHeader}>Informações do diabetes</Text>
         </View>
+        {/* Paginador que exibe o progresso do carrossel */}
+        <PaginatorInfo data={slides} scrollx={scrollx} />
+      </View>
 
-        <View>
-          <FlatList
-            style={[
-              styles.flatlist,
-              currentIndex === 2 && { height: 440 }, // Aplica altura somente no slide 3
-            ]}
-            data={slides} // Dados do array de configuração
-            renderItem={({ item }) => {
-              const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
-              return (
-                <View
-                  style={[
-                    styles.slideContainer,
-                    { width: slideSize.width, height: slideSize.height },
-                  ]}
-                >
-                  {/* Renderiza o slide com base no ID */}
-                  {(() => {
-                    switch (item.id) {
-                      case "1":
-                        return <TiposDiabetes item={item} />;
-                      case "2":
-                        return <AdmInsulina item={item} />;
-                      case "3":
-                        return <MetaGlicemica item={item} />;
-                      case "4":
-                        return <Medicamentos item={item} />;
-                      case "5":
-                        return <TipoDeInsulina item={item} />;
-                      default:
-                        return <Text>Slide não configurado</Text>;
-                    }
-                  })()}
-                </View>
-              );
-            }}
-            horizontal={true} // Permite scroll horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled // Ativa o scroll por página
-            bounces={false} // Remove o bounce ao final
-            keyExtractor={(item) => item.id} // Chave única para cada slide
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollx } } }],
-              {
-                useNativeDriver: false,
-              }
-            )}
-            scrollEventThrottle={32}
-            onViewableItemsChanged={viewableItemsChanged} // Callback para atualizar o índice
-            viewabilityConfig={viewConfig} // Configuração de visibilidade
-            ref={slidesRef} // Referência ao FlatList
-          />
-
-          {currentIndex === 2 && ( // Quando o slide 3 (Meta Glicêmica) estiver ativo
-            <View style={styles.alertContainer}>
-              <AlertToggle />
-            </View>
+      <View>
+        <FlatList
+          style={[
+            styles.flatlist,
+            currentIndex === 2 && { height: 440 }, // Aplica altura somente no slide 3
+          ]}
+          data={slides} // Dados do array de configuração
+          renderItem={({ item }) => {
+            const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
+            return (
+              <View
+                style={[
+                  styles.slideContainer,
+                  { width: slideSize.width, height: slideSize.height },
+                ]}
+              >
+                {/* Renderiza o slide com base no ID */}
+                {(() => {
+                  switch (item.id) {
+                    case "1":
+                      return <TiposDiabetes item={item} />;
+                    case "2":
+                      return <AdmInsulina item={item} />;
+                    case "3":
+                      return <MetaGlicemica item={item} />;
+                    case "4":
+                      return <Medicamentos item={item} />;
+                    case "5":
+                      return <TipoDeInsulina item={item} />;
+                    default:
+                      return <Text>Slide não configurado</Text>;
+                  }
+                })()}
+              </View>
+            );
+          }}
+          horizontal={true} // Permite scroll horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled // Ativa o scroll por página
+          bounces={false} // Remove o bounce ao final
+          keyExtractor={(item) => item.id} // Chave única para cada slide
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollx } } }],
+            {
+              useNativeDriver: false,
+            }
           )}
+          scrollEventThrottle={32}
+          onViewableItemsChanged={viewableItemsChanged} // Callback para atualizar o índice
+          viewabilityConfig={viewConfig} // Configuração de visibilidade
+          ref={slidesRef} // Referência ao FlatList
+        />
+
+        {currentIndex === 2 && ( // Quando o slide 3 (Meta Glicêmica) estiver ativo
+          <View style={styles.alertContainer}>
+            <AlertToggle />
+          </View>
+        )}
+      </View>
+      {/* Botão na parte inferior */}
+      {currentIndex === 1 && (
+        <View style={{ marginTop: -80 }}>
+          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
         </View>
-        {/* Botão na parte inferior */}
-        {currentIndex === 0 && (
-          <View style={{ paddingTop: 20 }}>
-            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-          </View>
-        )}
-        {currentIndex === 1 && (
-          <View style={{ marginTop: -80 }}>
-            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-          </View>
-        )}
-        {currentIndex === 2 && (
-          <View>
-            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-          </View>
-        )}
-        {currentIndex === 3 && (
-          <View>
-            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-          </View>
-        )}
-        {currentIndex === 4 && (
-          <View>
-            <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-          </View>
-        )}
-      </ScrollView>
+      )}
+      {currentIndex === 2 && (
+        <View>
+          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+        </View>
+      )}
+      {currentIndex === 3 && (
+        <View>
+          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+        </View>
+      )}
+      {currentIndex === 4 && (
+        <View>
+          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
+        </View>
+      )}
     </SafeAreaProvider>
   );
 }
@@ -228,9 +221,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDFDFD",
   },
   slideContainer: {
-    backgroundColor: "#EDF3FF", // cor de fundo para separar cada tela
     marginHorizontal: 4, // espaço entre as telas
     borderRadius: 16,
+    paddingBottom: 16,
   },
   alertContainer: {
     justifyContent: "center",
