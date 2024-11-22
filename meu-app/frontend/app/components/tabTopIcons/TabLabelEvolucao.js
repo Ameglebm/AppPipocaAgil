@@ -6,7 +6,7 @@ export default function TabLabelSaude({ focused }) {
   return (
     <View style={styles.tabLabelContainer}>
       <Image
-        source={require("../assets/images/bar-line-chart.png")}
+        source={require("../../assets/images/bar-line-chart.png")}
         style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
       />
       <Text

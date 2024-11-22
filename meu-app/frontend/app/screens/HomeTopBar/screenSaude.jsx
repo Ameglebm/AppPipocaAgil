@@ -15,12 +15,12 @@ export default function ScreenOne() {
     { id: "header", isHeader: true },
     {
       id: "1",
-      image: require("../assets/images/coracao.png"),
+      image: require("../../assets/images/coracao.png"),
       title: "Informações do Diabetes",
     },
     {
       id: "2",
-      image: require("../assets/images/saude.png"),
+      image: require("../../assets/images/saude.png"),
       title: "Saúde e Bem-Estar",
     },
     { id: "extra", isExtraView: true },
@@ -47,7 +47,7 @@ export default function ScreenOne() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonCoracao}
-          onPress={() => router.push("screens/tiposDiabetes")}
+          onPress={() => router.push("screens/infoDiabetes")}
         >
           <Image source={item.image} style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>

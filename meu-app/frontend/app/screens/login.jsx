@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import {
   KeyboardAvoidingView,
   View,
@@ -21,8 +21,6 @@ export default function Login() {
   const [errorPassword, setErrorPassword] = useState(null);
 
   const router = useRouter();
-
-  const isFilled = email.length > 0 && password.length > 0;
 
   // Enviar form para backend
   const sendForm = async () => {
@@ -56,7 +54,7 @@ export default function Login() {
 
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
-        router.replace("./home");
+        router.replace("./homeScreen");
       }
     } catch (error) {
       console.log(error);
@@ -101,7 +99,7 @@ export default function Login() {
         {/* Navegação para a tela de recuperação de senha */}
         <View style={styles.containerForgetPass}>
           <TouchableOpacity
-            onPress={() => router.push("screens/tiposDiabetes")}
+            onPress={() => router.push("screens/recoverYourAccount")}
           >
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>

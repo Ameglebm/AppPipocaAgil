@@ -9,30 +9,26 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function checkSucess() {
+export default function checkFailed() {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
         <Image
           style={styles.image}
-          source={require("../assets/images/sucess.webp")}
+          source={require("../../assets/images/failed.webp")}
         />
       </View>
 
       <View style={styles.containerText}>
-        <Text style={styles.textContainer}>
-          Cadastro realizado com sucesso!
-        </Text>
+        <Text style={styles.textContainer}>Cadastro não realizado!</Text>
       </View>
 
-      <TouchableOpacity style={styles.btn}>
-        <Text
-          style={styles.textBtn}
-          onPress={() => navigation.navigate("screens/login")}
-        >
-          Ir para login
-        </Text>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => navigation.navigate("../Auth/telaCadastro.jsx")}
+      >
+        <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );

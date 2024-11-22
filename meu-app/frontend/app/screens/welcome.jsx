@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRouter } from "expo-router";
-import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
-import { Lato_700Bold } from "@expo-google-fonts/lato";
 
 export default function welcome() {
   const navigation = useNavigation();
@@ -13,11 +11,6 @@ export default function welcome() {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
-
-  const [fonteLoaded] = useFonts({
-    Urbanist_700Bold,
-    Lato_700Bold,
-  });
 
   const titulo = "Bem vindo(a) ao InsuCheck!";
 

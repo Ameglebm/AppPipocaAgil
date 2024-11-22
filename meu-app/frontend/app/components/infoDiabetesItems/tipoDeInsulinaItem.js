@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import data from "./slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 
 const TipoDeInsulinaItem = () => {
   // Busca o item com id === '4' no array de dados

@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 import Button from "../components/Button";
 import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
@@ -32,7 +24,7 @@ function RecConta() {
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
         // Navega para a tela de feedback
-        navigation.navigate("./recoverAccountEmail.jsx"); // Nome da tela de feedback no seu navegador
+        navigation.navigate("./Feedbacks/recoverAccountEmail.jsx"); // Nome da tela de feedback no seu navegador
       }
     } catch (error) {
       console.log(error);

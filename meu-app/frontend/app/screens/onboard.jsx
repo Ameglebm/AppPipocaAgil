@@ -4,13 +4,12 @@ import {
   StyleSheet,
   FlatList,
   Animated,
-  TouchableOpacity,
   Text,
   Pressable,
 } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "../components/OnboardingItem";
-import slides from "../components/slides"; //slides do carrosel
+import slides from "../components/slidesOnboard"; //slides do carrosel
 import Paginator from "../components/Paginator"; // Paginador
 import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
 

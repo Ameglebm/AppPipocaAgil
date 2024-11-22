@@ -1,11 +1,11 @@
 import { Text, View } from "react-native";
 
-function Medicacao() {
+function Relatorios() {
   return (
     <View>
-      <Text>teste</Text>
+      <Text>Relatórios</Text>
     </View>
   );
 }
 
-export default Medicacao;
+export default Relatorios;

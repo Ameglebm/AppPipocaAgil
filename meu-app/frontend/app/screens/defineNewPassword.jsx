@@ -9,8 +9,6 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
-import { useFonts, Urbanist_700Bold } from "@expo-google-fonts/urbanist";
-import { Lato_400Regular } from "@expo-google-fonts/lato";
 // arquivo config da API
 import api from "../../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -29,11 +27,6 @@ export default function defineNewPassword() {
     //Ao iniciar a página seta o header dela como false
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
-
-  const [fonteLoaded] = useFonts({
-    Urbanist_700Bold,
-    Lato_400Regular,
-  });
 
   const handlePress = () => {
     setIsChecked((prevState) => {
@@ -76,7 +69,7 @@ export default function defineNewPassword() {
       if (response.status === 200) {
         // Ajuste conforme a estrutura da sua API
         // Navega para a tela de feedback
-        navigation.navigate("./recoverSucessfull"); // Nome da tela de feedback no seu navegador
+        navigation.navigate("./Feedbacks/recoverSucessfull"); // Nome da tela de feedback no seu navegador
       }
     } catch (error) {
       console.log(error);

@@ -13,17 +13,19 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useRouter } from "expo-router";
-import slidesInfoDiabetes from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
-import TiposDiabetesItem from "../components/tiposDiabetesItem"; // Tela correspondente ao slide com id 1
-import AdmInsulinaItem from "../components/admInsulinaItem"; // Tela correspondente ao slide com id 2
-import MetaGlicemica from "../components/metaGlicemica"; // Tela correspondente ao slide com id 3
-import MedicamentosItem from "../components/medicamentosItem"; // Tela correspondente ao slide com id 4
-import TipoDeInsulinaItem from "../components/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+
+import slides from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
+import TiposDiabetes from "../components/infoDiabetesItems/tiposDiabetesItem"; // Tela correspondente ao slide com id 1
+import AdmInsulina from "../components/infoDiabetesItems/admInsulinaItem"; // Tela correspondente ao slide com id 2
+import MetaGlicemica from "../components/infoDiabetesItems/metaGlicemicaItem"; // Tela correspondente ao slide com id 3
+import Medicamentos from "../components/infoDiabetesItems/medicamentosItem"; // Tela correspondente ao slide com id 4
+import TipoDeInsulina from "../components/infoDiabetesItems/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
-import AlertToggle from "../components/alertToggle";
+import AlertToggle from "../components/alertToggle"; // Componente para ativar as notificações  e exibir o lembrete
 import ButtonSave from "../components/ButtonSave"; // Botões de navegação (Salvar)
 
-export default function TiposDiabetes() {
+export default function InfoDiabetes() {
   const navigation = useNavigation(); // Fonte de dados dos slides do carrossel
   const router = useRouter(); // Controle de rotas no aplicativo
   const [currentIndex, setCurrentIndex] = useState(0); // Estado para armazenar o índice atual do slide
@@ -47,7 +49,7 @@ export default function TiposDiabetes() {
 
   // Avança para o próximo slide ou navega para a tela final
   const scrollTo = () => {
-    if (currentIndex < slidesInfoDiabetes.length - 1) {
+    if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
       router.push("/"); // Redireciona para a rota final
@@ -93,7 +95,7 @@ export default function TiposDiabetes() {
             <Text style={styles.textHeader}>Informações do diabetes</Text>
           </View>
           {/* Paginador que exibe o progresso do carrossel */}
-          <PaginatorInfo data={slidesInfoDiabetes} scrollx={scrollx} />
+          <PaginatorInfo data={slides} scrollx={scrollx} />
         </View>
 
         <View>
@@ -102,7 +104,7 @@ export default function TiposDiabetes() {
               styles.flatlist,
               currentIndex === 2 && { height: 440 }, // Aplica altura somente no slide 3
             ]}
-            data={slidesInfoDiabetes} // Dados do array de configuração
+            data={slides} // Dados do array de configuração
             renderItem={({ item }) => {
               const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
               return (
@@ -116,15 +118,15 @@ export default function TiposDiabetes() {
                   {(() => {
                     switch (item.id) {
                       case "1":
-                        return <TiposDiabetesItem item={item} />;
+                        return <TiposDiabetes item={item} />;
                       case "2":
-                        return <AdmInsulinaItem item={item} />;
+                        return <AdmInsulina item={item} />;
                       case "3":
                         return <MetaGlicemica item={item} />;
                       case "4":
-                        return <MedicamentosItem item={item} />;
+                        return <Medicamentos item={item} />;
                       case "5":
-                        return <TipoDeInsulinaItem item={item} />;
+                        return <TipoDeInsulina item={item} />;
                       default:
                         return <Text>Slide não configurado</Text>;
                     }

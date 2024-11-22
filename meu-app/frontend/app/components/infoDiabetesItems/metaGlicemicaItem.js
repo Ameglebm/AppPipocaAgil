@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import data from "./slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 
 const MetaGlicemicaScreen = () => {
   // Busca o item com id === '3' no array de dados
