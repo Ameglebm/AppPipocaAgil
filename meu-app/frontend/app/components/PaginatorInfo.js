@@ -7,7 +7,7 @@ export default function Paginator({ data, scrollx }) {
 
   Paginator.propTypes = {
     data: PropTypes.array.isRequired,
-    scrollx: PropTypes.func.isRequired,
+    scrollx: PropTypes.object.isRequired,
   };
 
   return (
