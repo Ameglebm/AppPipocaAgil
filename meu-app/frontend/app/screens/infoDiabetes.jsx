@@ -8,10 +8,9 @@ import {
   Image,
   StyleSheet,
   Animated,
-  ScrollView,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigation, useRouter } from "expo-router";
 
 import slides from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
@@ -22,13 +21,10 @@ import Medicamentos from "../components/infoDiabetesItems/medicamentosItem"; // 
 import TipoDeInsulina from "../components/infoDiabetesItems/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
 
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
-import AlertToggle from "../components/alertToggle"; // Componente para ativar as notificações  e exibir o lembrete
-import ButtonSave from "../components/ButtonSave"; // Botões de navegação (Salvar)
 
 export default function InfoDiabetes() {
-  const navigation = useNavigation(); // Fonte de dados dos slides do carrossel
+  const navigation = useNavigation();
   const router = useRouter(); // Controle de rotas no aplicativo
-  const [currentIndex, setCurrentIndex] = useState(0); // Estado para armazenar o índice atual do slide
   const scrollx = useRef(new Animated.Value(0)).current; // Valor animado para acompanhar o scroll
   const slidesRef = useRef(null); // Referência ao FlatList para controlar o scroll programaticamente
 
@@ -37,24 +33,8 @@ export default function InfoDiabetes() {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  // Atualiza o índice atual com base no slide visível
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      setCurrentIndex(viewableItems[0].index);
-    }
-  }).current;
-
   // Configuração para considerar 50% de visibilidade de um slide
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-
-  // Avança para o próximo slide ou navega para a tela final
-  const scrollTo = () => {
-    if (currentIndex < slides.length - 1) {
-      slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
-    } else {
-      router.push("/"); // Redireciona para a rota final
-    }
-  };
 
   // Navega diretamente para a tela final ao pressionar "Pular"
   const handleSkip = () => {
@@ -67,21 +47,21 @@ export default function InfoDiabetes() {
       case "1":
         return { height: 468 }; // Tamanho personalizado para o slide 1
       case "2":
-        return { height: 357 }; // Tamanho personalizado para o slide 2
+        return {}; // Tamanho personalizado para o slide 2
       case "3":
-        return { height: 424 }; // Tamanho personalizado para o slide 3
+        return {}; // Tamanho personalizado para o slide 3
       case "4":
         return { width: 352, height: 420 }; // Tamanho personalizado para o slide 4
       case "5":
         return { width: 352, height: 370 }; // Tamanho personalizado para o slide 5
       default:
-        return { width: 300, height: 400 }; // Tamanho padrão para outros slides
+        return { width: 360, height: 640 }; // Tamanho padrão para outros slides
     }
   };
 
   return (
     <SafeAreaProvider style={{ backgroundColor: "#FDFDFD" }}>
-      {/* Cabeçalho principal com botão "Pular" e título */}
+      {/* Cabeçalho principal com botão "Pular", paginador e título */}
       <View style={styles.mainHeader}>
         <Pressable style={styles.containerSkip} onPress={handleSkip}>
           <Text style={styles.textBtn}>Pular</Text>
@@ -99,10 +79,7 @@ export default function InfoDiabetes() {
 
       <View>
         <FlatList
-          style={[
-            styles.flatlist,
-            currentIndex === 2 && { height: 440 }, // Aplica altura somente no slide 3
-          ]}
+          style={styles.flatlist}
           data={slides} // Dados do array de configuração
           renderItem={({ item }) => {
             const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
@@ -145,38 +122,10 @@ export default function InfoDiabetes() {
             }
           )}
           scrollEventThrottle={32}
-          onViewableItemsChanged={viewableItemsChanged} // Callback para atualizar o índice
           viewabilityConfig={viewConfig} // Configuração de visibilidade
           ref={slidesRef} // Referência ao FlatList
         />
-
-        {currentIndex === 2 && ( // Quando o slide 3 (Meta Glicêmica) estiver ativo
-          <View style={styles.alertContainer}>
-            <AlertToggle />
-          </View>
-        )}
       </View>
-      {/* Botão na parte inferior */}
-      {currentIndex === 1 && (
-        <View style={{ marginTop: -80 }}>
-          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-        </View>
-      )}
-      {currentIndex === 2 && (
-        <View>
-          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-        </View>
-      )}
-      {currentIndex === 3 && (
-        <View>
-          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-        </View>
-      )}
-      {currentIndex === 4 && (
-        <View>
-          <ButtonSave scrollTo={scrollTo} currentIndex={currentIndex} />
-        </View>
-      )}
     </SafeAreaProvider>
   );
 }
