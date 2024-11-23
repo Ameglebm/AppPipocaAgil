@@ -97,9 +97,10 @@ export default function TiposDiabetesItem({ item }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: 28,
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 13,
     backgroundColor: "#EDF3FF",
     borderRadius: 16,
   },
