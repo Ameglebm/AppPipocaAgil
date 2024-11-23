@@ -1,15 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import PropTypes from "prop-types";
 
-export default function ButtonSave({ scrollTo }) {
-  ButtonSave.propTypes = {
-    scrollTo: PropTypes.func.isRequired, // 'scrollTo' é obrigatório e deve ser função
-  };
-
+export default function ButtonSave() {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={scrollTo} style={styles.moveButtton}>
+      <TouchableOpacity style={styles.moveButtton}>
         <Text style={styles.textButton}>Salvar</Text>
       </TouchableOpacity>
     </View>
@@ -19,12 +14,10 @@ export default function ButtonSave({ scrollTo }) {
 const styles = StyleSheet.create({
   container: {
     width: 320,
-    flexDirection: "row",
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    paddingTop: 40,
     paddingBottom: 30,
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf: "center",
   },
   moveButtton: {
     width: 320,
