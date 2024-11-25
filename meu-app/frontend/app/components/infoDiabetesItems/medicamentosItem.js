@@ -20,7 +20,8 @@ export default TipoDeInsulinaItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 352,
+    backgroundColor: "#EDF3FF",
+    borderRadius: 16,
     paddingVertical: 24,
     paddingHorizontal: 16,
     gap: 24,
