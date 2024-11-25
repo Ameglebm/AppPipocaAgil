@@ -34,12 +34,11 @@ const MetaGlicemicaScreen = () => {
     setValores(updatedValores);
   };
 
-  /* Simula uma ação de salvar (pode ser adaptado para integração com API)
+  // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     // API
     console.log("/", valores);
   };
-  */
 
   // Define os rótulos para os diferentes momentos glicêmicos
   const text = [
@@ -130,7 +129,7 @@ const MetaGlicemicaScreen = () => {
           ))}
         </KeyboardAvoidingView>
         <AlertToggle />
-        <ButtonSave />
+        <ButtonSave onPress={handleSave} />
       </ScrollView>
     </SafeAreaProvider>
   );
