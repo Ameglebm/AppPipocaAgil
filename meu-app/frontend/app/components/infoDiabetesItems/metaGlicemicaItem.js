@@ -80,7 +80,7 @@ const MetaGlicemicaScreen = () => {
 
               <View style={styles.inputsNumbers}>
                 {/* Exibe o texto que descreve o momento glicêmico */}
-                <View style={styles.textContainer}>
+                <View>
                   <Text style={styles.textGroup}>{item.text}</Text>
                 </View>
 
@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  textContainer: {},
   textGroup: {
     color: "#282828",
     fontFamily: "Urbanist_400Regular",
@@ -221,11 +220,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#FDFDFD", // Cor de fundo
     borderRadius: 8, // Raio de borda
-    shadowColor: "rgba(15, 15, 15, 0.12)", // Cor da sombra para iOS
-    shadowOffset: { width: 0, height: 1 }, // Deslocamento da sombra para iOS
-    shadowOpacity: 1, // Opacidade da sombra para iOS
-    shadowRadius: 1, // Raio da sombra para iOS
-    elevation: 5, // Elevação da sombra para Android
+    elevation: 1,
   },
 });
 
