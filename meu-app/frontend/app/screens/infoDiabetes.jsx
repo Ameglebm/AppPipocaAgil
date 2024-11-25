@@ -51,9 +51,9 @@ export default function InfoDiabetes() {
       case "3":
         return {}; // Tamanho personalizado para o slide 3
       case "4":
-        return { width: 352, height: 420 }; // Tamanho personalizado para o slide 4
+        return { width: 352, height: 118 }; // Tamanho personalizado para o slide 4
       case "5":
-        return { width: 352, height: 370 }; // Tamanho personalizado para o slide 5
+        return { width: 352, height: 118 }; // Tamanho personalizado para o slide 5
       default:
         return { width: 360, height: 640 }; // Tamanho padrão para outros slides
     }
