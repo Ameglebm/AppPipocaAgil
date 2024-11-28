@@ -49,7 +49,7 @@ export default function TiposDiabetesItem({ item }) {
 
   // Função que altera o estado ao selecionar um tipo
   const handleSelectType = (type) => {
-    setSelectedType(type);
+    setSelectedType((prev) => (prev === type ? null : type));
   };
 
   return (

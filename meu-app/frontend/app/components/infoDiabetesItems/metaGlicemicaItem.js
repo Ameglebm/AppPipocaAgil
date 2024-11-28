@@ -7,7 +7,6 @@ import {
   TextInput,
   StyleSheet,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
 } from "react-native";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
@@ -29,15 +28,35 @@ const MetaGlicemicaScreen = () => {
 
   // Atualiza o estado com os valores alterados pelo usuário
   const handleChange = (index, key, value) => {
-    const updatedValores = [...valores];
-    updatedValores[index][key] = value;
-    setValores(updatedValores);
+    if (value === "") {
+      const updatedValores = [...valores];
+      updatedValores[index][key] = value;
+      setValores(updatedValores);
+      return;
+    }
+
+    // Verifica se o valor contém apenas números e se não é inválido (ex: 00000000)
+    const regex = /^[1-9][0-9]*$|^0$/; // Permite números sem zeros à esquerda, exceto 0
+    if (!regex.test(value)) {
+      console.log("Valor inválido. Não pode começar com zeros.");
+      return; // Não atualiza o estado se for inválido
+    }
+
+    const numericValue = parseInt(value, 10);
+
+    if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 999) {
+      const updatedValores = [...valores];
+      updatedValores[index][key] = value;
+      setValores(updatedValores);
+    } else {
+      console.log("Valor deve ser entre 0 e 999");
+    }
   };
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     // API
-    console.log("/", valores);
+    console.log("salvo: ", valores);
   };
 
   // Define os rótulos para os diferentes momentos glicêmicos
@@ -51,10 +70,7 @@ const MetaGlicemicaScreen = () => {
   return (
     <SafeAreaProvider>
       <ScrollView>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+        <KeyboardAvoidingView style={styles.container}>
           {/* Cabeçalho com título e descrição */}
           <View style={styles.header}>
             <Text style={styles.title}>{metaGlicemica.title}</Text>

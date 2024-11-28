@@ -43,7 +43,7 @@ export default function AdmInsulinaItem({ item }) {
 
   // Função para selecionar o tipo de diabetes
   const handleSelectType = (type) => {
-    setSelectedType(type);
+    setSelectedType((prev) => (prev === type ? null : type));
   };
 
   return (
