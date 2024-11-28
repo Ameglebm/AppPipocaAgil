@@ -7,10 +7,10 @@ import {
   StyleSheet,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 
 export default function checkFailed() {
-  const navigation = useNavigation();
+  const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
@@ -26,7 +26,7 @@ export default function checkFailed() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => navigation.navigate("../Auth/telaCadastro.jsx")}
+        onPress={() => router.navigate("screens/Auth/telaCadastro")}
       >
         <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>
