@@ -15,7 +15,11 @@ export const registerUserSchema = z
       .regex(/^[\d.-]+$/, 'CPF deve conter apenas números, pontos e hífens')
       .transform((val) => val.replace(/[.-]/g, '')) // Remove apenas pontos e hífens
       .refine((val) => /^\d{11}$/.test(val), 'CPF deve conter exatamente 11 dígitos numéricos'),
-    senha: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres'),
+    senha: z
+      .string()
+      .min(8, 'Senha deve ter pelo menos 8 caracteres')
+      .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Senha deve conter pelo menos um caractere especial'),
     confirmar_senha: z.string().min(8, 'Confirmação de senha deve ter pelo menos 8 caracteres'),
   })
   .superRefine((data, ctx) => {
