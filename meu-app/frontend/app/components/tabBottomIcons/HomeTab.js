@@ -1,17 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
-export default function EmergenciaTab({ focused }) {
+export default function HomeTab({ focused }) {
+  HomeTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>
         <Image
-          source={require("../../assets/images/emergencia.png")}
-          style={[styles.tabBarIcon, focused && { tintColor: "#FDFDFD" }]}
+          source={require("../../assets/images/home-02.png")}
+          style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
-      <Text style={styles.tabText}>Emergência</Text>
+      <Text style={styles.tabText}>Início</Text>
     </View>
   );
 }
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
   },
+  tabBaricon: {},
   tabText: {
     color: "#7B7A78",
     textAlign: "center",

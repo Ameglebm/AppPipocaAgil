@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import {
   KeyboardAvoidingView,
   View,
@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ShowHide from "../components/showHide";
@@ -20,8 +21,6 @@ export default function Login() {
   const [errorPassword, setErrorPassword] = useState(null);
 
   const router = useRouter();
-
-  const isFilled = email.length > 0 && password.length > 0;
 
   // Enviar form para backend
   const sendForm = async () => {
@@ -55,7 +54,7 @@ export default function Login() {
 
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
-        router.replace("./home");
+        router.replace("./homeScreen");
       }
     } catch (error) {
       console.log(error);
@@ -63,71 +62,57 @@ export default function Login() {
   };
 
   return (
-    <KeyboardAvoidingView className="flex w-full h-full bg-[#FDFDFD] justify-center items-center pt-[60px] ">
+    <KeyboardAvoidingView style={styles.container}>
       <View>
         <Image
-          className="w-[66px] h-[66px] mb-[32px]"
+          style={styles.image}
           source={require("../assets/images/user.webp")}
         />
       </View>
 
-      <View className="bg-[#EDF3FF] flex flex-col justify-center w-[345px] h-[305px] py-[24px] px-[12px] rounded-2xl">
+      <View style={styles.form}>
         <View>
           <View>
-            <Text className="text-[14px] pb-3 text-[#282828]">E-mail*</Text>
+            <Text style={styles.textForm}>E-mail*</Text>
             <TextInput
-              className="text-[16px] py-[10px] px-[14px] h-[44px] border-[1px] border-[#b7b7b8] bg-[#FDFDFD] shadow-3xl rounded-md"
+              style={styles.textInput}
               placeholder="Digite seu e-mail"
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
               value={email}
             />
-            {errorEmail && (
-              <Text className="text-[#FF0000] text-[12px]">{errorEmail}</Text>
-            )}
+            {errorEmail && <Text style={styles.error}>{errorEmail}</Text>}
           </View>
 
-          <View className="space-y-1 pt-4">
-            <Text className="text-[14px] pb-3 text-[#282828]">Senha*</Text>
+          <View style={styles.containerPass}>
+            <Text style={styles.textForm}>Senha*</Text>
             <ShowHide
               placeholder="Digite sua senha"
               onChangeText={setPassword}
               secureTextEntry={true}
               value={password}
             />
-            {errorPassword && (
-              <Text className="text-[#FF0000] text-[12px]">
-                {errorPassword}
-              </Text>
-            )}
+            {errorPassword && <Text style={styles.error}>{errorPassword}</Text>}
           </View>
         </View>
 
         {/* Navegação para a tela de recuperação de senha */}
-        <View className="pt-[16px] pr-3 items-end">
+        <View style={styles.containerForgetPass}>
           <TouchableOpacity
             onPress={() => router.push("screens/recoverYourAccount")}
           >
-            <Text className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]">
-              Esqueceu a senha?
-            </Text>
+            <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{ opacity: isFilled ? 1 : 0.5 }}
-          className="flex justify-center items-center px-[12px] shadow-3xl"
-        >
+        <View style={styles.containerBtn}>
           <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
       </View>
 
-      <View className="flex-1 flex-row text-[14px] justify-end items-center">
-        <Text className="text-[#464646]">Não possui uma conta? </Text>
-        <Link
-          href={"screens/Auth/telaCadastro"}
-          className="text-[#2933AA] text-[14px] font-bold not-italic leading-[19.6px]"
-        >
+      <View style={styles.containerFooter}>
+        <Text style={styles.textFooter}>Não possui uma conta? </Text>
+        <Link href={"screens/Auth/telaCadastro"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>
@@ -135,3 +120,86 @@ export default function Login() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FDFDFD",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 60,
+  },
+  image: {
+    width: 66,
+    height: 66,
+    marginBottom: 32,
+  },
+  form: {
+    backgroundColor: "#EDF3FF",
+    flexDirection: "column",
+    justifyContent: "center",
+    width: 345,
+    height: 305,
+    paddingVertical: 24,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+  },
+  textForm: {
+    fontSize: 14,
+    color: "#282828",
+    paddingBottom: 12,
+  },
+  textInput: {
+    fontSize: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    height: 44,
+    borderWidth: 1,
+    borderColor: "#B7B7B8",
+    backgroundColor: "#FDFDFD",
+    borderRadius: 6,
+  },
+  containerPass: {
+    paddingTop: 4,
+    marginTop: 4,
+    marginBottom: 4,
+  },
+  containerForgetPass: {
+    paddingTop: 16,
+    paddingRight: 12,
+    alignItems: "flex-end",
+  },
+  textForgetPass: {
+    color: "#2933AA",
+    fontSize: 14,
+    fontWeight: "700",
+    fontStyle: "normal",
+    lineHeight: 19.6,
+  },
+  containerBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 12,
+  },
+  containerFooter: {
+    flex: 1,
+    flexDirection: "row",
+    fontSize: 14,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  textFooter: {
+    color: "#464646",
+  },
+  textLink: {
+    color: "#2933AA",
+    fontSize: 14,
+    fontWeight: "700",
+    fontStyle: "normal",
+    lineHeight: 19.6,
+  },
+  error: {
+    color: "#FF0000",
+    fontSize: 12,
+  },
+});

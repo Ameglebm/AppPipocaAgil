@@ -1,16 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import PropTypes from "prop-types";
 
-export default function RelatoriosTab({ focused }) {
+export default function MedicacaoTab({ focused }) {
+  MedicacaoTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>
         <Image
-          source={require("../../assets/images/relatorios.png")}
+          source={require("../../assets/images/pilulas 1.png")}
           style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
-      <Text style={styles.tabText}>Relatórios</Text>
+      <Text style={styles.tabText}>Medicação</Text>
     </View>
   );
 }

@@ -11,32 +11,32 @@ export default function Paginator({ data, scrollx }) {
   };
 
   return (
-    <View style={{ flexDirection: "row", height: 20 }}>
+    <View
+      style={{ flexDirection: "row", height: 20, justifyContent: "center" }}
+    >
       {data.map((_, i) => {
-        const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
+        const inputRange = [
+          (i - 1) * width, // antes da tela
+          i * width, // tela atual
+          (i + 1) * width, // próxima tela
+        ];
 
         const dotWidth = scrollx.interpolate({
           inputRange,
-          outputRange: [10, 30, 10],
+          outputRange: [32, 32, 32], // tamanho dos pontos
           extrapolate: "clamp",
         });
 
         const opacity = scrollx.interpolate({
           inputRange,
-          outputRange: [0.3, 1, 0.3],
+          outputRange: [0.2, 1, 0.2], // opacidade dos pontos
           extrapolate: "clamp",
         });
 
         return (
           <Animated.View
-            style={[
-              styles.dot,
-              {
-                width: dotWidth,
-                opacity,
-              },
-            ]}
             key={i.toString()}
+            style={[styles.dot, { width: dotWidth, opacity }]}
           />
         );
       })}
@@ -46,9 +46,11 @@ export default function Paginator({ data, scrollx }) {
 
 const styles = StyleSheet.create({
   dot: {
+    width: 192,
     height: 8,
-    borderRadius: 10,
-    backgroundColor: "#2F39D3",
-    marginHorizontal: 2,
+    borderRadius: 16,
+    backgroundColor: "#5A74FA",
+    gap: 8,
+    marginHorizontal: 3.5,
   },
 });

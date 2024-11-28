@@ -1,15 +1,12 @@
-import { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
   Text,
-  TextInput,
   ScrollView,
   TouchableOpacity,
   Image,
 } from "react-native";
-
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Input from "../../components/Input";
 import { useNavigation } from "@react-navigation/native";
 

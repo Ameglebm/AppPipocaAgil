@@ -1,17 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
-export default function MedicacaoTab({ focused }) {
+export default function RelatoriosTab({ focused }) {
+  RelatoriosTab.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
   return (
     <View style={styles.tabContainer}>
       <View style={[focused && styles.circleFocused]}>
         <Image
-          source={require("../../assets/images/pilulas 1.png")}
+          source={require("../../assets/images/relatorios.png")}
           style={[styles.tabBaricon, focused && { tintColor: "#FDFDFD" }]}
         />
       </View>
-      <Text style={styles.tabText}>Medicação</Text>
+      <Text style={styles.tabText}>Relatórios</Text>
     </View>
   );
 }

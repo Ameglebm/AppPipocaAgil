@@ -1,12 +1,17 @@
-// components/TabLabelSaude.js
+// components/TabLabelHistorico.js
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
-export default function TabLabelSaude({ focused }) {
+export default function TabLabelHistorico({ focused }) {
+  TabLabelHistorico.propTypes = {
+    focused: PropTypes.bool.isRequired,
+  };
+
   return (
     <View style={styles.tabLabelContainer}>
       <Image
-        source={require("../assets/images/historico.png")}
+        source={require("../../assets/images/historico.png")}
         style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
       />
       <Text

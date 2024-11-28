@@ -1,11 +1,15 @@
 import { Stack, useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TouchableOpacity } from "react-native";
-import { Urbanist_700Bold, useFonts } from "@expo-google-fonts/urbanist";
+import {
+  Urbanist_400Regular,
+  Urbanist_700Bold,
+  useFonts,
+} from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 import { Roboto_400Regular } from "@expo-google-fonts/roboto";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,10 +17,10 @@ export default function Layout() {
   const router = useRouter();
 
   const [loaded, error] = useFonts({
+    Urbanist_400Regular,
     Urbanist_700Bold,
     Lato_400Regular,
     Lato_700Bold,
-    Lato_400Regular,
     Roboto_400Regular,
   });
 
@@ -101,7 +105,7 @@ export default function Layout() {
 
       {/* Tela de CheckSuccess */}
       <Stack.Screen
-        name="screens/checkSucess"
+        name="screens/Feedbacks/checkSucess"
         options={{
           title: "Sucesso",
           headerShown: false,
@@ -121,7 +125,7 @@ export default function Layout() {
 
       {/* Tela de CheckFailed */}
       <Stack.Screen
-        name="screens/checkFailed"
+        name="screens/Feedbacks/checkFailed"
         options={{
           headerShown: false,
           headerTitleStyle: {

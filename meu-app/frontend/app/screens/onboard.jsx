@@ -1,8 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, StyleSheet, FlatList, Animated, TouchableOpacity, Text, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Animated,
+  Text,
+  Pressable,
+} from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "../components/OnboardingItem";
-import slides from "../components/slides"; //slides do carrosel
+import slides from "../components/slidesOnboard"; //slides do carrosel
 import Paginator from "../components/Paginator"; // Paginador
 import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
 
@@ -13,9 +20,10 @@ export default function OnboardingScreen() {
   const router = useRouter();
   const navigation = useNavigation();
 
-  useEffect(() => { //Ao iniciar a página seta o header dela como false
-    navigation.setOptions({headerShown: false});
-  }, [navigation])
+  useEffect(() => {
+    //Ao iniciar a página seta o header dela como false
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -45,7 +53,6 @@ export default function OnboardingScreen() {
 
   return (
     <View style={styles.container}>
-      
       <Pressable style={styles.containerSkip} onPress={handleSkip}>
         <Text style={styles.textBtn}>Pular</Text>
       </Pressable>

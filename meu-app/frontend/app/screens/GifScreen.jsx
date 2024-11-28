@@ -19,7 +19,7 @@ export default function GifScreen() {
 
     // Navega automaticamente para a tela de onboarding após o tempo do GIF
     const timer = setTimeout(() => {
-      navigation.replace("Onboarding"); // Navega para a tela de onboarding
+      navigation.replace("onboard"); // Navega para a tela de onboarding
     }, 3000); // Ajuste o tempo conforme necessário (tempo de duração do GIF)
 
     return () => clearTimeout(timer); // Limpa o timer se o componente for desmontado

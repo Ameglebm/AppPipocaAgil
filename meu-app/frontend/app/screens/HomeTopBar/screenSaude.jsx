@@ -7,18 +7,20 @@ import {
   Image,
   FlatList,
 } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function ScreenOne() {
+  const router = useRouter();
   const data = [
     { id: "header", isHeader: true },
     {
       id: "1",
-      image: require("../assets/images/coracao.png"),
+      image: require("../../assets/images/coracao.png"),
       title: "Informações do Diabetes",
     },
     {
       id: "2",
-      image: require("../assets/images/saude.png"),
+      image: require("../../assets/images/saude.png"),
       title: "Saúde e Bem-Estar",
     },
     { id: "extra", isExtraView: true },
@@ -43,7 +45,10 @@ export default function ScreenOne() {
 
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonCoracao}>
+        <TouchableOpacity
+          style={styles.buttonCoracao}
+          onPress={() => router.push("screens/infoDiabetes")}
+        >
           <Image source={item.image} style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
         </TouchableOpacity>
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     // Configuração de sombra para Android
-    elevation: 3, // Use valores baixos para uma sombra mais sutil
+    elevation: 3, // Use valores baixos para uma sombra mais sutil
   },
   image: {
     marginLeft: 16,

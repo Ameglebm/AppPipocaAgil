@@ -1,9 +1,10 @@
+import React from "react";
 import { Text, View } from "react-native";
 
 function Relatorios() {
   return (
     <View>
-      <Text>teste</Text>
+      <Text>Relatórios</Text>
     </View>
   );
 }

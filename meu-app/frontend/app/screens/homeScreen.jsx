@@ -2,21 +2,23 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import TabLabelSaude from "../components/TabLabelSaude";
-import TabLabelHistorico from "../components/TabLabelHistorico";
-import TabLabelEvolucao from "../components/TabLabelEvolucao";
-
-import ScreenOne from "./screenOne";
-import ScreenTwo from "./screenTwo";
-import ScreenThree from "./screenThree";
-import Medicacao from "./medicacao";
-import Relatorios from "./relatorios";
-import Emergencia from "./emergencia";
-
-import HomeTab from "../components/tabIcons/HomeTab";
-import MedicacaoTab from "../components/tabIcons/MedicacaoTab";
-import EmergenciaTab from "../components/tabIcons/EmergenciaTab";
-import RelatoriosTab from "../components/tabIcons/RelatoriosTab";
+//Import dos icones da TopBar
+import TabLabelSaude from "../components/tabTopIcons/TabLabelSaude";
+import TabLabelHistorico from "../components/tabTopIcons/TabLabelHistorico";
+import TabLabelEvolucao from "../components/tabTopIcons/TabLabelEvolucao";
+//Import das telas de cada icone da TopBar
+import ScreenSaude from "./HomeTopBar/screenSaude";
+import ScreenEvolucao from "./HomeTopBar/screenEvolucao";
+import ScreenHistorico from "./HomeTopBar/screenHistorico";
+//import das telas do BottomBar
+import Medicacao from "./HomeBottomBar/medicacao";
+import Relatorios from "./HomeBottomBar/relatorios";
+import Emergencia from "./HomeBottomBar/emergencia";
+//Import dos icones do BottomBar
+import HomeTab from "../components/tabBottomIcons/HomeTab";
+import MedicacaoTab from "../components/tabBottomIcons/MedicacaoTab";
+import EmergenciaTab from "../components/tabBottomIcons/EmergenciaTab";
+import RelatoriosTab from "../components/tabBottomIcons/RelatoriosTab";
 
 import Header from "../components/Header";
 
@@ -27,19 +29,19 @@ const BottomTab = createBottomTabNavigator();
 function TopTabs() {
   return (
     <TopTab.Navigator
-      screenOptions={{ 
-        headerShown: false, 
+      screenOptions={{
+        headerShown: false,
         tabBarStyle: styles.topBarStyle,
         tabBarIndicatorStyle: {
-          backgroundColor: '#2F39D3', // Cor do indicador
+          backgroundColor: "#2F39D3", // Cor do indicador
           height: 2, // Altura do indicador
           borderRadius: 100, // Arredondamento do indicador
         },
-       }}
+      }}
     >
       <TopTab.Screen
         name="Saúde"
-        component={ScreenOne}
+        component={ScreenSaude}
         options={{
           tabBarLabel: ({ focused }) => <TabLabelSaude focused={focused} />,
           headerShown: false,
@@ -47,14 +49,14 @@ function TopTabs() {
       />
       <TopTab.Screen
         name="Evolução"
-        component={ScreenTwo}
+        component={ScreenEvolucao}
         options={{
           tabBarLabel: ({ focused }) => <TabLabelEvolucao focused={focused} />,
         }}
       />
       <TopTab.Screen
         name="Histórico"
-        component={ScreenThree}
+        component={ScreenHistorico}
         options={{
           tabBarLabel: ({ focused }) => <TabLabelHistorico focused={focused} />,
         }}

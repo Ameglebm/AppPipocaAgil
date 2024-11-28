@@ -1,7 +1,14 @@
 import React from "react";
 import { View, TextInput, Text, StyleSheet, Image } from "react-native";
+import PropTypes from "prop-types";
 
 const EmailInput = ({ value, onChangeText, error, footerMessage }) => {
+  EmailInput.propTypes = {
+    value: PropTypes.string.isRequired,
+    onChangeText: PropTypes.any.isRequired,
+    error: PropTypes.string,
+    footerMessage: PropTypes.any,
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.label}>E-mail*</Text>
@@ -33,7 +40,6 @@ export default EmailInput;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 32,
     width: 320,
     gap: 8,
     marginTop: 16,

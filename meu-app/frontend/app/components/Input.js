@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import axios from "axios";
@@ -25,9 +25,30 @@ function Inputs() {
   const [secureText2, setSecureText2] = useState(true);
   const [buttonColor, setButtonColor] = useState("#7A98FF");
 
-  const navigation = useNavigation();
+  const router = useRouter();
   const [errors, setErrors] = useState({});
-  
+
+  const formatCpf = (value) => {
+    // Remove tudo que não for número
+    let cleanedValue = value.replace(/\D/g, "");
+
+    // Aplica a máscara de CPF
+    if (cleanedValue.length <= 3) {
+      return cleanedValue;
+    }
+    if (cleanedValue.length <= 6) {
+      return cleanedValue.replace(/(\d{3})(\d{1,})/, "$1.$2");
+    }
+    if (cleanedValue.length <= 9) {
+      return cleanedValue.replace(/(\d{3})(\d{3})(\d{1,})/, "$1.$2.$3");
+    }
+    return cleanedValue.replace(/(\d{3})(\d{3})(\d{3})(\d{1,})/, "$1.$2.$3-$4");
+  };
+
+  const handleCpfChange = (value) => {
+    setCpf(formatCpf(value));
+  };
+
   const validateInputs = () => {
     const newErrors = {};
 
@@ -47,8 +68,13 @@ function Inputs() {
 
     if (!senha) {
       newErrors.senha = "Senha é obrigatória.";
-    } else if (senha.length < 8) {
-      newErrors.senha = "A senha deve ter pelo menos 8 caracteres.";
+    } else if (
+      !/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(senha) || // Verifica caractere especial
+      !/(?=.*[A-Z])/.test(senha) || // Verifica caractere maiúsculo
+      senha.length < 8
+    ) {
+      newErrors.senha =
+        "A senha deve ter pelo menos 8 caracteres, incluir 1 caractere especial e 1 caractere maiúsculo.";
     }
 
     if (senha !== confirmarSenha) {
@@ -65,6 +91,7 @@ function Inputs() {
 
   const sendForm = async () => {
     if (!validateInputs()) return; // Valida antes de enviar
+    if (errors.cpf) return; // Impede envio se CPF já estiver em uso
     if (isDisabled) return;
     const novoUsuario = {
       nome,
@@ -84,15 +111,28 @@ function Inputs() {
       if (response.status === 201) {
         const token = response.data.token;
         await AsyncStorage.setItem("userToken", token);
-        navigation.navigate("screens/checkSucess");
+        console.log("Usuário criado com sucesso");
+        router.navigate("../Feedbacks/checkSucess");
       }
     } catch (error) {
-      if (error.response) {
-        //console.error("Erro na resposta do servidor:", error.response.data);
-      } else {
-        //console.error("Erro ao cadastrar usuário:", error.message);
+      if (error.response && error.response.status === 409) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Email ou CPF já está em uso.",
+          cpf: "Email ou CPF já está em uso.",
+        }));
       }
-      navigation.navigate("screens/checkFailed");
+      if (error.response && error.response.status === 400) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          geral: "Erro de validação nos dados fornecidos.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          geral: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+        }));
+      }
     }
   };
 
@@ -139,7 +179,7 @@ function Inputs() {
         placeholder="000.000.000-00"
         style={styles.inputDados}
         value={cpf}
-        onChangeText={setCpf}
+        onChangeText={handleCpfChange}
         placeholderTextColor="#B1B0AF"
       />
       {errors.cpf && <Text style={styles.error}>{errors.cpf}</Text>}

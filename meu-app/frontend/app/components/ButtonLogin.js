@@ -1,16 +1,38 @@
-import React from 'react'
-import { useRouter } from 'expo-router'
-import { Text, TouchableOpacity } from 'react-native'
+import React from "react";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const ButtonLogin = ({ labelButton, onpress }) => {
+  // Validação de props
+  ButtonLogin.propTypes = {
+    labelButton: PropTypes.string.isRequired, // 'title' é obrigatório e deve ser string
+    onpress: PropTypes.func.isRequired, // 'onPress' é obrigatório e deve ser função
+  };
 
-  const router = useRouter();
-   
-    return(
-        <TouchableOpacity className="flex justify-center items-center w-[300] min-h-[42px] px-[80px] mt-4 bg-[#2F39D3] shadow-3xl rounded-[8px]" onPress={onpress}>
-          <Text className="text-[#FDFDFD] text-[18px] font-bold leading-[19,80px]">{labelButton}</Text>
-        </TouchableOpacity>
-    )
-}
+  return (
+    <TouchableOpacity style={styles.container} onPress={onpress}>
+      <Text style={styles.textBtn}>{labelButton}</Text>
+    </TouchableOpacity>
+  );
+};
 
-export default ButtonLogin
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#2F39D3",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 300,
+    minHeight: 42,
+    paddingHorizontal: 80,
+    marginTop: 16,
+    borderRadius: 8,
+  },
+  textBtn: {
+    color: "#FDFDFD",
+    fontSize: 18,
+    fontWeight: "700",
+    lineHeight: 19.8,
+  },
+});
+
+export default ButtonLogin;
