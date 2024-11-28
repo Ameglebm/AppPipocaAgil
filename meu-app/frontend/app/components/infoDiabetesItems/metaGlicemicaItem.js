@@ -13,10 +13,15 @@ import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ButtonSave from "../ButtonSave";
 import AlertToggle from "../alertToggle";
+import PropTypes from "prop-types";
 
-const MetaGlicemicaScreen = () => {
+const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   // Busca o item com id === '3' no array de dados
   const metaGlicemica = data.find((item) => item.id === "3");
+
+  MetaGlicemicaScreen.propTypes = {
+    scrollToNextSlide: PropTypes.func.isRequired,
+  };
 
   // Estado para armazenar os valores inseridos pelo usuário
   const [valores, setValores] = useState([
@@ -57,6 +62,9 @@ const MetaGlicemicaScreen = () => {
   const handleSave = () => {
     // API
     console.log("salvo: ", valores);
+    if (valores != null) {
+      scrollToNextSlide();
+    }
   };
 
   // Define os rótulos para os diferentes momentos glicêmicos

@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import ButtonSave from "../ButtonSave";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-export default function AdmInsulinaItem({ item }) {
+export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === "2";
   const diabetesTypes = isTipoDiabetesScreen
     ? [
@@ -27,6 +27,7 @@ export default function AdmInsulinaItem({ item }) {
 
   // Validação de props
   AdmInsulinaItem.propTypes = {
+    scrollToNextSlide: PropTypes.func.isRequired,
     item: PropTypes.shape({
       id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
       title: PropTypes.string,
@@ -44,6 +45,14 @@ export default function AdmInsulinaItem({ item }) {
   // Função para selecionar o tipo de diabetes
   const handleSelectType = (type) => {
     setSelectedType((prev) => (prev === type ? null : type));
+  };
+
+  // Simula uma ação de salvar (pode ser adaptado para integração com API)
+  const handleSave = () => {
+    console.log("salvo", selectedType);
+    if (selectedType != null) {
+      scrollToNextSlide();
+    }
   };
 
   return (
@@ -82,7 +91,7 @@ export default function AdmInsulinaItem({ item }) {
           />
         )}
       </SafeAreaView>
-      <ButtonSave />
+      <ButtonSave onPress={handleSave} />
     </SafeAreaProvider>
   );
 }

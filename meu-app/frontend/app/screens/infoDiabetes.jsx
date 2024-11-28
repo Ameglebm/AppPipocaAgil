@@ -59,6 +59,18 @@ export default function InfoDiabetes() {
     }
   };
 
+  const scrollToNextSlide = () => {
+    const currentIndex = Math.floor(scrollx._value / 360); // Calcula o índice atual (considerando a largura do slide)
+    const nextIndex = currentIndex + 1; // Próximo índice
+
+    if (nextIndex < slides.length) {
+      // Se houver slides restantes, navega para o próximo
+      slidesRef.current.scrollToIndex({ index: nextIndex });
+    } else {
+      console.log("Último slide alcançado.");
+    }
+  };
+
   return (
     <SafeAreaProvider style={{ backgroundColor: "#FDFDFD" }}>
       {/* Cabeçalho principal com botão "Pular", paginador e título */}
@@ -94,13 +106,33 @@ export default function InfoDiabetes() {
                 {(() => {
                   switch (item.id) {
                     case "1":
-                      return <TiposDiabetes item={item} />;
+                      return (
+                        <TiposDiabetes
+                          item={item}
+                          scrollToNextSlide={scrollToNextSlide}
+                        />
+                      );
                     case "2":
-                      return <AdmInsulina item={item} />;
+                      return (
+                        <AdmInsulina
+                          item={item}
+                          scrollToNextSlide={scrollToNextSlide}
+                        />
+                      );
                     case "3":
-                      return <MetaGlicemica item={item} />;
+                      return (
+                        <MetaGlicemica
+                          item={item}
+                          scrollToNextSlide={scrollToNextSlide}
+                        />
+                      );
                     case "4":
-                      return <Medicamentos item={item} />;
+                      return (
+                        <Medicamentos
+                          item={item}
+                          scrollToNextSlide={scrollToNextSlide}
+                        />
+                      );
                     case "5":
                       return <TipoDeInsulina item={item} />;
                     default:

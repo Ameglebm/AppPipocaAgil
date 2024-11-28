@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../ButtonSave";
 
-export default function TiposDiabetesItem({ item }) {
+export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === "1"; // Verifica se o slide atual é o da tela de tipos de diabetes
   // Define os tipos de diabetes disponíveis, caso seja a tela correta
   const diabetesTypes = isTipoDiabetesScreen
@@ -30,6 +30,7 @@ export default function TiposDiabetesItem({ item }) {
 
   // Validação de props
   TiposDiabetesItem.propTypes = {
+    scrollToNextSlide: PropTypes.func.isRequired,
     item: PropTypes.shape({
       id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
       title: PropTypes.string,
@@ -50,6 +51,13 @@ export default function TiposDiabetesItem({ item }) {
   // Função que altera o estado ao selecionar um tipo
   const handleSelectType = (type) => {
     setSelectedType((prev) => (prev === type ? null : type));
+  };
+
+  const handleSave = () => {
+    console.log("salvo", selectedType);
+    if (selectedType != null) {
+      scrollToNextSlide();
+    }
   };
 
   return (
@@ -90,7 +98,7 @@ export default function TiposDiabetesItem({ item }) {
           />
         )}
       </View>
-      <ButtonSave />
+      <ButtonSave onPress={handleSave} />
     </ScrollView>
   );
 }
