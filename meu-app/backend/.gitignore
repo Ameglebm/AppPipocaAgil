@@ -1,2 +1,3 @@
 node_modules
+/dist
 # Keep environment variables out of version control
