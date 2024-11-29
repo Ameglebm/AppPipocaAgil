@@ -1,16 +1,34 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import ButtonSave from "../ButtonSave";
+import { useRouter } from "expo-router";
 
 const TipoDeInsulinaItem = () => {
   // Busca o item com id === '4' no array de dados
   const tipoDeInsulinaItem = data.find((item) => item.id === "5");
+  const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
+        </View>
+
+        <View style={styles.contentBtn}>
+          <TouchableOpacity
+            style={styles.btnAdd}
+            onPress={() => {
+              router.navigate("caminho-do-formulário");
+            }}
+          >
+            <Text style={styles.btnText}>Adicionar Insulina</Text>
+            <Image source={require("../../assets/images/plus.png")} />
+          </TouchableOpacity>
+        </View>
       </View>
+      <ButtonSave />
     </View>
   );
 };
@@ -19,18 +37,18 @@ export default TipoDeInsulinaItem;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#EDF3FF",
     borderRadius: 16,
-    paddingVertical: 24,
+    paddingTop: 24,
     paddingHorizontal: 16,
-    gap: 24,
+    paddingBottom: 18,
+    marginBottom: 232,
   },
   header: {
     flexDirection: "column",
     alignItems: "flex-start",
-    gap: 16,
     alignSelf: "stretch",
+    paddingBottom: 20,
   },
   title: {
     color: "#282828",
@@ -38,5 +56,24 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontSize: 20,
     lineHeight: 22,
+  },
+  contentBtn: {
+    backgroundColor: "#FDFDFD",
+    width: 320,
+    height: 32,
+    borderRadius: 16,
+    paddingTop: 4,
+    paddingHorizontal: 12,
+    elevation: 1,
+  },
+  btnAdd: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  btnText: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    lineHeight: 21,
+    color: "#282828",
   },
 });
