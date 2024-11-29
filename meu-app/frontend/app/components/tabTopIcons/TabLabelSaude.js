@@ -1,21 +1,30 @@
-// components/TabLabelSaude.js
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
+import SaudeSvg from "../svgComponenets/SaudeSvg"; // O componente SVG exportado pelo SVGR
 
 export default function TabLabelSaude({ focused }) {
   TabLabelSaude.propTypes = {
     focused: PropTypes.bool.isRequired,
   };
 
+  // Define a cor com base no estado "focused"
+  const iconColor = focused ? "#6179FA" : "#7B7A78";
+  const textColor = focused ? "#6179FA" : "#7B7A78";
+
   return (
     <View style={styles.tabLabelContainer}>
-      <Image
-        source={require("../../assets/images/saude-on.png")}
-        style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
+      <SaudeSvg
+        style={[
+          styles.tabImage,
+          { color: iconColor }, // Passa a cor dinamicamente via "color"
+        ]}
       />
       <Text
-        style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
+        style={[
+          styles.tabText,
+          { color: textColor }, // Passa a cor dinamicamente para o texto
+        ]}
       >
         Saúde
       </Text>
@@ -32,18 +41,10 @@ const styles = StyleSheet.create({
   tabImage: {
     width: 20,
     height: 20,
-    tintColor: "#7B7A78",
   },
   tabText: {
     fontSize: 16,
     fontFamily: "Lato_700Bold",
     lineHeight: 22,
-    color: "#7B7A78",
-  },
-  colorFocused: {
-    fontSize: 16,
-    fontFamily: "Lato_700Bold",
-    lineHeight: 22,
-    color: "#6179FA",
   },
 });

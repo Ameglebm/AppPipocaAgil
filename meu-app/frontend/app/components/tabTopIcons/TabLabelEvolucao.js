@@ -1,24 +1,21 @@
 // components/TabLabelEvolucao.js
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
+import EvolucaoSvg from "../svgComponenets/EvolucaoSvg";
 
 export default function TabLabelEvolucao({ focused }) {
   TabLabelEvolucao.propTypes = {
     focused: PropTypes.bool.isRequired,
   };
 
+  const iconColor = focused ? "#6179FA" : "#7B7A78";
+  const textColor = focused ? "#6179FA" : "#7B7A78";
+
   return (
     <View style={styles.tabLabelContainer}>
-      <Image
-        source={require("../../assets/images/bar-line-chart.png")}
-        style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
-      />
-      <Text
-        style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
-      >
-        Evolução
-      </Text>
+      <EvolucaoSvg style={[styles.tabImage, { color: iconColor }]} />
+      <Text style={[styles.tabText, { color: textColor }]}>Evolução</Text>
     </View>
   );
 }
@@ -38,11 +35,5 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_700Bold",
     lineHeight: 22,
     color: "#7B7A78",
-  },
-  colorFocused: {
-    fontSize: 16,
-    fontFamily: "Lato_700Bold",
-    lineHeight: 22,
-    color: "#6179FA",
   },
 });

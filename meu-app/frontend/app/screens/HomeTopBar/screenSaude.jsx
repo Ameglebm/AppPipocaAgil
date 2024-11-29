@@ -8,6 +8,8 @@ import {
   FlatList,
 } from "react-native";
 import { useRouter } from "expo-router";
+import Coracao from "../../components/svgComponenets/Coracao";
+import Saude from "../../components/svgComponenets/Saude";
 
 export default function ScreenOne() {
   const router = useRouter();
@@ -15,12 +17,12 @@ export default function ScreenOne() {
     { id: "header", isHeader: true },
     {
       id: "1",
-      image: require("../../assets/images/coracao.png"),
+      svg: Coracao,
       title: "Informações do Diabetes",
     },
     {
       id: "2",
-      image: require("../../assets/images/saude.png"),
+      svg: Saude,
       title: "Saúde e Bem-Estar",
     },
     { id: "extra", isExtraView: true },
@@ -49,7 +51,7 @@ export default function ScreenOne() {
           style={styles.buttonCoracao}
           onPress={() => router.push("screens/infoDiabetes")}
         >
-          <Image source={item.image} style={styles.image} />
+          <item.svg style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
         </TouchableOpacity>
       </View>

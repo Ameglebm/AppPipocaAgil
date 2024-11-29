@@ -2,6 +2,8 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "expo-router";
+import User from "./svgComponenets/User";
+import Plus from "./svgComponenets/Plus";
 
 export default function Header() {
   const navigation = useNavigation();
@@ -14,18 +16,12 @@ export default function Header() {
   return (
     <View style={styles.header}>
       <View style={styles.profileContainer}>
-        <Image
-          source={require("../assets/images/user-03.png")}
-          style={styles.image}
-        />
+        <User style={styles.image}></User>
         <Text style={styles.perfil}>Conta</Text>
       </View>
 
       <TouchableOpacity style={styles.buttonContainer}>
-        <Image
-          source={require("../assets/images/plus.png")}
-          style={styles.imagePlus}
-        />
+        <Plus style={styles.imagePlus}></Plus>
       </TouchableOpacity>
     </View>
   );
