@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import React from "react";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 
@@ -10,6 +10,13 @@ const TipoDeInsulinaItem = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
+      </View>
+
+      <View style={styles.btnContent}>
+        <TouchableOpacity style={styles.btnAdd}>
+          <Text>Adicionar medicamento</Text>
+          <Image style={styles.imgAdd} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -39,4 +46,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 22,
   },
+  btnContent: {},
+  btnAdd: {},
+  imgAdd: {},
 });
