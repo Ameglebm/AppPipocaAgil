@@ -50,7 +50,6 @@ export default function Login() {
       });
 
       console.log(response);
-      sessionStorage.setItem("token", response.data.token);
 
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
