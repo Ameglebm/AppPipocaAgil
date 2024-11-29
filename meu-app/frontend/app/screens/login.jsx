@@ -98,7 +98,9 @@ export default function Login() {
 
         {/* Navegação para a tela de recuperação de senha */}
         <View style={styles.containerForgetPass}>
-          <TouchableOpacity onPress={() => router.push("screens/homeScreen")}>
+          <TouchableOpacity
+            onPress={() => router.push("screens/addMedication")}
+          >
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
