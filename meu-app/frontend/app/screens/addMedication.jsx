@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import CustomHeader from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
@@ -48,12 +48,15 @@ const LabelInputScreen = () => {
       )
     );
   };
-
+  const customButtonStyle = {
+    paddingTop: 8,
+    paddingBottom: 8,
+  };
   return (
     <View style={styles.container}>
       <CustomHeader title={"Adicionar medicação"} />
       {formData.map((item) => (
-        <View style={styles.infoContainer} key={item.id}>
+        <View style={[styles.infoContainer]} key={item.id}>
           {item.isInputWithPressable ? (
             <InputWithPressable
               textLabel="Unidade"
@@ -94,7 +97,7 @@ const LabelInputScreen = () => {
           )}
         </View>
       ))}
-      <ButtonSave labelButton={"Salvar"}></ButtonSave>
+      <ButtonSave labelButton={"Salvar"} style={customButtonStyle}></ButtonSave>
     </View>
   );
 };
@@ -106,13 +109,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FDFDFD",
     width: "100%",
+    flexDirection: "column",
     paddingRight: 20,
     paddingBottom: 32,
     paddingLeft: 20,
+    gap: 16,
   },
   infoContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
+    width: "100%",
   },
 });

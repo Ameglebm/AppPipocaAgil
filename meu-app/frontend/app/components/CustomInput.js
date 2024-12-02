@@ -1,7 +1,15 @@
-import React from "react";
-import { View, TextInput, Text, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, Text, StyleSheet } from "react-native";
 
-const CustomInput = ({ placeholder, style, keyboardType, title }) => {
+const CustomInput = ({
+  placeholder,
+  style,
+  keyboardType,
+  title,
+  value,
+  onChangeText,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <View style={styles.inputContainer}>
       <View style={styles.labelContainer}>
@@ -10,7 +18,16 @@ const CustomInput = ({ placeholder, style, keyboardType, title }) => {
       <TextInput
         placeholder={placeholder}
         placeholderTextColor="#B1B0AF"
-        style={[styles.input, styles.placeholder, style]}
+        style={[
+          styles.input,
+          styles.placeholder,
+          style,
+          isFocused && styles.inputFocused,
+        ]}
+        value={value}
+        onChangeText={onChangeText}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         keyboardType={keyboardType}
       ></TextInput>
     </View>
@@ -24,6 +41,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     alignSelf: "flex-start",
+    gap: 8,
   },
   label: {
     fontFamily: "Lato_400Regular",
@@ -48,5 +66,14 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     fontFamily: "Lato_400Regular",
+  },
+  inputFocused: {
+    borderColor: "#5FA8FF",
+    borderWidth: 1,
+    shadowColor: "#B4D2F8", // Cor da sombra
+    shadowOffset: { width: 0, height: 0 }, // Sem deslocamento
+    shadowOpacity: 1, // Totalmente opaco
+    shadowRadius: 3, // Tamanho da difusão
+    elevation: 4, // Adicionado para compatibilidade com Android
   },
 });

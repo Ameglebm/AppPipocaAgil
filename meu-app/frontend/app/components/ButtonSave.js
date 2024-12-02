@@ -2,13 +2,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function ButtonSave({ onPress }) {
+export default function ButtonSave({ onPress, style }) {
   ButtonSave.propTypes = {
     onPress: PropTypes.func.isRequired,
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TouchableOpacity style={styles.moveButtton} onPress={onPress}>
         <Text style={styles.textButton}>Salvar</Text>
       </TouchableOpacity>

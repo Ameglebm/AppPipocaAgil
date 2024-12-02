@@ -17,19 +17,20 @@ const Dropdown = ({ items, placeholder, onValueChange, style, title }) => {
         <Text style={[styles.label, style]}>{title}</Text>
       </View>
       <DropDownPicker
-        style={[styles.dropDown, style]}
+        style={[styles.dropDown, style, open && styles.inputFocused]}
         open={open}
         value={value}
         items={items}
         setOpen={setOpen}
-        setValue={handleValueChange}
+        setValue={setValue}
+        onChangeValue={handleValueChange}
         placeholder={placeholder || "Selecione uma opção"}
         placeholderStyle={{
           color: "#B1B0AF",
           fontFamily: "Lato_400Regular",
         }}
         dropDownContainerStyle={{
-          bborderWidth: 0,
+          borderWidth: 0,
           borderColor: "transparent",
           elevation: 0,
           shadowOffset: { width: 0, height: 0 },
@@ -37,7 +38,6 @@ const Dropdown = ({ items, placeholder, onValueChange, style, title }) => {
           shadowRadius: 0,
           maxHeight: "auto",
         }}
-        scrollEnabled={false}
         listItemContainerStyle={{
           borderBottomWidth: 0,
         }}
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
   dropDownContainer: {
     width: 320,
     gap: 8,
+    marginTop: 16,
+    marginBottom: 16,
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -80,7 +82,15 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     lineHeight: 22,
     color: "#373737",
-    borderWidth: 0, // Remove a borda
     borderColor: "transparent",
+  },
+  inputFocused: {
+    borderColor: "#5FA8FF",
+    borderWidth: 1,
+    shadowColor: "#B4D2F8", // Cor da sombra
+    shadowOffset: { width: 0, height: 0 }, // Sem deslocamento
+    shadowOpacity: 1, // Totalmente opaco
+    shadowRadius: 3, // Tamanho da difusão
+    elevation: 4, // Adicionado para compatibilidade com Android
   },
 });

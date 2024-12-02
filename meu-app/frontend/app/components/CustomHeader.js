@@ -21,26 +21,21 @@ const CustomHeader = ({ title, style }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    gap: 20,
+    alignItems: "flex-end",
+    justifyContent: "center",
     backgroundColor: "#FDFDFD",
-    marginTop: 40,
-    width: "100%",
+    gap: 8,
     height: 67,
+    padding: 20,
+    marginTop: 10,
   },
-  backButton: {
-    width: 24,
-    height: 24,
-  },
-  backText: {
-    fontSize: 20,
-  },
+  backButton: {},
   title: {
     fontFamily: "Urbanist_700Bold",
     fontSize: 24,
     width: 289,
     height: 27,
+    alignItems: "center",
   },
 });
 
