@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import CustomHeader from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
 import InputWithPressable from "../components/InputWithPressable";
 import ButtonSave from "../components/ButtonSave";
+import ModalCustom from "../components/Modal";
 const LabelInputScreen = () => {
   const [formData, setFormData] = useState([
     {
@@ -40,14 +41,45 @@ const LabelInputScreen = () => {
       keyboardType: "numeric",
     },
   ]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleInputChange = (id, value) => {
+    console.log(`Alterando campo ID ${id} com o valor:`, value);
     setFormData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, value: value } : item
-      )
+      prevData.map((item) => (item.id === id ? { ...item, value } : item))
     );
   };
+
+  const handleSave = () => {
+    console.log("Form Data", formData);
+
+    const allFieldsFilled = formData.every((item) => {
+      if (item.isInputWithPressable) {
+        return item.value && item.value !== "";
+      } else if (Array.isArray(item.placeholder)) {
+        return item.value && item.value !== "";
+      } else {
+        return item.value && item.value !== "";
+      }
+    });
+
+    console.log("All Fields Filled:", allFieldsFilled);
+
+    if (allFieldsFilled) {
+      setModalVisible(true);
+    } else {
+      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+    }
+  };
+  useEffect(() => {
+    if (modalVisible) {
+      const timer = setTimeout(() => {
+        setModalVisible(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [modalVisible]);
   const customButtonStyle = {
     paddingTop: 8,
     paddingBottom: 8,
@@ -83,7 +115,9 @@ const LabelInputScreen = () => {
               ]}
               placeholder={item.placeholder}
               value={item.value}
-              onChangeItem={(value) => handleInputChange(item.id, value)}
+              onValueChange={(selectedValue) => {
+                handleInputChange(item.id, selectedValue);
+              }}
               title={item.label}
             />
           ) : (
@@ -97,7 +131,16 @@ const LabelInputScreen = () => {
           )}
         </View>
       ))}
-      <ButtonSave labelButton={"Salvar"} style={customButtonStyle}></ButtonSave>
+      <ButtonSave
+        labelButton={"Salvar"}
+        style={customButtonStyle}
+        onPress={handleSave}
+      ></ButtonSave>
+      <ModalCustom
+        modalVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        message={"Registro salvo com sucesso"}
+      />
     </View>
   );
 };

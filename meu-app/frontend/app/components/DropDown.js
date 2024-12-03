@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, View, Text } from "react-native";
 
-const Dropdown = ({ items, placeholder, onValueChange, style, title }) => {
+const Dropdown = ({
+  items,
+  placeholder,
+  value,
+  onValueChange,
+  style,
+  title,
+}) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-
-  const handleValueChange = (value) => {
-    setValue(value);
-    if (onValueChange) onValueChange(value);
-  };
 
   return (
     <View style={styles.dropDownContainer}>
@@ -19,11 +20,14 @@ const Dropdown = ({ items, placeholder, onValueChange, style, title }) => {
       <DropDownPicker
         style={[styles.dropDown, style, open && styles.inputFocused]}
         open={open}
-        value={value}
-        items={items}
         setOpen={setOpen}
-        setValue={setValue}
-        onChangeValue={handleValueChange}
+        value={value} // Usa o valor passado do pai
+        items={items}
+        setValue={(callback) => {
+          const selectedValue = callback(value);
+          console.log("Valor selecionado no Dropdown:", selectedValue);
+          onValueChange && onValueChange(selectedValue); // Atualiza valor no pai
+        }}
         placeholder={placeholder || "Selecione uma opção"}
         placeholderStyle={{
           color: "#B1B0AF",
@@ -33,9 +37,6 @@ const Dropdown = ({ items, placeholder, onValueChange, style, title }) => {
           borderWidth: 0,
           borderColor: "transparent",
           elevation: 0,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0,
-          shadowRadius: 0,
           maxHeight: "auto",
         }}
         listItemContainerStyle={{
