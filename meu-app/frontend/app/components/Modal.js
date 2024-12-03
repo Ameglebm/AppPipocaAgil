@@ -20,8 +20,8 @@ const ModalCustom = ({ modalVisible, onClose, message }) => {
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        <IconSuccess style={styles.iconSuccess} />
         <View style={styles.modalContent}>
+          <IconSuccess style={styles.iconSuccess} />
           <Text style={styles.modalText}>{message || "Mensagem padrão"}</Text>
         </View>
       </View>
@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   iconSuccess: {
     zIndex: 2,
     position: "absolute",
-    bottom: 390,
+    top: -24,
   },
 });
