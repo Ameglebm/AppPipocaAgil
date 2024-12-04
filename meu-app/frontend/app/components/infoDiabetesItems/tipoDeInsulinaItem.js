@@ -8,6 +8,10 @@ const TipoDeInsulinaItem = () => {
   // Busca o item com id === '4' no array de dados
   const tipoDeInsulinaItem = data.find((item) => item.id === "5");
   const router = useRouter();
+  // Simula uma ação de salvar (pode ser adaptado para integração com API)
+  const handleSave = () => {
+    console.log("salvo");
+  };
 
   return (
     <View>
@@ -28,7 +32,7 @@ const TipoDeInsulinaItem = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ButtonSave />
+      <ButtonSave onPress={handleSave} />
     </View>
   );
 };
