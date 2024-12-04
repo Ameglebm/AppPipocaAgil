@@ -14,10 +14,24 @@ import DatePicker from "react-native-modern-datepicker";
 export default function registerPressArterial() {
   const navigation = useNavigation();
 
+  const [isModalVisible, setModalVisible] = useState(false);
   const [openDateModal, setOpenDateModal] = useState(false); // abrir e fechar o modal
   const [openTimeModal, setOpenTimeModal] = useState(false);
   const [date, setDate] = useState("/ /"); // variavel de data
   const [time, setTime] = useState("00:00");
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    console.log("Cancel action confirmed!");
+    closeModal();
+  };
 
   function handleDateModal() {
     setOpenDateModal(!openDateModal);
@@ -122,13 +136,46 @@ export default function registerPressArterial() {
           </Modal>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.btnCancel}>
+          <TouchableOpacity style={styles.btnCancel} onPress={openModal}>
             <Text style={styles.textCancel}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnRegister}>
             <Text style={styles.textRegister}>Registrar</Text>
           </TouchableOpacity>
         </View>
+        {/* Modal de Confirmação */}
+        <Modal
+          transparent={true}
+          visible={isModalVisible}
+          animationType="slide"
+          onRequestClose={closeModal}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.image}>
+                <Image source={require("../assets/images/alert-square.png")} />
+              </View>
+
+              <Text style={styles.modalText}>
+                Confirmar cancelamento do registro de Pressão Arterial?
+              </Text>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={styles.modalButtonConfirm}
+                  onPress={handleCancel}
+                >
+                  <Text style={styles.modalButtonText}>Confirmar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalButtonCancel}
+                  onPress={closeModal}
+                >
+                  <Text style={styles.modalButtonTextCancel}>Cancelar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </View>
   );
@@ -267,5 +314,87 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     fontSize: 18,
     lineHeight: 19.8,
+  },
+  modalOverlay: {
+    flex: 1,
+    height: 222,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    width: "100%",
+    position: "relative", // Define um contexto de posicionamento para `absolute` na imagem
+    overflow: "visible", // Evita cortes na imagem
+  },
+  modalText: {
+    width: "80%",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    color: "282828",
+    fontStyle: "normal",
+    lineHeight: 19.8,
+    marginTop: 20, // Adiciona um espaçamento superior para garantir que o texto não sobreponha a imagem
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 8,
+  },
+  modalButtonConfirm: {
+    backgroundColor: "#2F39D3",
+    width: 256,
+    height: 36,
+    paddingVertical: 8,
+    paddingHorizontal: 42,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  modalButtonCancel: {
+    backgroundColor: "#FDFDFD",
+    width: 158,
+    height: 36,
+    paddingVertical: 8,
+    paddingHorizontal: 42,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: "#FDFDFD",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    fontStyle: "normal",
+    lineHeight: 19.8,
+  },
+  modalButtonTextCancel: {
+    color: "#5E5D5C",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    fontStyle: "normal",
+    lineHeight: 19.8,
+  },
+  image: {
+    backgroundColor: "#5FA8FF",
+    width: 48,
+    height: 48,
+    padding: 12,
+    borderRadius: 42,
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: 0,
+    position: "absolute", // Sai do fluxo normal do layout
+    top: "0%", // Alinha dinamicamente no topo do container
+    left: "57%", // Centraliza horizontalmente no modal
+    transform: [
+      { translateX: -24 }, // Movimenta horizontalmente pela metade da largura
+      { translateY: -24 }, // Movimenta verticalmente pela metade da altura
+    ],
   },
 });
