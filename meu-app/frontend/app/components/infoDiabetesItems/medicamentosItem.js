@@ -25,7 +25,7 @@ const TipoDeInsulinaItem = () => {
           <TouchableOpacity
             style={styles.btnAdd}
             onPress={() => {
-              router.navigate("caminho-do-formulário");
+              router.navigate("../../screens/registerPressArterial");
             }}
           >
             <Text style={styles.btnText}>Adicionar medicamento</Text>
