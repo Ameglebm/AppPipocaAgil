@@ -3,10 +3,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function ButtonSave({ onPress }) {
-  ButtonSave.propTypes = {
-    onPress: PropTypes.func.isRequired,
-  };
-
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.moveButtton} onPress={onPress}>
@@ -15,6 +11,10 @@ export default function ButtonSave({ onPress }) {
     </View>
   );
 }
+
+ButtonSave.propTypes = {
+  onPress: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

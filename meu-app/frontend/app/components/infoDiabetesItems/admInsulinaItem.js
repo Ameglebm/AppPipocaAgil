@@ -25,20 +25,6 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
       ]
     : [];
 
-  // Validação de props
-  AdmInsulinaItem.propTypes = {
-    scrollToNextSlide: PropTypes.func.isRequired,
-    item: PropTypes.shape({
-      id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
-      title: PropTypes.string,
-      typeOne: PropTypes.string,
-      typeTwo: PropTypes.string,
-      typeThree: PropTypes.string,
-      typeFour: PropTypes.string,
-      typeFive: PropTypes.string,
-      typeSix: PropTypes.string,
-    }).isRequired, // item é obrigatório
-  };
   // Estado para controlar o tipo selecionado
   const [selectedType, setSelectedType] = useState(null);
 
@@ -95,6 +81,21 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
     </SafeAreaProvider>
   );
 }
+
+// Validação de props
+AdmInsulinaItem.propTypes = {
+  scrollToNextSlide: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
+    title: PropTypes.string,
+    typeOne: PropTypes.string,
+    typeTwo: PropTypes.string,
+    typeThree: PropTypes.string,
+    typeFour: PropTypes.string,
+    typeFive: PropTypes.string,
+    typeSix: PropTypes.string,
+  }).isRequired, // item é obrigatório
+};
 
 const styles = StyleSheet.create({
   container: {
