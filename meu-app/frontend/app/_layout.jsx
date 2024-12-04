@@ -97,7 +97,7 @@ export default function Layout() {
       />
       {/* Tela de Recuperação de Senha */}
       <Stack.Screen
-        name="screens/addMedication"
+        name="screens/addInsulin"
         options={{
           headerShown: false, // Sem header na tela de recuperação de senha
         }}
