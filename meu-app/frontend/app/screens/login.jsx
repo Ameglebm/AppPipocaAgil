@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ShowHide from "../components/showHide";
@@ -61,7 +62,11 @@ export default function Login() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={100} // Evita Sobreposição
+    >
       <View>
         <Image
           style={styles.image}
