@@ -14,6 +14,7 @@ import ShowHide from "../components/showHide";
 import ButtonLogin from "../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
+import { saveToken } from "../Utils/tokenManager";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -52,12 +53,15 @@ export default function Login() {
 
       console.log(response);
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.token) {
         // Ajuste conforme o que sua API retorna como sucesso
+        saveToken(response.data.token);
         router.replace("./homeScreen");
+      } else {
+        console.error("Login bem-sucedido, mas sem token");
       }
     } catch (error) {
-      console.log(error);
+      console.log("Erro no login:", error);
     }
   };
 
