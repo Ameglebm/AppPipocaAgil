@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,31 +8,28 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "expo-router";
-import DatePicker from "react-native-modern-datepicker";
+import DatePicker from "react-native-modern-datepicker"; // Biblioteca usada para criar calendario e relogio
+import { useNavigation, useRouter } from "expo-router";
 
 export default function registerPressArterial() {
   const navigation = useNavigation();
+  const router = useRouter();
 
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [selected, setSelected] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [openDateModal, setOpenDateModal] = useState(false); // abrir e fechar o modal
   const [openTimeModal, setOpenTimeModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(false);
+  const [systolic, setSystolic] = useState(""); // Valor do campo sistólico
+  const [diastolic, setDiastolic] = useState(""); // Valor do campo diastólico
   const [date, setDate] = useState("/ /"); // variavel de data
   const [time, setTime] = useState("00:00");
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    console.log("Cancel action confirmed!");
-    closeModal();
-  };
+  useEffect(() => {
+    //Ao iniciar a página seta o header dela como false
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   function handleDateModal() {
     setOpenDateModal(!openDateModal);
@@ -45,14 +43,73 @@ export default function registerPressArterial() {
     setDate(propDate);
   }
 
+  // Mostra o modal de cancelamento
+  function openCancelModal() {
+    setIsModalVisible(true);
+  }
+
+  // Fecha o modal sem ação
+  function closeCancelModal() {
+    setIsModalVisible(false);
+  }
+
+  function saveDate() {
+    if (date !== "/ /") {
+      setSelectedDate(true); // Marca que uma data válida foi selecionada
+      setOpenDateModal(false); // Fecha o modal
+    }
+  }
+
   function handleTimeChange(propTime) {
     setTime(propTime);
   }
 
-  useEffect(() => {
-    //Ao iniciar a página seta o header dela como false
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
+  function saveTime() {
+    if (date !== "00:00") {
+      setSelectedTime(true); // Marca que uma hora válida foi selecionada
+      setOpenTimeModal(false); // Fecha o modal
+    }
+  }
+  // Reseta todos os campos para os valores padrão
+  function resetFields() {
+    setSystolic("");
+    setDiastolic("");
+    setSelectedDate(false);
+    setSelectedTime(false);
+    setDate("/ /");
+    setTime("00:00");
+  }
+
+  // Confirma o cancelamento e reseta os campos
+  function confirmCancel() {
+    resetFields();
+    closeCancelModal();
+  }
+  const saveRegister = () => {
+    console.log("Registro Salvo");
+    router.replace("./homeScreen");
+  };
+
+  /*API para validar e enviar os dados futuramente
+  const sendForm = async () => {
+    try {
+      const response = await api.post("/endpoint-", {
+        systolic: systolic,
+        diastolic: diastolic,
+        date: date,
+        time: time,
+      });
+
+      console.log(response);
+
+      if (){
+        router.replace('/dir-tela')
+      } 
+    } catch {
+      console.log("Error ao registar")
+    }
+  };*/
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -71,28 +128,54 @@ export default function registerPressArterial() {
 
         <View style={styles.inputs}>
           <TextInput
-            style={styles.inputsText}
+            style={[
+              styles.inputsText,
+              selected === "systolic" && styles.inputFocused, // Aplica o estilo se for o campo sistólico
+            ]}
+            onFocus={() => setSelected("systolic")} // Define o campo atual como focado
+            onBlur={() => setSelected(null)} // Reseta o estado quando desfocado
             placeholder="-"
             placeholderTextColor="#B1B0AF"
             keyboardType="numeric"
+            value={systolic}
+            onChangeText={(text) => setSystolic(text)} // Atualiza o valor do campo sistólico
           />
           <TextInput
-            style={styles.inputsText}
+            style={[
+              styles.inputsText,
+              selected === "diastolic" && styles.inputFocused, // Aplica o estilo se for o campo sistólico
+            ]}
+            onFocus={() => setSelected("diastolic")} // Define o campo atual como focado
+            onBlur={() => setSelected(null)} // Reseta o estado quando desfocado
             placeholder="-"
             placeholderTextColor="#B1B0AF"
             keyboardType="numeric"
+            value={diastolic}
+            onChangeText={(text) => setDiastolic(text)} // Atualiza o valor do campo sistólico
           />
         </View>
+
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>Data e hora da aferição</Text>
         </View>
+
         <View style={{ flexDirection: "row", gap: 12 }}>
-          <TouchableOpacity style={styles.btnModal} onPress={handleDateModal}>
-            <Text style={{ color: "#B1B0AF", textAlign: "center" }}>
+          <TouchableOpacity
+            style={[
+              styles.btnModal,
+              selectedDate && styles.btnModalSelected, // Aplica estilo se a data foi salva
+            ]}
+            onPress={handleDateModal}
+          >
+            <Text
+              style={[
+                styles.dateTextStyle, // Estilo padrão do texto
+                selectedDate && styles.dateTextStyleSelected, // Estilo quando a data foi salva
+              ]}
+            >
               {date}
             </Text>
           </TouchableOpacity>
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -105,14 +188,26 @@ export default function registerPressArterial() {
                   selected={date}
                   onDateChange={handleDateChange} // capturar a data selecionada
                 />
-                <TouchableOpacity onPress={handleDateModal}>
+                <TouchableOpacity onPress={saveDate}>
                   <Text>Salvar</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </Modal>
-          <TouchableOpacity style={styles.btnModal} onPress={handleTimeModal}>
-            <Text style={{ color: "#B1B0AF", textAlign: "center" }}>
+
+          <TouchableOpacity
+            style={[
+              styles.btnModal,
+              selectedTime && styles.btnModalSelected, // Aplica estilo se a data foi salva
+            ]}
+            onPress={handleTimeModal}
+          >
+            <Text
+              style={[
+                styles.dateTextStyle, // Estilo padrão do texto
+                selectedTime && styles.dateTextStyleSelected, // Estilo quando a data foi salva
+              ]}
+            >
               {time}
             </Text>
           </TouchableOpacity>
@@ -128,27 +223,36 @@ export default function registerPressArterial() {
                   selected={time}
                   onTimeChange={handleTimeChange}
                 />
-                <TouchableOpacity onPress={handleTimeModal}>
+                <TouchableOpacity onPress={saveTime}>
                   <Text>Salvar</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </Modal>
         </View>
+
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.btnCancel} onPress={openModal}>
+          <TouchableOpacity style={styles.btnCancel} onPress={openCancelModal}>
             <Text style={styles.textCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnRegister}>
+          <TouchableOpacity
+            style={[
+              styles.btnRegister,
+              systolic && diastolic && selectedDate && selectedTime
+                ? styles.btnRegisterActive
+                : null, // Estilo ativo se os campos estiverem preenchidos
+            ]}
+            onPress={saveRegister}
+          >
             <Text style={styles.textRegister}>Registrar</Text>
           </TouchableOpacity>
         </View>
+
         {/* Modal de Confirmação */}
         <Modal
           transparent={true}
           visible={isModalVisible}
           animationType="slide"
-          onRequestClose={closeModal}
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -159,16 +263,17 @@ export default function registerPressArterial() {
               <Text style={styles.modalText}>
                 Confirmar cancelamento do registro de Pressão Arterial?
               </Text>
+
               <View style={styles.modalButtons}>
                 <TouchableOpacity
                   style={styles.modalButtonConfirm}
-                  onPress={handleCancel}
+                  onPress={confirmCancel}
                 >
                   <Text style={styles.modalButtonText}>Confirmar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.modalButtonCancel}
-                  onPress={closeModal}
+                  onPress={closeCancelModal}
                 >
                   <Text style={styles.modalButtonTextCancel}>Cancelar</Text>
                 </TouchableOpacity>
@@ -235,6 +340,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2, // Opacidade da sombra
     shadowRadius: 1, // Raio da sombra
   },
+  inputFocused: {
+    borderColor: "#B4D2F8", // Cor de borda ao focar
+    borderWidth: 2, // Bordas mais espessas
+  },
   dateContainer: {
     alignSelf: "flex-start", // Alinha o texto à esquerda
     width: "100%",
@@ -260,6 +369,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 }, // Posição da sombra
     shadowOpacity: 0.2, // Opacidade da sombra
     shadowRadius: 1, // Raio da sombra
+  },
+  btnModalSelected: {
+    backgroundColor: "#EDF3FF", // Cor de fundo para indicar seleção
+    borderColor: "#EDF3FF", // Mesma cor da borda
+  },
+  dateTextStyle: {
+    color: "#898887", // Cor padrão
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Lato_400Regular",
+  },
+
+  dateTextStyleSelected: {
+    color: "#282828", // Cor do texto ao salvar
+    textAlign: "center",
+    fontFamily: "Lato_400Regular",
   },
   centeredView: {
     flex: 1,
@@ -294,20 +419,31 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#FDFDFD",
   },
-  btnRegister: {
-    width: 154,
-    height: 36,
-    paddingVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    backgroundColor: "#7A98FF",
-  },
   textCancel: {
     color: "#898887",
     fontFamily: "Urbanist_700Bold",
     fontSize: 18,
     lineHeight: 19.8,
+  },
+  btnRegister: {
+    width: 154,
+    height: 36,
+    paddingVertical: 6,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+    backgroundColor: "#7A98FF",
+    borderWidth: 1,
+    borderColor: "#7A98FF", // Persian Blue do Figma
+    // Sombras
+    shadowColor: "rgba(12, 12, 13, 1)", // Cor da sombra
+    shadowOffset: { width: 0, height: 2 }, // Deslocamento da sombra
+    shadowOpacity: 0.15, // Opacidade da primeira sombra
+    shadowRadius: 6, // Raio da primeira sombra
+    elevation: 6, // Necessário para Android
+  },
+  btnRegisterActive: {
+    backgroundColor: "#2F39D3", // Cor quando ativo
   },
   textRegister: {
     color: "#FDFDFD",
@@ -315,6 +451,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 19.8,
   },
+
   modalOverlay: {
     flex: 1,
     height: 222,
@@ -330,6 +467,23 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "relative", // Define um contexto de posicionamento para `absolute` na imagem
     overflow: "visible", // Evita cortes na imagem
+  },
+  image: {
+    backgroundColor: "#5FA8FF",
+    width: 48,
+    height: 48,
+    padding: 12,
+    borderRadius: 42,
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: 0,
+    position: "absolute", // Sai do fluxo normal do layout
+    top: "0%", // Alinha dinamicamente no topo do container
+    left: "57%", // Centraliza horizontalmente no modal
+    transform: [
+      { translateX: -24 }, // Movimenta horizontalmente pela metade da largura
+      { translateY: -24 }, // Movimenta verticalmente pela metade da altura
+    ],
   },
   modalText: {
     width: "80%",
@@ -379,22 +533,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontStyle: "normal",
     lineHeight: 19.8,
-  },
-  image: {
-    backgroundColor: "#5FA8FF",
-    width: 48,
-    height: 48,
-    padding: 12,
-    borderRadius: 42,
-    justifyContent: "center",
-    alignItems: "center",
-    flexShrink: 0,
-    position: "absolute", // Sai do fluxo normal do layout
-    top: "0%", // Alinha dinamicamente no topo do container
-    left: "57%", // Centraliza horizontalmente no modal
-    transform: [
-      { translateX: -24 }, // Movimenta horizontalmente pela metade da largura
-      { translateY: -24 }, // Movimenta verticalmente pela metade da altura
-    ],
   },
 });
