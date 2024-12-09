@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     fontFamily: "Lato_400Regular",
+    fontSize: 16,
+    lineHeight: 22,
   },
   inputFocused: {
     borderColor: "#5FA8FF",

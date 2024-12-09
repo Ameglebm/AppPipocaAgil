@@ -1,26 +1,23 @@
-import React, { useState } from "react";
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { RadioButton } from "react-native-paper";
-import InfoOcatagon from "./svgComponenets/InfoOctagon";
+import InfoOctagon from "./svgComponenets/InfoOctagon";
 
-const RadioButtonCustom = ({ title, style, label }) => {
-  const [value, setValue] = useState(null);
+const RadioButtonCustom = ({ title, label, value, selectedValue, onPress }) => {
   return (
     <View style={styles.container}>
       {title && (
         <View style={styles.header}>
-          <InfoOcatagon />
+          <InfoOctagon />
           <Text style={styles.textHeader}>{title}</Text>
         </View>
       )}
       <View style={styles.radioContainer}>
-        <Text style={styles.optionText}>
-          {label || "Décimos da unidade - Ex.: 0,1.0,2 UI"}
-        </Text>
+        <Text style={styles.optionText}>{label}</Text>
         <RadioButton
-          value={label} // Usa o label como o valor único
-          status={value === label ? "checked" : "unchecked"} // Verifica se o valor corresponde ao selecionado
-          onPress={() => setValue(label)} // Atualiza o estado com o valor do label
+          value={value} // Define o valor único para este botão
+          status={selectedValue === value ? "checked" : "unchecked"} // Verifica se o botão deve estar marcado
+          onPress={onPress} // Função para alterar o valor selecionado
         />
       </View>
     </View>
@@ -31,10 +28,10 @@ export default RadioButtonCustom;
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     backgroundColor: "#FDFDFD",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 12,
   },
   header: {
     width: 288,
@@ -42,6 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingBottom: 12,
     gap: 10,
+    marginTop: 35,
   },
   textHeader: {
     fontFamily: "Urbanist_400Regular",

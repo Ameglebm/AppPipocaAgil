@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ShowHide from "../components/showHide";
@@ -50,7 +51,6 @@ export default function Login() {
       });
 
       console.log(response);
-      sessionStorage.setItem("token", response.data.token);
 
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
@@ -62,7 +62,11 @@ export default function Login() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={100} // Evita Sobreposição
+    >
       <View>
         <Image
           style={styles.image}
@@ -102,7 +106,6 @@ export default function Login() {
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.containerBtn}>
           <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>

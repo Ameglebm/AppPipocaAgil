@@ -19,10 +19,6 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   // Busca o item com id === '3' no array de dados
   const metaGlicemica = data.find((item) => item.id === "3");
 
-  MetaGlicemicaScreen.propTypes = {
-    scrollToNextSlide: PropTypes.func.isRequired,
-  };
-
   // Estado para armazenar os valores inseridos pelo usuário
   const [valores, setValores] = useState([
     { minimo: "", ideal: "", maximo: "" },
@@ -157,6 +153,10 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
       </ScrollView>
     </SafeAreaProvider>
   );
+};
+
+MetaGlicemicaScreen.propTypes = {
+  scrollToNextSlide: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
