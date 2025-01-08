@@ -60,7 +60,10 @@ export const resetPasswordSchema = z
   .object({
     email: z.string().email('Formato de e-mail inválido'),
     code: z.string().length(6, 'Código deve ter 6 dígitos'),
-    novaSenha: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
+    novaSenha: z.string()
+      .min(8, 'A senha deve ter pelo menos 8 caracteres')
+      .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Senha deve conter pelo menos um caractere especial'),
     confirmarNovaSenha: z.string().min(8, 'A confirmação da senha deve ter pelo menos 8 caracteres'),
   })
   .superRefine((data, ctx) => {
