@@ -56,9 +56,9 @@ function AddInsulin() {
       )
     );
   };
-  const handleRadioChange = (key) => {
+  /*const handleRadioChange = (key) => {
     setSelectedRadio(key); // Atualiza o estado com o botão selecionado
-  };
+  };*/
 
   const handleSave = () => {
     const allTextFieldsFilled = formData
