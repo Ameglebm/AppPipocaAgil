@@ -35,12 +35,14 @@ export default function Layout() {
   }
 
   return (
-    <Stack screenOptions={{}} /*config para todas as telas*/>
-      {/* Tela Home */}
+    <Stack
+      screenOptions={{ headerShown: false }} /*config para todas as telas*/
+    >
+      {/* SplashScreen */}
       <Stack.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "SplashScreen",
           headerShown: false,
           headerTitleStyle: {
             fontSize: 28,
@@ -50,6 +52,12 @@ export default function Layout() {
           },
         }}
       />
+
+      {/*Onboard*/}
+      <Stack.Screen name="screens/onboard" options={{ title: "Onboard" }} />
+
+      {/*Welcome*/}
+      <Stack.Screen name="screens/welcome" options={{ title: "Welcome" }} />
 
       {/* Tela de Login */}
       <Stack.Screen
@@ -95,13 +103,6 @@ export default function Layout() {
           ),
         }}
       />
-      {/* Tela de Recuperação de Senha */}
-      <Stack.Screen
-        name="screens/addInsulin"
-        options={{
-          headerShown: false, // Sem header na tela de recuperação de senha
-        }}
-      />
 
       {/* Tela de CheckSuccess */}
       <Stack.Screen
@@ -139,6 +140,46 @@ export default function Layout() {
               <AntDesign name="left" size={24} color="black" />
             </TouchableOpacity>
           ),
+        }}
+      />
+
+      {/*Recovery password*/}
+      <Stack.Screen
+        name="screens/recoverYourAccount"
+        options={{ title: "RecoverAccount" }}
+      />
+
+      {/*Define password*/}
+      <Stack.Screen
+        name="screens/defineNewPassword"
+        options={{ title: "DefinePassword" }}
+      />
+
+      {/*HomeScreen*/}
+      <Stack.Screen
+        name="screens/homeScreen"
+        options={{ title: "HomeScreen" }}
+      />
+
+      {/*Information of Diabete*/}
+      <Stack.Screen
+        name="screens/infoDiabetes"
+        options={{ title: "InfoDiabetes" }}
+      />
+
+      {/* Tela de adicionar insulina */}
+      <Stack.Screen
+        name="screens/addInsulin"
+        options={{
+          headerShown: false, // Sem header na tela de add insulina
+        }}
+      />
+
+      {/* Tela de adicionar medicamentos */}
+      <Stack.Screen
+        name="screens/addMedication"
+        options={{
+          headerShown: false, // Sem header na tela de add medicamentos
         }}
       />
     </Stack>
