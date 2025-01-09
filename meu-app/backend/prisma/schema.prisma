@@ -8,15 +8,22 @@ generator client {
 }
 
 model Users {
-  id                  Int                  @id @default(autoincrement())
+  id                  Int                           @id @default(autoincrement())
   nome                String
   sobrenome           String
-  email               String               @unique
-  cpf                 String               @unique
+  email               String                        @unique
+  cpf                 String                        @unique
   senha               String
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  createdAt           DateTime                      @default(now())
+  updatedAt           DateTime                      @updatedAt
   passwordResetTokens PasswordResetToken[]
+  userDiabetes        User_diabetes[]
+  userTratamentos     User_tratamento[]
+  userMedicacoes      User_medicacao[]
+  metasGlicemicas     Meta_Glicemia[]
+  userLembretes       User_Lembretes[]
+  userInsulinas       User_insulina[]
+  userAdminInsulinas  User_administracao_insulina[]
 }
 
 model PasswordResetToken {
@@ -26,4 +33,132 @@ model PasswordResetToken {
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model User_diabetes {
+  id         Int           @id @default(autoincrement())
+  user       Users         @relation(fields: [userId], references: [id])
+  userId     Int
+  diabetes   Tipo_diabetes @relation(fields: [diabetesId], references: [id])
+  diabetesId Int
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Tipo_diabetes {
+  id           Int             @id @default(autoincrement())
+  nome         String
+  userDiabetes User_diabetes[]
+}
+
+model User_tratamento {
+  id               Int             @id @default(autoincrement())
+  user             Users           @relation(fields: [userId], references: [id])
+  userId           Int
+  tipoTratamento   Tipo_tratamento @relation(fields: [tipoTratamentoId], references: [id])
+  tipoTratamentoId Int
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model Tipo_tratamento {
+  id              Int               @id @default(autoincrement())
+  nome            String
+  userTratamentos User_tratamento[]
+}
+
+model User_medicacao {
+  id             Int          @id @default(autoincrement())
+  user           Users        @relation(fields: [userId], references: [id])
+  userId         Int
+  medicamento    Medicamento  @relation(fields: [medicamentoId], references: [id])
+  medicamentoId  Int
+  tipoDosagem    Tipo_dosagem @relation(fields: [tipoDosagemId], references: [id])
+  tipoDosagemId  Int
+  dosagemQtd     Float
+  dosesRestantes Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Medicamento {
+  id             Int              @id @default(autoincrement())
+  nome           String
+  userMedicacoes User_medicacao[]
+}
+
+model Tipo_dosagem {
+  id             Int              @id @default(autoincrement())
+  nome           String
+  userMedicacoes User_medicacao[]
+  userInsulinas  User_insulina[]
+}
+
+model Meta_Glicemia {
+  id        Int               @id @default(autoincrement())
+  user      Users             @relation(fields: [userId], references: [id])
+  userId    Int
+  periodo   Periodo_glicemico @relation(fields: [periodoId], references: [id])
+  periodoId Int
+  metaMin   Int
+  metaIdeal Int
+  metaMax   Int
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  isAtual   Boolean
+}
+
+model Periodo_glicemico {
+  id              Int             @id @default(autoincrement())
+  nome            String
+  metasGlicemicas Meta_Glicemia[]
+}
+
+model User_Lembretes {
+  id         Int      @id @default(autoincrement())
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     Int
+  lembrete   Lembrete @relation(fields: [lembreteId], references: [id])
+  lembreteId Int
+  dataInicio DateTime
+  dataFim    DateTime
+  horarios   Json
+  isAtivo    Boolean
+  createdAt  DateTime @default(now())
+}
+
+model Lembrete {
+  id            Int              @id @default(autoincrement())
+  nome          String
+  userLembretes User_Lembretes[]
+}
+
+model User_administracao_insulina {
+  id              Int                    @id @default(autoincrement())
+  user            Users                  @relation(fields: [userId], references: [id])
+  userId          Int
+  adminInsulina   Administracao_insulina @relation(fields: [adminInsulinaId], references: [id])
+  adminInsulinaId Int
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+}
+
+model Administracao_insulina {
+  id                Int                           @id @default(autoincrement())
+  nome              String
+  userAdminInsulina User_administracao_insulina[]
+  userInsulina      User_insulina[]
+}
+
+model User_insulina {
+  id            Int                    @id @default(autoincrement())
+  user          Users                  @relation(fields: [userId], references: [id])
+  userId        Int
+  insulina      Administracao_insulina @relation(fields: [insulinaId], references: [id])
+  insulinaId    Int
+  tipoDosagem   Tipo_dosagem           @relation(fields: [tipoDosagemId], references: [id])
+  tipoDosagemId Int
+  dosagemQtd    Float
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
 }
