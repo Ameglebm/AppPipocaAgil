@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   FlatList,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -28,6 +27,14 @@ export default function ScreenOne() {
     { id: "extra", isExtraView: true },
   ];
 
+  const handleItemClick = (id) => {
+    if (id === "2") {
+      router.push('/screens/settingsSchedules');
+    } else {
+      router.push('/screens/infoDiabetes');
+    }
+  };
+
   const renderItem = ({ item }) => {
     if (item.isHeader) {
       return (
@@ -49,7 +56,7 @@ export default function ScreenOne() {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonCoracao}
-          onPress={() => router.push("screens/infoDiabetes")}
+          onPress={() => handleItemClick(item.id)}
         >
           <item.svg style={styles.image} />
           <Text style={styles.buttonText}>{item.title}</Text>
