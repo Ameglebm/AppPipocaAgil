@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons"; // Biblioteca de ícones do Expo
+import Feather from "@expo/vector-icons/Feather"; // Biblioteca de ícones do Expo
 import PropTypes from "prop-types";
 
 const PasswordInput = ({ onChangeText, value, placeholder }) => {
@@ -16,8 +16,7 @@ const PasswordInput = ({ onChangeText, value, placeholder }) => {
   };
 
   return (
-    <View>
-      <View style={styles.container}>
+    <View style={styles.container}>
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
@@ -25,14 +24,13 @@ const PasswordInput = ({ onChangeText, value, placeholder }) => {
           onChangeText={onChangeText}
           value={value}
         />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <MaterialIcons
-            name={isPasswordVisible ? "visibility-off" : "visibility"}
+        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconContainer}>
+          <Feather
+            name={isPasswordVisible ? "eye-off" : "eye"}
             size={24}
-            color="grey"
+            color="#B1B0AF"
           />
         </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -40,19 +38,34 @@ const PasswordInput = ({ onChangeText, value, placeholder }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center", 
+    borderWidth: 1,
+    borderColor: "#B1B0AF", // Cor da borda
+    backgroundColor: "#FDFDFD",
+    borderRadius: 6,
+    
+  },
+  textInput: {
+    flex: 1,
     fontSize: 16,
     paddingVertical: 10,
     paddingHorizontal: 14,
     height: 44,
-    borderWidth: 1,
-    borderColor: "#b7b7b8",
-    backgroundColor: "#FDFDFD",
     borderRadius: 6,
+    // Sombra para iOS
+    shadowColor: 'rgba(15, 15, 15, 0.12)', // Cor da sombra
+    shadowOffset: { width: 0, height: 2 }, // Deslocamento vertical e horizontal
+    shadowOpacity: 1, // Opacidade da sombra
+    shadowRadius: 5, // Suavidade
+
+    // Sombra para Android
+    elevation: 4, // Altura da sombra (simula profundidade)
   },
-  textInput: {
-    fontSize: 16,
-  },
+  iconContainer: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  }
 });
 
 export default PasswordInput;
