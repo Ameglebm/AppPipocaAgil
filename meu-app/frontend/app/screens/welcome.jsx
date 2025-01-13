@@ -15,8 +15,8 @@ export default function welcome() {
   const titulo = "Bem vindo(a) ao InsuCheck!";
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <SafeAreaView style={{ backgroundColor: "#FDFDFD" }}>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: "#FDFDFD" }}>
+      <SafeAreaView>
         <View style={styles.mainContainer}>
           <Text style={styles.title}>{titulo}</Text>
 
