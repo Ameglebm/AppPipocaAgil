@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
-import { UserService } from '../services/userService';
 import { ZodError } from 'zod';
 import { GetUserParamsDTO, DeleteUserParamsDTO } from '../dtos/userDTO';
-
-const userService = new UserService();
+import { userService } from '../container';
 
 export const getUser = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   try {

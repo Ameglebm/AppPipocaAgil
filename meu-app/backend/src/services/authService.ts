@@ -1,21 +1,35 @@
-import { UserRepository } from '../repositories/userRepository';
-import { AuthRepository } from '../repositories/authRepository';
-
 import bcrypt from 'bcrypt';
 import { ZodError } from 'zod';
+import jwt from 'jsonwebtoken';
 import transporter from '../lib/nodemailer';
 import { addMinutes } from 'date-fns';
-import jwt from 'jsonwebtoken';
-import { loginSchema, registerUserSchema, requestPasswordResetSchema, resetPasswordSchema, verifyResetCodeSchema } from '../validators/authValidator';
-import { LoginDTO, RegisterUserDTO, RequestPasswordResetDTO, ResetPasswordDTO, VerifyResetCodeDTO } from '../dtos/authDTO';
+import {
+  loginSchema,
+  registerUserSchema,
+  requestPasswordResetSchema,
+  resetPasswordSchema,
+  verifyResetCodeSchema,
+} from '../validators/authValidator';
+import {
+  LoginDTO,
+  RegisterUserDTO,
+  RequestPasswordResetDTO,
+  ResetPasswordDTO,
+  VerifyResetCodeDTO,
+} from '../dtos/authDTO';
+import { UserRepository } from '../repositories/userRepository';
+import { AuthRepository } from '../repositories/authRepository';
 
 export class AuthService {
   private userRepository: UserRepository;
   private authRepository: AuthRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
-    this.authRepository = new AuthRepository();
+  constructor(
+    userRepository: UserRepository,
+    authRepository: AuthRepository
+  ) {
+    this.userRepository = userRepository;
+    this.authRepository = authRepository;
   }
 
   async registerUser(data: RegisterUserDTO): Promise<void> {

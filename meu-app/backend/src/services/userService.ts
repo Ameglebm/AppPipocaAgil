@@ -1,16 +1,13 @@
 import { UserRepository } from '../repositories/userRepository';
 import { deleteUserParamsSchema, getUserParamsSchema } from '../validators/userValidator';
 import { ZodError } from 'zod';
-import {
-  GetUserParamsDTO,
-  DeleteUserParamsDTO,
-} from '../dtos/userDTO';
+import { GetUserParamsDTO, DeleteUserParamsDTO } from '../dtos/userDTO';
 
 export class UserService {
   private userRepository: UserRepository;
 
-  constructor() {
-    this.userRepository = new UserRepository();
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
   }
 
   async getUser(params: GetUserParamsDTO): Promise<any> {
@@ -23,14 +20,12 @@ export class UserService {
         throw new Error('Usuário não encontrado');
       }
 
-      // Retornar dados do usuário sem a senha
       return {
         id: user.id,
         nome: user.nome,
         sobrenome: user.sobrenome,
         email: user.email,
         cpf: user.cpf,
-        // Adicione outros campos conforme necessário, excluindo 'senha'
       };
     } catch (error) {
       if (error instanceof ZodError) {

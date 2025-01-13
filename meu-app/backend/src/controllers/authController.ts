@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { AuthService } from '../services/authService';
 import { ZodError } from 'zod';
 import {
   RegisterUserDTO,
@@ -8,8 +7,7 @@ import {
   ResetPasswordDTO,
   VerifyResetCodeDTO,
 } from '../dtos/authDTO';
-
-const authService = new AuthService();
+import { authService } from '../container';
 
 export const registerUser = async (req: Request<{}, {}, RegisterUserDTO>, res: Response): Promise<void> => {
   try {
