@@ -19,7 +19,7 @@ export const registerUserSchema = z
       .string()
       .min(8, 'Senha deve ter pelo menos 8 caracteres')
       .regex(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
-      .regex(/[!@#$%^&*(),.?":{}|<>]/, 'Senha deve conter pelo menos um caractere especial'),
+      .regex(/[!@#$%^&*(),.?":;{}|<>]/, 'Senha deve conter pelo menos um caractere especial'),
     confirmar_senha: z.string().min(8, 'Confirmação de senha deve ter pelo menos 8 caracteres'),
   })
   .superRefine((data, ctx) => {
