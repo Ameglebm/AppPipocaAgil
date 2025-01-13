@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import ShowHide from "../components/showHide";
+import PasswordInput from "../components/passwordInput";
 import ButtonLogin from "../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
@@ -94,7 +94,7 @@ export default function Login() {
 
           <View style={styles.containerPass}>
             <Text style={styles.textForm}>Senha*</Text>
-            <ShowHide
+            <PasswordInput
               placeholder="Digite sua senha"
               onChangeText={setPassword}
               secureTextEntry={true}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     height: 44,
     borderWidth: 1,
-    borderColor: "#B7B7B8",
+    borderColor: "#B1B0AF",
     backgroundColor: "#FDFDFD",
     borderRadius: 6,
   },
