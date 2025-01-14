@@ -1,6 +1,6 @@
 // components/Header.js
 import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { removeToken } from "../Utils/tokenManager";
 import User from "./svgComponenets/User";
@@ -28,13 +28,13 @@ export default function Header() {
 
   return (
     <View style={styles.header}>
-      <View style={styles.profileContainer}>
+      <TouchableOpacity style={styles.profileContainer} onPress={logout}>
         <User style={styles.image}></User>
         <Text style={styles.perfil}>Conta</Text>
-      </View>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonContainer}>
-        <Plus style={styles.imagePlus}></Plus>
+        <Plus />
       </TouchableOpacity>
     </View>
   );
