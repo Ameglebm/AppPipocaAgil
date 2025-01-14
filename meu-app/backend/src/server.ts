@@ -14,6 +14,8 @@ app.use(cors());
 // Documentação Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+
+
 // Rotas
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
