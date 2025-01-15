@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert  } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView  } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import axios from 'axios';
 import CustomHeader from "../components/CustomHeader";
 import ModalClock from '../components/modalClock';
 import Button from '../components/Button';
 import Plus from "../components/svgComponenets/Plus";
+import Trash from "../components/svgComponenets/TrashSvg";
 
 export default function SettingsSchedules() {
   const [days, setDays] = useState([
@@ -92,19 +93,20 @@ export default function SettingsSchedules() {
                 value={day.selected}
                 onValueChange={() => toggleDaySelection(index)}
                 style={styles.checkbox}
+                color={day.selected ? "#5A74FA" : undefined} // Define a cor quando marcado
               />
             </View>
           ))}
         </View>
       </View>
-      <View>
+      <ScrollView>
         {doses.map((dose, index) => (
-          <View key={dose.id} >
-            <Text style={{paddingBottom: 8}}>{`${dose.id}ª Dose`}</Text>
+          <View key={dose.id} style={{ marginBottom: 16 }}>
+            <Text style={styles.textDose}>{`${dose.id}ª Dose`}</Text>
             <ModalClock onTimeChange={(time) => handleTimeChange(dose.id, time)} />
               {dose.id > 1 && (
                 <TouchableOpacity onPress={() => removeDose(dose.id)} style={styles.deleteButton}>
-                  <Text style={styles.deleteButtonText}>Deletar</Text>
+                  <Trash />
                 </TouchableOpacity>
               )}
               {index == doses.length - 1 && (
@@ -114,8 +116,15 @@ export default function SettingsSchedules() {
               )}
             </View>
         ))}
-      </View>
-      <Button title={"Salvar"} onPress={handleSubmit} style={styles.buttonSave} />
+        <Button 
+        title={"Salvar"} 
+        onPress={handleSubmit} 
+        style={[styles.buttonSave, 
+        doses.length == 1 && { position: 'relative', marginTop: 168 },
+        doses.length == 2 && { position: 'relative', marginTop: 79 },
+        doses.length >= 3 && { position: 'relative', marginBottom: 16
+        }]}/>
+      </ScrollView>
     </View>
   );
 }
@@ -161,7 +170,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   checkbox: {
-   marginTop: 10, 
+   marginTop: 10,
+  },
+  textDose: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    color: "#282828",
+    paddingBottom: 8,
+    lineHeight: 21
   },
   btnModal: {
     width: 154,
@@ -214,7 +230,6 @@ const styles = StyleSheet.create({
   },
   buttonSave: {
     width: 320,
-    alignSelf: "center",
     height: 42,
   },
   btnAdd: {
@@ -226,5 +241,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf:"center",
+  },
+  deleteButton: {
+    position: "absolute",
+    top: 37,
+    left: 284
   },
 });
