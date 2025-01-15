@@ -36,7 +36,9 @@ const modalClock = ({onTimeChange}) => {
         selectedTime && styles.dateTextStyleSelected, // Estilo quando a hora foi salva
         ]}
         >
-        {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {selectedTime 
+          ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+          : "Selecione o horário"}
         </Text>
       </TouchableOpacity>     
       {showPicker && (
@@ -45,6 +47,7 @@ const modalClock = ({onTimeChange}) => {
         display="spinner"
         value={time}
         onChange={handleTimeChange}
+        is24Hour={true} // Exibe o relógio no formato 24 horas
         />
       )}
     </View>
@@ -76,14 +79,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDFDFD", // Cor de fundo para indicar seleção
   },
   dateTextStyle: {
-    color: "#373737", // Cor padrão
-    textAlign: "center",
+    color: "#B1B0AF", // Cor padrão
     fontSize: 16,
     fontFamily: "Lato_400Regular",
   },
   dateTextStyleSelected: {
-    color: "#282828", // Cor do texto ao salvar
-    textAlign: "center",
+    color: "#373737", // Cor do texto ao salvar
     fontFamily: "Lato_400Regular",
   },
 });
