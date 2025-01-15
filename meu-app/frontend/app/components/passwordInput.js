@@ -51,15 +51,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     height: 44,
-    borderRadius: 6,
-    // Sombra para iOS
     shadowColor: 'rgba(15, 15, 15, 0.12)', // Cor da sombra
     shadowOffset: { width: 0, height: 2 }, // Deslocamento vertical e horizontal
     shadowOpacity: 1, // Opacidade da sombra
     shadowRadius: 5, // Suavidade
-
     // Sombra para Android
-    elevation: 4, // Altura da sombra (simula profundidade)
+    elevation: 1, // Altura da sombra (simula profundidade)
   },
   iconContainer: {
     position: 'absolute',
