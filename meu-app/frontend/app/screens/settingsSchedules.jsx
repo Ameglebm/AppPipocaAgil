@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView  } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import axios from 'axios';
+// Components
 import CustomHeader from "../components/CustomHeader";
 import ModalClock from '../components/modalClock';
 import Button from '../components/Button';
@@ -20,6 +21,7 @@ export default function SettingsSchedules() {
   ]);
 
   const [doses, setDoses] = useState([{ id: 1, time: null }]);
+  const [selectedTimes, setSelectedTimes] = useState([]); // Armazena os horários selecionados
 
   const addDose = () => {
     setDoses((prevDoses) => [
@@ -43,8 +45,7 @@ export default function SettingsSchedules() {
     setDays(newDays);
   };
 
-  const [selectedTimes, setSelectedTimes] = useState([]); // Armazena os horários selecionados
-   const handleTimeChange = (time) => {
+  const handleTimeChange = (time) => {
     setSelectedTimes(prevTimes => [...prevTimes, time]); // Adiciona horário ao array
   };
 
@@ -78,54 +79,59 @@ export default function SettingsSchedules() {
   }};
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
-      <CustomHeader title={"Configurar horários"} />
-      <View style={styles.container}>
-        <Text style={styles.title}>Selecione os dias da semana</Text>
-        <TouchableOpacity onPress={toggleSelectAll} style={styles.selectAllButton}>
-          <Text style={styles.selectAllButtonText}>Selecionar todos</Text>
-        </TouchableOpacity>
-        <View style={styles.daysContainer}>
-          {days.map((day, index) => (
-            <View key={index} style={styles.dayContainer}>
-              <Text style={styles.dayText}>{day.day}</Text>
-              <Checkbox
+    <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{marginTop: 50, paddingBottom: 16}}>
+        <CustomHeader title={"Configurar horários"}/>
+      </View>
+      
+      <View style={{alignItems: "center"}}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Selecione os dias da semana</Text>
+          <TouchableOpacity onPress={toggleSelectAll} style={styles.selectAllButton}>
+            <Text style={styles.selectAllButtonText}>Selecionar todos</Text>
+          </TouchableOpacity>
+          <View style={styles.daysContainer}>
+            {days.map((day, index) => (
+              <View key={index} style={styles.dayContainer}>
+                <Text style={styles.dayText}>{day.day}</Text>
+                <Checkbox
                 value={day.selected}
                 onValueChange={() => toggleDaySelection(index)}
                 style={styles.checkbox}
                 color={day.selected ? "#5A74FA" : undefined} // Define a cor quando marcado
-              />
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+        <View>
+          {doses.map((dose, index) => (
+            <View key={dose.id} style={{ marginBottom: 18 }}>
+              <Text style={styles.textDose}>{`${dose.id}ª Dose`}</Text>
+              <ModalClock onTimeChange={(time) => handleTimeChange(dose.id, time)} />
+                {dose.id > 1 && (
+                  <TouchableOpacity onPress={() => removeDose(dose.id)} style={styles.deleteButton}>
+                    <Trash />
+                  </TouchableOpacity>
+                )}
+                {index == doses.length - 1 && (
+                  <TouchableOpacity style={styles.btnAdd} onPress={addDose}>
+                    <Plus style={styles.imagePlus} />
+                  </TouchableOpacity>
+                )}
             </View>
           ))}
-        </View>
-      </View>
-      <ScrollView>
-        {doses.map((dose, index) => (
-          <View key={dose.id} style={{ marginBottom: 16 }}>
-            <Text style={styles.textDose}>{`${dose.id}ª Dose`}</Text>
-            <ModalClock onTimeChange={(time) => handleTimeChange(dose.id, time)} />
-              {dose.id > 1 && (
-                <TouchableOpacity onPress={() => removeDose(dose.id)} style={styles.deleteButton}>
-                  <Trash />
-                </TouchableOpacity>
-              )}
-              {index == doses.length - 1 && (
-                <TouchableOpacity style={styles.btnAdd} onPress={addDose}>
-                  <Plus style={styles.imagePlus} />
-                </TouchableOpacity>
-              )}
-            </View>
-        ))}
         <Button 
         title={"Salvar"} 
         onPress={handleSubmit} 
         style={[styles.buttonSave, 
-        doses.length == 1 && { position: 'relative', marginTop: 168 },
-        doses.length == 2 && { position: 'relative', marginTop: 79 },
+        doses.length == 1 && { position: 'relative', marginTop: 105 },
+        doses.length == 2 && { position: 'relative', marginTop: 20 },
         doses.length >= 3 && { position: 'relative', marginBottom: 16
         }]}/>
-      </ScrollView>
-    </View>
+      </View>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -170,13 +176,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   checkbox: {
-   marginTop: 10,
+   marginTop: 16,
+   borderColor: "#49454F"
+  
   },
   textDose: {
     fontFamily: "Lato_400Regular",
     fontSize: 14,
     color: "#282828",
-    paddingBottom: 8,
+    paddingBottom: 5,
     lineHeight: 21
   },
   btnModal: {
