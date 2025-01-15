@@ -21,13 +21,12 @@ const CustomHeader = ({ title, style }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center", // Centraliza os itens verticalmente
     justifyContent: "center",
     backgroundColor: "#FDFDFD",
     gap: 8,
-    height: 67,
-    padding: 20,
-    marginTop: 10,
+    paddingHorizontal: 20, // Mantém espaçamento lateral
+    paddingVertical: 20, // Adiciona padding vertical
   },
   backButton: {},
   title: {
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
     width: 289,
     height: 27,
     alignItems: "center",
+    lineHeight: 26, // Ajuste para evitar cortes
   },
 });
 
