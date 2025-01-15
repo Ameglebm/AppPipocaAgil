@@ -8,7 +8,7 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import DatePicker from "react-native-modern-datepicker"; // Biblioteca usada para criar calendario e relogio
+import DatePicker from '@react-native-community/datetimepicker'; // Biblioteca usada para criar calendario e relogio
 import { useNavigation, useRouter } from "expo-router";
 
 export default function registerPressArterial() {
@@ -184,9 +184,10 @@ export default function registerPressArterial() {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <DatePicker
-                  mode="calendar"
-                  selected={date}
-                  onDateChange={handleDateChange} // capturar a data selecionada
+                mode="date"
+                display="spinner"
+                value={date}
+                onChange={handleDateChange}
                 />
                 <TouchableOpacity onPress={saveDate}>
                   <Text>Salvar</Text>
@@ -219,9 +220,10 @@ export default function registerPressArterial() {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <DatePicker
-                  mode="time"
-                  selected={time}
-                  onTimeChange={handleTimeChange}
+                mode="time"
+                display="spinner"
+                value={time}
+                onChange={handleTimeChange}
                 />
                 <TouchableOpacity onPress={saveTime}>
                   <Text>Salvar</Text>
