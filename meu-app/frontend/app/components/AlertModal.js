@@ -33,10 +33,20 @@ const AlertModal = ({ modalVisible, onClose, message, buttons = [] }) => {
           {buttons.map((button, index) => (
             <TouchableOpacity
               key={index}
-              style={[styles.button, button.style]}
+              style={[
+                styles.button,
+                button.style,
+                button.label === "Depois" && styles.afterBtn,
+              ]}
               onPress={button.onPress}
             >
-              <Text style={[styles.buttonText, button.textStyle]}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  button.textStyle,
+                  button.label === "Depois" && styles.afterBtnText,
+                ]}
+              >
                 {button.label}
               </Text>
             </TouchableOpacity>
@@ -93,14 +103,28 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: 8,
+    paddingHorizontal: 42,
     borderRadius: 8,
-    backgroundColor: "black",
+    backgroundColor: "#2F39D3",
+    width: 256,
+    height: 36,
   },
   buttonText: {
-    fontSize: 16,
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
     textAlign: "center",
-    backgroundColor: "red",
+    color: "#FDFDFD",
+    lineHeight: 19.8,
+  },
+  afterBtn: {
+    backgroundColor: "#FDFDFD",
+  },
+  afterBtnText: {
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    textAlign: "center",
+    lineHeight: 19.8,
+    color: "#5E5D5C",
   },
 });
