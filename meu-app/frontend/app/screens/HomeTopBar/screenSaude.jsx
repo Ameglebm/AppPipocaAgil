@@ -29,9 +29,9 @@ export default function ScreenOne() {
 
   const handleItemClick = (id) => {
     if (id === "2") {
-      router.push('/screens/settingsSchedules');
+      router.push("/definir-rota");
     } else {
-      router.push('/screens/infoDiabetes');
+      router.push("/screens/infoDiabetes");
     }
   };
 
