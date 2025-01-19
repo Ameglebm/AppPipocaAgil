@@ -7,8 +7,10 @@ import ButtonSave from "../components/ButtonSave";
 import ModalCustom from "../components/Modal";
 import AlertModal from "../components/AlertModal";
 import EnableNotifications from "../components/EnableNotifications";
+import { useRouter } from "expo-router";
 
 function AddInsulin() {
+  const router = useRouter();
   const [selectedRadio, setSelectedRadio] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [frequencia, setFrequencia] = useState(null);
@@ -113,9 +115,18 @@ function AddInsulin() {
   const handleNotificationClose = () => {
     setNotificationModalVisible(false);
   };
+
+  const handleNavigateToSchedules = () => {
+    setNotificationModalVisible(false);
+    router.push("./settingsSchedules"); // Certifique-se que essa rota está registrada no Stack Navigator.
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <CustomHeader title={"Adicionar Insulina"} />
+      <View>
+        <CustomHeader title={"Adicionar Insulina"} />
+      </View>
+
       {formData.map((item) =>
         item.isRadioButton ? (
           <RadioButtonCustom
@@ -137,10 +148,12 @@ function AddInsulin() {
           />
         )
       )}
+
       <EnableNotifications
         value={isSwitchEnabled}
         onValueChange={toggleSwitch}
       ></EnableNotifications>
+
       <View style={styles.notificacaoContainer}>
         <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
         <Text style={styles.textNotificacao}>
@@ -172,6 +185,16 @@ function AddInsulin() {
         <AlertModal
           visible={notificationModalVisible}
           onClose={handleNotificationClose}
+          buttons={[
+            {
+              label: "Configurar agora",
+              onPress: handleNavigateToSchedules, // Navegar para a tela de configurações
+            },
+            {
+              label: "Depois",
+              onPress: handleNotificationClose, // Fechar modal
+            },
+          ]}
         />
       )}
     </ScrollView>
