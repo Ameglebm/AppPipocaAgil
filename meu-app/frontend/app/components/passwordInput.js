@@ -17,20 +17,23 @@ const PasswordInput = ({ onChangeText, value, placeholder }) => {
 
   return (
     <View style={styles.container}>
-        <TextInput
-          style={styles.textInput}
-          placeholder={placeholder}
-          secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
-          onChangeText={onChangeText}
-          value={value}
+      <TextInput
+        style={styles.textInput}
+        placeholder={placeholder}
+        secureTextEntry={!isPasswordVisible} // Controla a visibilidade da senha
+        onChangeText={onChangeText}
+        value={value}
+      />
+      <TouchableOpacity
+        onPress={togglePasswordVisibility}
+        style={styles.iconContainer}
+      >
+        <Feather
+          name={isPasswordVisible ? "eye-off" : "eye"}
+          size={24}
+          color="#B1B0AF"
         />
-        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconContainer}>
-          <Feather
-            name={isPasswordVisible ? "eye-off" : "eye"}
-            size={24}
-            color="#B1B0AF"
-          />
-        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -38,12 +41,11 @@ const PasswordInput = ({ onChangeText, value, placeholder }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "center", 
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#B1B0AF", // Cor da borda
     backgroundColor: "#FDFDFD",
     borderRadius: 6,
-    
   },
   textInput: {
     flex: 1,
@@ -51,18 +53,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     height: 44,
-    shadowColor: 'rgba(15, 15, 15, 0.12)', // Cor da sombra
-    shadowOffset: { width: 0, height: 2 }, // Deslocamento vertical e horizontal
-    shadowOpacity: 1, // Opacidade da sombra
-    shadowRadius: 5, // Suavidade
-    // Sombra para Android
-    elevation: 1, // Altura da sombra (simula profundidade)
   },
   iconContainer: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
     top: 10,
-  }
+  },
 });
 
 export default PasswordInput;
