@@ -123,7 +123,7 @@ function AddInsulin() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View>
+      <View style={{ marginTop: 35 }}>
         <CustomHeader title={"Adicionar Insulina"} />
       </View>
 
@@ -173,6 +173,7 @@ function AddInsulin() {
           )}
         </Text>
       </View>
+
       <ButtonSave onPress={handleSave} />
       {modalVisible && (
         <ModalCustom
@@ -181,6 +182,7 @@ function AddInsulin() {
           message={"Registro salvo com sucesso"}
         />
       )}
+
       {notificationModalVisible && (
         <AlertModal
           visible={notificationModalVisible}
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 16,
     paddingHorizontal: 20,
-    gap: 12,
+    gap: 8,
     backgroundColor: "#FDFDFD",
     alignItems: "center",
     justifyContent: "center",
