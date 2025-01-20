@@ -1,5 +1,12 @@
+// Bibliotecas externas
 import React, { useState, useEffect } from "react";
-import { View, Alert, StyleSheet, Text, ScrollView } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+
+// Estilos
+import styles from "../assets/styles/addInsulin";
+
+// Componentes
 import CustomHeader from "../components/CustomHeader";
 import RadioButtonCustom from "../components/RadioButtonCustom";
 import CustomInput from "../components/CustomInput";
@@ -7,17 +14,19 @@ import ButtonSave from "../components/ButtonSave";
 import ModalCustom from "../components/Modal";
 import AlertModal from "../components/AlertModal";
 import EnableNotifications from "../components/EnableNotifications";
-import { useRouter } from "expo-router";
 
 function AddInsulin() {
   const router = useRouter();
+
+  const { frequency, doseString } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
+  const isConfigured = frequency && doseString; // Verifica se os dados foram configurados
+
   const [selectedRadio, setSelectedRadio] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [frequencia, setFrequencia] = useState(null);
-  const [dose, setDose] = useState(null);
   const [notificationModalVisible, setNotificationModalVisible] =
     useState(false);
   const [isSwitchEnabled, setIsSwitchEnabled] = useState(false); // Estado do switch
+
   const [formData, setFormData] = useState([
     {
       id: 1,
@@ -65,9 +74,6 @@ function AddInsulin() {
       )
     );
   };
-  /*const handleRadioChange = (key) => {
-    setSelectedRadio(key); // Atualiza o estado com o botão selecionado
-  };*/
 
   const handleSave = () => {
     const allTextFieldsFilled = formData
@@ -94,13 +100,7 @@ function AddInsulin() {
       return () => clearTimeout(timer);
     }
   }, [modalVisible]);
-  useEffect(() => {
-    // Simulando recebimento dos dados
-    setTimeout(() => {
-      setFrequencia("seg, qua, sex");
-      setDose("11:00"); // Dados recebidos
-    }, 3000); // Simulação de 3 segundos
-  }, []);
+
   useEffect(() => {
     if (isSwitchEnabled) {
       setNotificationModalVisible(true); // Abre o modal quando o switch estiver ativo
@@ -108,6 +108,7 @@ function AddInsulin() {
       setNotificationModalVisible(false); // Fecha o modal quando o switch estiver desativado
     }
   }, [isSwitchEnabled]);
+
   // Alterna o estado do switch
   const toggleSwitch = () => setIsSwitchEnabled((prevState) => !prevState);
 
@@ -154,25 +155,30 @@ function AddInsulin() {
         onValueChange={toggleSwitch}
       ></EnableNotifications>
 
-      <View style={styles.notificacaoContainer}>
-        <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
-        <Text style={styles.textNotificacao}>
-          <Text style={styles.frequencia}>Frequência </Text>{" "}
-          {frequencia ? (
-            <Text style={styles.dados}>{frequencia}</Text>
-          ) : (
-            <Text style={styles.dados}>Carregando...</Text>
-          )}
-        </Text>
-        <Text style={styles.textNotificacao}>
-          <Text style={styles.frequencia}>1º Dose </Text>{" "}
-          {dose ? (
-            <Text style={styles.dados}>{dose}</Text>
-          ) : (
-            <Text style={styles.dados}>Carregando...</Text>
-          )}
-        </Text>
-      </View>
+      {/* Verifica se os dados estão configurados para mostrar as notificações */}
+      {isConfigured && (
+        <View style={styles.notificacaoContainer}>
+          <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
+
+          {/* Frequência dos dias */}
+          <Text style={styles.textNotificacao}>
+            <Text style={styles.frequencia}>Frequência: </Text>
+            {frequency || "Carregando..."}
+          </Text>
+
+          {/* Exibe as doses e horários de forma separada */}
+          {doseString
+            ? doseString.split(", ").map((dose, index) => (
+                <Text key={index} style={styles.textNotificacao}>
+                  <Text
+                    style={styles.frequencia}
+                  >{`${index + 1}ª Dose: `}</Text>
+                  {dose || "Carregando..."}
+                </Text>
+              ))
+            : null}
+        </View>
+      )}
 
       <ButtonSave onPress={handleSave} />
       {modalVisible && (
@@ -203,41 +209,3 @@ function AddInsulin() {
   );
 }
 export default AddInsulin;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 16,
-    paddingHorizontal: 20,
-    gap: 8,
-    backgroundColor: "#FDFDFD",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    gap: 16,
-  },
-  notificacaoContainer: {
-    width: 320,
-    height: 97,
-    gap: 16,
-  },
-  notificacaoTitle: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  textNotificacao: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 16,
-    lineHeight: 22,
-  },
-  frequencia: {
-    color: "#2F39D3",
-  },
-  dados: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 14,
-    color: "#282828",
-  },
-});
