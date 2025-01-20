@@ -1,7 +1,7 @@
 // Bibliotecas externas
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import axios from "axios";
+import { useRouter } from "expo-router";
 import Checkbox from "expo-checkbox";
 
 // Estilos
@@ -17,17 +17,34 @@ import Plus from "../components/svgComponenets/Plus";
 import Trash from "../components/svgComponenets/TrashSvg";
 
 export default function SettingsSchedules() {
+  const router = useRouter();
   // Lógica para renderizar os dias
   // Estado inicial que armazena os dias da semana como objetos.
   const [days, setDays] = useState([
-    { day: "D", selected: false },
-    { day: "S", selected: false },
-    { day: "T", selected: false },
-    { day: "Q", selected: false },
-    { day: "Q", selected: false },
-    { day: "S", selected: false },
-    { day: "S", selected: false },
+    { id: 1, day: "D", selected: false },
+    { id: 2, day: "S", selected: false },
+    { id: 3, day: "T", selected: false },
+    { id: 4, day: "Q", selected: false },
+    { id: 5, day: "Q", selected: false },
+    { id: 6, day: "S", selected: false },
+    { id: 7, day: "S", selected: false },
   ]);
+
+  // Mapeamento de nomes completos para os dias
+  const dayMap = {
+    1: "Dom",
+    2: "Seg",
+    3: "Ter",
+    4: "Qua",
+    5: "Qui",
+    6: "Sex",
+    7: "Sáb",
+  };
+
+  // Função para capturar os dias selecionados formatados
+  const getFormattedDays = () => {
+    return days.filter((day) => day.selected).map((day) => dayMap[day.id]); // Mapeia o ID para o nome completo
+  };
 
   const toggleSelectAll = () => {
     const allSelected = days.every((day) => day.selected); // Verifica se todos os elementos no array "days" tem "selected" igual a "true"
@@ -40,40 +57,67 @@ export default function SettingsSchedules() {
     ); // Inverte o estado de `selected`.
   };
 
-  const toggleDaySelection = (index) => {
-    const newDays = [...days]; // Cria uma cópia superficial do array days usando o spread operator (...).
-    newDays[index].selected = !newDays[index].selected; // Acessar a propriedade selected do array newDays dentro do indice e alterar seu valor entre true ou false
-    setDays(newDays); // Atualiza o estado days com a cópia modificada, disparando uma re-renderização do componente
+  const toggleDaySelection = (id) => {
+    setDays((prevDays) =>
+      prevDays.map((day) =>
+        day.id === id
+          ? { ...day, selected: !day.selected } // Alterna o estado de 'selected' para o dia com o ID correspondente
+          : day
+      )
+    );
   };
 
   // Lógica para adicionar ou remover o campo de dose
   const [doses, setDoses] = useState([{ id: 1, time: null }]);
 
   const addDose = () => {
-    setDoses((prevDoses) => [
-      ...prevDoses,
-      { id: prevDoses.length + 1, time: null },
-    ]);
+    setDoses((prevDoses) => {
+      const newDose = { id: prevDoses.length + 1, time: null };
+      setSelectedTimes((prevTimes) => [...prevTimes, null]); // Adiciona um novo `null` ao array
+      return [...prevDoses, newDose];
+    });
   };
 
   const removeDose = (id) => {
-    setDoses((prevDoses) => prevDoses.filter((dose) => dose.id !== id));
+    setDoses((prevDoses) => {
+      const updatedDoses = prevDoses.filter((dose) => dose.id !== id); // Remove a dose com o ID especificado
+      // Reatribui os IDs para garantir que eles sejam sequenciais
+      const reindexedDoses = updatedDoses.map((dose, index) => ({
+        ...dose, // Mantém todas as propriedades da dose
+        id: index + 1, // Reatribui o ID de forma sequencial
+      }));
+      return reindexedDoses; // Atualiza o estado com os IDs reindexados
+    });
+
+    setSelectedTimes((prevTimes) =>
+      prevTimes.filter((_, index) => index !== id - 1)
+    ); // Atualiza os horários para manter a consistência
   };
 
   // Lógica para captar o horário selecionado pelo usuário
-  const [selectedTimes, setSelectedTimes] = useState([]); // Armazena os horários selecionados
+  const [selectedTimes, setSelectedTimes] = useState(doses.map(() => null)); // Armazena os horários selecionados
 
-  const handleTimeChange = (time) => {
-    setSelectedTimes((prevTimes) => [...prevTimes, time]); // Adiciona horário ao array
+  const handleTimeChange = (doseId, newTime) => {
+    const formattedTime = newTime.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    setSelectedTimes((prevTimes) => {
+      const updatedTimes = [...prevTimes];
+      updatedTimes[doseId - 1] = formattedTime; // Atualiza o índice correto baseado no `doseId`
+      return updatedTimes;
+    });
   };
 
   // Lógica da API
-  const handleSubmit = async () => {
-    const selectedDays = days
-      .filter((day) => day.selected)
-      .map((day) => day.day);
+  const handleSubmit = () => {
+    const selectedDays = getFormattedDays();
 
-    if (selectedDays.length === 0 || selectedTimes.length === 0) {
+    const validTimes = selectedTimes.filter((time) => time !== null);
+
+    if (selectedDays.length === 0 || validTimes.length === 0) {
       Alert.alert(
         "Erro",
         "Por favor, selecione pelo menos um dia e um horário."
@@ -81,29 +125,24 @@ export default function SettingsSchedules() {
       return;
     }
 
+    // Converte os dados para os formatos desejados
+    const formattedFrequencia = selectedDays.join(", "); // Ex.: "seg, qua, sex"
+    const formattedDose = validTimes.join(", "); // Ex.: "11:00, 15:30"
+
     const payload = {
       days: selectedDays,
-      times: selectedTimes, // Envia todos os horários selecionados
+      times: validTimes, // Apenas horários válidos
     };
 
-    try {
-      console.log("Enviando payload:", payload);
-      const response = await axios.post(
-        "https://sua-api.com/endpoint",
-        payload
-      );
-      console.log("Resposta da API:", response);
+    console.log("Enviando payload:", payload);
 
-      if (response.data) {
-        // Sucesso: Exibe a mensagem baseada na resposta
-        Alert.alert("Sucesso", "Configurações salvas com sucesso!");
-      } else {
-        // Caso o formato da resposta não seja o esperado
-        Alert.alert("Erro", "Resposta inesperada da API.");
-      }
-    } catch (error) {
-      console.error("Erro na API:", error);
-    }
+    router.push({
+      pathname: "./addInsulin",
+      params: {
+        frequency: formattedFrequencia,
+        doseString: formattedDose,
+      },
+    });
   };
 
   return (
@@ -122,15 +161,15 @@ export default function SettingsSchedules() {
             <Text style={styles.selectAllButtonText}>Selecionar todos</Text>
           </TouchableOpacity>
           <View style={styles.daysContainer}>
-            {days.map((day, index) => (
+            {days.map((day) => (
               <View
-                key={index} // O índice do array é usado como chave única para cada elemento renderizado.
+                key={day.id} // O índice do array é usado como chave única para cada elemento renderizado.
                 style={styles.dayContainer}
               >
                 <Text style={styles.dayText}>{day.day}</Text>
                 <Checkbox
                   value={day.selected} // Determina o estado inicial do checkbox.
-                  onValueChange={() => toggleDaySelection(index)} // o evento onValueChange será acionado quando o valor do componente mudar, e ao ser acionado, ele chamará a função toggleDaySelection com o índice (index) como argumento.
+                  onValueChange={() => toggleDaySelection(day.id)} // o evento onValueChange será acionado quando o valor do componente mudar, e ao ser acionado, ele chamará a função toggleDaySelection com o índice (index) como argumento.
                   style={styles.checkbox}
                   color={day.selected ? "#5A74FA" : undefined} // Define a cor quando marcado
                 />
