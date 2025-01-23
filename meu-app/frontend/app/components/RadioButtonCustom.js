@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingBottom: 12,
     gap: 10,
-    marginTop: 35,
+    marginTop: 30,
   },
   textHeader: {
     fontFamily: "Urbanist_400Regular",
@@ -78,9 +78,8 @@ const styles = StyleSheet.create({
   radioContainer: {
     flexDirection: "row",
     width: 288,
-    height: 54,
+    height: 46,
     borderTopWidth: 1,
-    gap: 8,
     borderColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "space-between",

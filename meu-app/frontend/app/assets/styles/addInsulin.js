@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    gap: 16,
+    gap: 8,
   },
   notificacaoContainer: {
     width: 320,

@@ -130,7 +130,7 @@ function AddInsulin() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={{ marginTop: 35 }}>
+      <View style={{ marginTop: 20, paddingBottom: 5 }}>
         <CustomHeader title={"Adicionar Insulina"} />
       </View>
 
@@ -156,10 +156,12 @@ function AddInsulin() {
         )
       )}
 
-      <EnableNotifications
-        value={isSwitchEnabled}
-        onValueChange={toggleSwitch}
-      ></EnableNotifications>
+      <View style={{ paddingTop: 28 }}>
+        <EnableNotifications
+          value={isSwitchEnabled}
+          onValueChange={toggleSwitch}
+        />
+      </View>
 
       {/* Verifica se os dados estão configurados para mostrar as notificações */}
       {isConfigured && (
@@ -187,6 +189,7 @@ function AddInsulin() {
       )}
 
       <ButtonSave onPress={handleSave} />
+
       {modalVisible && (
         <ModalCustom
           visible={modalVisible}
