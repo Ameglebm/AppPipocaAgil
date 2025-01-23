@@ -141,6 +141,7 @@ export default function SettingsSchedules() {
       params: {
         frequency: formattedFrequencia,
         doseString: formattedDose,
+        isSwitchEnabled: true,
       },
     });
   };
