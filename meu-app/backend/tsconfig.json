@@ -9,7 +9,13 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "src-novo/types"]
+    "typeRoots": ["./node_modules/@types", "src-novo/types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src-novo/*"]
+    }
   },
   "include": ["src-novo/**/*", "node_modules/@nestjs/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
