@@ -18,14 +18,20 @@ import EnableNotifications from "../components/EnableNotifications";
 function AddInsulin() {
   const router = useRouter();
 
-  const { frequency, doseString } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
+  const {
+    frequency,
+    doseString,
+    isSwitchEnabled: initialSwitchState,
+  } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
   const isConfigured = frequency && doseString; // Verifica se os dados foram configurados
 
   const [selectedRadio, setSelectedRadio] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [notificationModalVisible, setNotificationModalVisible] =
     useState(false);
-  const [isSwitchEnabled, setIsSwitchEnabled] = useState(false); // Estado do switch
+  const [isSwitchEnabled, setIsSwitchEnabled] = useState(
+    initialSwitchState === "true"
+  ); // Estado do switch
 
   const [formData, setFormData] = useState([
     {
@@ -102,12 +108,12 @@ function AddInsulin() {
   }, [modalVisible]);
 
   useEffect(() => {
-    if (isSwitchEnabled) {
+    if (isSwitchEnabled && !isConfigured) {
       setNotificationModalVisible(true); // Abre o modal quando o switch estiver ativo
     } else {
       setNotificationModalVisible(false); // Fecha o modal quando o switch estiver desativado
     }
-  }, [isSwitchEnabled]);
+  }, [isSwitchEnabled, isConfigured]);
 
   // Alterna o estado do switch
   const toggleSwitch = () => setIsSwitchEnabled((prevState) => !prevState);
