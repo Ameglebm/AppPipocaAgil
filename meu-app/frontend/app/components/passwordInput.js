@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     borderColor: "#B1B0AF", // Cor da borda
     backgroundColor: "#FDFDFD",
     borderRadius: 6,
+    elevation: 5,
   },
   textInput: {
     flex: 1,

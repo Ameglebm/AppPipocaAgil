@@ -106,7 +106,9 @@ export default function Login() {
 
         {/* Navegação para a tela de recuperação de senha */}
         <View style={styles.containerForgetPass}>
-          <TouchableOpacity onPress={() => router.push("screens/recoverYourAccount")}>
+          <TouchableOpacity
+            onPress={() => router.push("screens/recoverYourAccount")}
+          >
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
     borderColor: "#B1B0AF",
     backgroundColor: "#FDFDFD",
     borderRadius: 6,
+    elevation: 5,
   },
   containerPass: {
     paddingTop: 4,
