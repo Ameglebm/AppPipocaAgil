@@ -2,11 +2,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function ButtonSave({ onPress }) {
+export default function ButtonSave({ onPress, style }) {
   return (
-    <View style={[styles.container, styles]}>
-      <TouchableOpacity style={[styles.moveButtton]} onPress={onPress}>
-        <Text style={styles.textButton}>Salvar</Text>
+    <View style={[styles.container, style?.container]}>
+      <TouchableOpacity
+        style={[styles.moveButton, style?.moveButton]}
+        onPress={onPress}
+      >
+        <Text style={[styles.textButton, style?.textButton]}>Salvar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -14,6 +17,11 @@ export default function ButtonSave({ onPress }) {
 
 ButtonSave.propTypes = {
   onPress: PropTypes.func.isRequired,
+  style: PropTypes.shape({
+    container: PropTypes.object,
+    moveButton: PropTypes.object,
+    textButton: PropTypes.object,
+  }),
 };
 
 const styles = StyleSheet.create({
@@ -24,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
-  moveButtton: {
+  moveButton: {
     width: 320,
     height: 36,
     borderRadius: 8,
