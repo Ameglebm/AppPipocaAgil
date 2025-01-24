@@ -1,16 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import BackIconSvg from "./svgComponenets/BackIconSvg";
 
 const CustomHeader = ({ title, style }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   return (
     <View style={styles.header}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
+      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
         <BackIconSvg />
       </TouchableOpacity>
       <Text style={[styles.title, style]}>{title}</Text>
