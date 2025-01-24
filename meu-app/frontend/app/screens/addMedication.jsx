@@ -1,12 +1,20 @@
+// Bibliotecas externas
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
-import CustomHeader from "../components/CustomHeader";
-import Dropdown from "../components/DropDown";
-import CustomInput from "../components/CustomInput";
-import InputWithPressable from "../components/InputWithPressable";
+import { Alert, StyleSheet, ScrollView, Text, View } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+
+// Componentes
+import AlertModal from "../components/AlertModal";
 import ButtonSave from "../components/ButtonSave";
+import CustomHeader from "../components/CustomHeader";
+import CustomInput from "../components/CustomInput";
+import Dropdown from "../components/DropDown";
+import EnableNotifications from "../components/EnableNotifications";
+import InputWithPressable from "../components/InputWithPressable";
 import ModalCustom from "../components/Modal";
+
 const LabelInputScreen = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState([
     {
       id: 1,
@@ -22,7 +30,7 @@ const LabelInputScreen = () => {
     },
     {
       id: 3,
-      label: "Dosagem",
+      label: "Dosagem por administração",
       value: "",
       placeholder: "Dose",
       keyboardType: "numeric",
@@ -41,13 +49,51 @@ const LabelInputScreen = () => {
       keyboardType: "numeric",
     },
   ]);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const handleInputChange = (id, value) => {
     console.log(`Alterando campo ID ${id} com o valor:`, value);
     setFormData((prevData) =>
       prevData.map((item) => (item.id === id ? { ...item, value } : item))
     );
+  };
+
+  const [modalVisible, setModalVisible] = useState(false); //Controle de visibilidade do modal
+
+  // Controle do switch de notificação
+  const [isSwitchEnabled, setIsSwitchEnabled] = useState(
+    initialSwitchState === "true"
+  ); // Estado do switch
+
+  // Alterna o estado do switch
+  const toggleSwitch = () => setIsSwitchEnabled((prevState) => !prevState);
+
+  // Lógica para captar os dados da tela de configuração de horário
+  const {
+    frequency,
+    doseString,
+    isSwitchEnabled: initialSwitchState,
+  } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
+  const isConfigured = frequency && doseString; // Verifica se os dados foram configurados
+
+  const handleNavigateToSchedules = () => {
+    setNotificationModalVisible(false);
+    router.push("./settingsSchedules"); // Certifique-se que essa rota está registrada na stack screen
+  };
+
+  const [notificationModalVisible, setNotificationModalVisible] =
+    useState(false);
+
+  useEffect(() => {
+    if (isSwitchEnabled && !isConfigured) {
+      setNotificationModalVisible(true); // Abre o modal quando o switch estiver ativo
+    } else {
+      setNotificationModalVisible(false); // Fecha o modal quando o switch estiver desativado
+    }
+  }, [isSwitchEnabled, isConfigured]);
+
+  // Função para fechar o modal novo
+  const handleNotificationClose = () => {
+    setNotificationModalVisible(false);
   };
 
   const handleSave = () => {
@@ -71,6 +117,7 @@ const LabelInputScreen = () => {
       Alert.alert("Erro", "Por favor, preencha todos os campos.");
     }
   };
+
   useEffect(() => {
     if (modalVisible) {
       const timer = setTimeout(() => {
@@ -80,13 +127,13 @@ const LabelInputScreen = () => {
       return () => clearTimeout(timer);
     }
   }, [modalVisible]);
-  const customButtonStyle = {
-    paddingTop: 8,
-    paddingBottom: 8,
-  };
+
   return (
-    <View style={styles.container}>
-      <CustomHeader title={"Adicionar medicação"} />
+    <ScrollView style={styles.container}>
+      <View style={{ marginTop: 35, paddingBottom: 12 }}>
+        <CustomHeader title={"Adicionar medicação"} />
+      </View>
+
       {formData.map((item) => (
         <View style={[styles.infoContainer]} key={item.id}>
           {item.isInputWithPressable ? (
@@ -131,37 +178,114 @@ const LabelInputScreen = () => {
           )}
         </View>
       ))}
-      <ButtonSave
-        labelButton={"Salvar"}
-        style={customButtonStyle}
-        onPress={handleSave}
-      ></ButtonSave>
+
+      <View style={{ alignItems: "center", paddingTop: 32 }}>
+        <EnableNotifications
+          value={isSwitchEnabled}
+          onValueChange={toggleSwitch}
+        />
+      </View>
+
+      {/* Verifica se os dados estão configurados para mostrar as notificações */}
+      {isConfigured && (
+        <View style={styles.notificacaoContainer}>
+          <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
+
+          {/* Frequência dos dias */}
+          <Text style={styles.textNotificacao}>
+            <Text style={styles.frequencia}>Frequência: </Text>
+            {frequency || "Carregando..."}
+          </Text>
+
+          {/* Exibe as doses e horários de forma separada */}
+          {doseString
+            ? doseString.split(", ").map((dose, index) => (
+                <Text key={index} style={styles.textNotificacao}>
+                  <Text
+                    style={styles.frequencia}
+                  >{`${index + 1}ª Dose: `}</Text>
+                  {dose || "Carregando..."}
+                </Text>
+              ))
+            : null}
+        </View>
+      )}
+
+      <ButtonSave style={customButtonStyle} onPress={handleSave}></ButtonSave>
+
       <ModalCustom
         modalVisible={modalVisible}
         onClose={() => setModalVisible(false)}
         message={"Registro salvo com sucesso"}
       />
-    </View>
+
+      {notificationModalVisible && (
+        <AlertModal
+          visible={notificationModalVisible}
+          onClose={handleNotificationClose}
+          buttons={[
+            {
+              label: "Configurar agora",
+              onPress: handleNavigateToSchedules, // Navegar para a tela de configurações
+            },
+            {
+              label: "Depois",
+              onPress: handleNotificationClose, // Fechar modal
+            },
+          ]}
+        />
+      )}
+    </ScrollView>
   );
 };
 
 export default LabelInputScreen;
+
+const customButtonStyle = {
+  container: {
+    paddingBottom: 16,
+  },
+  moveButton: {
+    height: 42,
+  },
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FDFDFD",
     width: "100%",
-    flexDirection: "column",
-    paddingRight: 20,
-    paddingBottom: 32,
-    paddingLeft: 20,
-    gap: 16,
   },
   infoContainer: {
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+  },
+  notificacaoContainer: {
+    paddingLeft: 20,
+    width: 320,
+    height: 97,
+    paddingTop: 16,
+    gap: 16,
+  },
+  notificacaoTitle: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  textNotificacao: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    lineHeight: 22,
+  },
+  frequencia: {
+    color: "#2F39D3",
+    fontSize: 16,
+  },
+  dados: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    color: "#282828",
   },
 });
