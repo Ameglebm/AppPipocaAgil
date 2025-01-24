@@ -63,14 +63,6 @@ function AddInsulin() {
       isRadioButton: true,
       key: "wholeUnits",
     },
-
-    {
-      id: 5,
-      label: "Dosagem",
-      value: "",
-      placeholder: "Dose",
-      keyboardType: "numeric",
-    },
   ]);
 
   const handleInputChange = (id, value) => {
@@ -156,7 +148,11 @@ function AddInsulin() {
         )
       )}
 
-      <View style={{ paddingTop: 28 }}>
+      <View style={{ paddingTop: 12 }}>
+        <CustomInput title={"Dosagem"} placeholder={"Dose"} />
+      </View>
+
+      <View style={{ paddingTop: 20 }}>
         <EnableNotifications
           value={isSwitchEnabled}
           onValueChange={toggleSwitch}
@@ -188,7 +184,7 @@ function AddInsulin() {
         </View>
       )}
 
-      <ButtonSave onPress={handleSave} />
+      <ButtonSave onPress={handleSave} style={customButtonStyles} />
 
       {modalVisible && (
         <ModalCustom
@@ -218,3 +214,13 @@ function AddInsulin() {
   );
 }
 export default AddInsulin;
+
+const customButtonStyles = {
+  container: {
+    paddingTop: 30,
+    paddingBottom: 15,
+  },
+  moveButton: {
+    height: 42,
+  },
+};
