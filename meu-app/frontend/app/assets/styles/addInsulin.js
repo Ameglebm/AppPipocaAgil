@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   },
   frequencia: {
     color: "#2F39D3",
+    fontSize: 16,
   },
   dados: {
     fontFamily: "Lato_400Regular",
