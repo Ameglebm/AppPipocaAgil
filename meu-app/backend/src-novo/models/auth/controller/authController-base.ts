@@ -27,10 +27,16 @@ import { AuthService } from '../services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
-  async registerUser(@Body() registerUserDto: RegisterUserDTO) {
+  @ApiOperation({ summary: 'Criação de loja' })
+  @ApiResponse({ status: 201, description: 'Loja criada com sucesso!' })
+  @ApiResponse({
+      status: 400,
+      description: 'Erro ao criar loja, parâmetro inválido.',
+  })
+  @Post('register')   
+  async registerUser(@Body() newUserData: RegisterUserDTO) {
     try {
-      await this.authService.registerUser(registerUserDto);
+      await this.authService.registerUser(newUserData);
       // Em NestJS, basta retornar o objeto
       // que será convertido em JSON na resposta
       return { message: 'Usuário criado com sucesso' };
@@ -70,9 +76,9 @@ export class AuthController {
   }
 
   @Post('login')
-  async loginUser(@Body() loginDto: LoginDTO) {
+  async loginUser(@Body() loginData: LoginDTO) {
     try {
-      const result = await this.authService.loginUser(loginDto);
+      const result = await this.authService.loginUser(loginData);
       return {
         message: 'Login realizado com sucesso.',
         token: result.token,
