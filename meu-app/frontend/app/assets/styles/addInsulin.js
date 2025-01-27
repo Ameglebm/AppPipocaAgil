@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
   },
   notificacaoContainer: {
     width: 320,
-    height: 97,
     gap: 16,
+    flexShrink: 1,
   },
   notificacaoTitle: {
     fontFamily: "Lato_400Regular",
