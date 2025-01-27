@@ -1,6 +1,16 @@
-import { Stack, useRouter } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
+// React e hooks
+import React, { useEffect } from "react";
+
+// Componentes do React Native
 import { TouchableOpacity } from "react-native";
+
+// Expo Router e navegação
+import { Stack, useRouter } from "expo-router";
+
+// Ícones
+import AntDesign from "@expo/vector-icons/AntDesign";
+
+// Fontes
 import {
   Urbanist_400Regular,
   Urbanist_700Bold,
@@ -8,8 +18,9 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+
+// Splash Screen
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
