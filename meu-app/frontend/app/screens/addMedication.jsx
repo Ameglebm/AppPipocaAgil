@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   notificacaoContainer: {
     paddingLeft: 20,
     width: 320,
-    height: 97,
+    flexShrink: 1,
     paddingTop: 16,
     gap: 16,
   },
