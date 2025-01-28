@@ -1,20 +1,16 @@
 // Bibliotecas externas
 import React, { useState, useEffect } from "react";
-import { Alert, StyleSheet, ScrollView, Text, View } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { Alert, StyleSheet, ScrollView, View } from "react-native";
 
 // Componentes
-import AlertModal from "../components/AlertModal";
 import ButtonSave from "../components/ButtonSave";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import Dropdown from "../components/DropDown";
-import EnableNotifications from "../components/EnableNotifications";
 import InputWithPressable from "../components/InputWithPressable";
 import ModalCustom from "../components/Modal";
 
 const LabelInputScreen = () => {
-  const router = useRouter();
   const [formData, setFormData] = useState([
     {
       id: 1,
@@ -59,42 +55,15 @@ const LabelInputScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(false); //Controle de visibilidade do modal
 
-  // Controle do switch de notificação
-  const [isSwitchEnabled, setIsSwitchEnabled] = useState(
-    initialSwitchState === "true"
-  ); // Estado do switch
-
-  // Alterna o estado do switch
-  const toggleSwitch = () => setIsSwitchEnabled((prevState) => !prevState);
-
-  // Lógica para captar os dados da tela de configuração de horário
-  const {
-    frequency,
-    doseString,
-    isSwitchEnabled: initialSwitchState,
-  } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
-  const isConfigured = frequency && doseString; // Verifica se os dados foram configurados
-
-  const handleNavigateToSchedules = () => {
-    setNotificationModalVisible(false);
-    router.push("./settingsSchedules"); // Certifique-se que essa rota está registrada na stack screen
-  };
-
-  const [notificationModalVisible, setNotificationModalVisible] =
-    useState(false);
-
   useEffect(() => {
-    if (isSwitchEnabled && !isConfigured) {
-      setNotificationModalVisible(true); // Abre o modal quando o switch estiver ativo
-    } else {
-      setNotificationModalVisible(false); // Fecha o modal quando o switch estiver desativado
-    }
-  }, [isSwitchEnabled, isConfigured]);
+    if (modalVisible) {
+      const timer = setTimeout(() => {
+        setModalVisible(false);
+      }, 3000);
 
-  // Função para fechar o modal novo
-  const handleNotificationClose = () => {
-    setNotificationModalVisible(false);
-  };
+      return () => clearTimeout(timer);
+    }
+  }, [modalVisible]);
 
   const handleSave = () => {
     console.log("Form Data", formData);
@@ -117,16 +86,6 @@ const LabelInputScreen = () => {
       Alert.alert("Erro", "Por favor, preencha todos os campos.");
     }
   };
-
-  useEffect(() => {
-    if (modalVisible) {
-      const timer = setTimeout(() => {
-        setModalVisible(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [modalVisible]);
 
   return (
     <ScrollView style={styles.container}>
@@ -179,38 +138,6 @@ const LabelInputScreen = () => {
         </View>
       ))}
 
-      <View style={{ alignItems: "center", paddingTop: 32 }}>
-        <EnableNotifications
-          value={isSwitchEnabled}
-          onValueChange={toggleSwitch}
-        />
-      </View>
-
-      {/* Verifica se os dados estão configurados para mostrar as notificações */}
-      {isConfigured && (
-        <View style={styles.notificacaoContainer}>
-          <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
-
-          {/* Frequência dos dias */}
-          <Text style={styles.textNotificacao}>
-            <Text style={styles.frequencia}>Frequência: </Text>
-            {frequency || "Carregando..."}
-          </Text>
-
-          {/* Exibe as doses e horários de forma separada */}
-          {doseString
-            ? doseString.split(", ").map((dose, index) => (
-                <Text key={index} style={styles.textNotificacao}>
-                  <Text
-                    style={styles.frequencia}
-                  >{`${index + 1}ª Dose: `}</Text>
-                  {dose || "Carregando..."}
-                </Text>
-              ))
-            : null}
-        </View>
-      )}
-
       <ButtonSave style={customButtonStyle} onPress={handleSave}></ButtonSave>
 
       <ModalCustom
@@ -218,23 +145,6 @@ const LabelInputScreen = () => {
         onClose={() => setModalVisible(false)}
         message={"Registro salvo com sucesso"}
       />
-
-      {notificationModalVisible && (
-        <AlertModal
-          visible={notificationModalVisible}
-          onClose={handleNotificationClose}
-          buttons={[
-            {
-              label: "Configurar agora",
-              onPress: handleNavigateToSchedules, // Navegar para a tela de configurações
-            },
-            {
-              label: "Depois",
-              onPress: handleNotificationClose, // Fechar modal
-            },
-          ]}
-        />
-      )}
     </ScrollView>
   );
 };

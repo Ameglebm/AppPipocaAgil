@@ -1,10 +1,6 @@
 // Bibliotecas externas
 import React, { useState, useEffect } from "react";
-import { Alert, ScrollView, Text, View } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-
-// Estilos
-import styles from "../assets/styles/addInsulin";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 
 // Componentes
 import CustomHeader from "../components/CustomHeader";
@@ -12,26 +8,10 @@ import RadioButtonCustom from "../components/RadioButtonCustom";
 import CustomInput from "../components/CustomInput";
 import ButtonSave from "../components/ButtonSave";
 import ModalCustom from "../components/Modal";
-import AlertModal from "../components/AlertModal";
-import EnableNotifications from "../components/EnableNotifications";
 
 function AddInsulin() {
-  const router = useRouter();
-
-  const {
-    frequency,
-    doseString,
-    isSwitchEnabled: initialSwitchState,
-  } = useLocalSearchParams(); //Captar os dados da tela de configuração de horários
-  const isConfigured = frequency && doseString; // Verifica se os dados foram configurados
-
   const [selectedRadio, setSelectedRadio] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [notificationModalVisible, setNotificationModalVisible] =
-    useState(false);
-  const [isSwitchEnabled, setIsSwitchEnabled] = useState(
-    initialSwitchState === "true"
-  ); // Estado do switch
 
   const [formData, setFormData] = useState([
     {
@@ -99,27 +79,6 @@ function AddInsulin() {
     }
   }, [modalVisible]);
 
-  useEffect(() => {
-    if (isSwitchEnabled && !isConfigured) {
-      setNotificationModalVisible(true); // Abre o modal quando o switch estiver ativo
-    } else {
-      setNotificationModalVisible(false); // Fecha o modal quando o switch estiver desativado
-    }
-  }, [isSwitchEnabled, isConfigured]);
-
-  // Alterna o estado do switch
-  const toggleSwitch = () => setIsSwitchEnabled((prevState) => !prevState);
-
-  // Função para fechar o modal novo
-  const handleNotificationClose = () => {
-    setNotificationModalVisible(false);
-  };
-
-  const handleNavigateToSchedules = () => {
-    setNotificationModalVisible(false);
-    router.push("./settingsSchedules"); // Certifique-se que essa rota está registrada no Stack Navigator.
-  };
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={{ marginTop: 20, paddingBottom: 5 }}>
@@ -149,40 +108,12 @@ function AddInsulin() {
       )}
 
       <View style={{ paddingTop: 12 }}>
-        <CustomInput title={"Dosagem"} placeholder={"Dose"} />
-      </View>
-
-      <View style={{ paddingTop: 20 }}>
-        <EnableNotifications
-          value={isSwitchEnabled}
-          onValueChange={toggleSwitch}
+        <CustomInput
+          title={"Dosagem"}
+          placeholder={"Dose"}
+          keyboardType={"numeric"}
         />
       </View>
-
-      {/* Verifica se os dados estão configurados para mostrar as notificações */}
-      {isConfigured && (
-        <View style={styles.notificacaoContainer}>
-          <Text style={styles.notificacaoTitle}>Notificações configuradas</Text>
-
-          {/* Frequência dos dias */}
-          <Text style={styles.textNotificacao}>
-            <Text style={styles.frequencia}>Frequência: </Text>
-            {frequency || "Carregando..."}
-          </Text>
-
-          {/* Exibe as doses e horários de forma separada */}
-          {doseString
-            ? doseString.split(", ").map((dose, index) => (
-                <Text key={index} style={styles.textNotificacao}>
-                  <Text
-                    style={styles.frequencia}
-                  >{`${index + 1}ª Dose: `}</Text>
-                  {dose || "Carregando..."}
-                </Text>
-              ))
-            : null}
-        </View>
-      )}
 
       <ButtonSave onPress={handleSave} style={customButtonStyles} />
 
@@ -193,23 +124,6 @@ function AddInsulin() {
           message={"Registro salvo com sucesso"}
         />
       )}
-
-      {notificationModalVisible && (
-        <AlertModal
-          visible={notificationModalVisible}
-          onClose={handleNotificationClose}
-          buttons={[
-            {
-              label: "Configurar agora",
-              onPress: handleNavigateToSchedules, // Navegar para a tela de configurações
-            },
-            {
-              label: "Depois",
-              onPress: handleNotificationClose, // Fechar modal
-            },
-          ]}
-        />
-      )}
     </ScrollView>
   );
 }
@@ -217,10 +131,48 @@ export default AddInsulin;
 
 const customButtonStyles = {
   container: {
-    paddingTop: 30,
-    paddingBottom: 15,
+    paddingTop: 50,
   },
   moveButton: {
     height: 42,
   },
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 16,
+    paddingHorizontal: 20,
+    gap: 8,
+    backgroundColor: "#FDFDFD",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    gap: 8,
+  },
+  notificacaoContainer: {
+    width: 320,
+    gap: 16,
+    flexShrink: 1,
+  },
+  notificacaoTitle: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  textNotificacao: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  frequencia: {
+    color: "#2F39D3",
+    fontSize: 16,
+  },
+  dados: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 14,
+    color: "#282828",
+  },
+});
