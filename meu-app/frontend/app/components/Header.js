@@ -15,7 +15,7 @@ export default function Header() {
       // Remove o token do armazenamento
       await removeToken();
       console.log("Token removido com sucesso. Usuário desconectado.");
-      router.replace("../screens/login");
+      router.replace("../screens/Auth/loginScreen");
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
     }

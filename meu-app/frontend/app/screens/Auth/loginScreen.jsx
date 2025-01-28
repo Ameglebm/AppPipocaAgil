@@ -10,11 +10,11 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import PasswordInput from "../components/passwordInput";
-import ButtonLogin from "../components/ButtonLogin";
+import PasswordInput from "../../components/passwordInput";
+import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-import { saveToken } from "../Utils/tokenManager";
+import { saveToken } from "../../Utils/tokenManager";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ export default function Login() {
       if (response.status === 200 && response.data.token) {
         // Ajuste conforme o que sua API retorna como sucesso
         saveToken(response.data.token);
-        router.replace("./homeScreen");
+        router.replace("../homeScreen");
       } else {
         console.error("Login bem-sucedido, mas sem token");
       }
@@ -74,7 +74,7 @@ export default function Login() {
       <View>
         <Image
           style={styles.image}
-          source={require("../assets/images/user.webp")}
+          source={require("../../assets/images/user.webp")}
         />
       </View>
 
@@ -119,7 +119,7 @@ export default function Login() {
 
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Não possui uma conta? </Text>
-        <Link href={"screens/Auth/telaCadastro"} style={styles.textLink}>
+        <Link href={"screens/Auth/registerScreen"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>

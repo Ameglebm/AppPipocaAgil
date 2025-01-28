@@ -72,7 +72,7 @@ export default function Layout() {
 
       {/* Tela de Login */}
       <Stack.Screen
-        name="screens/login"
+        name="screens/Auth/loginScreen"
         options={{
           headerShown: false,
           title: "Login",
@@ -92,7 +92,7 @@ export default function Layout() {
 
       {/* Tela de Cadastro */}
       <Stack.Screen
-        name="screens/Auth/telaCadastro"
+        name="screens/Auth/registerScreen"
         options={{
           headerShown: false,
           title: "Crie a sua conta",

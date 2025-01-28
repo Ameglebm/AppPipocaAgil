@@ -34,7 +34,10 @@ export default function recoverAccountEmail() {
           <Text style={styles.text}>Senha recuperada com sucesso!</Text>
         </View>
 
-        <TouchableOpacity style={styles.btn} onPress={router.push("./login")}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={router.push("../Auth/loginScreen")}
+        >
           <Text style={styles.textBtn}>Login</Text>
         </TouchableOpacity>
       </View>

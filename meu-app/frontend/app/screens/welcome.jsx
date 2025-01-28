@@ -33,14 +33,14 @@ export default function welcome() {
 
             <TouchableOpacity
               style={styles.btnSignUp}
-              onPress={() => router.push("screens/Auth/telaCadastro")}
+              onPress={() => router.push("screens/Auth/registerScreen")}
             >
               <Text style={styles.textBtnSignUp}>Criar uma conta</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnSignIn}
-              onPress={() => router.push("./login")}
+              onPress={() => router.push("./Auth/loginScreen")}
             >
               <Text style={styles.textBtnSignIn}>Fazer Login</Text>
             </TouchableOpacity>

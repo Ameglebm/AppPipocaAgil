@@ -29,7 +29,7 @@ export default function checkSucess() {
       <TouchableOpacity style={styles.btn}>
         <Text
           style={styles.textBtn}
-          onPress={() => navigation.navigate("screens/login")}
+          onPress={() => navigation.navigate("../Auth/loginScreen")}
         >
           Ir para login
         </Text>

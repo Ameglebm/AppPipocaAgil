@@ -10,7 +10,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 // arquivo config da API
-import api from "../../services/api";
+import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function defineNewPassword() {
