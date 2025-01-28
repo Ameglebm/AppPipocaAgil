@@ -5,16 +5,16 @@ import { useRouter } from "expo-router";
 import Checkbox from "expo-checkbox";
 
 // Estilos
-import styles from "../assets/styles/settingsSchedules";
+import styles from "./styles";
 
 // Componentes
-import Button from "../components/Button";
-import CustomHeader from "../components/CustomHeader";
-import ModalClock from "../components/modalClock";
+import Button from "../Button";
+import CustomHeader from "../CustomHeader";
+import ModalClock from "../modalClock";
 
 // Icones e svgs
-import Plus from "../components/svgComponenets/Plus";
-import Trash from "../components/svgComponenets/TrashSvg";
+import Plus from "../svgComponenets/Plus";
+import Trash from "../svgComponenets/TrashSvg";
 
 export default function SettingsSchedules() {
   const router = useRouter();
