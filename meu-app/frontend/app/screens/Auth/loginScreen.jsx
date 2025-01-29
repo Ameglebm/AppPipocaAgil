@@ -17,8 +17,8 @@ import api from "../../services/api";
 import { saveToken } from "../../Utils/tokenManager";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("warlleyrocha@icloud.com");
+  const [password, setPassword] = useState("12345678");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 

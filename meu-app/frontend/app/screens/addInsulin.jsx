@@ -11,6 +11,7 @@ import ModalCustom from "../components/Modal";
 
 function AddInsulin() {
   const [selectedRadio, setSelectedRadio] = useState("");
+  const [dosagem, setDosagem] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [formData, setFormData] = useState([
@@ -112,6 +113,8 @@ function AddInsulin() {
           title={"Dosagem"}
           placeholder={"Dose"}
           keyboardType={"numeric"}
+          value={dosagem}
+          onChangeText={setDosagem}
         />
       </View>
 

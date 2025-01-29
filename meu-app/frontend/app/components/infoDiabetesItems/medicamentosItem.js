@@ -1,13 +1,19 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
+
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
-import { useRouter } from "expo-router";
 
-const TipoDeInsulinaItem = () => {
-  // Busca o item com id === '4' no array de dados
-  const tipoDeInsulinaItem = data.find((item) => item.id === "4");
+const MedicamentoItem = () => {
   const router = useRouter();
+  const tipoDeInsulinaItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
+  // Garante que `formData` sempre tenha um valor válido
+  const formData = useSelector((state) => state.medication?.formData || []);
+
+  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
+  const nomeDoMedicamento = formData.find((item) => item.id === 1)?.value || "";
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
@@ -17,28 +23,41 @@ const TipoDeInsulinaItem = () => {
   return (
     <View>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
-        </View>
+        {nomeDoMedicamento ? (
+          <>
+            <View style={styles.header}>
+              <Text style={styles.title}>Medicamento Salvo</Text>
+            </View>
+            <Text style={styles.nomeMedicamento}>
+              Medicamento: {nomeDoMedicamento}
+            </Text>
+          </>
+        ) : (
+          <>
+            <View style={styles.header}>
+              <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
+            </View>
 
-        <View style={styles.contentBtn}>
-          <TouchableOpacity
-            style={styles.btnAdd}
-            onPress={() => {
-              router.navigate("../../screens/addMedication");
-            }}
-          >
-            <Text style={styles.btnText}>Adicionar medicamento</Text>
-            <Image source={require("../../assets/images/plus.png")} />
-          </TouchableOpacity>
-        </View>
+            <View style={styles.contentBtn}>
+              <TouchableOpacity
+                style={styles.btnAdd}
+                onPress={() => {
+                  router.navigate("../../screens/addMedication");
+                }}
+              >
+                <Text style={styles.btnText}>Adicionar medicamento</Text>
+                <Image source={require("../../assets/images/plus.png")} />
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
       <ButtonSave onPress={handleSave} />
     </View>
   );
 };
 
-export default TipoDeInsulinaItem;
+export default MedicamentoItem;
 
 const styles = StyleSheet.create({
   container: {
