@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
+import Trash from "../svgComponenets/TrashSvg";
+import Edit from "../svgComponenets/Edit";
 
 const MedicamentoItem = () => {
   const router = useRouter();
@@ -25,12 +27,25 @@ const MedicamentoItem = () => {
       <View style={styles.container}>
         {nomeDoMedicamento ? (
           <>
-            <View style={styles.header}>
-              <Text style={styles.title}>Medicamento Salvo</Text>
+            <View style={{ backgroundColor: "#FDFDFD" }}>
+              <View style={styles.header}>
+                <Text style={styles.title}>Medicamentos</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
+                <TouchableOpacity>
+                  <Edit />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Trash />
+                </TouchableOpacity>
+              </View>
             </View>
-            <Text style={styles.nomeMedicamento}>
-              Medicamento: {nomeDoMedicamento}
-            </Text>
           </>
         ) : (
           <>
@@ -99,5 +114,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     color: "#282828",
+  },
+  nomeMedicamento: {
+    color: "#282828",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    lineHeight: 19.8,
   },
 });
