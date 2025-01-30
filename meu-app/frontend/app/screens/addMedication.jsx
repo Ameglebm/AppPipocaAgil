@@ -64,7 +64,7 @@ const LabelInputScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true}>
       <View style={{ marginTop: 35, paddingBottom: 12 }}>
         <CustomHeader title={"Adicionar medicação"} />
       </View>
