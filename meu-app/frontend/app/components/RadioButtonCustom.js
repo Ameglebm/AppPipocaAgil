@@ -56,7 +56,7 @@ const RadioButtonCustom = ({ title, label, value, selectedValue, onPress }) => {
 export default RadioButtonCustom;
 
 RadioButtonCustom.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
