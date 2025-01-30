@@ -20,7 +20,7 @@ import ModalCustom from "../components/Modal";
 const LabelInputScreen = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const formData = useSelector((state) => state.medication.formData);
+  const formData = useSelector((state) => state.medication.formData) || [];
 
   const handleInputChange = (id, value) => {
     dispatch(updateMedicationField(id, value));
@@ -54,8 +54,8 @@ const LabelInputScreen = () => {
 
       setTimeout(() => {
         setModalVisible(false);
-        router.replace("../components/infoDiabetesItems/medicamentosItem"); // Redireciona para MedicamentoItem
-      }, 3000);
+        router.replace("../components/InfoDiabetesItems/MedicamentosItem"); // Redireciona para MedicamentoItem
+      }, 1500);
 
       console.log(cleanedData);
     } else {
@@ -69,51 +69,50 @@ const LabelInputScreen = () => {
         <CustomHeader title={"Adicionar medicação"} />
       </View>
 
-      {Array.isArray(formData) &&
-        formData.map((item) => (
-          <View style={[styles.infoContainer]} key={item.id}>
-            {item.isInputWithPressable ? (
-              <InputWithPressable
-                textLabel="Unidade"
-                placeholder={item.placeholder}
-                value={item.value}
-                onPress={(selectedValue) =>
-                  handleInputChange(item.id, selectedValue)
-                }
-              />
-            ) : item.label === "Para qual tratamento?" ? (
-              <Dropdown
-                items={[
-                  { label: "Pressão arterial", value: "Pressão arterial" },
-                  { label: "Diabetes", value: "Diabetes" },
-                  { label: "Colesterol", value: "Colesterol" },
-                  { label: "Obesidade", value: "Obesidade" },
-                  { label: "Doenças hepáticas", value: "Doenças hepáticas" },
-                  {
-                    label: "Doenças renal crônica",
-                    value: "Doenças renal crônica",
-                  },
-                  { label: "Doenças autoimunes", value: "Doenças autoimunes" },
-                  { label: "Infecções", value: "Infecções" },
-                ]}
-                placeholder={item.placeholder}
-                value={item.value}
-                onValueChange={(selectedValue) => {
-                  handleInputChange(item.id, selectedValue);
-                }}
-                title={item.label}
-              />
-            ) : (
-              <CustomInput
-                title={item.label}
-                placeholder={item.placeholder}
-                value={item.value}
-                onChangeText={(value) => handleInputChange(item.id, value)}
-                keyboardType={item.keyboardType}
-              />
-            )}
-          </View>
-        ))}
+      {formData.map((item) => (
+        <View style={[styles.infoContainer]} key={item.id}>
+          {item.isInputWithPressable ? (
+            <InputWithPressable
+              textLabel="Unidade"
+              placeholder={item.placeholder}
+              value={item.value}
+              onPress={(selectedValue) =>
+                handleInputChange(item.id, selectedValue)
+              }
+            />
+          ) : item.label === "Para qual tratamento?" ? (
+            <Dropdown
+              items={[
+                { label: "Pressão arterial", value: "Pressão arterial" },
+                { label: "Diabetes", value: "Diabetes" },
+                { label: "Colesterol", value: "Colesterol" },
+                { label: "Obesidade", value: "Obesidade" },
+                { label: "Doenças hepáticas", value: "Doenças hepáticas" },
+                {
+                  label: "Doenças renal crônica",
+                  value: "Doenças renal crônica",
+                },
+                { label: "Doenças autoimunes", value: "Doenças autoimunes" },
+                { label: "Infecções", value: "Infecções" },
+              ]}
+              placeholder={item.placeholder}
+              value={item.value}
+              onValueChange={(selectedValue) => {
+                handleInputChange(item.id, selectedValue);
+              }}
+              title={item.label}
+            />
+          ) : (
+            <CustomInput
+              title={item.label}
+              placeholder={item.placeholder}
+              value={item.value}
+              onChangeText={(value) => handleInputChange(item.id, value)}
+              keyboardType={item.keyboardType}
+            />
+          )}
+        </View>
+      ))}
 
       <ButtonSave style={customButtonStyle} onPress={handleSave} />
 
