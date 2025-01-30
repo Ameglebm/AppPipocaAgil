@@ -1,6 +1,16 @@
-import { Stack, useRouter } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
+// React e hooks
+import React, { useEffect } from "react";
+
+// Componentes do React Native
 import { TouchableOpacity } from "react-native";
+
+// Expo Router e navegação
+import { Stack, useRouter } from "expo-router";
+
+// Ícones
+import AntDesign from "@expo/vector-icons/AntDesign";
+
+// Fontes
 import {
   Urbanist_400Regular,
   Urbanist_700Bold,
@@ -8,8 +18,9 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+
+// Splash Screen
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,12 +46,14 @@ export default function Layout() {
   }
 
   return (
-    <Stack screenOptions={{}} /*config para todas as telas*/>
-      {/* Tela Home */}
+    <Stack
+      screenOptions={{ headerShown: false }} /*config para todas as telas*/
+    >
+      {/* SplashScreen */}
       <Stack.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "SplashScreen",
           headerShown: false,
           headerTitleStyle: {
             fontSize: 28,
@@ -51,9 +64,15 @@ export default function Layout() {
         }}
       />
 
+      {/*Onboard*/}
+      <Stack.Screen name="screens/onboard" options={{ title: "Onboard" }} />
+
+      {/*Welcome*/}
+      <Stack.Screen name="screens/welcome" options={{ title: "Welcome" }} />
+
       {/* Tela de Login */}
       <Stack.Screen
-        name="screens/login"
+        name="screens/Auth/loginScreen"
         options={{
           headerShown: false,
           title: "Login",
@@ -73,7 +92,7 @@ export default function Layout() {
 
       {/* Tela de Cadastro */}
       <Stack.Screen
-        name="screens/Auth/telaCadastro"
+        name="screens/Auth/registerScreen"
         options={{
           headerShown: false,
           title: "Crie a sua conta",
@@ -93,13 +112,6 @@ export default function Layout() {
               <AntDesign name="left" size={24} color="black" />
             </TouchableOpacity>
           ),
-        }}
-      />
-      {/* Tela de Recuperação de Senha */}
-      <Stack.Screen
-        name="screens/recoverYourAccount"
-        options={{
-          headerShown: false, // Sem header na tela de recuperação de senha
         }}
       />
 
@@ -139,6 +151,46 @@ export default function Layout() {
               <AntDesign name="left" size={24} color="black" />
             </TouchableOpacity>
           ),
+        }}
+      />
+
+      {/*Recovery password*/}
+      <Stack.Screen
+        name="screens/recoverYourAccount"
+        options={{ title: "RecoverAccount" }}
+      />
+
+      {/*Define password*/}
+      <Stack.Screen
+        name="screens/defineNewPassword"
+        options={{ title: "DefinePassword" }}
+      />
+
+      {/*HomeScreen*/}
+      <Stack.Screen
+        name="screens/homeScreen"
+        options={{ title: "HomeScreen" }}
+      />
+
+      {/*Information of Diabete*/}
+      <Stack.Screen
+        name="screens/infoDiabetes"
+        options={{ title: "InfoDiabetes" }}
+      />
+
+      {/* Tela de adicionar insulina */}
+      <Stack.Screen
+        name="screens/addInsulin"
+        options={{
+          headerShown: false, // Sem header na tela de add insulina
+        }}
+      />
+
+      {/* Tela de adicionar medicamentos */}
+      <Stack.Screen
+        name="screens/addMedication"
+        options={{
+          headerShown: false, // Sem header na tela de add medicamentos
         }}
       />
     </Stack>

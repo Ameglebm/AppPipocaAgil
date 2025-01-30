@@ -10,11 +10,11 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import ShowHide from "../components/showHide";
-import ButtonLogin from "../components/ButtonLogin";
+import PasswordInput from "../../components/passwordInput";
+import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-import { saveToken } from "../Utils/tokenManager";
+import { saveToken } from "../../Utils/tokenManager";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ export default function Login() {
       if (response.status === 200 && response.data.token) {
         // Ajuste conforme o que sua API retorna como sucesso
         saveToken(response.data.token);
-        router.replace("./homeScreen");
+        router.replace("../homeScreen");
       } else {
         console.error("Login bem-sucedido, mas sem token");
       }
@@ -74,7 +74,7 @@ export default function Login() {
       <View>
         <Image
           style={styles.image}
-          source={require("../assets/images/user.webp")}
+          source={require("../../assets/images/user.webp")}
         />
       </View>
 
@@ -94,7 +94,7 @@ export default function Login() {
 
           <View style={styles.containerPass}>
             <Text style={styles.textForm}>Senha*</Text>
-            <ShowHide
+            <PasswordInput
               placeholder="Digite sua senha"
               onChangeText={setPassword}
               secureTextEntry={true}
@@ -112,7 +112,6 @@ export default function Login() {
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.containerBtn}>
           <ButtonLogin labelButton="Entrar" onpress={sendForm}></ButtonLogin>
         </View>
@@ -120,7 +119,7 @@ export default function Login() {
 
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Não possui uma conta? </Text>
-        <Link href={"screens/Auth/telaCadastro"} style={styles.textLink}>
+        <Link href={"screens/Auth/registerScreen"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>
@@ -163,9 +162,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     height: 44,
     borderWidth: 1,
-    borderColor: "#B7B7B8",
+    borderColor: "#B1B0AF",
     backgroundColor: "#FDFDFD",
     borderRadius: 6,
+    elevation: 5,
   },
   containerPass: {
     paddingTop: 4,

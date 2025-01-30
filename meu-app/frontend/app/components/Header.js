@@ -1,18 +1,21 @@
 // components/Header.js
 import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { removeToken } from "../Utils/tokenManager";
+import User from "./svgComponenets/User";
+import Plus from "./svgComponenets/Plus";
 
 export default function Header() {
   const navigation = useNavigation();
   const router = useRouter(); // Mover o hook para o nível do componente
+
   const logout = async () => {
     try {
       // Remove o token do armazenamento
       await removeToken();
       console.log("Token removido com sucesso. Usuário desconectado.");
-      router.replace("../screens/login");
+      router.replace("../screens/Auth/loginScreen");
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
     }
@@ -26,18 +29,12 @@ export default function Header() {
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profileContainer} onPress={logout}>
-        <Image
-          source={require("../assets/images/user-03.png")}
-          style={styles.image}
-        />
+        <User style={styles.image}></User>
         <Text style={styles.perfil}>Conta</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonContainer}>
-        <Image
-          source={require("../assets/images/plus.png")}
-          style={styles.imagePlus}
-        />
+        <Plus />
       </TouchableOpacity>
     </View>
   );

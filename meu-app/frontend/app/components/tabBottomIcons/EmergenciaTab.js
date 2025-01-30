@@ -1,20 +1,27 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
+import EmergenciaSvg from "../svgComponenets/EmergenciaSvg";
 
 export default function EmergenciaTab({ focused }) {
   EmergenciaTab.propTypes = {
     focused: PropTypes.bool.isRequired,
   };
+
+  const iconColor = focused ? "#FDFDFD" : "#7B7A78"; // Cor do ícone com base no estado "focused"
+  const circleColor = focused ? "#2F39D3" : "transparent"; // Cor do círculo com base no estado "focused"
+
   return (
     <View style={styles.tabContainer}>
-      <View style={[focused && styles.circleFocused]}>
-        <Image
-          source={require("../../assets/images/emergencia.png")}
-          style={[styles.tabBarIcon, focused && { tintColor: "#FDFDFD" }]}
+      <View style={[styles.circle, focused && styles.circleFocused]}>
+        <EmergenciaSvg
+          style={[styles.tabBarIcon]} // Remove tintColor e controla com a prop "color"
+          color={iconColor} // Passa a cor para o SVG dinamicamente
         />
       </View>
-      <Text style={styles.tabText}>Emergência</Text>
+      <Text style={[styles.tabText, focused && styles.tabTextFocused]}>
+        Emergência
+      </Text>
     </View>
   );
 }
@@ -28,7 +35,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tabText: {
-    color: "#7B7A78",
+    color: "#7B7A78", // Cor padrão do texto
     textAlign: "center",
     fontFamily: "Lato_400Regular",
     fontSize: 12,

@@ -1,21 +1,24 @@
-// components/TabLabelHistorico.js
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
+import HistóricoSvg from "../svgComponenets/HistoricoSvg"; // Certifique-se de importar o SVG corretamente
 
 export default function TabLabelHistorico({ focused }) {
   TabLabelHistorico.propTypes = {
     focused: PropTypes.bool.isRequired,
   };
 
+  // Cor do ícone e texto com base no estado "focused"
+  const iconColor = focused ? "#6179FA" : "#7B7A78";
+  const textColor = focused ? "#6179FA" : "#7B7A78";
+
   return (
     <View style={styles.tabLabelContainer}>
-      <Image
-        source={require("../../assets/images/historico.png")}
-        style={[styles.tabImage, focused && { tintColor: "#6179FA" }]}
+      <HistóricoSvg
+        style={[styles.tabImage, { color: iconColor }]} // Passando a cor dinamicamente para o SVG
       />
       <Text
-        style={[styles.tabText, focused ? styles.colorFocused : styles.tabText]}
+        style={[styles.tabText, { color: textColor }]} // Passando a cor dinamicamente para o texto
       >
         Histórico
       </Text>
@@ -37,12 +40,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Lato_700Bold",
     lineHeight: 22,
-    color: "#7B7A78",
-  },
-  colorFocused: {
-    fontSize: 16,
-    fontFamily: "Lato_700Bold",
-    lineHeight: 22,
-    color: "#6179FA",
+    color: "#7B7A78", // Cor padrão do texto
   },
 });

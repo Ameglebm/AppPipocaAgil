@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 export default function Button({ title, onPress, style }) {
   Button.propTypes = {
     title: PropTypes.string.isRequired, // 'title' é obrigatório e deve ser string
-    onPress: PropTypes.func.isRequired, // 'onPress' é obrigatório e deve ser função
-    style: PropTypes.object, // 'style' é opcional e deve ser um objeto
+    onPress: PropTypes.func.isRequired, // 'onPress' é obrigatório e deve ser uma função
+    style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // 'style' é opcional e pode ser um objeto ou um array
   };
   return (
     <TouchableOpacity style={[styles.btnEnviar, style]} onPress={onPress}>
