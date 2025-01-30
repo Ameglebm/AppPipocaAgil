@@ -53,6 +53,21 @@ const MedicationReducer = (state = initialState, action) => {
         ),
       };
 
+    case "REMOVE_MEDICATION":
+      return {
+        ...state,
+        formData: state.formData.filter((med) => med.id !== action.payload),
+      };
+
+    case "RESET_MEDICATION":
+      return {
+        ...state,
+        formData: state.formData.map((item) => ({
+          ...item,
+          value: "",
+        })),
+      };
+
     default:
       return state;
   }
