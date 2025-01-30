@@ -8,6 +8,8 @@ import {
   Modal,
 } from "react-native";
 import styles from "../assets/styles/registerPressArterial";
+import backIcon from "../assets/images/backIcon.png";
+import alertSquare from "../assets/images/alert-square.png";
 import DatePicker from "@react-native-community/datetimepicker"; // Biblioteca usada para criar calendario e relogio
 import { useNavigation, useRouter } from "expo-router";
 
@@ -114,7 +116,7 @@ export default function registerPressArterial() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require("../assets/images/backIcon.png")} />
+          <Image source={backIcon} />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Registrar pressão arterial</Text>
       </View>
@@ -259,7 +261,7 @@ export default function registerPressArterial() {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <View style={styles.image}>
-                <Image source={require("../assets/images/alert-square.png")} />
+                <Image source={alertSquare} />
               </View>
 
               <Text style={styles.modalText}>

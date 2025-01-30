@@ -8,16 +8,14 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import sucessImage from "../../assets/images/sucess.webp";
 
 export default function CheckSucess() {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/sucess.webp")}
-        />
+        <Image style={styles.image} source={sucessImage} />
       </View>
 
       <View style={styles.containerText}>

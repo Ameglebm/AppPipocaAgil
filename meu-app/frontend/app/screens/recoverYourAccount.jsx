@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import backIcon from "../assets/images/backIcon.png";
+import alertTriangle from "../assets/images/alert-triangle.png";
 import Button from "../components/Button";
 import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
@@ -40,7 +42,7 @@ function RecConta() {
             onPress={() => navigation.goBack()}
             style={styles.btnVoltar}
           >
-            <Image source={require("../assets/images/backIcon.png")} />
+            <Image source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.textHeader}>Recupere sua conta</Text>
         </View>
@@ -59,10 +61,7 @@ function RecConta() {
       </View>
       {error ? (
         <View style={styles.footerMessageContainer}>
-          <Image
-            source={require("../assets/images/alert-triangle.png")}
-            style={styles.warningTriangle}
-          />
+          <Image source={alertTriangle} style={styles.warningTriangle} />
           <Text style={styles.footerMessageText}>Conta não encontrada</Text>
         </View>
       ) : null}

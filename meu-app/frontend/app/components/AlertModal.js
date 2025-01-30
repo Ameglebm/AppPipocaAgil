@@ -1,6 +1,7 @@
 import { React, useEffect } from "react";
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import IconSuccess from "./SvgComponents/IconSuccess";
+import PropTypes from "prop-types";
 
 const AlertModal = ({ modalVisible, onClose, message, buttons = [] }) => {
   useEffect(() => {
@@ -55,6 +56,20 @@ const AlertModal = ({ modalVisible, onClose, message, buttons = [] }) => {
       </View>
     </Modal>
   );
+};
+
+AlertModal.propTypes = {
+  modalVisible: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  message: PropTypes.string,
+  buttons: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      onPress: PropTypes.func.isRequired,
+      style: PropTypes.object,
+      textStyle: PropTypes.object,
+    })
+  ),
 };
 
 export default AlertModal;

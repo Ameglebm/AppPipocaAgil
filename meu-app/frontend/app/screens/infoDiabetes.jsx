@@ -19,6 +19,7 @@ import AdmInsulina from "../components/InfoDiabetesItems/AdmInsulinaItem"; // Te
 import MetaGlicemica from "../components/InfoDiabetesItems/MetaGlicemicaItem"; // Tela correspondente ao slide com id 3
 import Medicamentos from "../components/InfoDiabetesItems/MedicamentosItem"; // Tela correspondente ao slide com id 4
 import TipoDeInsulina from "../components/InfoDiabetesItems/TipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+import backIcon from "../assets/images/backIcon.png"; // Importação da imagem do ícone de voltar
 
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
 
@@ -81,7 +82,7 @@ export default function InfoDiabetes() {
 
         <View style={styles.header}>
           <Pressable onPress={() => navigation.goBack()}>
-            <Image source={require("../assets/images/backIcon.png")} />
+            <Image source={backIcon} />
           </Pressable>
           <Text style={styles.textHeader}>Informações do diabetes</Text>
         </View>

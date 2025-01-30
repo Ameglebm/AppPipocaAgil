@@ -8,16 +8,14 @@ import {
 } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import failedImage from "../../assets/images/failed.webp";
 
 export default function CheckFailed() {
   const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/failed.webp")}
-        />
+        <Image style={styles.image} source={failedImage} />
       </View>
 
       <View style={styles.containerText}>

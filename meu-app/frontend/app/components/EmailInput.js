@@ -1,13 +1,13 @@
 import React from "react";
 import { View, TextInput, Text, StyleSheet, Image } from "react-native";
 import PropTypes from "prop-types";
+import warningCircle from "../assets/images/warning-circle.png";
 
-const EmailInput = ({ value, onChangeText, error, footerMessage }) => {
+const EmailInput = ({ value, onChangeText, error }) => {
   EmailInput.propTypes = {
     value: PropTypes.string.isRequired,
     onChangeText: PropTypes.any.isRequired,
     error: PropTypes.string,
-    footerMessage: PropTypes.any,
   };
   return (
     <View style={styles.container}>
@@ -26,7 +26,7 @@ const EmailInput = ({ value, onChangeText, error, footerMessage }) => {
       {error ? (
         <View style={styles.errorContainer}>
           <Image
-            source={require("../assets/images/warning-circle.png")} // Atualize o caminho conforme necessário
+            source={warningCircle} // Atualize o caminho conforme necessário
             style={styles.warningIcon}
           />
           <Text style={styles.errorText}>{error}</Text>

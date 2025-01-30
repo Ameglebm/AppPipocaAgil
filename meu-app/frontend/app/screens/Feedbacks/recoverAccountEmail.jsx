@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
+import backIcon from "../../assets/images/backIcon.png";
+import mailSentImage from "../../assets/images/undraw_mail_sent_re_0ofv1.png";
 
 export default function recoverAccountEmail() {
   const navigation = useNavigation();
@@ -15,19 +17,13 @@ export default function recoverAccountEmail() {
     <View style={{ flex: 1 }}>
       <View style={{ marginTop: 46, paddingHorizontal: 20 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../../assets/images/backIcon.png")}
-          />
+          <Image style={{ width: 24, height: 24 }} source={backIcon} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.container}>
         <View>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/undraw_mail_sent_re_0ofv1.png")}
-          />
+          <Image style={styles.image} source={mailSentImage} />
         </View>
 
         <View>

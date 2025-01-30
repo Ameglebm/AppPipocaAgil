@@ -1,5 +1,6 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
+import PropTypes from "prop-types";
 
 const EmergenciaSvg = ({ color = "#7B7A78", ...props }) => (
   <Svg
@@ -17,3 +18,7 @@ const EmergenciaSvg = ({ color = "#7B7A78", ...props }) => (
 );
 
 export default EmergenciaSvg;
+
+EmergenciaSvg.propTypes = {
+  color: PropTypes.string,
+};

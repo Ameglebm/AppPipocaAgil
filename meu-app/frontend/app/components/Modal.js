@@ -1,6 +1,7 @@
 import { React, useEffect } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
 import IconSuccess from "./SvgComponents/IconSuccess";
+import PropTypes from "prop-types";
 
 const ModalCustom = ({ modalVisible, onClose, message }) => {
   useEffect(() => {
@@ -30,6 +31,12 @@ const ModalCustom = ({ modalVisible, onClose, message }) => {
 };
 
 export default ModalCustom;
+
+ModalCustom.propTypes = {
+  modalVisible: PropTypes.bool.isRequired, // Valor booleano para controlar visibilidade
+  onClose: PropTypes.func.isRequired, // Função para fechar o modal
+  message: PropTypes.string, // A mensagem pode ser uma string, e não é obrigatória
+};
 
 const styles = StyleSheet.create({
   modalContainer: {

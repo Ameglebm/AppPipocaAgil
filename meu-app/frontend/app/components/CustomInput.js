@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const CustomInput = ({
   placeholder,
@@ -15,6 +16,7 @@ const CustomInput = ({
       <View style={styles.labelContainer}>
         <Text style={[styles.label, style]}>{title}</Text>
       </View>
+
       <TextInput
         placeholder={placeholder}
         placeholderTextColor="#B1B0AF"
@@ -34,6 +36,28 @@ const CustomInput = ({
   );
 };
 export default CustomInput;
+
+CustomInput.propTypes = {
+  placeholder: PropTypes.string,
+  title: PropTypes.string,
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  style: PropTypes.object,
+  keyboardType: PropTypes.oneOf([
+    "default",
+    "email-address",
+    "numeric",
+    "phone-pad",
+    "number-pad",
+    "decimal-pad",
+    "visible-password",
+    "ascii-capable",
+    "twitter",
+    "url",
+    "web-search",
+  ]),
+};
+
 const styles = StyleSheet.create({
   inputContainer: {
     width: 320,

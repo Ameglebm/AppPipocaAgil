@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Input from "../../components/Input";
 import { useNavigation } from "@react-navigation/native";
+import backIcon from "../../assets/images/backIcon.png";
 
 function TelaCadastro() {
   const navigation = useNavigation();
@@ -19,10 +20,7 @@ function TelaCadastro() {
           <TouchableOpacity
             onPress={() => navigation.navigate("screens/Welcome")}
           >
-            <Image
-              source={require("../../assets/images/backIcon.png")}
-              style={styles.btnImage}
-            />
+            <Image source={backIcon} style={styles.btnImage} />
           </TouchableOpacity>
         </View>
         <View>

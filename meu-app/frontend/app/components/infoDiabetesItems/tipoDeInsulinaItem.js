@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import plusIcon from "../../assets/images/plus.png";
 import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
 import { useRouter } from "expo-router";
@@ -28,7 +29,7 @@ const TipoDeInsulinaItem = () => {
             }}
           >
             <Text style={styles.btnText}>Adicionar Insulina</Text>
-            <Image source={require("../../assets/images/plus.png")} />
+            <Image source={plusIcon} />
           </TouchableOpacity>
         </View>
       </View>

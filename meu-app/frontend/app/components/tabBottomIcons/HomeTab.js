@@ -9,7 +9,7 @@ export default function HomeTab({ focused }) {
   };
 
   const iconColor = focused ? "#FDFDFD" : "#7B7A78"; // Cor do ícone com base no estado "focused"
-  const circleColor = focused ? "#2F39D3" : "transparent"; // Cor do círculo com base no estado "focused"
+  //const circleColor = focused ? "#2F39D3" : "transparent"; // Cor do círculo com base no estado "focused"
 
   return (
     <View style={styles.tabContainer}>

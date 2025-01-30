@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { RadioButton } from "react-native-paper";
 import InfoOctagon from "./SvgComponents/InfoOctagon";
+import PropTypes from "prop-types";
 
 const RadioButtonCustom = ({ title, label, value, selectedValue, onPress }) => {
   const [modalVisible, setModalVisible] = useState(false); // Estado do modal
@@ -53,6 +54,15 @@ const RadioButtonCustom = ({ title, label, value, selectedValue, onPress }) => {
 };
 
 export default RadioButtonCustom;
+
+RadioButtonCustom.propTypes = {
+  title: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  onPress: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

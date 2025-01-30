@@ -15,6 +15,7 @@ import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
 import { saveToken } from "../../Utils/tokenManager";
+import userImage from "../../assets/images/user.webp";
 
 export default function Login() {
   const [email, setEmail] = useState("warlleyrocha@icloud.com");
@@ -72,10 +73,7 @@ export default function Login() {
       keyboardVerticalOffset={100} // Evita Sobreposição
     >
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/user.webp")}
-        />
+        <Image style={styles.image} source={userImage} />
       </View>
 
       <View style={styles.form}>

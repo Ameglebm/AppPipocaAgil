@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRouter } from "expo-router";
+import welcomeImage from "../assets/images/welcome.png";
 
 export default function Welcome() {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ export default function Welcome() {
           <Text style={styles.title}>{titulo}</Text>
 
           <Image
-            source={require("../assets/images/welcome.png")}
+            source={welcomeImage}
             style={styles.image}
             resizeMode="contain"
           />
