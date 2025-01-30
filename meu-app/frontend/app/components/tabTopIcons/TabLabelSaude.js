@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import SaudeSvg from "../svgComponenets/SaudeSvg"; // O componente SVG exportado pelo SVGR
+import SaudeSvg from "../SvgComponents/SaudeSvg"; // O componente SVG exportado pelo SVGR
 
 export default function TabLabelSaude({ focused }) {
   TabLabelSaude.propTypes = {

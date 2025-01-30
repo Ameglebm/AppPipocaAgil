@@ -87,7 +87,7 @@ export default function registerPressArterial() {
   }
   const saveRegister = () => {
     console.log("Registro Salvo");
-    router.replace("./homeScreen");
+    router.replace("./HomeScreen");
   };
 
   /*API para validar e enviar os dados futuramente

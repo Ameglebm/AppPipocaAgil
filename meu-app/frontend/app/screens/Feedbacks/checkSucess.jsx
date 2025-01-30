@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function checkSucess() {
+export default function CheckSucess() {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -29,7 +29,7 @@ export default function checkSucess() {
       <TouchableOpacity style={styles.btn}>
         <Text
           style={styles.textBtn}
-          onPress={() => navigation.navigate("../Auth/loginScreen")}
+          onPress={() => navigation.navigate("../Auth/LoginScreen")}
         >
           Ir para login
         </Text>

@@ -9,7 +9,7 @@ import {
 import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
-import axios from "axios";
+import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Inputs() {
@@ -103,16 +103,13 @@ function Inputs() {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:3333/auth/register",
-        novoUsuario
-      );
+      const response = await api.post("/auth/register", novoUsuario);
 
       if (response.status === 201) {
         const token = response.data.token;
         await AsyncStorage.setItem("userToken", token);
         console.log("Usuário criado com sucesso");
-        router.navigate("../Feedbacks/checkSucess");
+        router.navigate("../Feedbacks/CheckSucess");
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {

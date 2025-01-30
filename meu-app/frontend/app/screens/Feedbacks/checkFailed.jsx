@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useRouter } from "expo-router";
 
-export default function checkFailed() {
+export default function CheckFailed() {
   const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -26,7 +26,7 @@ export default function checkFailed() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.navigate("screens/Auth/registerScreen")}
+        onPress={() => router.navigate("screens/Auth/RegisterScreen")}
       >
         <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>

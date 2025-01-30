@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import BackIconSvg from "./svgComponenets/BackIconSvg";
+import BackIconSvg from "./SvgComponents/BackIconSvg";
 
 const CustomHeader = ({ title, style }) => {
   const router = useRouter();

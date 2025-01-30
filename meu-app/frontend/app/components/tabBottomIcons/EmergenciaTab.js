@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import EmergenciaSvg from "../svgComponenets/EmergenciaSvg";
+import EmergenciaSvg from "../SvgComponents/EmergenciaSvg";
 
 export default function EmergenciaTab({ focused }) {
   EmergenciaTab.propTypes = {

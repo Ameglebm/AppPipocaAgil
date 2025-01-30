@@ -80,14 +80,14 @@ export default function Layout() {
         />
 
         {/*Onboard*/}
-        <Stack.Screen name="screens/onboard" options={{ title: "Onboard" }} />
+        <Stack.Screen name="screens/Onboard" options={{ title: "Onboard" }} />
 
         {/*Welcome*/}
-        <Stack.Screen name="screens/welcome" options={{ title: "Welcome" }} />
+        <Stack.Screen name="screens/Welcome" options={{ title: "Welcome" }} />
 
         {/* Tela de Login */}
         <Stack.Screen
-          name="screens/Auth/loginScreen"
+          name="screens/Auth/LoginScreen"
           options={{
             headerShown: false,
             title: "Login",
@@ -107,7 +107,7 @@ export default function Layout() {
 
         {/* Tela de Cadastro */}
         <Stack.Screen
-          name="screens/Auth/registerScreen"
+          name="screens/Auth/RegisterScreen"
           options={{
             headerShown: false,
             title: "Crie a sua conta",
@@ -132,7 +132,7 @@ export default function Layout() {
 
         {/* Tela de CheckSuccess */}
         <Stack.Screen
-          name="screens/Feedbacks/checkSucess"
+          name="screens/Feedbacks/CheckSucess"
           options={{
             title: "Sucesso",
             headerShown: false,
@@ -152,7 +152,7 @@ export default function Layout() {
 
         {/* Tela de CheckFailed */}
         <Stack.Screen
-          name="screens/Feedbacks/checkFailed"
+          name="screens/Feedbacks/CheckFailed"
           options={{
             headerShown: false,
             headerTitleStyle: {
@@ -171,31 +171,31 @@ export default function Layout() {
 
         {/*Recovery password*/}
         <Stack.Screen
-          name="screens/recoverYourAccount"
+          name="screens/RecoverYourAccount"
           options={{ title: "RecoverAccount" }}
         />
 
         {/*Define password*/}
         <Stack.Screen
-          name="screens/defineNewPassword"
+          name="screens/DefineNewPassword"
           options={{ title: "DefinePassword" }}
         />
 
         {/*HomeScreen*/}
         <Stack.Screen
-          name="screens/homeScreen"
+          name="screens/HomeScreen"
           options={{ title: "HomeScreen" }}
         />
 
         {/*Information of Diabete*/}
         <Stack.Screen
-          name="screens/infoDiabetes"
+          name="screens/InfoDiabetes"
           options={{ title: "InfoDiabetes" }}
         />
 
         {/* Tela de adicionar insulina */}
         <Stack.Screen
-          name="screens/addInsulin"
+          name="screens/AddInsulin"
           options={{
             headerShown: false, // Sem header na tela de add insulina
           }}
@@ -203,7 +203,7 @@ export default function Layout() {
 
         {/* Tela de adicionar medicamentos */}
         <Stack.Screen
-          name="screens/addMedication"
+          name="screens/AddMedication"
           options={{
             headerShown: false, // Sem header na tela de add medicamentos
           }}

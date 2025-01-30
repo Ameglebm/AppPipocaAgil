@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import HomeSvg from "../svgComponenets/HomeSvg";
+import HomeSvg from "../SvgComponents/HomeSvg";
 
 export default function HomeTab({ focused }) {
   HomeTab.propTypes = {

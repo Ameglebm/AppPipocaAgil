@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import RelatoriosSvg from "../svgComponenets/RelatoriosSvg";
+import RelatoriosSvg from "../SvgComponents/RelatoriosSvg";
 
 export default function RelatoriosTab({ focused }) {
   RelatoriosTab.propTypes = {

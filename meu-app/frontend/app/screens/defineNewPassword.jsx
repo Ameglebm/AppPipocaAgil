@@ -13,7 +13,7 @@ import Feather from "@expo/vector-icons/Feather";
 import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function defineNewPassword() {
+export default function DefineNewPassword() {
   const navigation = useNavigation();
 
   const [newPassword, setNewPassword] = useState("");

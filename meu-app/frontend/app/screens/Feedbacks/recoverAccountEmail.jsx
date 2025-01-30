@@ -36,7 +36,7 @@ export default function recoverAccountEmail() {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.btn} onPress={router.push("./welcome")}>
+        <TouchableOpacity style={styles.btn} onPress={router.push("./Welcome")}>
           <Text style={styles.textBtn}>OK</Text>
         </TouchableOpacity>
       </View>

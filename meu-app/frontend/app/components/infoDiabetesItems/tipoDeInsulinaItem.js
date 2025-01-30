@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
 import { useRouter } from "expo-router";
 
@@ -24,7 +24,7 @@ const TipoDeInsulinaItem = () => {
           <TouchableOpacity
             style={styles.btnAdd}
             onPress={() => {
-              router.navigate("../../screens/addInsulin");
+              router.navigate("../../screens/AddInsulin");
             }}
           >
             <Text style={styles.btnText}>Adicionar Insulina</Text>

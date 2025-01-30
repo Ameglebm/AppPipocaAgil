@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import PasswordInput from "../../components/passwordInput";
+import PasswordInput from "../../components/PasswordInput";
 import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
@@ -56,7 +56,7 @@ export default function Login() {
       if (response.status === 200 && response.data.token) {
         // Ajuste conforme o que sua API retorna como sucesso
         saveToken(response.data.token);
-        router.replace("../homeScreen");
+        router.replace("../HomeScreen");
       } else {
         console.error("Login bem-sucedido, mas sem token");
       }

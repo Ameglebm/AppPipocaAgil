@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import HistóricoSvg from "../svgComponenets/HistoricoSvg"; // Certifique-se de importar o SVG corretamente
+import HistóricoSvg from "../SvgComponents/HistoricoSvg"; // Certifique-se de importar o SVG corretamente
 
 export default function TabLabelHistorico({ focused }) {
   TabLabelHistorico.propTypes = {

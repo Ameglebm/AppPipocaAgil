@@ -9,10 +9,9 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ButtonSave from "../ButtonSave";
-import AlertToggle from "../alertToggle";
 import PropTypes from "prop-types";
 
 const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
@@ -148,7 +147,7 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
             </View>
           ))}
         </KeyboardAvoidingView>
-        <AlertToggle />
+
         <ButtonSave onPress={handleSave} />
       </ScrollView>
     </SafeAreaProvider>
