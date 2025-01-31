@@ -12,6 +12,7 @@ const TipoDeInsulinaItem = () => {
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     console.log("salvo");
+    router.push("../../screens/HomeScreen");
   };
 
   return (
