@@ -32,7 +32,10 @@ export default function recoverAccountEmail() {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.btn} onPress={router.push("./Welcome")}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => router.push("../Feedbacks/RecoverSucessfull")}
+        >
           <Text style={styles.textBtn}>OK</Text>
         </TouchableOpacity>
       </View>

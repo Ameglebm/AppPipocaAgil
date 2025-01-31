@@ -67,7 +67,8 @@ function Inputs() {
     }
 
     if (!senha) {
-      newErrors.senha = "Senha é obrigatória.";
+      newErrors.senha =
+        "Senha é obrigatória e deve ter pelo menos 8 caracteres, incluir 1 caractere especial e 1 caractere maiúsculo.";
     } else if (
       !/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(senha) || // Verifica caractere especial
       !/(?=.*[A-Z])/.test(senha) || // Verifica caractere maiúsculo
@@ -109,7 +110,7 @@ function Inputs() {
         const token = response.data.token;
         await AsyncStorage.setItem("userToken", token);
         console.log("Usuário criado com sucesso");
-        router.navigate("../Feedbacks/CheckSucess");
+        router.replace("../Feedbacks/CheckSucess");
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {

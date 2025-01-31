@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import backIcon from "../assets/images/backIcon.png";
 import alertTriangle from "../assets/images/alert-triangle.png";
 import Button from "../components/Button";
@@ -11,7 +11,7 @@ import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function RecConta() {
-  const navigation = useNavigation();
+  const router = useRouter();
   const { email, error, handleEmailChange } = useRecConta();
 
   const sendRecPass = async () => {
@@ -27,7 +27,7 @@ function RecConta() {
       if (response.status === 200) {
         // Ajuste conforme o que sua API retorna como sucesso
         // Navega para a tela de feedback
-        navigation.navigate("./Feedbacks/recoverAccountEmail.jsx"); // Nome da tela de feedback no seu navegador
+        router.push("./Feedbacks/recoverAccountEmail"); // Nome da tela de feedback no seu navegador
       }
     } catch (error) {
       console.log(error);
@@ -39,7 +39,7 @@ function RecConta() {
       <View style={styles.container2}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
             style={styles.btnVoltar}
           >
             <Image source={backIcon} />
