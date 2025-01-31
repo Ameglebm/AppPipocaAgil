@@ -1,10 +1,25 @@
 import { IsString, Matches, IsEmail, MinLength, ValidateIf, IsNotEmpty } from "class-validator";
 
+// import { ApiProperty } from "@nestjs/swagger";
+// import { Transform } from "class-transformer";
+// import { cpf } from 'cpf-cnpj-validator';
+// import { Validate } from 'class-validator';
+
 // Vamos usar a palavra 'string' nas mensagens? Talvez 'texto' ou 'formato de texto' ou só 'formato incorreto'.
 
 // As senhas aceitam o caractere espaço?
 
 // As senhas tem um máximo de caracteres? Isso seria tratado pelo front-end ou devo colocar um validator length no lugar de minlenght?
+
+// class IsCpfValid {
+//   validate(value: string) {
+//     return cpf.isValid(value);
+//   }
+
+//   defaultMessage() {
+//     return 'CPF inválido';
+//   }
+// }
 
 export class RegisterUserDTO {
   @IsString({ message: 'Nome deve ser uma string.' })
