@@ -1,19 +1,18 @@
-import { prisma } from "@/lib/prisma";
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from "@/lib/prisma.service";
+import { RegisterUserDTO } from '../dto/authDTO';
 
+@Injectable()
 export class AuthRepository {
+  constructor(private readonly prisma: PrismaService) {}
 
-  async createUser(data: {
-    nome: string;
-    sobrenome: string;
-    email: string;
-    cpf: string;
-    senha: string;
-  }) {
-    return prisma.users.create({ data });
+  // se eu mudar esse nome pra registerUser quebra o código em outro lugar? não sei se fiz certo aqui usando RegisterUserDTO no lugar de data.
+  async createUser(data: RegisterUserDTO) {
+    return this.prisma.users.create({ data });
   }
 
   async updateUserPassword(userId: number, hashedPassword: string) {
-    return prisma.users.update({
+    return this.prisma.users.update({
       where: { id: userId },
       data: { senha: hashedPassword },
     });
@@ -21,7 +20,7 @@ export class AuthRepository {
 
   // Criar um token de redefinição de senha
   async createPasswordResetToken(userId: number, token: string, expiresAt: Date) {
-    return await prisma.passwordResetToken.create({
+    return await this.prisma.passwordResetToken.create({
       data: {
         userId,
         token,
@@ -32,7 +31,7 @@ export class AuthRepository {
 
   // Encontrar um token de redefinição de senha válido por email e código
   async findPasswordResetTokenByEmailAndCode(email: string, code: string) {
-    return await prisma.passwordResetToken.findFirst({
+    return await this.prisma.passwordResetToken.findFirst({
       where: {
         token: code,
         expiresAt: {
@@ -47,14 +46,14 @@ export class AuthRepository {
 
   // Deletar tokens de redefinição de senha por userId e token
   async deletePasswordResetTokens(userId: number, token: string) {
-    return await prisma.passwordResetToken.deleteMany({
+    return await this.prisma.passwordResetToken.deleteMany({
       where: { userId, token },
     });
   }
 
   // Deletar todos os tokens de redefinição de senha por userId
   async deletePasswordResetTokensByUserId(userId: number) {
-    return await prisma.passwordResetToken.deleteMany({
+    return await this.prisma.passwordResetToken.deleteMany({
       where: { userId },
     });
   }

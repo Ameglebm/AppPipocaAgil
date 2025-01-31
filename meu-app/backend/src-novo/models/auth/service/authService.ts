@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import { ZodError } from 'zod';
 import jwt from 'jsonwebtoken';
-
 import { addMinutes } from 'date-fns';
+// não vamos usar mais essa parte acho
+/*
 import {
   loginSchema,
   registerUserSchema,
@@ -10,19 +11,63 @@ import {
   resetPasswordSchema,
   verifyResetCodeSchema,
 } from '../validators/authValidator';
+*/
 import {
   LoginDTO,
   RegisterUserDTO,
   RequestPasswordResetDTO,
   ResetPasswordDTO,
   VerifyResetCodeDTO,
-} from '../dtos/authDTO';
-
+} from '../dto/authDTO';
 import transporter from '@/lib/nodemailer';
 import { UserRepository } from '@/models/users/repository/user.repository';
 import { AuthRepository } from '../repository/authRepository';
 import { Injectable } from '@nestjs/common';
+import { validateOrReject } from 'class-validator';
 
+@Injectable()
+export class AuthService {
+    constructor(private readonly authRepository: AuthRepository) {}
+
+    async registerUser(data: RegisterUserDTO): Promise<void> {
+      try {
+        await 
+        validateOrReject(data);
+        const { nome, sobrenome, email, cpf_number, senha } = data;
+  
+        // Verificar se o e-mail já está em uso
+        const existingUser = await this.userRepository.findByEmail(email);
+        if (existingUser) {
+          throw new Error('Email já está em uso');
+        }
+  
+        // Verificar se o CPF já está em uso
+        const existingUserByCpf = await this.userRepository.findByCpf(cpf_number);
+        if (existingUserByCpf) {
+          throw new Error('CPF já está em uso');
+        }
+  
+        // Hashear a senha
+        const hashedPassword = await bcrypt.hash(senha, 10);
+  
+        // Criar o usuário
+        await this.authRepository.createUser({
+          nome,
+          sobrenome,
+          email,
+          cpf: cpf_number,
+          senha: hashedPassword,
+        });
+      } catch (error) {
+        if (error instanceof ZodError) {
+          throw error;
+        }
+        throw error;
+      }
+    }
+}
+
+/*
 @Injectable()
 export class AuthService {
   private userRepository: UserRepository;
@@ -229,3 +274,4 @@ export class AuthService {
     }
   }
 }
+*/
