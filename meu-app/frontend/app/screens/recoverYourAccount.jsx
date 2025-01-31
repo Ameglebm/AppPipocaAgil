@@ -22,15 +22,26 @@ function RecConta() {
 
       console.log(response);
 
-      await AsyncStorage.setItem("token", response.data.token);
+      // Verifica se existe um token antes de armazená-lo
+      if (response.data && response.data.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+      }
+
       // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
       if (response.status === 200) {
-        // Ajuste conforme o que sua API retorna como sucesso
-        // Navega para a tela de feedback
-        router.push("./Feedbacks/recoverAccountEmail"); // Nome da tela de feedback no seu navegador
+        await AsyncStorage.setItem("email", email);
+        console.log(
+          "Se o e-mail estiver registrado, você receberá um código para redefinir a senha.",
+          email
+        );
+        router.replace("./Feedbacks/RecoverAccountEmail");
+      } else if (response.status === 400) {
+        console.warn("Erro de validação");
+      } else if (response.status === 500) {
+        console.warn("Erro interno do servidor");
       }
     } catch (error) {
-      console.log(error);
+      console.log("Code:", error);
     }
   };
 
@@ -169,7 +180,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
   },
   footerMessageContainer: {
-    marginTop: 8,
+    top: 16,
     marginBottom: 22,
     paddingTop: 10,
     paddingRight: 16,

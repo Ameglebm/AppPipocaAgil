@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Criar a instância de conexão HTTP
 const api = axios.create({
-  baseURL: "https://apppipocaagil-production-0855.up.railway.app/", // URL do banco de dados
+  baseURL: "https://apppipocaagil-production.up.railway.app/", // URL do banco de dados
   timeout: 5000,
 });
 
