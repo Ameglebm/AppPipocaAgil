@@ -175,10 +175,20 @@ export default function Layout() {
           options={{ title: "RecoverAccount" }}
         />
 
+        <Stack.Screen
+          name="screens/Feedbacks/RecoverAccountEmail"
+          options={{ title: "RecoveryAccountEmail" }}
+        />
+
         {/*Define password*/}
         <Stack.Screen
           name="screens/DefineNewPassword"
           options={{ title: "DefinePassword" }}
+        />
+
+        <Stack.Screen
+          name="screens/Feedbacks/RecoverSucessfull"
+          options={{ title: "RecoverSucessfull" }}
         />
 
         {/*HomeScreen*/}
