@@ -1,25 +1,30 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/server.js",
-    "dev": "tsx watch src/server.ts",
-    "build": "tsup src/server.ts"
+    "start": "nest start",
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@nestjs/common": "^11.0.4",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.4",
+    "@nestjs/platform-express": "^11.0.4",
     "@prisma/client": "^5.20.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "cpf-cnpj-validator": "^1.0.3",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
     "node": "^22.8.0",
@@ -27,10 +32,14 @@
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "redoc": "^2.1.5",
+    "reflect-metadata": "^0.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "@nestjs/cli": "^11.0.2",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/swagger": "^11.0.3",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
@@ -45,7 +54,6 @@
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.1",
-    "typescript": "^5.6.2",
-    "zod": "^3.23.8"
+    "typescript": "^5.6.2"
   }
 }
