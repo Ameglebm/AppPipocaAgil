@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "dev": "nest start --watch",
     "build": "nest build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@nestjs/common": "^11.0.4",
+    "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.4",
     "@nestjs/platform-express": "^11.0.4",
     "@prisma/client": "^5.20.0",
@@ -23,7 +24,7 @@
     "cors": "^2.8.5",
     "cpf-cnpj-validator": "^1.0.3",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
     "node": "^22.8.0",
@@ -53,7 +54,6 @@
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.1",
-    "typescript": "^5.6.2",
-    "zod": "^3.23.8"
+    "typescript": "^5.6.2"
   }
 }
