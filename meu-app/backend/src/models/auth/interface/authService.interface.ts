@@ -1,7 +1,9 @@
+import { LoginDTO, RegisterUserDTO, RequestPasswordResetDTO, ResetPasswordDTO, VerifyResetCodeDTO } from "../dtos/authDTO";
+
 export interface IAuthService {
-  registerUser(newUserData: any): Promise<void>;
-  loginUser(loginData: any): Promise<{ token: string; user: any }>;
-  requestPasswordReset(requestPasswordResetDto: any): Promise<void>;
-  verifyResetCode(verifyResetCodeDto: any): Promise<void>;
-  resetPassword(resetPasswordDto: any): Promise<void>;
+  registerUser(data: RegisterUserDTO): Promise<void>;
+  loginUser(data: LoginDTO): Promise<{ token: string; user: any }>;
+  requestPasswordReset(data: RequestPasswordResetDTO): Promise<void>;
+  verifyResetCode(data: VerifyResetCodeDTO): Promise<void>;
+  resetPassword(data: ResetPasswordDTO): Promise<void>;
 }

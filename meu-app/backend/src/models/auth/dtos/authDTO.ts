@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsEmail, IsString, Length, Matches, Min, ValidateIf } from "class-validator";
+import { IsEmail, IsString, Length, Matches, ValidateIf, Validate } from "class-validator";
 import { cpf } from 'cpf-cnpj-validator';
-import { Validate } from 'class-validator';
 
 class IsCpfValid {
   validate(value: string) {
