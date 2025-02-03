@@ -33,7 +33,7 @@ const ModalCustom = ({ modalVisible, onClose, message }) => {
 export default ModalCustom;
 
 ModalCustom.propTypes = {
-  modalVisible: PropTypes.bool.isRequired, // Valor booleano para controlar visibilidade
+  modalVisible: PropTypes.bool, // Valor booleano para controlar visibilidade
   onClose: PropTypes.func.isRequired, // Função para fechar o modal
   message: PropTypes.string, // A mensagem pode ser uma string, e não é obrigatória
 };
