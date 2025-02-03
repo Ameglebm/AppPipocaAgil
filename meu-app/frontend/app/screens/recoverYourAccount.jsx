@@ -28,7 +28,7 @@ function RecConta() {
       }
 
       // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
-      if (response.status === 200) {
+      if (response.status === 201) {
         await AsyncStorage.setItem("email", email);
         console.log(
           "Se o e-mail estiver registrado, você receberá um código para redefinir a senha.",

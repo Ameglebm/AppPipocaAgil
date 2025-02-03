@@ -14,12 +14,12 @@ import PasswordInput from "../../components/PasswordInput";
 import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-import { saveToken } from "../../Utils/tokenManager";
+import { saveToken, getToken } from "../../Utils/tokenManager";
 import userImage from "../../assets/images/user.webp";
 
 export default function Login() {
   const [email, setEmail] = useState("warlleyrocha@icloud.com");
-  const [password, setPassword] = useState("12345678");
+  const [password, setPassword] = useState("1601Wr20$");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 
@@ -52,17 +52,32 @@ export default function Login() {
         senha: password,
       });
 
-      console.log(response);
+      console.log("Resposta da API:", response);
 
-      if (response.status === 200 && response.data.token) {
-        // Ajuste conforme o que sua API retorna como sucesso
-        saveToken(response.data.token);
-        router.replace("../HomeScreen");
+      const token = response.data.token || response.data.accessToken;
+
+      if (response.status === 201 && token) {
+        await saveToken(response.data.token);
+        const savedToken = await getToken(); // Recupera o token salvo
+        console.log("Token recuperado do AsyncStorage:", savedToken);
+
+        if (savedToken) {
+          router.replace("../HomeScreen");
+        } else {
+          console.error("Token não foi salvo corretamente.");
+        }
       } else {
-        console.error("Login bem-sucedido, mas sem token");
+        console.error("Login bem-sucedido, mas sem token.");
       }
     } catch (error) {
-      console.log("Erro no login:", error);
+      if (error.response) {
+        console.log("Erro da API:", error.response.data);
+        console.log("Status do erro:", error.response.status);
+      } else if (error.request) {
+        console.log("Erro de rede:", error.request);
+      } else {
+        console.log("Erro inesperado:", error.message);
+      }
     }
   };
 

@@ -56,7 +56,7 @@ export default function RecoverAccountEmail() {
         code: code,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         await AsyncStorage.setItem("recoveryEmail", email);
         await AsyncStorage.setItem("recoveryCode", JSON.stringify(code));
         router.push("../DefineNewPassword");
