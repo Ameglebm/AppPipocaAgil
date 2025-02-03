@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import MedicationReducer from "./reducers/MedicationReducer";
+import InsulinReducer from "./reducers/InsulinReducer";
 
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -33,6 +34,7 @@ SplashScreen.preventAutoHideAsync();
 // Criando a store do Redux
 const rootReducer = combineReducers({
   medication: MedicationReducer,
+  insulin: InsulinReducer,
 });
 const store = configureStore({
   reducer: rootReducer,
