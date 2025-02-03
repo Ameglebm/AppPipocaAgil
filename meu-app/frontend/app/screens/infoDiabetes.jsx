@@ -60,13 +60,19 @@ export default function InfoDiabetes() {
     }
   };
 
+  const currentIndex = useRef(0);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      currentIndex.current = viewableItems[0].index;
+    }
+  }).current;
+
   const scrollToNextSlide = () => {
-    const currentIndex = Math.floor(scrollx._value / 360); // Calcula o índice atual (considerando a largura do slide)
-    const nextIndex = currentIndex + 1; // Próximo índice
+    const nextIndex = currentIndex.current + 1;
 
     if (nextIndex < slides.length) {
-      // Se houver slides restantes, navega para o próximo
-      slidesRef.current.scrollToIndex({ index: nextIndex });
+      slidesRef.current.scrollToIndex({ index: nextIndex, animated: true });
     } else {
       console.log("Último slide alcançado.");
     }
@@ -93,6 +99,7 @@ export default function InfoDiabetes() {
       <View>
         <FlatList
           style={styles.flatlist}
+          onViewableItemsChanged={onViewableItemsChanged}
           data={slides} // Dados do array de configuração
           renderItem={({ item }) => {
             const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico
