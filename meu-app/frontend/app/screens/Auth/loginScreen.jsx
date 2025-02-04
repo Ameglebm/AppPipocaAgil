@@ -18,8 +18,8 @@ import { saveToken, getToken } from "../../Utils/tokenManager";
 import userImage from "../../assets/images/user.webp";
 
 export default function Login() {
-  const [email, setEmail] = useState("warlleyrocha@icloud.com");
-  const [password, setPassword] = useState("1601Wr20$");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 
