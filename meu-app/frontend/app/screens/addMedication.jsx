@@ -54,7 +54,7 @@ const LabelInputScreen = () => {
 
       setTimeout(() => {
         setModalVisible(false);
-        router.replace("../components/InfoDiabetesItems/MedicamentosItem"); // Redireciona para MedicamentoItem
+        router.replace("screens/InfoDiabetes"); // Redireciona para MedicamentoItem
       }, 1500);
 
       console.log(cleanedData);

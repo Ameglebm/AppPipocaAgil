@@ -56,7 +56,7 @@ function AddInsulin() {
 
       setTimeout(() => {
         setModalVisible(false);
-        router.replace("../components/InfoDiabetesItems/TipoDeInsulinaItem"); // Redireciona para MedicamentoItem
+        router.replace("screens/InfoDiabetes"); // Redireciona para MedicamentoItem
       }, 1500);
 
       console.log(cleanedData);
