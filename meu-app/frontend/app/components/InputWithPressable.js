@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import PropTypes from "prop-types";
 
 const InputWithPressable = ({ placeholder, textLabel, onPress }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -39,6 +40,12 @@ const InputWithPressable = ({ placeholder, textLabel, onPress }) => {
       </View>
     </View>
   );
+};
+
+InputWithPressable.propTypes = {
+  placeholder: PropTypes.arrayOf(PropTypes.string).isRequired,
+  textLabel: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 export default InputWithPressable;

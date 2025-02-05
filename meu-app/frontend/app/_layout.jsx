@@ -7,6 +7,13 @@ import { TouchableOpacity } from "react-native";
 // Expo Router e navegação
 import { Stack, useRouter } from "expo-router";
 
+// Redux
+import { Provider } from "react-redux";
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import MedicationReducer from "./reducers/MedicationReducer";
+import InsulinReducer from "./reducers/InsulinReducer";
+
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
 
@@ -23,6 +30,15 @@ import { Roboto_400Regular } from "@expo-google-fonts/roboto";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
+
+// Criando a store do Redux
+const rootReducer = combineReducers({
+  medication: MedicationReducer,
+  insulin: InsulinReducer,
+});
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default function Layout() {
   const router = useRouter();
@@ -46,153 +62,165 @@ export default function Layout() {
   }
 
   return (
-    <Stack
-      screenOptions={{ headerShown: false }} /*config para todas as telas*/
-    >
-      {/* SplashScreen */}
-      <Stack.Screen
-        name="index"
-        options={{
-          title: "SplashScreen",
-          headerShown: false,
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-        }}
-      />
+    <Provider store={store}>
+      <Stack
+        screenOptions={{ headerShown: false }} /*config para todas as telas*/
+      >
+        {/* SplashScreen */}
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "SplashScreen",
+            headerShown: false,
+            headerTitleStyle: {
+              fontSize: 28,
+              fontWeight: "700",
+              lineHeight: 30.8,
+              color: "#282828",
+            },
+          }}
+        />
 
-      {/*Onboard*/}
-      <Stack.Screen name="screens/onboard" options={{ title: "Onboard" }} />
+        {/*Onboard*/}
+        <Stack.Screen name="screens/Onboard" options={{ title: "Onboard" }} />
 
-      {/*Welcome*/}
-      <Stack.Screen name="screens/welcome" options={{ title: "Welcome" }} />
+        {/*Welcome*/}
+        <Stack.Screen name="screens/Welcome" options={{ title: "Welcome" }} />
 
-      {/* Tela de Login */}
-      <Stack.Screen
-        name="screens/Auth/loginScreen"
-        options={{
-          headerShown: false,
-          title: "Login",
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
+        {/* Tela de Login */}
+        <Stack.Screen
+          name="screens/Auth/LoginScreen"
+          options={{
+            headerShown: false,
+            title: "Login",
+            headerTitleStyle: {
+              fontSize: 28,
+              fontWeight: "700",
+              lineHeight: 30.8,
+              color: "#282828",
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <AntDesign name="left" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
 
-      {/* Tela de Cadastro */}
-      <Stack.Screen
-        name="screens/Auth/registerScreen"
-        options={{
-          headerShown: false,
-          title: "Crie a sua conta",
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-          headerStyle: {
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 5,
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
+        {/* Tela de Cadastro */}
+        <Stack.Screen
+          name="screens/Auth/RegisterScreen"
+          options={{
+            headerShown: false,
+            title: "Crie a sua conta",
+            headerTitleStyle: {
+              fontSize: 28,
+              fontWeight: "700",
+              lineHeight: 30.8,
+              color: "#282828",
+            },
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              borderBottomWidth: 5,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <AntDesign name="left" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
 
-      {/* Tela de CheckSuccess */}
-      <Stack.Screen
-        name="screens/Feedbacks/checkSucess"
-        options={{
-          title: "Sucesso",
-          headerShown: false,
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
+        {/* Tela de CheckSuccess */}
+        <Stack.Screen
+          name="screens/Feedbacks/CheckSucess"
+          options={{
+            title: "Sucesso",
+            headerShown: false,
+            headerTitleStyle: {
+              fontSize: 28,
+              fontWeight: "700",
+              lineHeight: 30.8,
+              color: "#282828",
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <AntDesign name="left" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
 
-      {/* Tela de CheckFailed */}
-      <Stack.Screen
-        name="screens/Feedbacks/checkFailed"
-        options={{
-          headerShown: false,
-          headerTitleStyle: {
-            fontSize: 28,
-            fontWeight: "700",
-            lineHeight: 30.8,
-            color: "#282828",
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
+        {/* Tela de CheckFailed */}
+        <Stack.Screen
+          name="screens/Feedbacks/CheckFailed"
+          options={{
+            headerShown: false,
+            headerTitleStyle: {
+              fontSize: 28,
+              fontWeight: "700",
+              lineHeight: 30.8,
+              color: "#282828",
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <AntDesign name="left" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
 
-      {/*Recovery password*/}
-      <Stack.Screen
-        name="screens/recoverYourAccount"
-        options={{ title: "RecoverAccount" }}
-      />
+        {/*Recovery password*/}
+        <Stack.Screen
+          name="screens/RecoverYourAccount"
+          options={{ title: "RecoverAccount" }}
+        />
 
-      {/*Define password*/}
-      <Stack.Screen
-        name="screens/defineNewPassword"
-        options={{ title: "DefinePassword" }}
-      />
+        <Stack.Screen
+          name="screens/Feedbacks/RecoverAccountEmail"
+          options={{ title: "RecoveryAccountEmail" }}
+        />
 
-      {/*HomeScreen*/}
-      <Stack.Screen
-        name="screens/homeScreen"
-        options={{ title: "HomeScreen" }}
-      />
+        {/*Define password*/}
+        <Stack.Screen
+          name="screens/DefineNewPassword"
+          options={{ title: "DefinePassword" }}
+        />
 
-      {/*Information of Diabete*/}
-      <Stack.Screen
-        name="screens/infoDiabetes"
-        options={{ title: "InfoDiabetes" }}
-      />
+        <Stack.Screen
+          name="screens/Feedbacks/RecoverSucessfull"
+          options={{ title: "RecoverSucessfull" }}
+        />
 
-      {/* Tela de adicionar insulina */}
-      <Stack.Screen
-        name="screens/addInsulin"
-        options={{
-          headerShown: false, // Sem header na tela de add insulina
-        }}
-      />
+        {/*HomeScreen*/}
+        <Stack.Screen
+          name="screens/HomeScreen"
+          options={{ title: "HomeScreen" }}
+        />
 
-      {/* Tela de adicionar medicamentos */}
-      <Stack.Screen
-        name="screens/addMedication"
-        options={{
-          headerShown: false, // Sem header na tela de add medicamentos
-        }}
-      />
-    </Stack>
+        {/*Information of Diabete*/}
+        <Stack.Screen
+          name="screens/InfoDiabetes"
+          options={{ title: "InfoDiabetes" }}
+        />
+
+        {/* Tela de adicionar insulina */}
+        <Stack.Screen
+          name="screens/AddInsulin"
+          options={{
+            headerShown: false, // Sem header na tela de add insulina
+          }}
+        />
+
+        {/* Tela de adicionar medicamentos */}
+        <Stack.Screen
+          name="screens/AddMedication"
+          options={{
+            headerShown: false, // Sem header na tela de add medicamentos
+          }}
+        />
+      </Stack>
+    </Provider>
   );
 }

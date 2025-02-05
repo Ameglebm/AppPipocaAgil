@@ -1,7 +1,8 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import BackIconSvg from "./svgComponenets/BackIconSvg";
+import BackIconSvg from "./SvgComponents/BackIconSvg";
+import PropTypes from "prop-types";
 
 const CustomHeader = ({ title, style }) => {
   const router = useRouter();
@@ -13,6 +14,11 @@ const CustomHeader = ({ title, style }) => {
       <Text style={[styles.title, style]}>{title}</Text>
     </View>
   );
+};
+
+CustomHeader.propTypes = {
+  title: PropTypes.string,
+  style: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

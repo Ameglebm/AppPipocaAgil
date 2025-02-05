@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 // arquivo config da API
 import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function defineNewPassword() {
-  const navigation = useNavigation();
+export default function DefineNewPassword() {
+  const router = useRouter();
 
   const [newPassword, setNewPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
@@ -22,11 +22,6 @@ export default function defineNewPassword() {
   const [secureTextNewPassword, setSecureTextNewPassword] = useState(true);
   const [secureTextVerifyPassword, setSecureTextVerifyPassword] =
     useState(true);
-
-  useEffect(() => {
-    //Ao iniciar a página seta o header dela como false
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
 
   const sendForm = async () => {
     let valid = true;
@@ -45,25 +40,38 @@ export default function defineNewPassword() {
       return;
     }
 
+    const savedEmail = (await AsyncStorage.getItem("recoveryEmail")) ?? "";
+    const savedCode = (await AsyncStorage.getItem("recoveryCode")) ?? "";
+
+    const cleanCode = savedCode.replace(/[^\d]/g, ""); //Limpar o código para conter 6 digitos
+
+    //  Debugando a validação
+    if (!cleanCode || cleanCode.length !== 6) {
+      console.error("Erro: Código inválido ou incompleto.");
+      return;
+    }
+
     try {
       const response = await api.post("/auth/reset-password", {
+        email: savedEmail,
+        code: cleanCode,
         novaSenha: newPassword,
         confirmarNovaSenha: verifyPassword,
-        userId: " ",
-        token: " ",
       });
 
-      console.log(response);
+      console.log("Resposta da API:", response.data);
 
-      await AsyncStorage.setItem("token", response.data.token);
       // Verifica se a resposta da API indica sucesso
-      if (response.status === 200) {
-        // Ajuste conforme a estrutura da sua API
-        // Navega para a tela de feedback
-        navigation.navigate("./Feedbacks/recoverSucessfull"); // Nome da tela de feedback no seu navegador
+      if (response.status === 201) {
+        router.replace("./Feedbacks/RecoverSucessfull"); // Nome da tela de feedback no seu navegador
+      } else if (response.status === 400) {
+        console.log("Código inválido ou expirado / Erros de validação");
       }
     } catch (error) {
-      console.log(error);
+      console.log(
+        "Erro ao enviar requisição:",
+        error.response?.data || error.message
+      );
     }
   };
 

@@ -8,21 +8,17 @@ import {
   Image,
 } from "react-native";
 import Input from "../../components/Input";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import backIcon from "../../assets/images/backIcon.png";
 
 function TelaCadastro() {
-  const navigation = useNavigation();
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.btnContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("screens/welcome")}
-          >
-            <Image
-              source={require("../../assets/images/backIcon.png")}
-              style={styles.btnImage}
-            />
+          <TouchableOpacity onPress={() => router.back()}>
+            <Image source={backIcon} style={styles.btnImage} />
           </TouchableOpacity>
         </View>
         <View>

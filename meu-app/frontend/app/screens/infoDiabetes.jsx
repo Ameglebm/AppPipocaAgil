@@ -13,12 +13,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import React, { useEffect, useRef } from "react";
 import { useNavigation, useRouter } from "expo-router";
 
-import slides from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
-import TiposDiabetes from "../components/infoDiabetesItems/tiposDiabetesItem"; // Tela correspondente ao slide com id 1
-import AdmInsulina from "../components/infoDiabetesItems/admInsulinaItem"; // Tela correspondente ao slide com id 2
-import MetaGlicemica from "../components/infoDiabetesItems/metaGlicemicaItem"; // Tela correspondente ao slide com id 3
-import Medicamentos from "../components/infoDiabetesItems/medicamentosItem"; // Tela correspondente ao slide com id 4
-import TipoDeInsulina from "../components/infoDiabetesItems/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+import slides from "../components/SlidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
+import TiposDiabetes from "../components/InfoDiabetesItems/TiposDiabetesItem"; // Tela correspondente ao slide com id 1
+import AdmInsulina from "../components/InfoDiabetesItems/AdmInsulinaItem"; // Tela correspondente ao slide com id 2
+import MetaGlicemica from "../components/InfoDiabetesItems/MetaGlicemicaItem"; // Tela correspondente ao slide com id 3
+import Medicamentos from "../components/InfoDiabetesItems/MedicamentosItem"; // Tela correspondente ao slide com id 4
+import TipoDeInsulina from "../components/InfoDiabetesItems/TipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+import backIcon from "../assets/images/backIcon.png"; // Importação da imagem do ícone de voltar
 
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
 
@@ -59,13 +60,19 @@ export default function InfoDiabetes() {
     }
   };
 
+  const currentIndex = useRef(0);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      currentIndex.current = viewableItems[0].index;
+    }
+  }).current;
+
   const scrollToNextSlide = () => {
-    const currentIndex = Math.floor(scrollx._value / 360); // Calcula o índice atual (considerando a largura do slide)
-    const nextIndex = currentIndex + 1; // Próximo índice
+    const nextIndex = currentIndex.current + 1;
 
     if (nextIndex < slides.length) {
-      // Se houver slides restantes, navega para o próximo
-      slidesRef.current.scrollToIndex({ index: nextIndex });
+      slidesRef.current.scrollToIndex({ index: nextIndex, animated: true });
     } else {
       console.log("Último slide alcançado.");
     }
@@ -81,7 +88,7 @@ export default function InfoDiabetes() {
 
         <View style={styles.header}>
           <Pressable onPress={() => navigation.goBack()}>
-            <Image source={require("../assets/images/backIcon.png")} />
+            <Image source={backIcon} />
           </Pressable>
           <Text style={styles.textHeader}>Informações do diabetes</Text>
         </View>
@@ -92,6 +99,7 @@ export default function InfoDiabetes() {
       <View>
         <FlatList
           style={styles.flatlist}
+          onViewableItemsChanged={onViewableItemsChanged}
           data={slides} // Dados do array de configuração
           renderItem={({ item }) => {
             const slideSize = getSlideSize(item.id); // Obtém o tamanho dinâmico

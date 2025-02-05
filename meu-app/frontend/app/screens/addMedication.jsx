@@ -1,6 +1,13 @@
 // Bibliotecas externas
 import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet, ScrollView, View } from "react-native";
+import { useRouter } from "expo-router";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import {
+  pushMedication,
+  updateMedicationField,
+} from "../reducers/medicationActions";
 
 // Componentes
 import ButtonSave from "../components/ButtonSave";
@@ -11,46 +18,12 @@ import InputWithPressable from "../components/InputWithPressable";
 import ModalCustom from "../components/Modal";
 
 const LabelInputScreen = () => {
-  const [formData, setFormData] = useState([
-    {
-      id: 1,
-      label: "Nome do medicamento",
-      value: "",
-      placeholder: "Insira o nome",
-    },
-    {
-      id: 2,
-      label: "Para qual tratamento?",
-      value: "",
-      placeholder: "Selecione o tratamento",
-    },
-    {
-      id: 3,
-      label: "Dosagem por administração",
-      value: "",
-      placeholder: "Dose",
-      keyboardType: "numeric",
-    },
-    {
-      id: 4,
-      value: "",
-      placeholder: ["mL", "IU", "%", "mcg", "mg", "g"],
-      isInputWithPressable: true,
-    },
-    {
-      id: 5,
-      label: "Quantidade de doses restantes",
-      value: "",
-      placeholder: "Dose",
-      keyboardType: "numeric",
-    },
-  ]);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.medication.formData) || [];
 
   const handleInputChange = (id, value) => {
-    console.log(`Alterando campo ID ${id} com o valor:`, value);
-    setFormData((prevData) =>
-      prevData.map((item) => (item.id === id ? { ...item, value } : item))
-    );
+    dispatch(updateMedicationField(id, value));
   };
 
   const [modalVisible, setModalVisible] = useState(false); //Controle de visibilidade do modal
@@ -59,36 +32,39 @@ const LabelInputScreen = () => {
     if (modalVisible) {
       const timer = setTimeout(() => {
         setModalVisible(false);
-      }, 3000);
+      }, 1000);
 
       return () => clearTimeout(timer);
     }
   }, [modalVisible]);
 
   const handleSave = () => {
-    console.log("Form Data", formData);
-
-    const allFieldsFilled = formData.every((item) => {
-      if (item.isInputWithPressable) {
-        return item.value && item.value !== "";
-      } else if (Array.isArray(item.placeholder)) {
-        return item.value && item.value !== "";
-      } else {
-        return item.value && item.value !== "";
-      }
-    });
-
-    console.log("All Fields Filled:", allFieldsFilled);
+    const allFieldsFilled = formData.every((item) => item.value !== "");
 
     if (allFieldsFilled) {
+      const cleanedData = formData.map((item) => ({
+        id: item.id,
+        label: item.label,
+        value: item.value,
+      }));
+
+      dispatch(pushMedication(cleanedData));
+
       setModalVisible(true);
+
+      setTimeout(() => {
+        setModalVisible(false);
+        router.replace("screens/InfoDiabetes"); // Redireciona para MedicamentoItem
+      }, 1500);
+
+      console.log(cleanedData);
     } else {
       Alert.alert("Erro", "Por favor, preencha todos os campos.");
     }
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true}>
       <View style={{ marginTop: 35, paddingBottom: 12 }}>
         <CustomHeader title={"Adicionar medicação"} />
       </View>
@@ -138,7 +114,7 @@ const LabelInputScreen = () => {
         </View>
       ))}
 
-      <ButtonSave style={customButtonStyle} onPress={handleSave}></ButtonSave>
+      <ButtonSave style={customButtonStyle} onPress={handleSave} />
 
       <ModalCustom
         modalVisible={modalVisible}

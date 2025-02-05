@@ -10,6 +10,9 @@ import {
   Pressable,
 } from "react-native";
 
+import xCloseImage from "../assets/images/x-close.png";
+import infoOctagonImage from "../assets/images/info-octagon.png";
+
 const AlertToggle = () => {
   const [alertEnabled, setAlertEnabled] = useState(false);
   const position = new Animated.Value(0); // Definindo position como uma Animated.Value
@@ -49,10 +52,7 @@ const AlertToggle = () => {
               style={styles.modalCloseButton}
               onPress={() => setModalVisible(false)}
             >
-              <Image
-                source={require("../assets/images/x-close.png")}
-                style={styles.modalCloseButtonText}
-              />
+              <Image source={xCloseImage} style={styles.modalCloseButtonText} />
             </Pressable>
             <Text style={styles.modalTitle}>Lembretes</Text>
             <Text style={styles.modalsubTitle}>Configure seus lembretes</Text>
@@ -70,10 +70,7 @@ const AlertToggle = () => {
       </Modal>
       <View style={styles.alertView}>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Image
-            source={require("../assets/images/info-octagon.png")}
-            style={styles.alertImage}
-          />
+          <Image source={infoOctagonImage} style={styles.alertImage} />
         </TouchableOpacity>
 
         <Text style={styles.alertText}>Ativar notificações</Text>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, View, Text } from "react-native";
+import PropTypes from "prop-types";
 
 const Dropdown = ({
   items,
@@ -20,6 +21,7 @@ const Dropdown = ({
       <DropDownPicker
         style={[styles.dropDown, style, open && styles.inputFocused]}
         open={open}
+        listMode="SCROLLVIEW"
         setOpen={setOpen}
         value={value} // Usa o valor passado do pai
         items={items}
@@ -52,6 +54,15 @@ const Dropdown = ({
 };
 
 export default Dropdown;
+
+Dropdown.propTypes = {
+  items: PropTypes.array,
+  placeholder: PropTypes.string,
+  value: PropTypes.string,
+  onValueChange: PropTypes.func,
+  style: PropTypes.object,
+  title: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   dropDownContainer: {

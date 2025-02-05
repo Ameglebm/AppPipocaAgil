@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRouter } from "expo-router";
+import welcomeImage from "../assets/images/welcome.png";
 
-export default function welcome() {
+export default function Welcome() {
   const navigation = useNavigation();
   const router = useRouter();
 
@@ -21,7 +22,7 @@ export default function welcome() {
           <Text style={styles.title}>{titulo}</Text>
 
           <Image
-            source={require("../assets/images/welcome.png")}
+            source={welcomeImage}
             style={styles.image}
             resizeMode="contain"
           />
@@ -33,14 +34,14 @@ export default function welcome() {
 
             <TouchableOpacity
               style={styles.btnSignUp}
-              onPress={() => router.push("screens/Auth/registerScreen")}
+              onPress={() => router.push("screens/Auth/RegisterScreen")}
             >
               <Text style={styles.textBtnSignUp}>Criar uma conta</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.btnSignIn}
-              onPress={() => router.push("./Auth/loginScreen")}
+              onPress={() => router.push("./Auth/LoginScreen")}
             >
               <Text style={styles.textBtnSignIn}>Fazer Login</Text>
             </TouchableOpacity>

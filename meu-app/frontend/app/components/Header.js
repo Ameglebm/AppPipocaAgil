@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { removeToken } from "../Utils/tokenManager";
-import User from "./svgComponenets/User";
-import Plus from "./svgComponenets/Plus";
+import User from "./SvgComponents/User";
+import Plus from "./SvgComponents/Plus";
 
 export default function Header() {
   const navigation = useNavigation();
@@ -15,7 +15,7 @@ export default function Header() {
       // Remove o token do armazenamento
       await removeToken();
       console.log("Token removido com sucesso. Usuário desconectado.");
-      router.replace("../screens/Auth/loginScreen");
+      router.replace("../screens/Auth/LoginScreen");
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
     }

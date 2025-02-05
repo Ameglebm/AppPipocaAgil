@@ -1,44 +1,121 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
-import ButtonSave from "../ButtonSave";
 import { useRouter } from "expo-router";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  removeMedication,
+  resetMedication,
+} from "../../reducers/medicationActions";
 
-const TipoDeInsulinaItem = () => {
-  // Busca o item com id === '4' no array de dados
-  const tipoDeInsulinaItem = data.find((item) => item.id === "4");
+import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import ButtonSave from "../ButtonSave";
+import Button from "../Button";
+import Trash from "../SvgComponents/Trash";
+import Edit from "../SvgComponents/Edit";
+import plusImage from "../../assets/images/plus.png";
+
+const MedicamentoItem = () => {
   const router = useRouter();
+
+  const dispatch = useDispatch();
+
+  const medicamentosItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
+
+  // Garante que `formData` sempre tenha um valor válido
+  const formData = useSelector((state) => state.medication?.formData || []);
+
+  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
+  const nomeDoMedicamento = formData.find((item) => item.id === 1)?.value || "";
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     console.log("salvo");
   };
 
+  const editMedication = () => {
+    router.push("../../screens/AddMedication");
+  };
+
+  const deleteMedication = () => {
+    console.log("Removendo medicamento com ID:", nomeDoMedicamento); // Para depuração
+    if (nomeDoMedicamento) {
+      dispatch(removeMedication(nomeDoMedicamento));
+      dispatch(resetMedication());
+      console.log(formData);
+    } else {
+      console.warn("ID do medicamento não foi passado corretamente");
+    }
+  };
+
   return (
     <View>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{tipoDeInsulinaItem.title}</Text>
-        </View>
+      {nomeDoMedicamento ? (
+        <>
+          <View style={{ backgroundColor: "#FDFDFD" }}>
+            <View style={styles.configuredHeader}>
+              <Text style={styles.title}>Medicamentos</Text>
+            </View>
 
-        <View style={styles.contentBtn}>
-          <TouchableOpacity
-            style={styles.btnAdd}
-            onPress={() => {
-              router.navigate("../../screens/addMedication");
-            }}
-          >
-            <Text style={styles.btnText}>Adicionar medicamento</Text>
-            <Image source={require("../../assets/images/plus.png")} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ButtonSave onPress={handleSave} />
+            <View style={styles.configuredContainerMedication}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 8,
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
+                <Text style={styles.useText}>Uso contínuo</Text>
+              </View>
+
+              <View style={styles.containerEditDel}>
+                <TouchableOpacity onPress={editMedication}>
+                  <Edit />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={deleteMedication}>
+                  <Trash />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={{ marginTop: 230, alignItems: "center" }}>
+              <TouchableOpacity style={styles.btnAddMedication}>
+                <Text style={styles.textBtnAddMedication}>
+                  Adicionar medicamento
+                </Text>
+              </TouchableOpacity>
+              <Button style={{ width: 320, height: 42 }} title={"Avançar"} />
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Text style={styles.title}>{medicamentosItem.title}</Text>
+            </View>
+
+            <View style={styles.contentBtn}>
+              <TouchableOpacity
+                style={styles.btnAdd}
+                onPress={() => {
+                  router.navigate("../../screens/AddMedication");
+                }}
+              >
+                <Text style={styles.btnText}>Adicionar medicamento</Text>
+                <Image source={plusImage} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <ButtonSave onPress={handleSave} />
+        </>
+      )}
     </View>
   );
 };
 
-export default TipoDeInsulinaItem;
+export default MedicamentoItem;
 
 const styles = StyleSheet.create({
   container: {
@@ -80,5 +157,45 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     color: "#282828",
+  },
+  nomeMedicamento: {
+    color: "#282828",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    lineHeight: 19.8,
+  },
+  configuredHeader: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+    padding: 16,
+  },
+  configuredContainerMedication: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#EDF3FF",
+    padding: 16,
+    borderRadius: 16,
+  },
+  useText: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 12,
+  },
+  btnAddMedication: {
+    width: 320,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textBtnAddMedication: {
+    color: "#5E5D5C",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+  },
+  containerEditDel: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    paddingRight: 5,
   },
 });

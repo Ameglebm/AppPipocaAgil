@@ -9,7 +9,7 @@ import {
 import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
-import axios from "axios";
+import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Inputs() {
@@ -67,7 +67,8 @@ function Inputs() {
     }
 
     if (!senha) {
-      newErrors.senha = "Senha é obrigatória.";
+      newErrors.senha =
+        "Senha é obrigatória e deve ter pelo menos 8 caracteres, incluir 1 caractere especial e 1 caractere maiúsculo.";
     } else if (
       !/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(senha) || // Verifica caractere especial
       !/(?=.*[A-Z])/.test(senha) || // Verifica caractere maiúsculo
@@ -103,16 +104,13 @@ function Inputs() {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:3333/auth/register",
-        novoUsuario
-      );
+      const response = await api.post("/auth/register", novoUsuario);
 
       if (response.status === 201) {
         const token = response.data.token;
         await AsyncStorage.setItem("userToken", token);
         console.log("Usuário criado com sucesso");
-        router.navigate("../Feedbacks/checkSucess");
+        router.replace("../Feedbacks/CheckSucess");
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {

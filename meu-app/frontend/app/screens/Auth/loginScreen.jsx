@@ -10,11 +10,12 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import PasswordInput from "../../components/passwordInput";
+import PasswordInput from "../../components/PasswordInput";
 import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
-import { saveToken } from "../../Utils/tokenManager";
+import { saveToken, getToken } from "../../Utils/tokenManager";
+import userImage from "../../assets/images/user.webp";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -51,17 +52,32 @@ export default function Login() {
         senha: password,
       });
 
-      console.log(response);
+      console.log("Resposta da API:", response);
 
-      if (response.status === 200 && response.data.token) {
-        // Ajuste conforme o que sua API retorna como sucesso
-        saveToken(response.data.token);
-        router.replace("../homeScreen");
+      const token = response.data.token || response.data.accessToken;
+
+      if (response.status === 201 && token) {
+        await saveToken(response.data.token);
+        const savedToken = await getToken(); // Recupera o token salvo
+        console.log("Token recuperado do AsyncStorage:", savedToken);
+
+        if (savedToken) {
+          router.replace("../HomeScreen");
+        } else {
+          console.error("Token não foi salvo corretamente.");
+        }
       } else {
-        console.error("Login bem-sucedido, mas sem token");
+        console.error("Login bem-sucedido, mas sem token.");
       }
     } catch (error) {
-      console.log("Erro no login:", error);
+      if (error.response) {
+        console.log("Erro da API:", error.response.data);
+        console.log("Status do erro:", error.response.status);
+      } else if (error.request) {
+        console.log("Erro de rede:", error.request);
+      } else {
+        console.log("Erro inesperado:", error.message);
+      }
     }
   };
 
@@ -72,10 +88,7 @@ export default function Login() {
       keyboardVerticalOffset={100} // Evita Sobreposição
     >
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/user.webp")}
-        />
+        <Image style={styles.image} source={userImage} />
       </View>
 
       <View style={styles.form}>
@@ -107,7 +120,7 @@ export default function Login() {
         {/* Navegação para a tela de recuperação de senha */}
         <View style={styles.containerForgetPass}>
           <TouchableOpacity
-            onPress={() => router.push("screens/recoverYourAccount")}
+            onPress={() => router.push("screens/RecoverYourAccount")}
           >
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
@@ -119,7 +132,7 @@ export default function Login() {
 
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Não possui uma conta? </Text>
-        <Link href={"screens/Auth/registerScreen"} style={styles.textLink}>
+        <Link href={"screens/Auth/RegisterScreen"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>

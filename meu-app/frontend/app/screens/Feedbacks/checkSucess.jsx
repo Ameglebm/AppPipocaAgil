@@ -7,17 +7,15 @@ import {
   StyleSheet,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import sucessImage from "../../assets/images/sucess.webp";
 
-export default function checkSucess() {
-  const navigation = useNavigation();
+export default function CheckSucess() {
+  const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/sucess.webp")}
-        />
+        <Image style={styles.image} source={sucessImage} />
       </View>
 
       <View style={styles.containerText}>
@@ -29,7 +27,7 @@ export default function checkSucess() {
       <TouchableOpacity style={styles.btn}>
         <Text
           style={styles.textBtn}
-          onPress={() => navigation.navigate("../Auth/loginScreen")}
+          onPress={() => router.replace("../Auth/LoginScreen")}
         >
           Ir para login
         </Text>

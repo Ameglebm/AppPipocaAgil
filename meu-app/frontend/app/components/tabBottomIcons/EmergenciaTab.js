@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import EmergenciaSvg from "../svgComponenets/EmergenciaSvg";
+import EmergenciaSvg from "../SvgComponents/EmergenciaSvg";
 
 export default function EmergenciaTab({ focused }) {
   EmergenciaTab.propTypes = {
@@ -9,7 +9,7 @@ export default function EmergenciaTab({ focused }) {
   };
 
   const iconColor = focused ? "#FDFDFD" : "#7B7A78"; // Cor do ícone com base no estado "focused"
-  const circleColor = focused ? "#2F39D3" : "transparent"; // Cor do círculo com base no estado "focused"
+  //const circleColor = focused ? "#2F39D3" : "transparent"; // Cor do círculo com base no estado "focused"
 
   return (
     <View style={styles.tabContainer}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
 const Label = ({ title, style }) => {
   return (
@@ -10,6 +11,11 @@ const Label = ({ title, style }) => {
 };
 
 export default Label;
+
+Label.propTypes = {
+  title: PropTypes.string,
+  style: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   labelContainer: {

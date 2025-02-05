@@ -8,16 +8,14 @@ import {
 } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import failedImage from "../../assets/images/failed.webp";
 
-export default function checkFailed() {
+export default function CheckFailed() {
   const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/failed.webp")}
-        />
+        <Image style={styles.image} source={failedImage} />
       </View>
 
       <View style={styles.containerText}>
@@ -26,7 +24,7 @@ export default function checkFailed() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.navigate("screens/Auth/registerScreen")}
+        onPress={() => router.navigate("screens/Auth/RegisterScreen")}
       >
         <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>

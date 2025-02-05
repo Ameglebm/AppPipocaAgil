@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, View, Switch } from "react-native";
+import PropTypes from "prop-types";
 
 export default function EnableNotifications({
   onActivate,
@@ -40,6 +41,12 @@ export default function EnableNotifications({
     </View>
   );
 }
+
+EnableNotifications.propTypes = {
+  onActivate: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

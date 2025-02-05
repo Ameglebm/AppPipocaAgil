@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import backIcon from "../assets/images/backIcon.png";
+import alertTriangle from "../assets/images/alert-triangle.png";
 import Button from "../components/Button";
 import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
@@ -9,7 +11,7 @@ import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function RecConta() {
-  const navigation = useNavigation();
+  const router = useRouter();
   const { email, error, handleEmailChange } = useRecConta();
 
   const sendRecPass = async () => {
@@ -20,15 +22,26 @@ function RecConta() {
 
       console.log(response);
 
-      await AsyncStorage.setItem("token", response.data.token);
+      // Verifica se existe um token antes de armazená-lo
+      if (response.data && response.data.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+      }
+
       // Verifica se o link foi enviado com sucesso (cheque o código de status ou a estrutura da resposta)
-      if (response.status === 200) {
-        // Ajuste conforme o que sua API retorna como sucesso
-        // Navega para a tela de feedback
-        navigation.navigate("./Feedbacks/recoverAccountEmail.jsx"); // Nome da tela de feedback no seu navegador
+      if (response.status === 201) {
+        await AsyncStorage.setItem("email", email);
+        console.log(
+          "Se o e-mail estiver registrado, você receberá um código para redefinir a senha.",
+          email
+        );
+        router.replace("./Feedbacks/RecoverAccountEmail");
+      } else if (response.status === 400) {
+        console.warn("Erro de validação");
+      } else if (response.status === 500) {
+        console.warn("Erro interno do servidor");
       }
     } catch (error) {
-      console.log(error);
+      console.log("Code:", error);
     }
   };
 
@@ -37,10 +50,10 @@ function RecConta() {
       <View style={styles.container2}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => router.back()}
             style={styles.btnVoltar}
           >
-            <Image source={require("../assets/images/backIcon.png")} />
+            <Image source={backIcon} />
           </TouchableOpacity>
           <Text style={styles.textHeader}>Recupere sua conta</Text>
         </View>
@@ -59,10 +72,7 @@ function RecConta() {
       </View>
       {error ? (
         <View style={styles.footerMessageContainer}>
-          <Image
-            source={require("../assets/images/alert-triangle.png")}
-            style={styles.warningTriangle}
-          />
+          <Image source={alertTriangle} style={styles.warningTriangle} />
           <Text style={styles.footerMessageText}>Conta não encontrada</Text>
         </View>
       ) : null}
@@ -170,7 +180,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
   },
   footerMessageContainer: {
-    marginTop: 8,
+    top: 16,
     marginBottom: 22,
     paddingTop: 10,
     paddingRight: 16,

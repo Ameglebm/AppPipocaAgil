@@ -1,5 +1,6 @@
 import * as React from "react";
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
+import PropTypes from "prop-types";
 
 const MedicacaoSvg = ({ color = "#7B7A78", ...props }) => (
   <Svg
@@ -24,3 +25,7 @@ const MedicacaoSvg = ({ color = "#7B7A78", ...props }) => (
 );
 
 export default MedicacaoSvg;
+
+MedicacaoSvg.propTypes = {
+  color: PropTypes.string,
+};

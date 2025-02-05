@@ -10,11 +10,11 @@ import styles from "./styles";
 // Componentes
 import Button from "../Button";
 import CustomHeader from "../CustomHeader";
-import ModalClock from "../modalClock";
+import ModalClock from "../ModalClock";
 
 // Icones e svgs
-import Plus from "../svgComponenets/Plus";
-import Trash from "../svgComponenets/TrashSvg";
+import Plus from "../SvgComponents/Plus";
+import Trash from "../SvgComponents/TrashSvg";
 
 export default function SettingsSchedules() {
   const router = useRouter();
@@ -137,7 +137,7 @@ export default function SettingsSchedules() {
     console.log("Enviando payload:", payload);
 
     router.push({
-      pathname: "./addInsulin",
+      pathname: "./AddInsulin",
       params: {
         frequency: formattedFrequencia,
         doseString: formattedDose,

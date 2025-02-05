@@ -1,7 +1,10 @@
 // Bibliotecas externas
 import React, { useState, useEffect } from "react";
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
-
+import { useRouter } from "expo-router";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { pushInsulin, updateInsulinField } from "../reducers/insulinActions";
 // Componentes
 import CustomHeader from "../components/CustomHeader";
 import RadioButtonCustom from "../components/RadioButtonCustom";
@@ -10,62 +13,58 @@ import ButtonSave from "../components/ButtonSave";
 import ModalCustom from "../components/Modal";
 
 function AddInsulin() {
-  const [selectedRadio, setSelectedRadio] = useState("");
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.insulin.formData) || [];
+  const [selectedRadio, setSelectedRadio] = useState(""); // Estado para o valor selecionado do rádio
+  const [dosagem, setDosagem] = useState(""); // Estado para a dosagem
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [formData, setFormData] = useState([
-    {
-      id: 1,
-      label: "Nome da Insulina",
-      value: "",
-      placeholder: "Insira o nome",
-    },
-    {
-      id: 2,
-      label: "Décimos da unidade - Ex.: 0,1.0,2 UI",
-      value: "",
-      isRadioButton: true,
-      key: "decimalUnits",
-    },
-
-    {
-      id: 3,
-      label: "Meias unidades - Ex.: 0,5.1,0.1,5 UI",
-      value: "",
-      isRadioButton: true,
-      key: "halfUnits",
-    },
-
-    {
-      id: 4,
-      label: "Unidades Inteiras - Ex.: 1,2,3,4,5 UI",
-      value: "",
-      isRadioButton: true,
-      key: "wholeUnits",
-    },
-  ]);
-
   const handleInputChange = (id, value) => {
-    setFormData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, value: value.trim() || "" } : item
-      )
-    );
+    dispatch(updateInsulinField(id, value));
   };
 
   const handleSave = () => {
-    const allTextFieldsFilled = formData
-      .filter((item) => !item.isRadioButton) // Apenas campos de texto
-      .every((item) => item.value.trim() !== "");
+    const allFieldsFilled = formData.every((item) => {
+      // Verifique se o campo é um radio button ou um input normal
+      if (item.isRadioButton) {
+        // Verifique se o radio button foi selecionado
+        const isRadioSelected = selectedRadio.trim() !== "";
+        if (!isRadioSelected) {
+          console.log(`Campo de seleção não preenchido: ${item.label}`);
+        }
+        return isRadioSelected;
+      } else {
+        // Para os campos de texto, verifica se o valor não está vazio
+        const isFieldFilled = item.value.trim() !== "";
+        if (!isFieldFilled) {
+          console.log(`Campo não preenchido: ${item.label}`);
+        }
+        return isFieldFilled;
+      }
+    });
 
-    if (allTextFieldsFilled && selectedRadio) {
-      setModalVisible(true); // Exibe o modal de sucesso
+    if (allFieldsFilled && dosagem.trim() !== "") {
+      const cleanedData = formData.map((item) => ({
+        id: item.id,
+        label: item.label,
+        value: item.value.trim(),
+      }));
+
+      dispatch(pushInsulin(cleanedData));
+
+      setModalVisible(true);
+
+      setTimeout(() => {
+        setModalVisible(false);
+        router.replace("screens/InfoDiabetes"); // Redireciona para MedicamentoItem
+      }, 1500);
+
+      console.log(cleanedData);
     } else {
-      Alert.alert(
-        "Erro",
-        "Preencha os campos obrigatórios e selecione uma opção."
-      );
+      Alert.alert("Erro", "Por favor, preencha todos os campos.");
     }
+
+    console.log("Todos os campos preenchidos:", allFieldsFilled);
   };
 
   // Efeito para esconder o modal após 3 segundos
@@ -93,7 +92,10 @@ function AddInsulin() {
             label={item.label}
             value={item.key} // Valor único para este botão
             selectedValue={selectedRadio} // Valor atualmente selecionado
-            onPress={() => setSelectedRadio(item.key)} // Atualiza o estado no pai
+            onPress={() => {
+              setSelectedRadio(item.key); // Atualiza o estado no pai
+              console.log("Valor selecionado:", item.key); // Depuração
+            }}
           />
         ) : (
           <CustomInput
@@ -112,6 +114,8 @@ function AddInsulin() {
           title={"Dosagem"}
           placeholder={"Dose"}
           keyboardType={"numeric"}
+          value={dosagem}
+          onChangeText={setDosagem}
         />
       </View>
 

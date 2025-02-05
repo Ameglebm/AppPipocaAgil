@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import EvolucaoSvg from "../svgComponenets/EvolucaoSvg";
+import EvolucaoSvg from "../SvgComponents/EvolucaoSvg";
 
 export default function TabLabelEvolucao({ focused }) {
   TabLabelEvolucao.propTypes = {

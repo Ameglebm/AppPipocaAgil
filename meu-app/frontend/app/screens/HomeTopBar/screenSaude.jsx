@@ -7,8 +7,8 @@ import {
   FlatList,
 } from "react-native";
 import { useRouter } from "expo-router";
-import Coracao from "../../components/svgComponenets/Coracao";
-import Saude from "../../components/svgComponenets/Saude";
+import Coracao from "../../components/SvgComponents/Coracao";
+import Saude from "../../components/SvgComponents/Saude";
 
 export default function ScreenOne() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function ScreenOne() {
     if (id === "2") {
       router.push("/definir-rota");
     } else {
-      router.push("/screens/infoDiabetes");
+      router.push("/screens/InfoDiabetes");
     }
   };
 
