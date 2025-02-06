@@ -7,7 +7,7 @@ import {
   resetMedication,
 } from "../../reducers/medicationActions";
 
-import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
 import Button from "../Button";
 import Trash from "../SvgComponents/Trash";
@@ -33,7 +33,7 @@ const MedicamentoItem = () => {
   };
 
   const editMedication = () => {
-    router.push("../../screens/AddMedication");
+    router.push("../../screens/addMedication");
   };
 
   const deleteMedication = () => {
@@ -100,7 +100,7 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
-                  router.navigate("../../screens/AddMedication");
+                  router.navigate("../../screens/addMedication");
                 }}
               >
                 <Text style={styles.btnText}>Adicionar medicamento</Text>

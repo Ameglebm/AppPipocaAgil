@@ -31,7 +31,7 @@ export default function ScreenOne() {
     if (id === "2") {
       router.push("/definir-rota");
     } else {
-      router.push("/screens/InfoDiabetes");
+      router.push("/screens/infoDiabetes");
     }
   };
 

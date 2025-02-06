@@ -3,22 +3,22 @@ import { View, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //Import dos icones da TopBar
-import TabLabelSaude from "../components/TabTopIcons/TabLabelSaude";
-import TabLabelHistorico from "../components/TabTopIcons/TabLabelHistorico";
-import TabLabelEvolucao from "../components/TabTopIcons/TabLabelEvolucao";
+import TabLabelSaude from "../components/tabTopIcons/TabLabelSaude";
+import TabLabelHistorico from "../components/tabTopIcons/TabLabelHistorico";
+import TabLabelEvolucao from "../components/tabTopIcons/TabLabelEvolucao";
 //Import das telas de cada icone da TopBar
-import ScreenSaude from "./HomeTopBar/ScreenSaude";
-import ScreenEvolucao from "./HomeTopBar/ScreenEvolucao";
-import ScreenHistorico from "./HomeTopBar/ScreenHistorico";
+import ScreenSaude from "./HomeTopBar/screenSaude";
+import ScreenEvolucao from "./HomeTopBar/screenEvolucao";
+import ScreenHistorico from "./HomeTopBar/screenHistorico";
 //import das telas do BottomBar
-import Medicacao from "./HomeBottomBar/Medicacao";
-import Relatorios from "./HomeBottomBar/Relatorios";
-import Emergencia from "./HomeBottomBar/Emergencia";
+import Medicacao from "./HomeBottomBar/medicacao";
+import Relatorios from "./HomeBottomBar/relatorios";
+import Emergencia from "./HomeBottomBar/emergencia";
 //Import dos icones do BottomBar
-import HomeTab from "../components/TabBottomIcons/HomeTab";
-import MedicacaoTab from "../components/TabBottomIcons/MedicacaoTab";
-import EmergenciaTab from "../components/TabBottomIcons/EmergenciaTab";
-import RelatoriosTab from "../components/TabBottomIcons/RelatoriosTab";
+import HomeTab from "../components/tabBottomIcons/HomeTab";
+import MedicacaoTab from "../components/tabBottomIcons/MedicacaoTab";
+import EmergenciaTab from "../components/tabBottomIcons/EmergenciaTab";
+import RelatoriosTab from "../components/tabBottomIcons/RelatoriosTab";
 
 import Header from "../components/Header";
 

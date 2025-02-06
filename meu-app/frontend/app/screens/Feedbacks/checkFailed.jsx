@@ -24,7 +24,7 @@ export default function CheckFailed() {
 
       <TouchableOpacity
         style={styles.btn}
-        onPress={() => router.navigate("screens/Auth/RegisterScreen")}
+        onPress={() => router.navigate("screens/Auth/registerScreen")}
       >
         <Text style={styles.textBtn}>Tentar novamente</Text>
       </TouchableOpacity>

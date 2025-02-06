@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
-import PasswordInput from "../../components/PasswordInput";
+import PasswordInput from "../../components/passwordInput";
 import ButtonLogin from "../../components/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
@@ -62,7 +62,7 @@ export default function Login() {
         console.log("Token recuperado do AsyncStorage:", savedToken);
 
         if (savedToken) {
-          router.replace("../HomeScreen");
+          router.replace("../homeScreen");
         } else {
           console.error("Token não foi salvo corretamente.");
         }
@@ -120,7 +120,7 @@ export default function Login() {
         {/* Navegação para a tela de recuperação de senha */}
         <View style={styles.containerForgetPass}>
           <TouchableOpacity
-            onPress={() => router.push("screens/RecoverYourAccount")}
+            onPress={() => router.push("screens/recoverYourAccount")}
           >
             <Text style={styles.textForgetPass}>Esqueceu a senha?</Text>
           </TouchableOpacity>
@@ -132,7 +132,7 @@ export default function Login() {
 
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Não possui uma conta? </Text>
-        <Link href={"screens/Auth/RegisterScreen"} style={styles.textLink}>
+        <Link href={"screens/Auth/registerScreen"} style={styles.textLink}>
           {" "}
           Cadastre-se
         </Link>

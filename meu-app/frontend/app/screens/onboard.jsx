@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "../components/OnboardingItem";
-import slides from "../components/SlidesOnboard"; //slides do carrosel
+import slides from "../components/slidesOnboard"; //slides do carrosel
 import Paginator from "../components/Paginator"; // Paginador
 import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
 
@@ -37,7 +37,7 @@ export default function OnboardingScreen() {
     if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      router.push("../screens/Welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
+      router.push("../screens/welcome"); // Navega para a tela de Boas-vindas quando chega ao último slide
     }
   };
 
@@ -48,7 +48,7 @@ export default function OnboardingScreen() {
   };
 
   const handleSkip = () => {
-    router.push("../screens/Welcome");
+    router.push("../screens/welcome");
   };
 
   return (

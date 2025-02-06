@@ -10,7 +10,7 @@ import styles from "./styles";
 // Componentes
 import Button from "../Button";
 import CustomHeader from "../CustomHeader";
-import ModalClock from "../ModalClock";
+import ModalClock from "../modalClock";
 
 // Icones e svgs
 import Plus from "../SvgComponents/Plus";

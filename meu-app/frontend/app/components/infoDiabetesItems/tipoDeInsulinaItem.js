@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import plusIcon from "../../assets/images/plus.png";
-import data from "../SlidesInfoDiabetes"; // Importa o array com os dados para o carrossel
+import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
 import Button from "../Button";
 import { useRouter } from "expo-router";
@@ -23,10 +23,10 @@ const TipoDeInsulinaItem = () => {
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     console.log("salvo");
-    router.push("../../screens/HomeScreen");
+    router.push("../../screens/homeScreen");
   };
   const editInsulin = () => {
-    router.push("../../screens/AddInsulin");
+    router.push("../../screens/addInsulin");
   };
 
   const deleteInsulin = () => {
@@ -91,7 +91,7 @@ const TipoDeInsulinaItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
-                  router.navigate("../../screens/AddInsulin");
+                  router.navigate("../../screens/addInsulin");
                 }}
               >
                 <Text style={styles.btnText}>Adicionar Insulina</Text>

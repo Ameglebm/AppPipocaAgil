@@ -13,12 +13,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import React, { useEffect, useRef } from "react";
 import { useNavigation, useRouter } from "expo-router";
 
-import slides from "../components/SlidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
-import TiposDiabetes from "../components/InfoDiabetesItems/TiposDiabetesItem"; // Tela correspondente ao slide com id 1
-import AdmInsulina from "../components/InfoDiabetesItems/AdmInsulinaItem"; // Tela correspondente ao slide com id 2
-import MetaGlicemica from "../components/InfoDiabetesItems/MetaGlicemicaItem"; // Tela correspondente ao slide com id 3
-import Medicamentos from "../components/InfoDiabetesItems/MedicamentosItem"; // Tela correspondente ao slide com id 4
-import TipoDeInsulina from "../components/InfoDiabetesItems/TipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
+import slides from "../components/slidesInfoDiabetes"; // Fonte de dados dos slides do carrossel
+import TiposDiabetes from "../components/infoDiabetesItems/tiposDiabetesItem"; // Tela correspondente ao slide com id 1
+import AdmInsulina from "../components/infoDiabetesItems/admInsulinaItem"; // Tela correspondente ao slide com id 2
+import MetaGlicemica from "../components/infoDiabetesItems/metaGlicemicaItem"; // Tela correspondente ao slide com id 3
+import Medicamentos from "../components/infoDiabetesItems/medicamentosItem"; // Tela correspondente ao slide com id 4
+import TipoDeInsulina from "../components/infoDiabetesItems/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
 import backIcon from "../assets/images/backIcon.png"; // Importação da imagem do ícone de voltar
 
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel

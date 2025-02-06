@@ -82,14 +82,14 @@ export default function Layout() {
         />
 
         {/*Onboard*/}
-        <Stack.Screen name="screens/Onboard" options={{ title: "Onboard" }} />
+        <Stack.Screen name="screens/onboard" options={{ title: "onboard" }} />
 
         {/*Welcome*/}
-        <Stack.Screen name="screens/Welcome" options={{ title: "Welcome" }} />
+        <Stack.Screen name="screens/welcome" options={{ title: "welcome" }} />
 
         {/* Tela de Login */}
         <Stack.Screen
-          name="screens/Auth/LoginScreen"
+          name="screens/Auth/loginScreen"
           options={{
             headerShown: false,
             title: "Login",
@@ -109,7 +109,7 @@ export default function Layout() {
 
         {/* Tela de Cadastro */}
         <Stack.Screen
-          name="screens/Auth/RegisterScreen"
+          name="screens/Auth/registerScreen"
           options={{
             headerShown: false,
             title: "Crie a sua conta",
@@ -134,7 +134,7 @@ export default function Layout() {
 
         {/* Tela de CheckSuccess */}
         <Stack.Screen
-          name="screens/Feedbacks/CheckSucess"
+          name="screens/Feedbacks/checkSucess"
           options={{
             title: "Sucesso",
             headerShown: false,
@@ -154,7 +154,7 @@ export default function Layout() {
 
         {/* Tela de CheckFailed */}
         <Stack.Screen
-          name="screens/Feedbacks/CheckFailed"
+          name="screens/Feedbacks/checkFailed"
           options={{
             headerShown: false,
             headerTitleStyle: {
@@ -173,41 +173,41 @@ export default function Layout() {
 
         {/*Recovery password*/}
         <Stack.Screen
-          name="screens/RecoverYourAccount"
-          options={{ title: "RecoverAccount" }}
+          name="screens/recoverYourAccount"
+          options={{ title: "recoverAccount" }}
         />
 
         <Stack.Screen
-          name="screens/Feedbacks/RecoverAccountEmail"
-          options={{ title: "RecoveryAccountEmail" }}
+          name="screens/Feedbacks/recoverAccountEmail"
+          options={{ title: "recoveryAccountEmail" }}
         />
 
         {/*Define password*/}
         <Stack.Screen
-          name="screens/DefineNewPassword"
+          name="screens/defineNewPassword"
           options={{ title: "DefinePassword" }}
         />
 
         <Stack.Screen
-          name="screens/Feedbacks/RecoverSucessfull"
+          name="screens/Feedbacks/recoverSucessfull"
           options={{ title: "RecoverSucessfull" }}
         />
 
         {/*HomeScreen*/}
         <Stack.Screen
-          name="screens/HomeScreen"
+          name="screens/homeScreen"
           options={{ title: "HomeScreen" }}
         />
 
         {/*Information of Diabete*/}
         <Stack.Screen
-          name="screens/InfoDiabetes"
+          name="screens/infoDiabetes"
           options={{ title: "InfoDiabetes" }}
         />
 
         {/* Tela de adicionar insulina */}
         <Stack.Screen
-          name="screens/AddInsulin"
+          name="screens/addInsulin"
           options={{
             headerShown: false, // Sem header na tela de add insulina
           }}
@@ -215,7 +215,7 @@ export default function Layout() {
 
         {/* Tela de adicionar medicamentos */}
         <Stack.Screen
-          name="screens/AddMedication"
+          name="screens/addMedication"
           options={{
             headerShown: false, // Sem header na tela de add medicamentos
           }}
