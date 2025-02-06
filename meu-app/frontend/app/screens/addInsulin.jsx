@@ -56,7 +56,7 @@ function AddInsulin() {
 
       setTimeout(() => {
         setModalVisible(false);
-        router.replace("screens/infoDiabetes"); // Redireciona para MedicamentoItem
+        router.back(); // Redireciona para MedicamentoItem
       }, 1500);
 
       console.log(cleanedData);
