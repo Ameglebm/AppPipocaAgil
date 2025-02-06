@@ -16,18 +16,13 @@ import plusImage from "../../assets/images/plus.png";
 
 const MedicamentoItem = () => {
   const router = useRouter();
-
   const dispatch = useDispatch();
 
-  const medicamentosItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
+  const medicamentosItem = data.find((item) => item.id === "4");
+  
+  // Pegando a lista de medicamentos do Redux
+  const medicamentos = useSelector((state) => state.medication?.medicamentos || []);
 
-  // Garante que `formData` sempre tenha um valor válido
-  const formData = useSelector((state) => state.medication?.formData || []);
-
-  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
-  const nomeDoMedicamento = formData.find((item) => item.id === 1)?.value || "";
-
-  // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     console.log("salvo");
   };
@@ -36,51 +31,55 @@ const MedicamentoItem = () => {
     router.push("../../screens/addMedication");
   };
 
-  const deleteMedication = () => {
-    console.log("Removendo medicamento com ID:", nomeDoMedicamento); // Para depuração
-    if (nomeDoMedicamento) {
-      dispatch(removeMedication(nomeDoMedicamento));
-      dispatch(resetMedication());
-      console.log(formData);
-    } else {
-      console.warn("ID do medicamento não foi passado corretamente");
-    }
+  const deleteMedication = (index) => {
+    dispatch(removeMedication(index));
   };
 
   return (
     <View>
-      {nomeDoMedicamento ? (
+      {medicamentos.length > 0 ? (
         <>
           <View style={{ backgroundColor: "#FDFDFD" }}>
             <View style={styles.configuredHeader}>
               <Text style={styles.title}>Medicamentos</Text>
             </View>
 
-            <View style={styles.configuredContainerMedication}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 8,
-                  alignItems: "center",
-                }}
-              >
-                <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
-                <Text style={styles.useText}>Uso contínuo</Text>
-              </View>
+            {/* Lista todos os medicamentos */}
+            {medicamentos.map((medicamento, index) => {
+              const nomeDoMedicamento = medicamento.find(item => item.id === 1)?.value || "";
+              
+              return (
+                <View key={index} style={styles.configuredContainerMedication}>
+                  <View style={{
+                    flexDirection: "row",
+                    gap: 8,
+                    alignItems: "center",
+                  }}>
+                    <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
+                    <Text style={styles.useText}>Uso contínuo</Text>
+                  </View>
 
-              <View style={styles.containerEditDel}>
-                <TouchableOpacity onPress={editMedication}>
-                  <Edit />
-                </TouchableOpacity>
+                  <View style={styles.containerEditDel}>
+                    <TouchableOpacity onPress={editMedication}>
+                      <Edit />
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={deleteMedication}>
-                  <Trash />
-                </TouchableOpacity>
-              </View>
-            </View>
+                    <TouchableOpacity onPress={() => deleteMedication(index)}>
+                      <Trash />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })}
 
             <View style={{ marginTop: 230, alignItems: "center" }}>
-              <TouchableOpacity style={styles.btnAddMedication}>
+              <TouchableOpacity
+                style={styles.btnAddMedication}
+                onPress={() => {
+                  dispatch(resetMedication());
+                  router.push("../../screens/addMedication");
+                }}
+              >
                 <Text style={styles.textBtnAddMedication}>
                   Adicionar medicamento
                 </Text>
@@ -100,6 +99,7 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
+                  dispatch(resetMedication());
                   router.navigate("../../screens/addMedication");
                 }}
               >

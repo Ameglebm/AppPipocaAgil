@@ -33,6 +33,7 @@ const initialState = {
       keyboardType: "numeric",
     },
   ],
+  medicamentos: []
 };
 
 const MedicationReducer = (state = initialState, action) => {
@@ -40,7 +41,8 @@ const MedicationReducer = (state = initialState, action) => {
     case "PUSH_MEDICATION":
       return {
         ...state,
-        formData: action.payload || [],
+        medicamentos: [...state.medicamentos, action.payload],
+        formData: state.formData.map(item => ({ ...item, value: "" })),
       };
 
     case "UPDATE_MEDICATION_FIELD":
@@ -56,7 +58,7 @@ const MedicationReducer = (state = initialState, action) => {
     case "REMOVE_MEDICATION":
       return {
         ...state,
-        formData: state.formData.filter((med) => med.id !== action.payload),
+        medicamentos: state.medicamentos.filter((_, index) => index !== action.payload),
       };
 
     case "RESET_MEDICATION":
