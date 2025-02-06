@@ -71,11 +71,11 @@ const LabelInputScreen = () => {
 
       {formData.map((item) => (
         <View style={[styles.infoContainer]} key={item.id}>
-          {item.isInputWithPressable ? (
+          {item.isInputWithPressable === true ? (
             <InputWithPressable
               textLabel="Unidade"
               placeholder={item.placeholder}
-              value={item.value}
+              value={item.value || ""}
               onPress={(selectedValue) =>
                 handleInputChange(item.id, selectedValue)
               }

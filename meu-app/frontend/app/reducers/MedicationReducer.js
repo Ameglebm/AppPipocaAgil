@@ -40,7 +40,12 @@ const MedicationReducer = (state = initialState, action) => {
     case "PUSH_MEDICATION":
       return {
         ...state,
-        formData: action.payload || [],
+        formData: action.payload.length
+          ? action.payload.map((item) => ({
+              ...(state.formData.find((el) => el.id === item.id) || {}), // Mantém dados existentes
+              ...item, // Atualiza valores sem perder `isInputWithPressable`
+            }))
+          : state.formData,
       };
 
     case "UPDATE_MEDICATION_FIELD":
@@ -48,7 +53,11 @@ const MedicationReducer = (state = initialState, action) => {
         ...state,
         formData: state.formData.map((med) =>
           med.id === action.payload.id
-            ? { ...med, value: action.payload.value }
+            ? {
+                ...med,
+                value: action.payload.value,
+                isInputWithPressable: med.isInputWithPressable,
+              }
             : med
         ),
       };
