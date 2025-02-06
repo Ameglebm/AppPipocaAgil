@@ -37,7 +37,12 @@ const InsulinReducer = (state = initialState, action) => {
     case "PUSH_INSULIN":
       return {
         ...state,
-        formData: action.payload || [],
+        formData: action.payload.length
+          ? action.payload.map((item) => ({
+              ...(state.formData.find((el) => el.id === item.id) || {}),
+              ...item,
+            }))
+          : state.formData,
       };
 
     case "UPDATE_INSULIN_FIELD":
@@ -45,7 +50,11 @@ const InsulinReducer = (state = initialState, action) => {
         ...state,
         formData: state.formData.map((ins) =>
           ins.id === action.payload.id
-            ? { ...ins, value: action.payload.value }
+            ? {
+                ...ins,
+                value: action.payload.value,
+                isRadioButton: ins.isRadioButton,
+              }
             : ins
         ),
       };
