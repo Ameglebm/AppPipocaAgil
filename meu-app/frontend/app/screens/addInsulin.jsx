@@ -1,9 +1,9 @@
 // Bibliotecas externas
 import React, { useState, useEffect } from "react";
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
-import { useRouter } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { pushInsulin, updateInsulinField } from "../reducers/insulinActions";
 // Componentes
 import CustomHeader from "../components/CustomHeader";
@@ -15,56 +15,59 @@ import ModalCustom from "../components/Modal";
 function AddInsulin() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const formData = useSelector((state) => state.insulin.formData) || [];
-  const [selectedRadio, setSelectedRadio] = useState(""); // Estado para o valor selecionado do rádio
-  const [dosagem, setDosagem] = useState(""); // Estado para a dosagem
+  const params = useLocalSearchParams();
+  const isEditing = params.isEditing || false;
+
+  const options = [
+    {
+      id: 1,
+      label: "Décimos da unidade - Ex.: 0,1.0,2 UI",
+      key: "decimalUnits",
+    },
+
+    {
+      id: 2,
+      label: "Meias unidades - Ex.: 0,5.1,0.1,5 UI",
+      key: "halfUnits",
+    },
+
+    {
+      id: 3,
+      label: "Unidades Inteiras - Ex.: 1,2,3,4,5 UI",
+      key: "wholeUnits",
+    },
+  ];
+
+  // Inicializa os estados com os valores recebidos (se estiver editando) ou vazios (se for nova insulina)
+  const [selectedRadio, setSelectedRadio] = useState(
+    params.unity || "decimalUnits"
+  );
+  const [dosage, setDosage] = useState(params.dosage || "");
+  const [nameInsulin, setNameInsulin] = useState(params.name || "");
   const [modalVisible, setModalVisible] = useState(false);
-  const handleInputChange = (id, value) => {
-    dispatch(updateInsulinField(id, value));
-  };
 
   const handleSave = () => {
-    const allFieldsFilled = formData.every((item) => {
-      // Verifique se o campo é um radio button ou um input normal
-      if (item.isRadioButton) {
-        // Verifique se o radio button foi selecionado
-        const isRadioSelected = selectedRadio.trim() !== "";
-        if (!isRadioSelected) {
-          console.log(`Campo de seleção não preenchido: ${item.label}`);
-        }
-        return isRadioSelected;
-      } else {
-        // Para os campos de texto, verifica se o valor não está vazio
-        const isFieldFilled = item.value.trim() !== "";
-        if (!isFieldFilled) {
-          console.log(`Campo não preenchido: ${item.label}`);
-        }
-        return isFieldFilled;
-      }
-    });
+    const insulinaData = {
+      name: nameInsulin,
+      unity: selectedRadio,
+      dosage: dosage,
+    };
 
-    if (allFieldsFilled && dosagem.trim() !== "") {
-      const cleanedData = formData.map((item) => ({
-        id: item.id,
-        label: item.label,
-        value: item.value.trim(),
-      }));
-
-      dispatch(pushInsulin(cleanedData));
-
-      setModalVisible(true);
-
-      setTimeout(() => {
-        setModalVisible(false);
-        router.back(); // Redireciona para MedicamentoItem
-      }, 1500);
-
-      console.log(cleanedData);
+    if (isEditing) {
+      dispatch(updateInsulinField(params.id, insulinaData));
     } else {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+      dispatch(pushInsulin({ id: new Date().getTime(), ...insulinaData }));
     }
 
-    console.log("Todos os campos preenchidos:", allFieldsFilled);
+    console.log("Insulina salva:", insulinaData);
+
+    // Exibe o modal
+    setModalVisible(true);
+
+    setTimeout(() => {
+      setModalVisible(false);
+      router.back(); // Retorna para a tela anterior
+    }, 1500);
   };
 
   // Efeito para esconder o modal após 3 segundos
@@ -84,42 +87,43 @@ function AddInsulin() {
         <CustomHeader title={"Adicionar Insulina"} />
       </View>
 
-      {formData.map((item) =>
-        item.isRadioButton ? (
-          <RadioButtonCustom
-            key={item.id}
-            title={item.id === 2 ? "Unidades de insulina" : null}
-            label={item.label}
-            value={item.key} // Valor único para este botão
-            selectedValue={selectedRadio} // Valor atualmente selecionado
-            onPress={() => {
-              setSelectedRadio(item.key); // Atualiza o estado no pai
-              console.log("Valor selecionado:", item.key); // Depuração
-            }}
-          />
-        ) : (
-          <CustomInput
-            key={item.id}
-            title={item.label}
-            placeholder={item.placeholder}
-            value={item.value}
-            onChangeText={(value) => handleInputChange(item.id, value)}
-            keyboardType={item.keyboardType}
-          />
-        )
-      )}
+      <CustomInput
+        title={"Nome da insulina"}
+        placeholder={"Insira o nome"}
+        value={nameInsulin}
+        onChangeText={(value) => setNameInsulin(value)}
+        keyboardType={"string"}
+      />
+
+      {options.map((item) => (
+        <RadioButtonCustom
+          title={item.id === 1 ? "Unidades de insulina" : null}
+          key={item.id}
+          label={item.label}
+          value={item.key} // Valor único para este botão
+          selectedValue={selectedRadio} // Valor atualmente selecionado
+          onPress={() => {
+            setSelectedRadio(item.key); // Atualiza o estado no pai
+            console.log("Valor selecionado:", item.key); // Depuração
+          }}
+        />
+      ))}
 
       <View style={{ paddingTop: 12 }}>
         <CustomInput
           title={"Dosagem"}
           placeholder={"Dose"}
           keyboardType={"numeric"}
-          value={dosagem}
-          onChangeText={setDosagem}
+          value={dosage}
+          onChangeText={setDosage}
         />
       </View>
 
-      <ButtonSave onPress={handleSave} style={customButtonStyles} />
+      <ButtonSave
+        onPress={handleSave}
+        style={customButtonStyles}
+        disabled={nameInsulin !== "" && dosage !== 0 ? false : true}
+      />
 
       {modalVisible && (
         <ModalCustom
