@@ -4,45 +4,62 @@ import plusIcon from "../../assets/images/plus.png";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
 import Button from "../Button";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import { removeInsulin, resetInsulin } from "../../reducers/insulinActions";
+import { removeInsulin } from "../../reducers/insulinActions";
 import Trash from "../SvgComponents/Trash";
 import Edit from "../SvgComponents/Edit";
 
 const TipoDeInsulinaItem = () => {
-  // Busca o item com id === '4' no array de dados
+  // Busca o item com id === '5' no array de dados
   const tipoDeInsulinaItem = data.find((item) => item.id === "5");
 
   const router = useRouter();
+  const params = useLocalSearchParams();
   const dispatch = useDispatch();
-  // Garante que `formData` sempre tenha um valor válido
-  const formData = useSelector((state) => state.insulin?.formData || []);
-  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
-  const nomeDaInsulina = formData.find((item) => item.id === 1)?.value || "";
+
+  const insulinas = useSelector((state) => state.insulin.insulinas);
+  console.log("Insulinas armazenadas no Redux", insulinas);
+
+  // Agora buscamos a insulina pelo ID corretamente
+  const ultimaInsulina =
+    insulinas.find((ins) => ins.id === params?.id) ||
+    insulinas[insulinas.length - 1] ||
+    null;
+
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = () => {
     console.log("salvo");
     router.push("../../screens/homeScreen");
   };
   const editInsulin = () => {
-    router.push("../../screens/addInsulin");
+    console.log("Editando", ultimaInsulina);
+    if (ultimaInsulina) {
+      router.push({
+        pathname: "../../screens/addInsulin",
+        params: {
+          id: ultimaInsulina.id,
+          name: ultimaInsulina.name,
+          unity: ultimaInsulina.unity,
+          dosage: ultimaInsulina.dosage,
+          isEditing: true,
+        },
+      });
+    }
   };
 
   const deleteInsulin = () => {
-    console.log("Removendo insulina com ID:", nomeDaInsulina); // Para depuração
-    if (nomeDaInsulina) {
-      dispatch(removeInsulin(nomeDaInsulina));
-      dispatch(resetInsulin());
-      console.log(formData);
+    if (ultimaInsulina) {
+      dispatch(removeInsulin(ultimaInsulina.id));
+      console.log("Removendo", ultimaInsulina);
     } else {
-      console.warn("ID da insulina não foi passado corretamente");
+      console.warn("Nenhuma insulina para remover");
     }
   };
 
   return (
     <View>
-      {nomeDaInsulina ? (
+      {ultimaInsulina ? (
         <>
           <View style={{ backgroundColor: "#FDFDFD" }}>
             <View style={styles.configuredHeader}>
@@ -57,7 +74,7 @@ const TipoDeInsulinaItem = () => {
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.nomeInsulin}>{nomeDaInsulina}</Text>
+                <Text style={styles.nomeInsulin}>{ultimaInsulina.name}</Text>
                 <Text style={styles.useText}>Uso contínuo</Text>
               </View>
 
