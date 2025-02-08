@@ -36,6 +36,7 @@ const rootReducer = combineReducers({
   medication: MedicationReducer,
   insulin: InsulinReducer,
 });
+
 const store = configureStore({
   reducer: rootReducer,
 });
