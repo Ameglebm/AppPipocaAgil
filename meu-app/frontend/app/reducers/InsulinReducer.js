@@ -30,10 +30,23 @@ const initialState = {
       key: "wholeUnits",
     },
   ],
+  insulinArray: []
 };
 
 const InsulinReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "SAVE_INSULIN":
+      return{
+        ...state,
+        insulinArray: [...state.insulinArray, {
+          name: state.formData[0].value,
+          decimalUnits: state.formData[1].value,
+          halfUnits: state.formData[2].value,
+          wholeUnits: state.formData[3].value
+
+        }]
+      };
+
     case "PUSH_INSULIN":
       return {
         ...state,

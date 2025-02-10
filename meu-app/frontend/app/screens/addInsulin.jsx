@@ -4,7 +4,7 @@ import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { pushInsulin, updateInsulinField } from "../reducers/insulinActions";
+import { saveInsulin, updateInsulinField } from "../reducers/insulinActions";
 // Componentes
 import CustomHeader from "../components/CustomHeader";
 import RadioButtonCustom from "../components/RadioButtonCustom";
@@ -44,13 +44,8 @@ function AddInsulin() {
     });
 
     if (allFieldsFilled && dosagem.trim() !== "") {
-      const cleanedData = formData.map((item) => ({
-        id: item.id,
-        label: item.label,
-        value: item.value.trim(),
-      }));
-
-      dispatch(pushInsulin(cleanedData));
+      
+      dispatch(saveInsulin());
 
       setModalVisible(true);
 
@@ -59,7 +54,6 @@ function AddInsulin() {
         router.back(); // Redireciona para MedicamentoItem
       }, 1500);
 
-      console.log(cleanedData);
     } else {
       Alert.alert("Erro", "Por favor, preencha todos os campos.");
     }

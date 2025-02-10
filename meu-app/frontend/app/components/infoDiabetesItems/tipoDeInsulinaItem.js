@@ -11,6 +11,8 @@ import Trash from "../SvgComponents/Trash";
 import Edit from "../SvgComponents/Edit";
 
 const TipoDeInsulinaItem = () => {
+  const insulinArray = useSelector((state) => state.insulin?.insulinArray || []);
+
   // Busca o item com id === '4' no array de dados
   const tipoDeInsulinaItem = data.find((item) => item.id === "5");
 
@@ -49,31 +51,36 @@ const TipoDeInsulinaItem = () => {
               <Text style={styles.title}>Insulinas</Text>
             </View>
 
-            <View style={styles.configuredContainerInsulin}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 8,
-                  alignItems: "center",
-                }}
-              >
-                <Text style={styles.nomeInsulin}>{nomeDaInsulina}</Text>
-                <Text style={styles.useText}>Uso contínuo</Text>
-              </View>
+            {insulinArray.map((insulina, index) => (
+              <View key={index} style={styles.configuredContainerInsulin}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 8,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.nomeInsulin}>{insulina.name}</Text>
+                  <Text style={styles.useText}>Uso contínuo</Text>
+                </View>
 
-              <View style={styles.containerEditDel}>
-                <TouchableOpacity onPress={editInsulin}>
-                  <Edit />
-                </TouchableOpacity>
+                <View style={styles.containerEditDel}>
+                  <TouchableOpacity onPress={editInsulin}>
+                    <Edit />
+                  </TouchableOpacity>
 
-                <TouchableOpacity onPress={deleteInsulin}>
-                  <Trash />
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={deleteInsulin}>
+                    <Trash />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            ))}
 
             <View style={{ marginTop: 230, alignItems: "center" }}>
-              <TouchableOpacity style={styles.btnAddInsulin}>
+              <TouchableOpacity 
+                style={styles.btnAddInsulin}
+                onPress={() => router.push("../../screens/addInsulin")}
+              >
                 <Text style={styles.textBtnAddInsulin}>Adicionar insulina</Text>
               </TouchableOpacity>
               <Button style={{ width: 320, height: 42 }} title={"Avançar"} />
@@ -90,9 +97,7 @@ const TipoDeInsulinaItem = () => {
             <View style={styles.contentBtn}>
               <TouchableOpacity
                 style={styles.btnAdd}
-                onPress={() => {
-                  router.navigate("../../screens/addInsulin");
-                }}
+                onPress={() => router.push("../../screens/addInsulin")}
               >
                 <Text style={styles.btnText}>Adicionar Insulina</Text>
                 <Image source={plusIcon} />

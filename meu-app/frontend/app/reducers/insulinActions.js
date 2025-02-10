@@ -1,3 +1,7 @@
+export const saveInsulin = () => ({
+  type: "SAVE_INSULIN"
+});
+
 export const pushInsulin = (insulin) => ({
   type: "PUSH_INSULIN",
   payload: insulin,
