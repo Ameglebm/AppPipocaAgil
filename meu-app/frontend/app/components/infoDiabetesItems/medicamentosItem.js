@@ -1,11 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  removeMedication,
-  resetMedication,
-} from "../../reducers/medicationActions";
+import { removeMedication } from "../../reducers/medicationActions";
 
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
@@ -15,41 +12,54 @@ import Edit from "../SvgComponents/Edit";
 import plusImage from "../../assets/images/plus.png";
 
 const MedicamentoItem = () => {
-  const router = useRouter();
-
-  const dispatch = useDispatch();
-
   const medicamentosItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
 
-  // Garante que `formData` sempre tenha um valor válido
-  const formData = useSelector((state) => state.medication?.formData || []);
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const dispatch = useDispatch();
 
-  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
-  const nomeDoMedicamento = formData.find((item) => item.id === 1)?.value || "";
+  const medicamentos = useSelector((state) => state.medication.medicamentos); // Obtém o estado do Redux
+  console.log("Medicamentos armazenados no Redux", medicamentos); // Para depuração
 
-  // Simula uma ação de salvar (pode ser adaptado para integração com API)
+  const ultimoMedicamento =
+    medicamentos.find((med) => med.id === params?.id) ||
+    medicamentos[medicamentos.length - 1] ||
+    null;
+
   const handleSave = () => {
     console.log("salvo");
   };
 
   const editMedication = () => {
-    router.push("../../screens/addMedication");
+    console.log("Editando", ultimoMedicamento);
+    if (ultimoMedicamento) {
+      router.push({
+        pathname: "../../screens/addMedication",
+        params: {
+          id: ultimoMedicamento.id,
+          name: ultimoMedicamento.name,
+          treatment: ultimoMedicamento.treatment,
+          dosageAdm: ultimoMedicamento.dosageAdm,
+          unit: ultimoMedicamento.unit,
+          doseLeft: ultimoMedicamento.doseLeft,
+          isEditing: true,
+        },
+      });
+    }
   };
 
   const deleteMedication = () => {
-    console.log("Removendo medicamento com ID:", nomeDoMedicamento); // Para depuração
-    if (nomeDoMedicamento) {
-      dispatch(removeMedication(nomeDoMedicamento));
-      dispatch(resetMedication());
-      console.log(formData);
+    if (ultimoMedicamento) {
+      dispatch(removeMedication(ultimoMedicamento.id));
+      console.log("Removendo", ultimoMedicamento);
     } else {
-      console.warn("ID do medicamento não foi passado corretamente");
+      console.warn("Nenhum medicamento para remover");
     }
   };
 
   return (
     <View>
-      {nomeDoMedicamento ? (
+      {ultimoMedicamento ? (
         <>
           <View style={{ backgroundColor: "#FDFDFD" }}>
             <View style={styles.configuredHeader}>
@@ -64,7 +74,9 @@ const MedicamentoItem = () => {
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
+                <Text style={styles.nomeMedicamento}>
+                  {ultimoMedicamento.name}
+                </Text>
                 <Text style={styles.useText}>Uso contínuo</Text>
               </View>
 

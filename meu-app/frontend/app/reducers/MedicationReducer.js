@@ -1,38 +1,5 @@
 const initialState = {
-  formData: [
-    {
-      id: 1,
-      label: "Nome do medicamento",
-      value: "",
-      placeholder: "Insira o nome",
-    },
-    {
-      id: 2,
-      label: "Para qual tratamento?",
-      value: "",
-      placeholder: "Selecione o tratamento",
-    },
-    {
-      id: 3,
-      label: "Dosagem por administração",
-      value: "",
-      placeholder: "Dose",
-      keyboardType: "numeric",
-    },
-    {
-      id: 4,
-      value: "",
-      placeholder: ["mL", "IU", "%", "mcg", "mg", "g"],
-      isInputWithPressable: true,
-    },
-    {
-      id: 5,
-      label: "Quantidade de doses restantes",
-      value: "",
-      placeholder: "Dose",
-      keyboardType: "numeric",
-    },
-  ],
+  medicamentos: [],
 };
 
 const MedicationReducer = (state = initialState, action) => {
@@ -40,38 +7,46 @@ const MedicationReducer = (state = initialState, action) => {
     case "PUSH_MEDICATION":
       return {
         ...state,
-        formData: action.payload.length
-          ? action.payload.map((item) => ({
-              ...(state.formData.find((el) => el.id === item.id) || {}), // Mantém dados existentes
-              ...item, // Atualiza valores sem perder `isInputWithPressable`
-            }))
-          : state.formData,
+        medicamentos: [...state.medicamentos, action.payload],
       };
 
-    case "UPDATE_MEDICATION_FIELD":
+    case "UPDATE_MEDICATION_FIELD": {
+      console.log("Recebido para atualização:", action.payload);
+
+      const updatedMedicamentos = state.medicamentos.map((med) => {
+        if (Number(med.id) === Number(action.payload.id)) {
+          // 🔥 Converte para número
+          console.log(
+            "Atualizando medicamento:",
+            med.id,
+            "com",
+            action.payload
+          );
+          return { ...med, ...action.payload };
+        }
+        return med;
+      });
+
+      console.log("Novo estado do Redux:", updatedMedicamentos);
+
       return {
         ...state,
-        formData: state.formData.map((med) =>
-          med.id === action.payload.id
-            ? {
-                ...med,
-                value: action.payload.value,
-                isInputWithPressable: med.isInputWithPressable,
-              }
-            : med
-        ),
+        medicamentos: [...updatedMedicamentos], // 🔥 Garante um novo array
       };
+    }
 
     case "REMOVE_MEDICATION":
       return {
         ...state,
-        formData: state.formData.filter((med) => med.id !== action.payload),
+        medicamentos: state.medicamentos.filter(
+          (med) => med.id !== action.payload
+        ),
       };
 
     case "RESET_MEDICATION":
       return {
         ...state,
-        formData: state.formData.map((item) => ({
+        medicamentos: state.medicamentos.map((item) => ({
           ...item,
           value: "",
         })),
