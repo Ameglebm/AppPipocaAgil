@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Ameglebm/AppPipocaAgil">
-    <img src="/meu-app/frontend/app/assets/images/banner.jpg" alt="Logo" width="550" height="350">
+    <img src="/meu-app/frontend/app/assets/images/Banner.jpg" alt="Logo" width="550" height="350">
   </a>
 
   <h3 align="center">InsuCheck</h3>
