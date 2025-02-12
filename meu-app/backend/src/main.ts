@@ -31,6 +31,12 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>("PORT") || 3333;
 
+  app.enableCors({
+    origin:["http://localhost:8081"],
+    methods: ["POST","PATCH","PUT","GET","DELETE"],
+    credentials: true
+  })
+
   await app.listen(port);
   console.log(`🚀 Projeto sendo executado na porta ${port}`);
   console.log(`📄 Swagger disponível em: http://localhost:${port}/api/docs`);

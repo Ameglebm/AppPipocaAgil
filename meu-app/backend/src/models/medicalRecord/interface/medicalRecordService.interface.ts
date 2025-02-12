@@ -1,7 +1,6 @@
-import { DiabetesDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, GetDiabetesDTO } from '../dtos/medicalRecordDTO';
 
 export interface IMedicalRecordService {
-  createUserDiabetes(data: DiabetesDTO): Promise<any>;
-  getUserDiabetes(userId: string): Promise<any | null>;
-  deleteUserDiabetes(userId: string): Promise<void>;
+  createUserDiabetes(data: CreateDiabetesDTO): Promise<void>;
+  getUserDiabetes(userId: GetDiabetesDTO): Promise<any | null>;
 }

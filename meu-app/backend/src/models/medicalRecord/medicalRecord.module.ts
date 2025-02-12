@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MedicalRecordController } from './controller/medicalRecord.Controller';
 import { MedicalRecordService } from './service/medicalRecord.service';
-import { MedicalRecordRepository } from './interface/MedicalRecordRepository.interface';
+import { MedicalRecordRepository } from './repository/medicalRecord.repository';
+
 
 @Module({
   controllers: [MedicalRecordController],
