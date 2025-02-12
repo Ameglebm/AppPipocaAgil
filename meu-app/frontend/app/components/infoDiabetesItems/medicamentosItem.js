@@ -1,8 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import { removeMedication } from "../../reducers/medicationActions";
+import {
+  removeMedication,
+  resetMedication,
+} from "../../reducers/medicationActions";
 
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import ButtonSave from "../ButtonSave";
@@ -18,7 +28,9 @@ const MedicamentoItem = () => {
   const params = useLocalSearchParams();
   const dispatch = useDispatch();
 
-  const medicamentos = useSelector((state) => state.medication.medicamentos); // Obtém o estado do Redux
+  const medicamentos = useSelector(
+    (state) => state.medication.medicamentos || []
+  ); // Obtém o estado do Redux
   console.log("Medicamentos armazenados no Redux", medicamentos); // Para depuração
 
   const ultimoMedicamento =
@@ -59,40 +71,55 @@ const MedicamentoItem = () => {
 
   return (
     <View>
-      {ultimoMedicamento ? (
+      {medicamentos.length > 0 ? (
         <>
           <View style={{ backgroundColor: "#FDFDFD" }}>
             <View style={styles.configuredHeader}>
               <Text style={styles.title}>Medicamentos</Text>
             </View>
 
-            <View style={styles.configuredContainerMedication}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 8,
-                  alignItems: "center",
+            <ScrollView style={styles.test}>
+              {medicamentos.map((medicamento) => {
+                return (
+                  <View
+                    key={medicamento.id}
+                    style={styles.configuredContainerMedication}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 8,
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text style={styles.nomeMedicamento}>
+                        {medicamento.name}
+                      </Text>
+                      <Text style={styles.useText}>Uso contínuo</Text>
+                    </View>
+
+                    <View style={styles.containerEditDel}>
+                      <TouchableOpacity onPress={editMedication}>
+                        <Edit />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity onPress={deleteMedication}>
+                        <Trash />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+
+            <View style={{ alignItems: "center" }}>
+              <TouchableOpacity
+                style={styles.btnAddMedication}
+                onPress={() => {
+                  dispatch(resetMedication());
+                  router.navigate("../../screens/addMedication");
                 }}
               >
-                <Text style={styles.nomeMedicamento}>
-                  {ultimoMedicamento.name}
-                </Text>
-                <Text style={styles.useText}>Uso contínuo</Text>
-              </View>
-
-              <View style={styles.containerEditDel}>
-                <TouchableOpacity onPress={editMedication}>
-                  <Edit />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={deleteMedication}>
-                  <Trash />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={{ marginTop: 230, alignItems: "center" }}>
-              <TouchableOpacity style={styles.btnAddMedication}>
                 <Text style={styles.textBtnAddMedication}>
                   Adicionar medicamento
                 </Text>
@@ -112,6 +139,7 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
+                  dispatch(resetMedication());
                   router.navigate("../../screens/addMedication");
                 }}
               >
@@ -138,6 +166,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     marginBottom: 232,
   },
+  test: { height: 200 },
   header: {
     flexDirection: "column",
     alignItems: "flex-start",
