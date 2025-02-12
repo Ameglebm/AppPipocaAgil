@@ -15,7 +15,6 @@ const InsulinReducer = (state = initialState, action) => {
 
       const updatedInsulinas = state.insulinas.map((ins) => {
         if (Number(ins.id) === Number(action.payload.id)) {
-          // 🔥 Converte para número
           console.log("Atualizando insulina:", ins.id, "com", action.payload);
           return { ...ins, ...action.payload };
         }
@@ -26,7 +25,7 @@ const InsulinReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        insulinas: [...updatedInsulinas], // 🔥 Garante um novo array
+        insulinas: [...updatedInsulinas],
       };
     }
 

@@ -15,7 +15,6 @@ const MedicationReducer = (state = initialState, action) => {
 
       const updatedMedicamentos = state.medicamentos.map((med) => {
         if (Number(med.id) === Number(action.payload.id)) {
-          // 🔥 Converte para número
           console.log(
             "Atualizando medicamento:",
             med.id,
@@ -31,7 +30,7 @@ const MedicationReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        medicamentos: [...updatedMedicamentos], // 🔥 Garante um novo array
+        medicamentos: [...updatedMedicamentos],
       };
     }
 
