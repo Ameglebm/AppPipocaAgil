@@ -16,3 +16,11 @@ export class GetDiabetesDTO {
   @IsString({ message: 'O ID do usuário deve ser uma string.' })
   userId!: string;
 }
+
+export class PostLeituraGlicemiaDTO {
+  userId!: number;
+  periodoId!: number;
+  metaMin!: number;
+  metaIdeal!: number;
+  metaMax!: number;
+}
