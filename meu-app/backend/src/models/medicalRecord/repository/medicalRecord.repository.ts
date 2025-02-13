@@ -3,11 +3,16 @@ import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.i
 import { CreateDiabetesDTO } from "../dtos/medicalRecordDTO";
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
-  findByRecordId(userId: number): Promise<any | null> {
-    return prisma.user_diabetes.findFirst({ where: { userId } });
+  async findByRecordId(userId: number): Promise<any | null> {
+    return await prisma.user_diabetes.findFirst({ where: { userId } });
   }
-  createRecord(data: CreateDiabetesDTO): Promise<void> {
-    throw new Error('Not implemented');
+
+  async createRecord(data: CreateDiabetesDTO): Promise<void> {
+    await prisma.user_diabetes.create({
+      data: {
+        userId: data.userId,
+        diabetesId: data.diabetesId,
+      },
+    });
   }
-  
 }
