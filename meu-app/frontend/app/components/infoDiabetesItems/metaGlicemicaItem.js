@@ -8,6 +8,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
+  Platform,
 } from "react-native";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -70,10 +71,16 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
     { id: "4", text: "Noturno" },
   ];
 
+  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 10;
+
   return (
     <SafeAreaProvider>
       <ScrollView>
-        <KeyboardAvoidingView style={styles.container}>
+        <KeyboardAvoidingView
+          behavior="position"
+          keyboardVerticalOffset={keyboardVerticalOffset}
+          style={styles.container}
+        >
           {/* Cabeçalho com título e descrição */}
           <View style={styles.header}>
             <Text style={styles.title}>{metaGlicemica.title}</Text>
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
     width: 352,
     paddingTop: 24,
     paddingHorizontal: 16,
-    paddingBottom: 29,
+    paddingBottom: 6,
     gap: 24,
     backgroundColor: "#EDF3FF",
     borderRadius: 16,
@@ -172,6 +179,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "column",
     alignItems: "flex-start",
+    paddingBottom: 24,
     gap: 16,
     alignSelf: "stretch",
   },
@@ -210,14 +218,13 @@ const styles = StyleSheet.create({
   },
   inputsNumbers: {
     flexDirection: "row", // Itens dispostos lado a lado
-    gap: 8, // Espaçamento entre os itens
     width: "100%",
     justifyContent: "space-between",
-    alignItems: "center",
   },
   textGroup: {
     color: "#282828",
     fontFamily: "Urbanist_400Regular",
+    paddingTop: 10,
     fontSize: 16,
     lineHeight: 17.6,
     alignItems: "center",
@@ -233,7 +240,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inputGroup: {
-    gap: 16,
+    paddingBottom: 24,
     flexDirection: "column",
   },
   input: {
