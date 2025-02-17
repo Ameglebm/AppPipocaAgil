@@ -1,8 +1,8 @@
 // Bibliotecas externas
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"; 
 
 // Redux
 import {
@@ -18,6 +18,7 @@ import Button from "../Button";
 import ButtonSave from "../ButtonSave";
 import Edit from "../SvgComponents/Edit";
 import Trash from "../SvgComponents/Trash";
+import ConfirmationModal from "../ConfirmationModal";
 
 // Assets
 import plusImage from "../../assets/images/plus.png";
@@ -42,6 +43,8 @@ const MedicamentoItem = () => {
     medicamentos[medicamentos.length - 1] ||
     null;
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMedication, setSelectedMedication] = useState(null);
   // Funções de manipulação de dados
   const handleSave = () => {
     console.log("salvo");
@@ -65,12 +68,17 @@ const MedicamentoItem = () => {
     }
   };
 
+  const handleDeletePress = (medication) => {
+    setSelectedMedication(medication);
+    setModalVisible(true);
+  };
+
   const deleteMedication = () => {
-    if (ultimoMedicamento) {
-      dispatch(removeMedication(ultimoMedicamento.id));
-      console.log("Removendo", ultimoMedicamento);
-    } else {
-      console.warn("Nenhum medicamento para remover");
+    if (selectedMedication) {
+      dispatch(removeMedication(selectedMedication.id));
+      setModalVisible(false);
+      setSelectedMedication(null);
+      console.log(`O item ${selectedMedication.name} foi removido!`)
     }
   };
 
@@ -107,7 +115,7 @@ const MedicamentoItem = () => {
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={deleteMedication}>
+                    <TouchableOpacity onPress={() => handleDeletePress(medicamento)}>
                       <Trash />
                     </TouchableOpacity>
                   </View>
@@ -154,6 +162,13 @@ const MedicamentoItem = () => {
           <ButtonSave onPress={handleSave} />
         </>
       )}
+      <ConfirmationModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={deleteMedication}
+        title="Confirmar exclusão do medicamento?"
+        message="Esta ação não pode ser desfeita."
+      />
     </View>
   );
 };

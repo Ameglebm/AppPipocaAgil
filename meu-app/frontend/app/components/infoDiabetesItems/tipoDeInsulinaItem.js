@@ -1,5 +1,5 @@
 // Bibliotecas externas
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import ButtonSave from "../ButtonSave";
 import Button from "../Button";
 import Trash from "../SvgComponents/Trash";
 import Edit from "../SvgComponents/Edit";
+import ConfirmationModal from '../ConfirmationModal';
 
 // Assets
 import plusIcon from "../../assets/images/plus.png";
@@ -36,6 +37,9 @@ const TipoDeInsulinaItem = () => {
     insulinas.find((ins) => ins.id === params?.id) ||
     insulinas[insulinas.length - 1] ||
     null;
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedInsulin, setSelectedInsulin] = useState(null);
 
   // Funções de manipulação de dados
   const handleSave = () => {
@@ -59,12 +63,24 @@ const TipoDeInsulinaItem = () => {
     }
   };
 
-  const deleteInsulin = () => {
+  /*const deleteInsulin = () => {
     if (ultimaInsulina) {
       dispatch(removeInsulin(ultimaInsulina.id));
       console.log("Removendo", ultimaInsulina);
     } else {
-      console.warn("Nenhuma insulina para remover");
+      console.warn("Nenhuma insulina para remover");*/
+
+  const handleDeletePress = (insulina) => {
+    setSelectedInsulin(insulina);
+    setModalVisible(true);
+  };
+
+  const deleteInsulin = () => {
+    if (selectedInsulin) {
+      dispatch(removeInsulin(selectedInsulin.id));
+      setModalVisible(false);
+      setSelectedInsulin(null);
+      console.log(`O item ${selectedInsulin.name} foi removido!`)
     }
   };
 
@@ -99,7 +115,7 @@ const TipoDeInsulinaItem = () => {
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={deleteInsulin}>
+                    <TouchableOpacity onPress={() => handleDeletePress(insulina)}>
                       <Trash />
                     </TouchableOpacity>
                   </View>
@@ -140,6 +156,14 @@ const TipoDeInsulinaItem = () => {
           <ButtonSave onPress={handleSave} />
         </>
       )}
+
+      <ConfirmationModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={deleteInsulin}
+        title="Confirmar exclusão de insulina?"
+        message="Esta ação não pode ser desfeita."
+      />
     </View>
   );
 };
