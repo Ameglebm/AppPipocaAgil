@@ -1,86 +1,136 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import { useRouter } from "expo-router";
-import { useSelector, useDispatch } from "react-redux";
+// Bibliotecas externas
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useSelector, useDispatch } from "react-redux"; 
+
+// Redux
 import {
   removeMedication,
   resetMedication,
 } from "../../reducers/medicationActions";
 
+// Dados
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
-import ButtonSave from "../ButtonSave";
+
+// Componentes
 import Button from "../Button";
-import Trash from "../SvgComponents/Trash";
+import ButtonSave from "../ButtonSave";
 import Edit from "../SvgComponents/Edit";
+import Trash from "../SvgComponents/Trash";
+import ConfirmationModal from "../ConfirmationModal";
+
+// Assets
 import plusImage from "../../assets/images/plus.png";
 
 const MedicamentoItem = () => {
+  // Obtém depêndencias
+  const dispatch = useDispatch();
+  const params = useLocalSearchParams();
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
+  // Busca e estados globais
   const medicamentosItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
+  const medicamentos = useSelector(
+    (state) => state.medication.medicamentos || []
+  ); // Obtém o estado do Redux
 
-  // Garante que `formData` sempre tenha um valor válido
-  const formData = useSelector((state) => state.medication?.formData || []);
+  console.log("Medicamentos armazenados no Redux", medicamentos); // Para depuração
 
-  // Obtém o nome do medicamento salvo, garantindo um fallback seguro
-  const nomeDoMedicamento = formData.find((item) => item.id === 1)?.value || "";
+  // Obtém o último medicamento adicionado
+  const ultimoMedicamento =
+    medicamentos.find((med) => med.id === params?.id) ||
+    medicamentos[medicamentos.length - 1] ||
+    null;
 
-  // Simula uma ação de salvar (pode ser adaptado para integração com API)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMedication, setSelectedMedication] = useState(null);
+  // Funções de manipulação de dados
   const handleSave = () => {
     console.log("salvo");
   };
 
   const editMedication = () => {
-    router.push("../../screens/addMedication");
+    console.log("Editando", ultimoMedicamento);
+    if (ultimoMedicamento) {
+      router.push({
+        pathname: "../../screens/addMedication",
+        params: {
+          id: ultimoMedicamento.id,
+          name: ultimoMedicamento.name,
+          treatment: ultimoMedicamento.treatment,
+          dosageAdm: ultimoMedicamento.dosageAdm,
+          unit: ultimoMedicamento.unit,
+          doseLeft: ultimoMedicamento.doseLeft,
+          isEditing: true,
+        },
+      });
+    }
+  };
+
+  const handleDeletePress = (medication) => {
+    setSelectedMedication(medication);
+    setModalVisible(true);
   };
 
   const deleteMedication = () => {
-    console.log("Removendo medicamento com ID:", nomeDoMedicamento); // Para depuração
-    if (nomeDoMedicamento) {
-      dispatch(removeMedication(nomeDoMedicamento));
-      dispatch(resetMedication());
-      console.log(formData);
-    } else {
-      console.warn("ID do medicamento não foi passado corretamente");
+    if (selectedMedication) {
+      dispatch(removeMedication(selectedMedication.id));
+      setModalVisible(false);
+      setSelectedMedication(null);
+      console.log(`O item ${selectedMedication.name} foi removido!`)
     }
   };
 
   return (
     <View>
-      {nomeDoMedicamento ? (
+      {medicamentos.length > 0 ? (
         <>
           <View style={{ backgroundColor: "#FDFDFD" }}>
             <View style={styles.configuredHeader}>
               <Text style={styles.title}>Medicamentos</Text>
             </View>
 
-            <View style={styles.configuredContainerMedication}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 8,
-                  alignItems: "center",
+            {medicamentos.map((medicamento) => {
+              return (
+                <View
+                  key={medicamento.id}
+                  style={styles.configuredContainerMedication}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 8,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={styles.nomeMedicamento}>
+                      {medicamento.name}
+                    </Text>
+                    <Text style={styles.useText}>Uso contínuo</Text>
+                  </View>
+
+                  <View style={styles.containerEditDel}>
+                    <TouchableOpacity onPress={editMedication}>
+                      <Edit />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => handleDeletePress(medicamento)}>
+                      <Trash />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })}
+
+            <View style={styles.contentBtnFixed}>
+              <TouchableOpacity
+                style={styles.btnAddMedication}
+                onPress={() => {
+                  dispatch(resetMedication());
+                  router.navigate("../../screens/addMedication");
                 }}
               >
-                <Text style={styles.nomeMedicamento}>{nomeDoMedicamento}</Text>
-                <Text style={styles.useText}>Uso contínuo</Text>
-              </View>
-
-              <View style={styles.containerEditDel}>
-                <TouchableOpacity onPress={editMedication}>
-                  <Edit />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={deleteMedication}>
-                  <Trash />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={{ marginTop: 230, alignItems: "center" }}>
-              <TouchableOpacity style={styles.btnAddMedication}>
                 <Text style={styles.textBtnAddMedication}>
                   Adicionar medicamento
                 </Text>
@@ -100,6 +150,7 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
+                  dispatch(resetMedication());
                   router.navigate("../../screens/addMedication");
                 }}
               >
@@ -111,6 +162,13 @@ const MedicamentoItem = () => {
           <ButtonSave onPress={handleSave} />
         </>
       )}
+      <ConfirmationModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={deleteMedication}
+        title="Confirmar exclusão do medicamento?"
+        message="Esta ação não pode ser desfeita."
+      />
     </View>
   );
 };
@@ -118,6 +176,59 @@ const MedicamentoItem = () => {
 export default MedicamentoItem;
 
 const styles = StyleSheet.create({
+  configuredHeader: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+    padding: 16,
+  },
+  title: {
+    color: "#282828",
+    fontFamily: "Urbanist_700Bold",
+    fontStyle: "normal",
+    fontSize: 20,
+    lineHeight: 22,
+  },
+  configuredContainerMedication: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#EDF3FF",
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 10,
+  },
+  nomeMedicamento: {
+    color: "#282828",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    lineHeight: 19.8,
+  },
+  useText: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 12,
+  },
+  containerEditDel: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    paddingRight: 5,
+  },
+  contentBtnFixed: {
+    position: "absolute",
+    top: 330,
+    left: 16,
+  },
+  btnAddMedication: {
+    width: 320,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textBtnAddMedication: {
+    color: "#5E5D5C",
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+  },
   container: {
     backgroundColor: "#EDF3FF",
     borderRadius: 16,
@@ -132,13 +243,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     paddingBottom: 20,
   },
-  title: {
-    color: "#282828",
-    fontFamily: "Urbanist_700Bold",
-    fontStyle: "normal",
-    fontSize: 20,
-    lineHeight: 22,
-  },
+
   contentBtn: {
     backgroundColor: "#FDFDFD",
     width: 320,
@@ -157,45 +262,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 21,
     color: "#282828",
-  },
-  nomeMedicamento: {
-    color: "#282828",
-    fontFamily: "Urbanist_700Bold",
-    fontSize: 18,
-    lineHeight: 19.8,
-  },
-  configuredHeader: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    alignSelf: "stretch",
-    padding: 16,
-  },
-  configuredContainerMedication: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#EDF3FF",
-    padding: 16,
-    borderRadius: 16,
-  },
-  useText: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 12,
-  },
-  btnAddMedication: {
-    width: 320,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textBtnAddMedication: {
-    color: "#5E5D5C",
-    fontFamily: "Urbanist_700Bold",
-    fontSize: 18,
-  },
-  containerEditDel: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-    paddingRight: 5,
   },
 });

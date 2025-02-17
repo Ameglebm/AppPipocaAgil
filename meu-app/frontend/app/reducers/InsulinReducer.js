@@ -1,35 +1,5 @@
 const initialState = {
-  formData: [
-    {
-      id: 1,
-      label: "Nome da Insulina",
-      value: "",
-      placeholder: "Insira o nome",
-    },
-    {
-      id: 2,
-      label: "Décimos da unidade - Ex.: 0,1.0,2 UI",
-      value: "",
-      isRadioButton: true,
-      key: "decimalUnits",
-    },
-
-    {
-      id: 3,
-      label: "Meias unidades - Ex.: 0,5.1,0.1,5 UI",
-      value: "",
-      isRadioButton: true,
-      key: "halfUnits",
-    },
-
-    {
-      id: 4,
-      label: "Unidades Inteiras - Ex.: 1,2,3,4,5 UI",
-      value: "",
-      isRadioButton: true,
-      key: "wholeUnits",
-    },
-  ],
+  insulinas: [],
 };
 
 const InsulinReducer = (state = initialState, action) => {
@@ -37,29 +7,38 @@ const InsulinReducer = (state = initialState, action) => {
     case "PUSH_INSULIN":
       return {
         ...state,
-        formData: action.payload || [],
+        insulinas: [...state.insulinas, { ...action.payload }],
       };
 
-    case "UPDATE_INSULIN_FIELD":
+    case "UPDATE_INSULIN_FIELD": {
+      console.log("Recebido para atualização:", action.payload);
+
+      const updatedInsulinas = state.insulinas.map((ins) => {
+        if (Number(ins.id) === Number(action.payload.id)) {
+          console.log("Atualizando insulina:", ins.id, "com", action.payload);
+          return { ...ins, ...action.payload };
+        }
+        return ins;
+      });
+
+      console.log("Novo estado do Redux:", updatedInsulinas);
+
       return {
         ...state,
-        formData: state.formData.map((ins) =>
-          ins.id === action.payload.id
-            ? { ...ins, value: action.payload.value }
-            : ins
-        ),
+        insulinas: [...updatedInsulinas],
       };
+    }
 
     case "REMOVE_INSULIN":
       return {
         ...state,
-        formData: state.formData.filter((ins) => ins.id !== action.payload),
+        insulinas: state.insulinas.filter((ins) => ins.id !== action.payload),
       };
 
     case "RESET_INSULIN":
       return {
         ...state,
-        formData: state.formData.map((item) => ({
+        insulinas: state.insulinas.map((item) => ({
           ...item,
           value: "",
         })),

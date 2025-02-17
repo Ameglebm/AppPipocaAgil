@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import PropTypes from "prop-types";
 
-const InputWithPressable = ({ placeholder, textLabel, onPress }) => {
+const InputWithPressable = ({ placeholder, textLabel, onPress, value }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const handlePress = (index) => {
     setSelectedIndex(index);
     onPress(placeholder[index]); // Passa o valor selecionado para o handleInputChange
   };
+
+  // Sempre que `value` mudar, atualiza o índice correspondente
+  useEffect(() => {
+    const index = placeholder.indexOf(value);
+    setSelectedIndex(index !== -1 ? index : null);
+  }, [value]);
 
   return (
     <View style={styles.inputContainer}>
@@ -46,6 +52,7 @@ InputWithPressable.propTypes = {
   placeholder: PropTypes.arrayOf(PropTypes.string).isRequired,
   textLabel: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
 export default InputWithPressable;

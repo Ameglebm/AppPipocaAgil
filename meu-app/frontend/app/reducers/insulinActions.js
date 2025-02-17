@@ -3,10 +3,18 @@ export const pushInsulin = (insulin) => ({
   payload: insulin,
 });
 
-export const updateInsulinField = (id, value) => ({
-  type: "UPDATE_INSULIN_FIELD",
-  payload: { id, value },
-});
+export const updateInsulinField = (id, updatedData) => {
+  console.log(
+    "Disparando UPDATE_INSULIN_FIELD com ID:",
+    Number(id),
+    "Dados:",
+    updatedData
+  );
+  return {
+    type: "UPDATE_INSULIN_FIELD",
+    payload: { id: Number(id), ...updatedData },
+  };
+};
 
 export const removeInsulin = (id) => ({
   type: "REMOVE_INSULIN",

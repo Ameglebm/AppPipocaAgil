@@ -40,7 +40,6 @@ export default CustomInput;
 CustomInput.propTypes = {
   placeholder: PropTypes.string,
   title: PropTypes.string,
-  value: PropTypes.string,
   onChangeText: PropTypes.func,
   style: PropTypes.object,
   keyboardType: PropTypes.oneOf([
@@ -55,6 +54,7 @@ CustomInput.propTypes = {
     "twitter",
     "url",
     "web-search",
+    "string",
   ]),
 };
 
