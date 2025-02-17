@@ -17,6 +17,7 @@ export class GetDiabetesDTO {
   userId!: string;
 }
 
+// Tenho que incluir o isAtual aqui?
 export class PostLeituraGlicemiaDTO {
   userId!: number;
   periodoId!: number;
