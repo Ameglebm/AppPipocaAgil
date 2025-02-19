@@ -1,7 +1,7 @@
-import { CreateDiabetesDTO, GetDiabetesDTO, PostLeituraGlicemiaDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, GetDiabetesDTO, MetaGlicemicaDTO } from '../dtos/medicalRecordDTO';
 
 export interface IMedicalRecordService {
   createUserDiabetes(data: CreateDiabetesDTO): Promise<void>;
   getUserDiabetes(userId: GetDiabetesDTO): Promise<any | null>;
-  postLeituraGlicemia(leituraGlicemia: PostLeituraGlicemiaDTO[]): Promise<void>;
+  metaGlicemica(leituraGlicemia: MetaGlicemicaDTO[]): Promise<void>;
 }

@@ -25,7 +25,7 @@ export interface ResponseDTO {
   updatedAt: Date;
 }
 
-export class PostLeituraGlicemiaDTO {
+export class MetaGlicemicaDTO {
   @ApiProperty({ example: 'number', description: 'ID do usuário' })
   @IsNumber({ }, { message: 'ID do usuário deve ser um número' })
   userId!: number;

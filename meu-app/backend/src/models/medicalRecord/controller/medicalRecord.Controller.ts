@@ -11,7 +11,7 @@ import {
   } from '@nestjs/common';
   import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
   import { AuthGuard } from '@/middlewares/auth.guard';
-  import { CreateDiabetesDTO, GetDiabetesDTO, PostLeituraGlicemiaDTO } from '../dtos/medicalRecordDTO';
+  import { CreateDiabetesDTO, GetDiabetesDTO, MetaGlicemicaDTO } from '../dtos/medicalRecordDTO';
   import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
   
   @UseGuards(AuthGuard)
@@ -60,10 +60,10 @@ import {
     @ApiResponse({ status: 201, description: 'Leitura glicêmica registrada com sucesso' })
     @ApiResponse({ status: 400, description: 'Erro de validação' })
     @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
-    @Post('leitura-glicemia')
-    async postLeituraGlicemia(@Body() leituraGlicemia: PostLeituraGlicemiaDTO[]): Promise<void> {
+    @Post('metaGlicemica')
+    async metaGlicemica(@Body() leituraGlicemia: MetaGlicemicaDTO[]): Promise<void> {
       try {
-        await this.medicalRecordService.postLeituraGlicemia(leituraGlicemia);
+        await this.medicalRecordService.metaGlicemica(leituraGlicemia);
       } catch (error) {
         console.error('Erro ao registrar leitura glicêmica:', error);
         throw new InternalServerErrorException('Erro interno do servidor');

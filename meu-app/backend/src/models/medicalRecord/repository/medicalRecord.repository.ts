@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  PostLeituraGlicemiaDTO, GetDiabetesDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  MetaGlicemicaDTO } from "../dtos/medicalRecordDTO";
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
@@ -31,7 +31,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
       }
     })
   }
-  async registerLeituraGlicemia(leitura: PostLeituraGlicemiaDTO): Promise<void> {
+  async registerGlucoseTarget(leitura: MetaGlicemicaDTO): Promise<void> {
     await prisma.meta_Glicemia.create({
       data: {
         userId: leitura.userId,

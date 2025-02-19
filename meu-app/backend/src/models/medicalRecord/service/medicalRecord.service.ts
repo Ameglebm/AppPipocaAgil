@@ -1,6 +1,6 @@
 
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, PostLeituraGlicemiaDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, GetDiabetesDTO, MetaGlicemicaDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -35,9 +35,9 @@ export class MedicalRecordService implements IMedicalRecordService {
     return record;
   }
   
-  async postLeituraGlicemia(leituraGlicemia: PostLeituraGlicemiaDTO[]): Promise<void> {
+  async metaGlicemica(leituraGlicemia: MetaGlicemicaDTO[]): Promise<void> {
     for (const leitura of leituraGlicemia) {
-      await this.medicalRecordRepository.registerLeituraGlicemia(leitura);
+      await this.medicalRecordRepository.registerGlucoseTarget(leitura);
     }
   }
 }
