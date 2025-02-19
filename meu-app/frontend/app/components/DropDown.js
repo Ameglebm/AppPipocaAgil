@@ -14,7 +14,7 @@ const Dropdown = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <View style={styles.dropDownContainer}>
+    <View style={[styles.dropDownContainer, style?.dropDownContainer]}>
       <View style={styles.labelContainer}>
         <Text style={[styles.label, style]}>{title}</Text>
       </View>
@@ -26,9 +26,10 @@ const Dropdown = ({
         value={value} // Usa o valor passado do pai
         items={items}
         setValue={(callback) => {
-          const selectedValue = callback(value);
+          const selectedValue =
+            typeof callback === "function" ? callback(value) : callback;
           console.log("Valor selecionado no Dropdown:", selectedValue);
-          onValueChange && onValueChange(selectedValue); // Atualiza valor no pai
+          onValueChange && onValueChange(selectedValue);
         }}
         placeholder={placeholder || "Selecione uma opção"}
         placeholderStyle={{
@@ -37,8 +38,8 @@ const Dropdown = ({
           fontSize: 16,
         }}
         dropDownContainerStyle={{
-          borderWidth: 0,
-          borderColor: "transparent",
+          borderWidth: 1,
+          borderColor: "#E5E5E5",
           elevation: 0,
           maxHeight: "auto",
         }}
@@ -48,6 +49,7 @@ const Dropdown = ({
         listItemLabelStyle={{
           fontFamily: "Urbanist_400Regular",
           color: "#282828",
+          fontSize: 15,
         }}
       />
     </View>
@@ -89,8 +91,9 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 5,
     backgroundColor: "#FDFDFD",
-    width: "100%",
+    width: 320,
     height: 44,
+    minHeight: 44,
     fontFamily: "Urbanist_700Bold",
     lineHeight: 22,
     color: "#373737",
