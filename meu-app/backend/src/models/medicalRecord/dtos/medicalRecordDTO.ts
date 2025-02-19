@@ -15,6 +15,14 @@ export class GetDiabetesDTO {
   @ApiProperty({ example: 'string', description: 'ID do usuário' })
   @IsString({ message: 'O ID do usuário deve ser uma string.' })
   userId!: string;
+
+
+export interface ResponseDTO {
+  id: number;
+  userId: number;
+  diabetesId: number;
+  createdAt: Date;
+  updatedAt: Date;'
 }
 
 export class PostLeituraGlicemiaDTO {

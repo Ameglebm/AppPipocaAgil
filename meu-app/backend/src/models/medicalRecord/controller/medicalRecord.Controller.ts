@@ -36,16 +36,21 @@ import {
 
     @ApiOperation({ summary: 'Obter registro de diabetes do usuário por ID' })
     @ApiResponse({ status: 200, description: 'Registro encontrado' })
-    @ApiResponse({ status: 404, description: 'Registro não encontrado' })
+    @ApiResponse({ status: 400, description: 'Erro de validação' })
+    @ApiResponse({ status: 404, description: 'Registro de diabetes não encontrado.' })
     @Get('diabetes/:id')
-    async getUserDiabetes(@Param('id') id: GetDiabetesDTO) {
-      try {
-        const record = await this.medicalRecordService.getUserDiabetes(id);
-        if (!record) {
-          throw new NotFoundException('Registro não encontrado');
-        }
+    async getUserDiabetes(@Param() params: GetDiabetesDTO) {
+       try {
+        const record = await this.medicalRecordService.getUserDiabetes(params);
+
         return { data: record };
+
       } catch (error) {
+        
+        if (error instanceof Error && error.message === 'Registro de diabetes não encontrado.') {
+          throw new NotFoundException(error.message);
+        }
+
         console.error('Erro ao obter registro de diabetes:', error);
         throw new InternalServerErrorException('Erro interno do servidor');
       }
