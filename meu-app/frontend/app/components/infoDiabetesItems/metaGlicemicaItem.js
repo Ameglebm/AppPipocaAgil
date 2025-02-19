@@ -14,10 +14,22 @@ import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ButtonSave from "../ButtonSave";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import api from "../../services/api";
 
 const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   // Busca o item com id === '3' no array de dados
   const metaGlicemica = data.find((item) => item.id === "3");
+
+  const userId = useSelector((state) => state.auth.userId);
+
+  // Define os rótulos para os diferentes momentos glicêmicos
+  const text = [
+    { id: "1", text: "Em jejum" },
+    { id: "2", text: "Pré-Refeição" },
+    { id: "3", text: "Pós-Refeição" },
+    { id: "4", text: "Noturno" },
+  ];
 
   // Estado para armazenar os valores inseridos pelo usuário
   const [valores, setValores] = useState([
@@ -55,21 +67,38 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   };
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
-  const handleSave = () => {
-    // API
-    console.log("salvo: ", valores);
-    if (valores != null) {
+  const handleSave = async () => {
+    if (!userId) {
+      console.error("Erro: userId não encontrado.");
+      return;
+    }
+
+    const payload = valores.map((valor, index) => ({
+      userId: userId,
+      periodoId: parseInt(text[index].id, 10),
+      metaMin: parseInt(valor.minimo, 10) || 0,
+      metaIdeal: parseInt(valor.ideal, 10) || 0,
+      metaMax: parseInt(valor.maximo, 10) || 0,
+    }));
+
+    console.log("Enviando payload:", payload);
+
+    try {
+      const response = await api.post("/metaGlicemica", payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Dados enviados com sucesso!", response.data);
       scrollToNextSlide();
+    } catch (error) {
+      console.error(
+        "Erro na requisição:",
+        error.response?.data || error.message
+      );
     }
   };
-
-  // Define os rótulos para os diferentes momentos glicêmicos
-  const text = [
-    { id: "1", text: "Em jejum" },
-    { id: "2", text: "Pré-Refeição" },
-    { id: "3", text: "Pós-Refeição" },
-    { id: "4", text: "Noturno" },
-  ];
 
   const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 10;
 
