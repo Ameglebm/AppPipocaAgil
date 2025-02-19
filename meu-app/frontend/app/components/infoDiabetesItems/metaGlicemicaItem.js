@@ -16,6 +16,7 @@ import ButtonSave from "../ButtonSave";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import api from "../../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   // Busca o item com id === '3' no array de dados
@@ -73,29 +74,38 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
       return;
     }
 
-    const payload = valores.map((valor, index) => ({
-      userId: userId,
-      periodoId: parseInt(text[index].id, 10),
-      metaMin: parseInt(valor.minimo, 10) || 0,
-      metaIdeal: parseInt(valor.ideal, 10) || 0,
-      metaMax: parseInt(valor.maximo, 10) || 0,
-    }));
-
-    console.log("Enviando payload:", payload);
-
     try {
-      const response = await api.post("/metaGlicemica", payload, {
+      // Recupera o token do AsyncStorage
+      const token = await AsyncStorage.getItem("authToken");
+      if (!token) {
+        console.error("Erro: Token de autenticação não encontrado.");
+        return;
+      }
+
+      // Cria o payload da requisição
+      const payload = valores.map((valor, index) => ({
+        userId,
+        periodoId: Number(text[index]?.id) || 0,
+        metaMin: Number(valor?.minimo) || 0,
+        metaIdeal: Number(valor?.ideal) || 0,
+        metaMax: Number(valor?.maximo) || 0,
+      }));
+
+      console.log("Enviando payload:", payload);
+
+      // Faz a requisição com o token de autenticação
+      const { data } = await api.post("/medicalRecord/metaGlicemica", payload, {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log("Dados enviados com sucesso!", response.data);
+      console.log("Dados enviados com sucesso!", data);
       scrollToNextSlide();
     } catch (error) {
       console.error(
         "Erro na requisição:",
-        error.response?.data || error.message
+        error.response?.data || error.message || "Erro desconhecido"
       );
     }
   };
