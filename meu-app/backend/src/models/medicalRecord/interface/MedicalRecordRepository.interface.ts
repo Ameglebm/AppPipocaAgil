@@ -5,4 +5,4 @@ export interface IMedicalRecordRepository {
     createRecord(data: CreateDiabetesDTO): Promise<void>;
     registerLeituraGlicemia(leitura: PostLeituraGlicemiaDTO): Promise<void>;
     updateRecord(data: CreateDiabetesDTO, record: number): Promise<void>;
-
+}

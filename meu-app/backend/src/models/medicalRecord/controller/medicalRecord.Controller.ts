@@ -46,7 +46,7 @@ import {
         return { data: record };
 
       } catch (error) {
-        
+
         if (error instanceof Error && error.message === 'Registro de diabetes não encontrado.') {
           throw new NotFoundException(error.message);
         }
