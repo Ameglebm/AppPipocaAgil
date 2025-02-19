@@ -9,7 +9,7 @@ import { MedicalRecordModule } from "./models/medicalRecord/medicalRecord.module
     ConfigModule.forRoot({ isGlobal: true }), // ✅ Configuração para carregar o .env globalmente
     AuthModule,
     UserModule,
-    MedicalRecordModule
+    MedicalRecordModule,
   ],
 })
 export class AppModule {}
