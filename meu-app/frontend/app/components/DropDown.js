@@ -34,6 +34,7 @@ const Dropdown = ({
         placeholderStyle={{
           color: "#B1B0AF",
           fontFamily: "Lato_400Regular",
+          fontSize: 16,
         }}
         dropDownContainerStyle={{
           borderWidth: 0,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     width: 320,
     gap: 8,
     marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 24,
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -82,8 +83,7 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingHorizontal: 16,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 1,
