@@ -11,7 +11,7 @@ import {
   } from '@nestjs/common';
   import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
   import { AuthGuard } from '@/middlewares/auth.guard';
-  import { CreateDiabetesDTO, GetDiabetesDTO } from '../dtos/medicalRecordDTO';
+  import { CreateDiabetesDTO, GetDiabetesDTO, MetaGlicemicaDTO } from '../dtos/medicalRecordDTO';
   import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
   
   @UseGuards(AuthGuard)
@@ -36,17 +36,36 @@ import {
 
     @ApiOperation({ summary: 'Obter registro de diabetes do usuário por ID' })
     @ApiResponse({ status: 200, description: 'Registro encontrado' })
-    @ApiResponse({ status: 404, description: 'Registro não encontrado' })
+    @ApiResponse({ status: 400, description: 'Erro de validação' })
+    @ApiResponse({ status: 404, description: 'Registro de diabetes não encontrado.' })
     @Get('diabetes/:id')
-    async getUserDiabetes(@Param('id') id: GetDiabetesDTO) {
-      try {
-        const record = await this.medicalRecordService.getUserDiabetes(id);
-        if (!record) {
-          throw new NotFoundException('Registro não encontrado');
-        }
+    async getUserDiabetes(@Param() params: GetDiabetesDTO) {
+       try {
+        const record = await this.medicalRecordService.getUserDiabetes(params);
+
         return { data: record };
+
       } catch (error) {
+
+        if (error instanceof Error && error.message === 'Registro de diabetes não encontrado.') {
+          throw new NotFoundException(error.message);
+        }
+
         console.error('Erro ao obter registro de diabetes:', error);
+        throw new InternalServerErrorException('Erro interno do servidor');
+      }
+    }
+
+    @ApiOperation({ summary: 'Registrar leitura glicêmica do usuário' })
+    @ApiResponse({ status: 201, description: 'Leitura glicêmica registrada com sucesso' })
+    @ApiResponse({ status: 400, description: 'Erro de validação' })
+    @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+    @Post('metaGlicemica')
+    async metaGlicemica(@Body() leituraGlicemia: MetaGlicemicaDTO[]): Promise<void> {
+      try {
+        await this.medicalRecordService.metaGlicemica(leituraGlicemia);
+      } catch (error) {
+        console.error('Erro ao registrar leitura glicêmica:', error);
         throw new InternalServerErrorException('Erro interno do servidor');
       }
     }
