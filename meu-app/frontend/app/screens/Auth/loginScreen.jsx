@@ -16,6 +16,8 @@ import ButtonLogin from "../../components/ButtonLogin";
 import api from "../../services/api";
 import { saveToken, getToken } from "../../Utils/tokenManager";
 import userImage from "../../assets/images/user.webp";
+import { useDispatch } from "react-redux";
+import { setUserId } from "../../reducers/authActions";
 
 export default function Login() {
   const [email, setEmail] = useState("warlleyrocha@icloud.com");
@@ -24,6 +26,7 @@ export default function Login() {
   const [errorPassword, setErrorPassword] = useState(null);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   // Enviar form para backend
   const sendForm = async () => {
@@ -54,10 +57,13 @@ export default function Login() {
 
       console.log("Resposta da API:", response);
 
-      const token = response.data.token || response.data.accessToken;
+      const token = response.data?.token;
+      const userId = response.data?.user?.id;
 
-      if (response.status === 201 && token) {
+      if (response.status === 201 && token && userId) {
         await saveToken(response.data.token);
+        dispatch(setUserId(userId));
+
         const savedToken = await getToken(); // Recupera o token salvo
         console.log("Token recuperado do AsyncStorage:", savedToken);
 
