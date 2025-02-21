@@ -1,17 +1,28 @@
 // Bibliotecas externas
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 
 // Componentes customizados
 import Header from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
 import ButtonSave from "../components/ButtonSave";
+import CancelModal from "../components/ConfirmationModal";
+import GlucoseLevels from "../components/modals/GlucoseLevels";
 
 export default function registerGlucose() {
+  const router = useRouter();
+
   const [glicose, setGlicose] = useState(0);
   const [treatment, setTreatment] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [glucoseAlertModal, setGlucoseAlertModal] = useState(false);
+  const [glucoseAlertData, setGlucoseAlertData] = useState({
+    title: "",
+    message: "",
+  });
 
   // Função para verificar se o botão deve estar desabilitado
   useEffect(() => {
@@ -21,6 +32,46 @@ export default function registerGlucose() {
       setIsDisabled(true);
     }
   }, [glicose, treatment]);
+
+  const handleCancelPress = () => {
+    // Implementar a lógica para cancelar o registro
+    setModalVisible(true);
+  };
+
+  const handleConfirmCancel = () => {
+    setGlicose(0);
+    setTreatment("");
+    setModalVisible(false); // Fecha o modal após confirmar
+    router.back();
+  };
+
+  const handleSave = () => {
+    if (glicose > 0 && treatment.trim() !== "") {
+      if (glicose <= 75) {
+        setGlucoseAlertData({
+          title: "Atenção! Sua glicemia está baixa.",
+          message:
+            "Entre em contato com seu médico ou siga o plano de ação recomendado. Caso os sintomas persistam, busque atendimento médico imediatamente.",
+          type: "low", // Ícone XClose
+        });
+      } else if (glicose >= 120) {
+        setGlucoseAlertData({
+          title: "Atenção! Sua glicemia está alta.",
+          message:
+            "Aja conforme as orientações do seu médico. Se os sintomas persistirem, procure ajuda médica o mais rápido possível.",
+          type: "high", // Ícone XClose
+        });
+      } else {
+        setGlucoseAlertData({
+          title: "Parabéns! Sua glicemia está dentro da meta.",
+          message:
+            "Manter esse controle é essencial para sua saúde. Continue acompanhando regularmente!",
+          type: "normal", // Ícone CheckCircle
+        });
+      }
+      setGlucoseAlertModal(true);
+    }
+  };
 
   return (
     <View style={{ backgroundColor: "#FDFDFD", flex: 1 }}>
@@ -49,6 +100,7 @@ export default function registerGlucose() {
             { label: "Depois do almoço", value: "Depois do almoço" },
             { label: "Antes do jantar", value: "Antes do jantar" },
             { label: "Depois do jantar", value: "Depois do jantar" },
+            { label: "Antes de dormir", value: "Antes de dormir" },
             { label: "Extra", value: "Extra" },
           ]}
           placeholder={"Selecione o tipo"}
@@ -69,24 +121,37 @@ export default function registerGlucose() {
         />
 
         <View style={styles.viewBtns}>
-          {/* 
-          Chamar o modal de "Tem certeza que deseja cancelar o registro de glicemia?"
-          O front possui um componente para modal em "/components/ConfirmationModal.js" basta chamar ele.
-          */}
-          <TouchableOpacity style={styles.btnCancel}>
+          <TouchableOpacity
+            style={styles.btnCancel}
+            onPress={() => handleCancelPress()}
+          >
             <Text style={styles.btnTextCancel}>Cancelar</Text>
           </TouchableOpacity>
 
-          {/* 
-          Funcção de salvar:
-          Adicionar uma condição para verificar o nivel da glicemia. 
-          - Se for <=75 "Glicemia está baixa" (Criar o modal "Atenção! Sua glicemia está baixa.")
-          - Se for > 75 e < 120 "Glicemia está normal" (Criar o modal "Parabéns! Sua glicemia está dentro da meta.")
-          - Se for >= 120 "Glicemia está alta" (Criar o modal "Atenção! Sua glicemia está alta.")
-          */}
-          <ButtonSave style={customButtonStyles} disabled={isDisabled} />
+          <ButtonSave
+            style={customButtonStyles}
+            disabled={isDisabled}
+            onPress={handleSave}
+          />
         </View>
       </View>
+
+      <CancelModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={handleConfirmCancel}
+        title="Tem certeza que deseja cancelar o registro de glicemia?"
+        message="Esta ação não pode ser desfeita."
+        style={customModalStyles}
+      />
+
+      <GlucoseLevels
+        visible={glucoseAlertModal}
+        onClose={() => setGlucoseAlertModal(false)}
+        title={glucoseAlertData.title}
+        message={glucoseAlertData.message}
+        iconType={glucoseAlertData.type} // Define qual ícone será exibido
+      />
     </View>
   );
 }
@@ -108,6 +173,16 @@ const customButtonStyles = {
 const customDropdownStyle = {
   dropDownContainer: {
     marginTop: 5,
+  },
+};
+
+const customModalStyles = {
+  centeredView: {
+    paddingTop: 42,
+  },
+  modalView: {
+    height: 260,
+    paddingHorizontal: 30,
   },
 };
 
