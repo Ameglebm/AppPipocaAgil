@@ -2,7 +2,14 @@ import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import AlertTriangle from "./SvgComponents/AlertTriangle";
 
-const ConfirmationModal = ({ visible, onClose, onConfirm, title, message }) => {
+const ConfirmationModal = ({
+  visible,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  style,
+}) => {
   return (
     <Modal
       animationType="fade"
@@ -10,8 +17,8 @@ const ConfirmationModal = ({ visible, onClose, onConfirm, title, message }) => {
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+      <View style={[styles.centeredView, style?.centeredView]}>
+        <View style={[styles.modalView, style?.modalView]}>
           <View style={styles.iconContainer}>
             <View style={styles.warningIcon}>
               <AlertTriangle style={styles.warningText} />
