@@ -1,8 +1,9 @@
+import { CreateUserMedicineDTO, DeleteUserMedicineDTO, GetUserMedicineDTO, UpdateUserMedicineDTO } from "../dtos/medicinesDTO";
+
 export interface IMedicinesService {
-    getMedicines(): Promise<any[]>;
-    createMedicine(data: any): Promise<void>;
-    getMedicineById(id: number): Promise<any | null>;
-    updateMedicine(id: number, data: any): Promise<void>;
-    deleteMedicine(id: number): Promise<void>;
+    getUserMedicines(userId: GetUserMedicineDTO): Promise<any[] | null>;
+    createUserMedicine(data: CreateUserMedicineDTO): Promise<void>;
+    updateUserMedicine(data: UpdateUserMedicineDTO): Promise<void>;
+    deleteUserMedicine(params: DeleteUserMedicineDTO): Promise<void>;
 }
 

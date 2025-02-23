@@ -40,7 +40,7 @@ import {
     @ApiResponse({ status: 404, description: 'Registro de diabetes não encontrado.' })
     @Get('diabetes/:id')
     async getUserDiabetes(@Param() params: GetDiabetesDTO) {
-       try {
+      try {
         const record = await this.medicalRecordService.getUserDiabetes(params);
 
         return { data: record };
