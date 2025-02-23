@@ -135,7 +135,7 @@ export default function Layout() {
 
         {/* Tela de CheckSuccess */}
         <Stack.Screen
-          name="screens/Feedbacks/checkSucess"
+          name="screens/Feedbacks/checkSuccess"
           options={{
             title: "Sucesso",
             headerShown: false,

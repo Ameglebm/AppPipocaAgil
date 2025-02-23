@@ -110,7 +110,7 @@ function Inputs() {
         const token = response.data.token;
         await AsyncStorage.setItem("userToken", token);
         console.log("Usuário criado com sucesso");
-        router.replace("../Feedbacks/CheckSucess");
+        router.replace("../Feedbacks/checkSuccess");
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {

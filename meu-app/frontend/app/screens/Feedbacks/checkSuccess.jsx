@@ -10,7 +10,7 @@ import React from "react";
 import { useRouter } from "expo-router";
 import sucessImage from "../../assets/images/sucess.webp";
 
-export default function CheckSucess() {
+export default function CheckSuccess() {
   const router = useRouter();
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -27,7 +27,7 @@ export default function CheckSucess() {
       <TouchableOpacity style={styles.btn}>
         <Text
           style={styles.textBtn}
-          onPress={() => router.replace("../Auth/LoginScreen")}
+          onPress={() => router.replace("../Auth/loginScreen")}
         >
           Ir para login
         </Text>
