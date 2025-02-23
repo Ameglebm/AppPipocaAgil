@@ -46,3 +46,19 @@ export class MetaGlicemicaDTO {
   @IsNumber({ }, { message: 'Meta máxima deve ser um número' })
   metaMax!: number;
 }
+
+export class InsulinAdministrationDTO {
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({ }, { message: 'ID do usuário deve ser um número' })
+  userId!: number;
+
+  @ApiProperty({ example: 'number', description: 'ID da administração de insulina' })
+  @IsNumber({ }, { message: 'Administração de insulina deve ser um número' })
+  adminInsulinaId!: number;
+}
+
+export class GetInsulinAdministrationDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+}
