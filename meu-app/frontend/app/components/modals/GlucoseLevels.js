@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import PropTypes from "prop-types";
 
 // Componentes
 import XClose from "../SvgComponents/XClose";
@@ -54,6 +55,15 @@ const GlucoseLevels = ({
       </View>
     </Modal>
   );
+};
+
+GlucoseLevels.propTypes = {
+  visible: PropTypes.bool.isRequired, // Deve ser um booleano (true/false) e é obrigatório
+  onClose: PropTypes.func.isRequired, // Deve ser uma função e é obrigatório
+  title: PropTypes.string, // Deve ser uma string
+  message: PropTypes.string, // Deve ser uma string
+  style: PropTypes.object, // Deve ser um objeto de estilos do React Native
+  iconType: PropTypes.oneOf(["normal", "error", "low", "high"]), // Deve ser uma string com valores limitados
 };
 
 export default GlucoseLevels;

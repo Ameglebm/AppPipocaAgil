@@ -42,6 +42,7 @@ CustomInput.propTypes = {
   title: PropTypes.string,
   onChangeText: PropTypes.func,
   style: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keyboardType: PropTypes.oneOf([
     "default",
     "email-address",

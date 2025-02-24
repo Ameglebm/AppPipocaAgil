@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import AlertTriangle from "./SvgComponents/AlertTriangle";
+import PropTypes from "prop-types";
 
 const ConfirmationModal = ({
   visible,
@@ -39,6 +40,15 @@ const ConfirmationModal = ({
       </View>
     </Modal>
   );
+};
+
+ConfirmationModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  style: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

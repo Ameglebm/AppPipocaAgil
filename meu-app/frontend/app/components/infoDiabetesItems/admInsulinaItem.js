@@ -128,15 +128,15 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
 AdmInsulinaItem.propTypes = {
   scrollToNextSlide: PropTypes.func.isRequired,
   item: PropTypes.shape({
-    id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
-    title: PropTypes.string,
-    typeOne: PropTypes.string,
-    typeTwo: PropTypes.string,
-    typeThree: PropTypes.string,
-    typeFour: PropTypes.string,
-    typeFive: PropTypes.string,
-    typeSix: PropTypes.string,
-  }).isRequired, // item é obrigatório
+    id: PropTypes.string.isRequired, // O id de item é uma string obrigatória
+    title: PropTypes.string, // O título é opcional
+    types: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired, // Cada tipo deve ter um id numérico
+        name: PropTypes.string.isRequired, // Cada tipo deve ter um nome string obrigatório
+      })
+    ).isRequired, // O array de tipos é obrigatório
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({

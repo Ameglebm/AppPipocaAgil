@@ -1,5 +1,6 @@
 import * as React from "react";
 import Svg, { Path, Rect } from "react-native-svg";
+import PropTypes from "prop-types";
 
 const XClose = ({
   size = 24,
@@ -36,6 +37,14 @@ const XClose = ({
       />
     </Svg>
   );
+};
+
+// Validação das props
+XClose.propTypes = {
+  size: PropTypes.number, // Tamanho do ícone (excluindo padding)
+  color: PropTypes.string, // Cor do "X"
+  backgroundColor: PropTypes.string, // Cor do fundo circular
+  padding: PropTypes.number, // Espaço ao redor do ícone
 };
 
 export default XClose;
