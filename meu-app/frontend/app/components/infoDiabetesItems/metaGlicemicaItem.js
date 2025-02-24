@@ -14,10 +14,23 @@ import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ButtonSave from "../ButtonSave";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import api from "../../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   // Busca o item com id === '3' no array de dados
   const metaGlicemica = data.find((item) => item.id === "3");
+
+  const userId = useSelector((state) => state.auth.userId);
+
+  // Define os rótulos para os diferentes momentos glicêmicos
+  const text = [
+    { id: "1", text: "Em jejum" },
+    { id: "2", text: "Pré-Refeição" },
+    { id: "3", text: "Pós-Refeição" },
+    { id: "4", text: "Noturno" },
+  ];
 
   // Estado para armazenar os valores inseridos pelo usuário
   const [valores, setValores] = useState([
@@ -55,21 +68,63 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
   };
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
-  const handleSave = () => {
-    // API
-    console.log("salvo: ", valores);
-    if (valores != null) {
-      scrollToNextSlide();
+  const handleSave = async () => {
+    if (!userId) {
+      console.error("Erro: userId não encontrado.");
+      return;
+    }
+
+    try {
+      // Recupera o token do AsyncStorage
+      const token = await AsyncStorage.getItem("authToken");
+      if (!token) {
+        console.error("Erro: Token de autenticação não encontrado.");
+        return;
+      }
+
+      // Cria o payload da requisição
+      const payload = valores.map((valor, index) => ({
+        userId,
+        periodoId: Number(text[index]?.id) || 0,
+        metaMin: Number(valor?.minimo) || 0,
+        metaIdeal: Number(valor?.ideal) || 0,
+        metaMax: Number(valor?.maximo) || 0,
+      }));
+
+      console.log("Enviando payload:", payload);
+
+      // Faz a requisição com o token de autenticação
+      const response = await api.post("/medicalRecord/metaGlicemica", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      switch (response.status) {
+        case 201:
+          console.log("Meta glicêmica registrada com sucesso!");
+          scrollToNextSlide();
+          break;
+
+        case 400:
+          console.error("Erro de validação! Verifique os dados enviados.");
+          break;
+
+        case 500:
+          console.error("Erro interno do servidor");
+          break;
+
+        default:
+          console.error("Resposta inesperada do servidor", response.status);
+          break;
+      }
+    } catch (error) {
+      console.error(
+        "Erro na requisição:",
+        error.response?.data || error.message
+      );
     }
   };
-
-  // Define os rótulos para os diferentes momentos glicêmicos
-  const text = [
-    { id: "1", text: "Em jejum" },
-    { id: "2", text: "Pré-Refeição" },
-    { id: "3", text: "Pós-Refeição" },
-    { id: "4", text: "Noturno" },
-  ];
 
   const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 10;
 

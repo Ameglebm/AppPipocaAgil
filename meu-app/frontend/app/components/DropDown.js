@@ -14,7 +14,7 @@ const Dropdown = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <View style={styles.dropDownContainer}>
+    <View style={[styles.dropDownContainer, style?.dropDownContainer]}>
       <View style={styles.labelContainer}>
         <Text style={[styles.label, style]}>{title}</Text>
       </View>
@@ -26,18 +26,20 @@ const Dropdown = ({
         value={value} // Usa o valor passado do pai
         items={items}
         setValue={(callback) => {
-          const selectedValue = callback(value);
+          const selectedValue =
+            typeof callback === "function" ? callback(value) : callback;
           console.log("Valor selecionado no Dropdown:", selectedValue);
-          onValueChange && onValueChange(selectedValue); // Atualiza valor no pai
+          onValueChange && onValueChange(selectedValue);
         }}
         placeholder={placeholder || "Selecione uma opção"}
         placeholderStyle={{
           color: "#B1B0AF",
           fontFamily: "Lato_400Regular",
+          fontSize: 16,
         }}
         dropDownContainerStyle={{
-          borderWidth: 0,
-          borderColor: "transparent",
+          borderWidth: 1,
+          borderColor: "#E5E5E5",
           elevation: 0,
           maxHeight: "auto",
         }}
@@ -47,6 +49,7 @@ const Dropdown = ({
         listItemLabelStyle={{
           fontFamily: "Urbanist_400Regular",
           color: "#282828",
+          fontSize: 15,
         }}
       />
     </View>
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     width: 320,
     gap: 8,
     marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 24,
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -82,15 +85,15 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingHorizontal: 16,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 5,
     backgroundColor: "#FDFDFD",
-    width: "100%",
+    width: 320,
     height: 44,
+    minHeight: 44,
     fontFamily: "Urbanist_700Bold",
     lineHeight: 22,
     color: "#373737",
