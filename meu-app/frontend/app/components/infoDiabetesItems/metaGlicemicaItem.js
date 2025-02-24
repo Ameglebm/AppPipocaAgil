@@ -94,18 +94,34 @@ const MetaGlicemicaScreen = ({ scrollToNextSlide }) => {
       console.log("Enviando payload:", payload);
 
       // Faz a requisição com o token de autenticação
-      const { data } = await api.post("/medicalRecord/metaGlicemica", payload, {
+      const response = await api.post("/medicalRecord/metaGlicemica", payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log("Dados enviados com sucesso!", data);
-      scrollToNextSlide();
+      switch (response.status) {
+        case 201:
+          console.log("Meta glicêmica registrada com sucesso!");
+          scrollToNextSlide();
+          break;
+
+        case 400:
+          console.error("Erro de validação! Verifique os dados enviados.");
+          break;
+
+        case 500:
+          console.error("Erro interno do servidor");
+          break;
+
+        default:
+          console.error("Resposta inesperada do servidor", response.status);
+          break;
+      }
     } catch (error) {
       console.error(
         "Erro na requisição:",
-        error.response?.data || error.message || "Erro desconhecido"
+        error.response?.data || error.message
       );
     }
   };
