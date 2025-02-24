@@ -11,33 +11,75 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../ButtonSave";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import api from "../../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
 
 export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === "2";
-  const diabetesTypes = isTipoDiabetesScreen
-    ? [
-        item.typeOne,
-        item.typeTwo,
-        item.typeThree,
-        item.typeFour,
-        item.typeFive,
-        item.typeSix,
-      ]
-    : [];
+
+  const userId = useSelector((state) => state.auth.userId);
+
+  const diabetesTypes = isTipoDiabetesScreen ? item.types : [];
 
   // Estado para controlar o tipo selecionado
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState(0);
 
   // Função para selecionar o tipo de diabetes
-  const handleSelectType = (type) => {
-    setSelectedType((prev) => (prev === type ? null : type));
+  const handleSelectType = (id) => {
+    setSelectedType((prev) => (prev === id ? 0 : id));
   };
 
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
-  const handleSave = () => {
-    console.log("salvo", selectedType);
-    if (selectedType != null) {
-      scrollToNextSlide();
+  const handleSave = async () => {
+    if (!userId) {
+      console.error("Erro: userId não encontrado");
+      return;
+    }
+
+    try {
+      const token = await AsyncStorage.getItem("authToken");
+      if (!token) {
+        console.error("Erro: Token de autenticação não encontrado.");
+        return;
+      }
+
+      const payload = {
+        userId,
+        adminInsulinaId: selectedType,
+      };
+
+      console.log("Enviando payload:", payload);
+
+      const response = await api.post("/medicalRecord/adminInsulina", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      switch (response.status) {
+        case 201:
+          console.log("Adminstração de insulina registrada com sucesso!");
+          scrollToNextSlide();
+          break;
+
+        case 400:
+          console.error("Erro de validação! Verifique os dados enviados.");
+          break;
+
+        case 500:
+          console.error("Erro interno do servidor");
+          break;
+
+        default:
+          console.error("Resposta inesperada do servidor", response.status);
+          break;
+      }
+    } catch (error) {
+      console.error(
+        "Erro na requisição:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -58,17 +100,17 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
                   style={[
                     styles.typeContainer,
                     { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
-                    selectedType === item && styles.selectedTypeContainer,
+                    selectedType === item.id && styles.selectedTypeContainer,
                   ]}
-                  onPress={() => handleSelectType(item)}
+                  onPress={() => handleSelectType(item.id)}
                 >
                   <Text
                     style={[
                       styles.typeText,
-                      selectedType === item && styles.selectedTypeText,
+                      selectedType === item.id && styles.selectedTypeText,
                     ]}
                   >
-                    {item}
+                    {item.name}
                   </Text>
                 </TouchableOpacity>
               </View>
