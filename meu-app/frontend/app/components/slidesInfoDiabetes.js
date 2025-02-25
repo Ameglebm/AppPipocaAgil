@@ -8,14 +8,16 @@ export default [
     id: "1",
     title: "Tipo de Diabetes", // Titulo da tela
     height: 455, // Altura
-    typeOne: "Tipo 1", // Tipos de Diabetes
-    typeTwo: "Tipo 2",
-    typeThree: "Gestacional",
-    typeFour: "LADA",
-    typeFive: "MODY",
-    typeSix: "Diabetes Secundário",
-    typeSeven: "Pré-diabetes",
-    typeEight: "Não tenho diabetes",
+    types: [
+      {id: 1, name: "Tipo 1"}, // Tipos de Diabetes
+      {id: 2, name:  "Tipo 2"},
+      {id: 3, name:  "Gestacional"},
+      {id: 4, name:  "LADA"} ,
+      {id: 5, name: "MODY"},
+      {id: 6, name: "Diabetes Secundário"},
+      {id: 7, name: "Pré-diabetes"},
+      {id: 8, name: "Não tenho diabetes"},
+    ]
   },
   {
     id: "2",

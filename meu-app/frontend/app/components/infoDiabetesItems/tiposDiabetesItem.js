@@ -11,35 +11,94 @@ import {
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../ButtonSave";
+import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../services/api";
 
 export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === "1"; // Verifica se o slide atual é o da tela de tipos de diabetes
   // Define os tipos de diabetes disponíveis, caso seja a tela correta
   const diabetesTypes = isTipoDiabetesScreen
-    ? [
-        item.typeOne,
-        item.typeTwo,
-        item.typeThree,
-        item.typeFour,
-        item.typeFive,
-        item.typeSix,
-        item.typeSeven,
-        item.typeEight,
-      ]
-    : [];
+    ? item.types : [];
 
   // Estado para controlar qual tipo de diabetes está selecionado
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState(0);
+
+  // Obtém o userId do estado Redux com validação
+  const userId = useSelector((state) => state.auth.userId);
+  const [error, setError] = useState(null);
 
   // Função que altera o estado ao selecionar um tipo
-  const handleSelectType = (type) => {
-    setSelectedType((prev) => (prev === type ? null : type));
+  const handleSelectType = (id) => {
+    setSelectedType((prev) => (prev === id ? 0 : id));
   };
 
-  const handleSave = () => {
-    console.log("salvo", selectedType);
-    if (selectedType != null) {
-      scrollToNextSlide();
+  // Função para salvar os dados na API
+  const handleSave = async () => {
+    let payload;
+    console.log(payload)
+    if (!userId) {
+      setError('Usuário não autenticado. Por favor, faça login novamente.');
+      return;
+    }
+    
+    try {
+
+      const token = await AsyncStorage.getItem("authToken");
+
+      if (!selectedType) {
+        setError('Por favor, selecione um tipo de diabetes.');
+        return;
+      }
+
+      
+      // Formatação específica do payload
+      payload = {
+        userId, 
+        diabetesId: selectedType.id 
+      };
+
+      console.log('Iniciando requisição para a API...', payload);
+      const response = await api.post("/medicalRecord/diabetes", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json' // Adiciona header explícito
+        },
+      });
+      
+      switch (response.status) {
+        case 201:
+          console.log("Tipo de diabetes registrado com sucesso!");
+          setError(null);
+          scrollToNextSlide();
+          break;
+
+        case 400:
+          setError("Erro de validação! Verifique os dados enviados.");
+          break;
+
+        case 500:
+          setError("Erro interno do servidor");
+          break;
+
+        default:
+          setError(`Erro inesperado: ${response.status}`);
+          break;
+      }
+
+    } catch (error) {
+      console.error('❌ ERRO NO PROCESSO DE SALVAMENTO:', {
+        mensagemErro: error.message,
+        dadosResposta: error.response?.data,
+        statusCode: error.response?.status,
+        payloadEnviado: payload,
+        headerEnviado: error.config?.headers
+      });
+      
+      setError(
+        error.response?.data?.message || 
+        'Erro ao salvar. Por favor, tente novamente.'
+      );
     }
   };
 
@@ -51,6 +110,9 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
         >
           {item.title}
         </Text>
+        {error && (
+          <Text style={styles.errorText}>{error}</Text>
+        )}
         {/* Renderiza a lista de tipos de diabetes, caso seja a tela correspondente */}
         {isTipoDiabetesScreen && (
           <FlatList
@@ -62,22 +124,22 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
                   style={[
                     styles.typeContainer,
                     { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
-                    selectedType === item && styles.selectedTypeContainer, // Aplica estilo ao item selecionado
+                    selectedType?.id === item.id && styles.selectedTypeContainer, // Aplica estilo ao item selecionado
                   ]}
                   onPress={() => handleSelectType(item)} // Seleciona o tipo ao pressionar
                 >
                   <Text
                     style={[
                       styles.typeText,
-                      selectedType === item && styles.selectedTypeText,
+                      selectedType?.id === item.id && styles.selectedTypeText,
                     ]}
                   >
-                    {item}
+                    {item.name}
                   </Text>
                 </TouchableOpacity>
               </View>
             )}
-            keyExtractor={(type, index) => index.toString()} // Define uma chave única para cada item da lista
+            keyExtractor={(item) => item.id.toString()} // Define uma chave única para cada item da lista
           />
         )}
       </View>
@@ -92,14 +154,12 @@ TiposDiabetesItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired, // id é obrigatório e deve ser uma string
     title: PropTypes.string,
-    typeOne: PropTypes.string,
-    typeTwo: PropTypes.string,
-    typeThree: PropTypes.string,
-    typeFour: PropTypes.string,
-    typeFive: PropTypes.string,
-    typeSix: PropTypes.string,
-    typeSeven: PropTypes.string,
-    typeEight: PropTypes.string,
+    types: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired
+      })
+    ),
   }).isRequired, // item é obrigatório
 };
 
@@ -140,5 +200,10 @@ const styles = StyleSheet.create({
   },
   selectedTypeText: {
     color: "#FDFDFD", // Cor de destaque do texto selecionado
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });

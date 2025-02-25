@@ -3,7 +3,7 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreateDiabetesDTO {
   @ApiProperty({ example: '123', description: 'ID do usuário' })
-  @IsNumber({}, { message: 'O ID do usuário deve ser um number.' })
+  @IsNumber({}, { message: 'O ID do usuário deve ser uma string.' })
   userId!: number;
 
   @ApiProperty({ example: '1', description: 'ID do tipo de diabetes' })
@@ -45,4 +45,20 @@ export class MetaGlicemicaDTO {
   @ApiProperty({ example: 'number', description: 'Meta máxima' })
   @IsNumber({ }, { message: 'Meta máxima deve ser um número' })
   metaMax!: number;
+}
+
+export class InsulinAdministrationDTO {
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({ }, { message: 'ID do usuário deve ser um número' })
+  userId!: number;
+
+  @ApiProperty({ example: 'number', description: 'ID da administração de insulina' })
+  @IsNumber({ }, { message: 'Administração de insulina deve ser um número' })
+  adminInsulinaId!: number;
+}
+
+export class GetInsulinAdministrationDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
 }
