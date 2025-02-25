@@ -1,6 +1,6 @@
 
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, GetDiabetesDTO, MetaGlicemicaDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -11,13 +11,14 @@ export class MedicalRecordService implements IMedicalRecordService {
 
   async createUserDiabetes(data: CreateDiabetesDTO): Promise<void> {
 
-    const record: ResponseDTO = await this.medicalRecordRepository.getUserDiabetesByUserId(data.userId);
+    const record: ResponseDTO = await this.medicalRecordRepository.findByRecordId(data.userId);
 
+    console.log('record:', record)
     if(!record) {
-      await this.medicalRecordRepository.createUserDiabetesRecord(data);
+      await this.medicalRecordRepository.createRecord(data);
     } else {
       const id = record.id;
-      await this.medicalRecordRepository.updateUserDiabetesRecord(data, id);
+      await this.medicalRecordRepository.updateRecord(data, id);
     }
     
   }
@@ -25,7 +26,7 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getUserDiabetes(params: GetDiabetesDTO): Promise<any | null> {
     const userId = parseInt(params.id, 10)
 
-    const record = await this.medicalRecordRepository.getUserDiabetesByUserId(userId);
+    const record = await this.medicalRecordRepository.findByRecordId(userId);
     
     if (!record) {
       throw new NotFoundException("Registro de diabetes não encontrado.");
@@ -38,28 +39,5 @@ export class MedicalRecordService implements IMedicalRecordService {
     for (const leitura of leituraGlicemia) {
       await this.medicalRecordRepository.registerGlucoseTarget(leitura);
     }
-  }
-
-  async createInsulinAdministration(insulinAdministrationDTO: InsulinAdministrationDTO): Promise<void> {
-    const record: ResponseDTO = await this.medicalRecordRepository.getInsulinAdministrationByUserId(insulinAdministrationDTO.userId);
-
-    if(!record) {
-      await this.medicalRecordRepository.createInsulinAdministrationRecord(insulinAdministrationDTO);
-    } else {
-      const id = record.id;
-      await this.medicalRecordRepository.updateInsulinAdministrationRecord(insulinAdministrationDTO, id);
-    }
-  }
-
-  async getInsulinAdministration(params: GetInsulinAdministrationDTO): Promise<any | null> {
-    const userId = parseInt(params.id, 10)
-
-    const record = await this.medicalRecordRepository.getInsulinAdministrationByUserId(userId);
-    
-    if (!record) {
-      throw new NotFoundException("Registro de administração de insulina não encontrado.");
-    }
-
-    return record;
   }
 }
