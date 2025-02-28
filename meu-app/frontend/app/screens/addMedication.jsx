@@ -2,12 +2,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // Redux
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   pushMedication,
   updateMedicationField,
 } from "../reducers/medicationActions";
+
+// API
+import api from "../services/api";
 
 // Componentes
 import ButtonSave from "../components/ButtonSave";
@@ -23,11 +28,13 @@ const addMedication = () => {
   const isEditing = params.isEditing || false;
   const dispatch = useDispatch();
 
+  const userId = useSelector((state) => state.auth.userId);
+
   const [nameMedication, setNameMedication] = useState(params.name || "");
   const [treatment, setTreatment] = useState(params.treatment || "");
   const [dosageAdm, setDosageAdm] = useState(params.dosageAdm || "");
   const [unit, setUnit] = useState(params.unit || "");
-  const [doseLeft, setDoseLeft] = useState(params.doseLeft || "");
+  const [doseLeft, setDoseLeft] = useState(params.doseLeft || 0);
   const [modalVisible, setModalVisible] = useState(false); //Controle de visibilidade do modal
 
   useEffect(() => {
@@ -40,7 +47,7 @@ const addMedication = () => {
     }
   }, [modalVisible]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const medicationData = {
       name: nameMedication,
       treatment: treatment,
@@ -59,10 +66,63 @@ const addMedication = () => {
 
     setModalVisible(true);
 
-    setTimeout(() => {
-      setModalVisible(false);
-      router.back(); // Redireciona para MedicamentoItem
-    }, 1500);
+    if (!userId) {
+      console.error("Erro: userId não encontrado");
+      return;
+    }
+
+    try {
+      const token = await AsyncStorage.getItem("authToken");
+      if (!token) {
+        console.error("Erro: Token de autenticação não encontrado");
+        return;
+      }
+
+      const payload = {
+        userId,
+        nomeMedicamento: nameMedication,
+        tipoDosagem: unit,
+        tipoTratamentoId: treatment ? parseInt(treatment, 10) : 1,
+        dosagemPorAdministracao: dosageAdm,
+        dosesRestantes: Number(doseLeft) || 0,
+      };
+
+      console.log("Enviando payload:", payload);
+
+      const response = await api.post("/userMedicines", payload, {
+        header: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      switch (response.status) {
+        case 201:
+          console.log("Medicamento do usuário registrado com sucesso!");
+          setTimeout(() => {
+            setModalVisible(false);
+            router.back(); // Redireciona para MedicamentoItem
+          }, 1500);
+          break;
+
+        case 400:
+          console.error("Erro de validação! Verifique os dados enviados.");
+          break;
+
+        case 500:
+          console.error("Erro interno do servidor");
+          break;
+
+        default:
+          console.error("Resposta inesperada do servidor", response.status);
+          break;
+      }
+    } catch (error) {
+      console.error(
+        "Erro na requisição:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (
@@ -83,21 +143,23 @@ const addMedication = () => {
 
       <Dropdown
         items={[
-          { label: "Pressão arterial", value: "Pressão arterial" },
-          { label: "Diabetes", value: "Diabetes" },
-          { label: "Colesterol", value: "Colesterol" },
-          { label: "Obesidade", value: "Obesidade" },
-          { label: "Doenças hepáticas", value: "Doenças hepáticas" },
+          { id: 1, label: "Pressão arterial", value: "1" },
+          { id: 2, label: "Diabetes", value: "2" },
+          { id: 3, label: "Colesterol", value: "3" },
+          { id: 4, label: "Obesidade", value: "4" },
+          { id: 5, label: "Doenças hepáticas", value: "5" },
           {
+            id: 6,
             label: "Doenças renal crônica",
-            value: "Doenças renal crônica",
+            value: "6",
           },
-          { label: "Doenças autoimunes", value: "Doenças autoimunes" },
-          { label: "Infecções", value: "Infecções" },
+          { id: 7, label: "Doenças autoimunes", value: "7" },
+          { id: 8, label: "Infecções", value: "8" },
         ]}
         placeholder={"Selecione o tratamento"}
         value={treatment}
         onValueChange={(item) => setTreatment(item)}
+        keyExtractor={(item) => item.id} // Evita erro de chave duplicada
         title={"Para qual tratamento?"}
       />
 
