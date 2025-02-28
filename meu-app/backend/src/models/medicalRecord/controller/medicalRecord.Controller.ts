@@ -106,4 +106,19 @@ export class MedicalRecordController {
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
+
+  @ApiOperation({ summary: 'Retorna todos os tipos de diabetes' })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
+  @ApiResponse({ status: 401, description: 'Erro de autenticação' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @Get('typesDiabetes')
+  async getTypesDiabetes(): Promise<string[]> {
+    try {
+      return await this.medicalRecordService.getTypesDiabetes();
+    } catch (error) {
+      console.error('Erro ao buscar tipos de diabetes', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  }
+
 }

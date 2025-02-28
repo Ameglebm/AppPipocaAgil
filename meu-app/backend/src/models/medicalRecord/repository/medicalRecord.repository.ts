@@ -68,4 +68,11 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
       }
     })
   }
+
+  async findAllTypesDiabetes(): Promise<string[]> {
+    const results = await prisma.tipo_diabetes.findMany({
+      select: { nome: true }
+    });
+    return results.map(item => item.nome);
+  }
 }
