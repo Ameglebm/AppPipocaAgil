@@ -29,7 +29,7 @@ export default function ScreenOne() {
 
   const handleItemClick = (id) => {
     if (id === "2") {
-      router.push("/screens/registerGlucose");
+      router.push("/screens/registerPeso");
     } else {
       router.push("/screens/infoDiabetes");
     }

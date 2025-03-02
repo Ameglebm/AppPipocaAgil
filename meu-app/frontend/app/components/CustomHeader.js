@@ -4,21 +4,22 @@ import { useRouter } from "expo-router";
 import BackIconSvg from "./SvgComponents/BackIconSvg";
 import PropTypes from "prop-types";
 
-const CustomHeader = ({ title, style }) => {
+const CustomHeader = ({ title, containerStyle, titleStyle }) => {
   const router = useRouter();
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, containerStyle]}>
       <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
         <BackIconSvg />
       </TouchableOpacity>
-      <Text style={[styles.title, style]}>{title}</Text>
+      <Text style={[styles.title, titleStyle]}>{title}</Text>
     </View>
   );
 };
 
 CustomHeader.propTypes = {
   title: PropTypes.string,
-  style: PropTypes.object,
+  containerStyle: PropTypes.object,
+  titleStyle: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
