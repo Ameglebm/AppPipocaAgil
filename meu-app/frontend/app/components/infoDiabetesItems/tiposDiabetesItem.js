@@ -36,7 +36,7 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
   // Função para salvar os dados na API
   const handleSave = async () => {
     let payload;
-    
+    console.log(payload)
     if (!userId) {
       setError('Usuário não autenticado. Por favor, faça login novamente.');
       return;
