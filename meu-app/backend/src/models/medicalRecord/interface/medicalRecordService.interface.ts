@@ -7,4 +7,5 @@ export interface IMedicalRecordService {
   createInsulinAdministration(insulinAdministrationDTO: InsulinAdministrationDTO): Promise<void>;
   getInsulinAdministration(params: GetInsulinAdministrationDTO): Promise<any | null>;
   getTypesDiabetes(): Promise<string[]>;
+  getTypesTreatments(): Promise<string[]>;
 }

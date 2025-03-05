@@ -121,4 +121,18 @@ export class MedicalRecordController {
     }
   }
 
+  @ApiOperation({ summary: 'Retorna todos os tipos de tratamentos' })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
+  @ApiResponse({ status: 401, description: 'Erro de autenticação' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @Get('typesTreatments')
+  async getTypesTreatments(): Promise<string[]> {
+    try {
+      return await this.medicalRecordService.getTypesTreatments();
+    } catch (error) {
+      console.error('Erro ao buscar tipos de tratamentos', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  }
+
 }

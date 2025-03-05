@@ -67,4 +67,9 @@ export class MedicalRecordService implements IMedicalRecordService {
     const allTypesDiabetes = await this.medicalRecordRepository.findAllTypesDiabetes();
     return allTypesDiabetes;
   }
+
+  async getTypesTreatments(): Promise<string[]> {
+    const allTypesTreatments = await this.medicalRecordRepository.findAllTypesTreatments();
+    return allTypesTreatments;
+  }
 }

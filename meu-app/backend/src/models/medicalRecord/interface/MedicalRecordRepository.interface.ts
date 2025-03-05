@@ -9,4 +9,5 @@ export interface IMedicalRecordRepository {
     getInsulinAdministrationByUserId(userId: number): Promise<any | null>;
     updateInsulinAdministrationRecord(data: InsulinAdministrationDTO, record: number): Promise<void>;
     findAllTypesDiabetes(): Promise<string[]>;
+    findAllTypesTreatments(): Promise<string[]>;
 }
