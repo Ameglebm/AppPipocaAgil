@@ -29,7 +29,7 @@ export default function ScreenOne() {
 
   const handleItemClick = (id) => {
     if (id === "2") {
-      router.push("/screens/Peso");
+      router.push("/screens/Weight");
     } else {
       router.push("/screens/infoDiabetes");
     }
