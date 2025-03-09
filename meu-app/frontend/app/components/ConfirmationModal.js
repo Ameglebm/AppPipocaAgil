@@ -10,6 +10,7 @@ const ConfirmationModal = ({
   title,
   message,
   style,
+  buttonText,
 }) => {
   return (
     <Modal
@@ -20,21 +21,33 @@ const ConfirmationModal = ({
     >
       <View style={[styles.centeredView, style?.centeredView]}>
         <View style={[styles.modalView, style?.modalView]}>
-          <View style={styles.iconContainer}>
-            <View style={styles.warningIcon}>
-              <AlertTriangle style={styles.warningText} />
+          <View style={[styles.iconContainer, style?.iconContainer]}>
+            <View style={[styles.warningIcon, style?.warningIcon]}>
+              <AlertTriangle style={[styles.warningText, style?.warningIcon]} />
             </View>
           </View>
 
-          <Text style={styles.modalTitle}>{title}</Text>
-          <Text style={styles.modalText}>{message}</Text>
+          <View style={{ top: -24 }}>
+            <Text style={[styles.modalTitle, style?.modalTitle]}>{title}</Text>
+            <Text style={[styles.modalText, style?.modalText]}>{message}</Text>
+          </View>
 
-          <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-            <Text style={styles.confirmText}>Confirmar</Text>
+          <TouchableOpacity
+            style={[styles.confirmButton, style?.confirmButton]}
+            onPress={onConfirm}
+          >
+            <Text style={[styles.confirmText, style?.confirmText]}>
+              Confirmar
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-            <Text style={styles.cancelText}>Cancelar</Text>
+          <TouchableOpacity
+            style={[styles.cancelButton, style?.cancelButton]}
+            onPress={onClose}
+          >
+            <Text style={[styles.cancelText, style?.cancelText]}>
+              {buttonText || "Cancelar"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -46,9 +59,10 @@ ConfirmationModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.any.isRequired,
   message: PropTypes.string,
   style: PropTypes.object,
+  buttonText: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
@@ -70,12 +84,12 @@ const styles = StyleSheet.create({
   iconContainer: {
     marginBottom: 16,
     alignItems: "center",
+    top: -24,
   },
   warningIcon: {
     backgroundColor: "#F5A623",
     width: 48,
     height: 48,
-    top: -24,
     borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
@@ -89,24 +103,21 @@ const styles = StyleSheet.create({
     fontFamily: "Urbanist_700Bold",
     fontSize: 18,
     paddingHorizontal: 24,
-    top: -30,
+    paddingBottom: 8,
     color: "#282828",
-    marginBottom: 8,
     textAlign: "center",
   },
   modalText: {
     fontFamily: "Lato_400Regular",
     fontSize: 16,
-    top: -24,
     color: "#282828",
-    marginBottom: 24,
-    textAlign: "center",
+    minHeight: 20,
+    marginBottom: -8,
   },
   confirmButton: {
     backgroundColor: "#2F39D3",
     paddingVertical: 5,
     paddingHorizontal: 42,
-    top: -24,
     borderRadius: 8,
     width: 256,
     height: 36,
@@ -120,7 +131,6 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     paddingVertical: 8,
-    top: -24,
   },
   cancelText: {
     color: "#5E5D5C",

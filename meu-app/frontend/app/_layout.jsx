@@ -14,6 +14,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import MedicationReducer from "./reducers/MedicationReducer";
 import InsulinReducer from "./reducers/InsulinReducer";
 import AuthReducer from "./reducers/authReducer";
+import WeightReducer from "./reducers/WeightReducer";
 
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   medication: MedicationReducer,
   insulin: InsulinReducer,
   auth: AuthReducer,
+  weight: WeightReducer,
 });
 
 const store = configureStore({
@@ -222,6 +224,15 @@ export default function Layout() {
           options={{
             headerShown: false, // Sem header na tela de add medicamentos
           }}
+        />
+        <Stack.Screen
+          name="screens/Weight/index"
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="screens/Weight/registerWeight"
+          options={{ headerShown: false }}
         />
       </Stack>
     </Provider>
