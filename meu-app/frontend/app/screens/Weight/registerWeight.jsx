@@ -12,13 +12,19 @@ import CancelModal from "../../components/ModalConfirmCancel";
 import SuccessModal from "../../components/Modal";
 import ConfirmSaveModal from "../../components/ConfirmationModal";
 
-export default function registerPeso() {
+// Redux
+import { useDispatch } from "react-redux";
+import { addWeightRecord } from "../../reducers/weightActions";
+
+export default function registerWeight() {
   const router = useRouter();
   const [peso, setPeso] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalSuccessVisible, setModalSuccessVisible] = useState(false);
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
+
+  const dispatch = useDispatch();
 
   // Função para verificar se o botão deve estar desabilitado
   useEffect(() => {
@@ -33,7 +39,6 @@ export default function registerPeso() {
     if (modalSuccessVisible) {
       const timer = setTimeout(() => {
         setModalSuccessVisible(false);
-        router.back();
       }, 1500);
 
       return () => clearTimeout(timer);
@@ -58,8 +63,14 @@ export default function registerPeso() {
   };
 
   const handleConfirmSave = () => {
+    dispatch(addWeightRecord(peso)); // Adiciona o peso ao estado global
+
     setModalConfirmVisible(false);
     setModalSuccessVisible(true);
+
+    setTimeout(() => {
+      router.back(); // Navega de volta após 1.5s
+    }, 1500);
   };
 
   const handleCancelSave = () => {
@@ -71,7 +82,7 @@ export default function registerPeso() {
         backgroundColor: "#FDFDFD",
         flex: 1,
         alignItems: "center",
-        paddingTop: 60,
+        paddingTop: 45,
       }}
     >
       <Header title={"Registrar Peso"} />
@@ -106,8 +117,9 @@ export default function registerPeso() {
         onClose={() => setModalConfirmVisible(false)}
         onConfirm={handleConfirmSave}
         onCancel={handleCancelSave} // Fecha o modal se o usuário cancelar
-        title={peso}
+        title={`${peso} kg`}
         message="Deseja salvar registro de peso?"
+        buttonText={"Editar"}
         style={customModalStyles}
       />
 
@@ -136,7 +148,11 @@ const customButtonStyles = {
 
 const customModalStyles = {
   centeredView: {},
-  modalView: {},
+  modalView: {
+    width: 352,
+    height: 210,
+    marginTop: 20,
+  },
 };
 
 const styles = StyleSheet.create({
