@@ -54,7 +54,7 @@ ModalConfirmCancel.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   message: PropTypes.string,
   style: PropTypes.object,
 };
