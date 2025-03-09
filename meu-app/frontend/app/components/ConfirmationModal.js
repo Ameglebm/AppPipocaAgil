@@ -20,21 +20,29 @@ const ConfirmationModal = ({
     >
       <View style={[styles.centeredView, style?.centeredView]}>
         <View style={[styles.modalView, style?.modalView]}>
-          <View style={styles.iconContainer}>
-            <View style={styles.warningIcon}>
-              <AlertTriangle style={styles.warningText} />
+          <View style={[styles.iconContainer, style?.iconContainer]}>
+            <View style={[styles.warningIcon, style?.warningIcon]}>
+              <AlertTriangle style={[styles.warningText, style?.warningIcon]} />
             </View>
           </View>
 
-          <Text style={styles.modalTitle}>{title}</Text>
-          <Text style={styles.modalText}>{message}</Text>
+          <Text style={[styles.modalTitle, style?.modalTitle]}>{title}</Text>
+          <Text style={[styles.modalText, style?.modalText]}>{message}</Text>
 
-          <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-            <Text style={styles.confirmText}>Confirmar</Text>
+          <TouchableOpacity
+            style={[styles.confirmButton, style?.confirmButton]}
+            onPress={onConfirm}
+          >
+            <Text style={[styles.confirmText, style?.confirmText]}>
+              Confirmar
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-            <Text style={styles.cancelText}>Cancelar</Text>
+          <TouchableOpacity
+            style={[styles.cancelButton, style?.cancelButton]}
+            onPress={onClose}
+          >
+            <Text style={[styles.cancelText, style?.cancelText]}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -46,7 +54,7 @@ ConfirmationModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.any.isRequired,
   message: PropTypes.string,
   style: PropTypes.object,
 };
