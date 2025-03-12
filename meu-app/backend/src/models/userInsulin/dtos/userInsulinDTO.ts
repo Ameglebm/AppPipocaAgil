@@ -26,3 +26,14 @@ export class GetUserInsulinDTO{
     id!: number
 }
 
+export class PatchUserInsulinDTO{
+    @ApiProperty({example: '1', description: 'ID do usuário'})
+    @IsNumber({}, {message: 'O ID deve ser um numero'})
+    id!: number
+}
+
+export class DeleteUserInsulinDTO{
+    @ApiProperty({example: '1', description: 'ID do usuário'})
+    @IsNumber({}, {message: 'O ID deve ser um numero'})
+    id!: number
+}
