@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateDiabetesDTO {
@@ -87,6 +87,18 @@ export class CreateUserPressaoArterialDTO {
   @ApiProperty({ example: 'number', description: 'ID do usuário' })
   @IsNumber({}, { message: 'ID do usuário deve ser um número'})
   id!: number
+
+  @ApiProperty({ example: 'number', description: 'ID do usuário'})
+  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
+  userId!: number
+  
+  @ApiProperty({ example: 'number', description: 'Valor da pressão arterial sistólica'})
+  @IsNumber({}, { message: 'Valor da pressão arterial sistólica deve ser um número'})
+  sistolica!: number
+
+  @ApiProperty({ example: 'number', description: 'Valor da pressão arterial diastólica'})
+  @IsNumber({}, { message: 'Valor da pressão arterial distólica deve ser um número'})
+  diastolica!: number
 }
 
 export class GetUserPressaoArterialDTO {
@@ -107,5 +119,4 @@ export class GetHistoricoInclusaoDTO {
   @ApiProperty({ example: 'string', description: 'Historico de inclusão'})
   @IsString({ message: 'Historico de inclusão deve ser uma string.' })
   historico!: string;
-
 }

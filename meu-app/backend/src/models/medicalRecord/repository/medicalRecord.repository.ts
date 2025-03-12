@@ -4,12 +4,6 @@ import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministratio
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
-  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  getUserPressaoArterial(userId: number): Promise<any | null> {
-    throw new Error("Method not implemented.");
-  }
 
   async getUserDiabetesByUserId(id: number): Promise<any | null> {
     const userId = id;
@@ -94,10 +88,9 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
   
   async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
-    await prisma.User_Pressao_Arterial.create({
+    await prisma.user_Pressao_Arterial.create({
       data: {
         userId: data.userId,
-        pressaoArterialId: data.pressaoArterialId,
         sistolica: data.sistolica,
         diastolica: data.diastolica
       },
@@ -105,10 +98,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
 
   async getUserPressaoArterial(userId: number): Promise<any | null> {
-    return await prisma.User_Pressao_Arterial.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    return await prisma.user_Pressao_Arterial.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
   }
 
-  async getHistoricoInclusao(userId: number): Promise<any | null> {
-    return await prisma.historico_inclusao.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
-  }
 }
