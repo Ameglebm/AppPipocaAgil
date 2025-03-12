@@ -83,13 +83,13 @@ export class GetUserGlicemiaDTO {
   id!: string;
 }
 
-export class UserPressaoArterialDTO {
+export class CreateUserPressaoArterialDTO {
   @ApiProperty({ example: 'number', description: 'ID do usuário' })
   @IsNumber({}, { message: 'ID do usuário deve ser um número'})
   id!: number
 }
 
-export class GetPressaoArterialDTO {
+export class GetUserPressaoArterialDTO {
   @ApiProperty({ example: '123', description: 'ID do usuário' })
   @IsString({ message: 'O ID deve ser uma string.' })
   id!: string;
