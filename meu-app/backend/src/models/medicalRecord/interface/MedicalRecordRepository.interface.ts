@@ -8,6 +8,6 @@ export interface IMedicalRecordRepository {
     createInsulinAdministrationRecord(data: InsulinAdministrationDTO): Promise<void>;
     getInsulinAdministrationByUserId(userId: number): Promise<any | null>;
     updateInsulinAdministrationRecord(data: InsulinAdministrationDTO, record: number): Promise<void>;
-    findAllTypesDiabetes(): Promise<string[]>;
-    findAllTypesTreatments(): Promise<string[]>;
+    findAllTypesDiabetes(): Promise<any | null>;
+    findAllTypesTreatments(): Promise<any | null>;
 }

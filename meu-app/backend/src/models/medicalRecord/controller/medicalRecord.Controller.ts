@@ -112,7 +112,7 @@ export class MedicalRecordController {
   @ApiResponse({ status: 401, description: 'Erro de autenticação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @Get('typesDiabetes')
-  async getTypesDiabetes(): Promise<string[]> {
+  async getTypesDiabetes(): Promise<any | null> {
     try {
       return await this.medicalRecordService.getTypesDiabetes();
     } catch (error) {
@@ -126,7 +126,7 @@ export class MedicalRecordController {
   @ApiResponse({ status: 401, description: 'Erro de autenticação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @Get('typesTreatments')
-  async getTypesTreatments(): Promise<string[]> {
+  async getTypesTreatments(): Promise<any | null> {
     try {
       return await this.medicalRecordService.getTypesTreatments();
     } catch (error) {

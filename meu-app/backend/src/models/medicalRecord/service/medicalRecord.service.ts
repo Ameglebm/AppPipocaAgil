@@ -63,13 +63,23 @@ export class MedicalRecordService implements IMedicalRecordService {
     return record;
   }
 
-  async getTypesDiabetes(): Promise<string[]> {
+  async getTypesDiabetes(): Promise<any | null> {
     const allTypesDiabetes = await this.medicalRecordRepository.findAllTypesDiabetes();
+
+    if(allTypesDiabetes.length === 0) {
+        throw new NotFoundException('Tipos de diabetes não encontrados.');
+    }
+
     return allTypesDiabetes;
   }
 
-  async getTypesTreatments(): Promise<string[]> {
+  async getTypesTreatments(): Promise<any | null> {
     const allTypesTreatments = await this.medicalRecordRepository.findAllTypesTreatments();
+
+    if(allTypesTreatments.length === 0) {
+        throw new NotFoundException('Tipos de tratamentos não encontrados.');
+    }
+
     return allTypesTreatments;
   }
 }
