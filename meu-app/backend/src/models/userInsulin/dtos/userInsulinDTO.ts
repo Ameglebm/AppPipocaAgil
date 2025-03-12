@@ -1,39 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumber, IsNotEmpty, IsEnum, isString } from 'class-validator';
 
-type TipoUnidadeInsulina = 'mg ou algum q elas mandarem';
-
 export class CreateUserInsulinDTO{
     @ApiProperty({ example: '1', description: 'ID do usuario' })
     @IsNumber( {}, {message: 'O ID do usuario deve ser number.' })
     userID!: number
 
     @ApiProperty({example: 'Insulina', description: 'Nome da insulina'})
-    @IsString()
+    @IsString({ message: 'O nome da insulina deve ser uma string' })
     @IsNotEmpty()
-    nomeInsulina!: string
+    Insulina!: string
 
-    @ApiProperty({example: 'unidade de medida', description: 'dosagem da insulina'})
-    @IsString()
+    @ApiProperty({example: 'Dosagem', description: 'dosagem da insulina'})
+    @IsNumber({}, {message: 'A dosagem deve ser um numero'})
     @IsNotEmpty()
-    @IsEnum(['mg ou algum ali q elas passarem'])
-    tipoUnidadesInsulina!: TipoUnidadeInsulina
+    dosagem!: number
 }
 
 export class GetUserInsulinDTO{
     @ApiProperty({example: '1', description: 'ID do usuario'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
-    id!: number
+    userId!: number
 }
 
 export class PatchUserInsulinDTO{
     @ApiProperty({example: '1', description: 'ID do usuário'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
-    id!: number
+    UserId!: number
 }
 
 export class DeleteUserInsulinDTO{
     @ApiProperty({example: '1', description: 'ID do usuário'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
-    id!: number
+    userId!: number
 }
