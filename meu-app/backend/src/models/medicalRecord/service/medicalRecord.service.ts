@@ -88,4 +88,20 @@ export class MedicalRecordService implements IMedicalRecordService {
 
     return record;
   }
+
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await this.medicalRecordRepository.createUserPressaoArterial(data);
+  }
+
+  async getUserPressaoArterial(params: GetUserPressaoArterialDTO): Promise<any | null> {
+    const userId = parseInt(params.id, 10)
+
+    const record = await this.medicalRecordRepository.getUserPressaoArterial(userId);
+    
+    if (record.length === 0) {
+      throw new NotFoundException("Registro de pressão arterial do usuário não encontrado.");
+    }
+
+    return record;
+  }
 }
