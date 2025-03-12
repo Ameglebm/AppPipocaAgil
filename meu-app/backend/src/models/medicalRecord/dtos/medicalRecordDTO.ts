@@ -82,3 +82,19 @@ export class GetUserGlicemiaDTO {
   @IsString({ message: 'O ID deve ser uma string.' })
   id!: string;
 }
+
+export class UserPressaoArterialDTO {
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
+  id!: number
+}
+
+export class GetPressaoArterialDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
+  userId!: number;
+}
