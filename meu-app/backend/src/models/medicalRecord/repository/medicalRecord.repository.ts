@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
@@ -59,6 +59,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
   
   async updateInsulinAdministrationRecord(data: InsulinAdministrationDTO, id: number): Promise<void> {
+    // UPDATE user_administracao_insulina SET adminInsulinaId = 2 WHERE id = 1
     await prisma.user_administracao_insulina.update({
       data: {
         adminInsulinaId: data.adminInsulinaId
@@ -67,5 +68,24 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
         id
       }
     })
+  }
+
+  async getTiposGlicemia(): Promise<any | null> {
+    return await prisma.tipo_Glicemia.findMany();
+  }
+
+  async createUserGlicemia(data: UserGlicemiaDTO): Promise<void> {
+    await prisma.user_Glicemia.create({
+      data: {
+        userId: data.userId,
+        glicemiaId: data.glicemiaId,
+        value: data.value
+      },
+    });
+  }
+
+  async getUserGlicemia(userId: number): Promise<any | null> {
+    // SELECT * FROM user_Glicemia WHERE userId = 1
+    return await prisma.user_Glicemia.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
   }
 }
