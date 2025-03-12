@@ -3,6 +3,9 @@ import { IUserInsulinRepository } from "../interface/userInsulinRepository.inter
 import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
 
 export class UserInsulinRepository implements IUserInsulinRepository {
+    getUserInsulinByUserId(userId: number): unknown {
+        throw new Error("Metodo nao implemntado.");
+    }
     async createUserInsulin(data: CreateUserInsulinDTO): Promise<void> {
         await prisma.user_insulina.create({
             data: {
