@@ -107,4 +107,8 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   async getUserPressaoArterial(userId: number): Promise<any | null> {
     return await prisma.User_Pressao_Arterial.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
   }
+
+  async getHistoricoInclusao(userId: number): Promise<any | null> {
+    return await prisma.historico_inclusao.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+  }
 }

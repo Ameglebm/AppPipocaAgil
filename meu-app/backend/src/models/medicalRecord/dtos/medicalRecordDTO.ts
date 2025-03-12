@@ -98,3 +98,14 @@ export class GetUserPressaoArterialDTO {
   @IsNumber({}, { message: 'ID do usuário deve ser um número'})
   userId!: number;
 }
+
+export class GetHistoricoInclusaoDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+
+  @ApiProperty({ example: 'string', description: 'Historico de inclusão'})
+  @IsString({ message: 'Historico de inclusão deve ser uma string.' })
+  historico!: string;
+
+}
