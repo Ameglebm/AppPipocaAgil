@@ -27,7 +27,7 @@ export class GetUserInsulinDTO{
 }
 
 export class PatchUserInsulinDTO{
-    @ApiProperty({ example: '1', description: 'ID da insulina'})
+    @ApiProperty({ example: '1', description: 'ID do registro'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
     id!: number
 
