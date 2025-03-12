@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumber, IsNotEmpty, IsEnum, isString } from 'class-validator';
 
 export class CreateUserInsulinDTO{
-    
+
 
     @ApiProperty({ example: '1', description: 'ID do usuario' })
     @IsNumber( {}, {message: 'O ID do usuario deve ser number.' })
@@ -27,7 +27,6 @@ export class GetUserInsulinDTO{
     @ApiProperty({example: '1', description: 'ID do usuario'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
     userId!: number
-
 }
 
 export class PatchUserInsulinDTO{
