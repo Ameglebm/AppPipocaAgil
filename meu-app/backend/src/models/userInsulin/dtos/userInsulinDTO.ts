@@ -18,6 +18,9 @@ export class CreateUserInsulinDTO{
 }
 
 export class GetUserInsulinDTO{
+    id(id: any, arg1: number) {
+        throw new Error('Method not implemented.');
+    }
     @ApiProperty({example: '1', description: 'ID do usuario'})
     @IsNumber({}, {message: 'O ID deve ser um numero'})
     userId!: number
