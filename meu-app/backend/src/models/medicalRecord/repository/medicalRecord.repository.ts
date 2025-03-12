@@ -1,9 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
+  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getUserPressaoArterial(userId: number): Promise<any | null> {
+    throw new Error("Method not implemented.");
+  }
 
   async getUserDiabetesByUserId(id: number): Promise<any | null> {
     const userId = id;
@@ -59,7 +65,6 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
   
   async updateInsulinAdministrationRecord(data: InsulinAdministrationDTO, id: number): Promise<void> {
-    // UPDATE user_administracao_insulina SET adminInsulinaId = 2 WHERE id = 1
     await prisma.user_administracao_insulina.update({
       data: {
         adminInsulinaId: data.adminInsulinaId
@@ -85,7 +90,21 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
 
   async getUserGlicemia(userId: number): Promise<any | null> {
-    // SELECT * FROM user_Glicemia WHERE userId = 1
     return await prisma.user_Glicemia.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+  }
+  
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await prisma.User_Pressao_Arterial.create({
+      data: {
+        userId: data.userId,
+        pressaoArterialId: data.pressaoArterialId,
+        sistolica: data.sistolica,
+        diastolica: data.diastolica
+      },
+    });
+  }
+
+  async getUserPressaoArterial(userId: number): Promise<any | null> {
+    return await prisma.User_Pressao_Arterial.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
   }
 }

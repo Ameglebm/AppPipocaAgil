@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -163,5 +163,38 @@ export class MedicalRecordController {
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
-}
 
+  @ApiOperation({ summary: 'Registrar pressão arterial do usuário' })
+  @ApiResponse({ status: 201, description: 'Pressão arterial registrada com sucesso' })
+  @ApiResponse({ status: 400, description: 'Erro de validação'})
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
+  @Post('pressaoArterial')
+  async createUserPressaoArterial(@Body() dto: CreateUserPressaoArterialDTO) {
+    try {
+      await this.medicalRecordService.createUserPressaoArterial(dto);
+    } catch (error) {
+      console.error('Erro ao registrar pressão arterial:', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  }
+
+  @ApiOperation({ summary: 'Obter registro de pressão arterial do usuário por ID'})
+  @ApiResponse({ status: 200, description: 'Registro encontrado'})
+  @ApiResponse({ status: 400, description: 'Erro de validação'})
+  @ApiResponse({ status: 404, description: 'Registro de pressão arterial não encontrado.'})
+  @Get('pressaoArterial/:id')
+  async getUserPressaoArterial(@Param() params: GetUserPressaoArterialDTO) {
+    try {
+      const data = await this.medicalRecordService.getUserPressaoArterial(params);
+
+      return { data };
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Registro de pressão arterial não encontrado.') {
+        throw new NotFoundException(error.message);
+      }
+
+      console.error('Erro ao obter registro de pressão arterial:', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  
+}}
