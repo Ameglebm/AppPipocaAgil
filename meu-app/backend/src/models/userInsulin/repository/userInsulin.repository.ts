@@ -14,23 +14,28 @@ export class UserInsulinRepository implements IUserInsulinRepository {
     }
 
     async getUserInsulin(query: GetUserInsulinDTO): Promise<GetUserInsulinDTO | null> {
-        const { userId } = query;
-        return await prisma.user_insulina.findFirst({ where: { userId } });
+        return await prisma.user_insulina.findFirst({ 
+            where: { userId: query.userId } 
+        });
     }
 
     async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
-        const { userId, insulinaId} = data;
+        const { userId } = data;
+        if (!data) {
+            throw new Error("Nenhum dado fornecido para atualizar.");
+        }
+
         await prisma.user_insulina.updateMany({
-            data: { insulina: data.insulinaId
-            },
-            where: {
-                userId,
-            }
+            where: { userId },
+            data: {} 
         });
     }
 
     async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
-        const { userId, } = query;
-        await prisma.user_insulina.deleteMany({ where: { userId,  } }); 
+        await prisma.user_insulina.deleteMany({ 
+            where: { 
+                userId: Number(query.userId), 
+            } 
+        }); 
     }
 }
