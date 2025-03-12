@@ -62,3 +62,23 @@ export class GetInsulinAdministrationDTO {
   @IsString({ message: 'O ID deve ser uma string.' })
   id!: string;
 }
+
+export class UserGlicemiaDTO {
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({ }, { message: 'ID do usuário deve ser um número' })
+  userId!: number;
+
+  @ApiProperty({ example: 'number', description: 'ID do tipo de glicemia' })
+  @IsNumber({ }, { message: 'Tipo de glicemia deve ser um número' })
+  glicemiaId!: number;
+
+  @ApiProperty({ example: 'number', description: 'Valor da glicemia do usuário' })
+  @IsNumber({ }, { message: 'Valor da glicemia do usuário deve ser um número.' })
+  value!: number;
+}
+
+export class GetUserGlicemiaDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+}

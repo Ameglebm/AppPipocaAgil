@@ -1,6 +1,6 @@
 
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -27,7 +27,7 @@ export class MedicalRecordService implements IMedicalRecordService {
 
     const record = await this.medicalRecordRepository.getUserDiabetesByUserId(userId);
     
-    if (!record) {
+    if (record.length === 0)  {
       throw new NotFoundException("Registro de diabetes não encontrado.");
     }
 
@@ -56,8 +56,35 @@ export class MedicalRecordService implements IMedicalRecordService {
 
     const record = await this.medicalRecordRepository.getInsulinAdministrationByUserId(userId);
     
-    if (!record) {
+    if (record.length === 0)  {
       throw new NotFoundException("Registro de administração de insulina não encontrado.");
+    }
+
+    return record;
+  }
+
+  async getTiposGlicemia(): Promise<any | null> {
+
+    const record = await this.medicalRecordRepository.getTiposGlicemia();
+    
+    if (record.length === 0)  {
+      throw new NotFoundException("Registro de tipo de glicemia não encontrado.");
+    }
+
+    return record;
+  }
+
+  async createUserGlicemia(data: UserGlicemiaDTO): Promise<void> {
+    await this.medicalRecordRepository.createUserGlicemia(data);
+  }
+
+  async getUserGlicemia(params: GetUserGlicemiaDTO): Promise<any | null> {
+    const userId = parseInt(params.id, 10)
+
+    const record = await this.medicalRecordRepository.getUserGlicemia(userId);
+    
+    if (record.length === 0) {
+      throw new NotFoundException("Registro de glicemia do usuário não encontrado.");
     }
 
     return record;

@@ -23,6 +23,7 @@ model Users {
   userLembretes       User_Lembretes[]
   userInsulinas       User_insulina[]
   userAdminInsulinas  User_administracao_insulina[]
+  userGlicemia        User_Glicemia[]
 }
 
 model PasswordResetToken {
@@ -123,17 +124,30 @@ model Administracao_insulina {
   id                Int                           @id @default(autoincrement())
   nome              String
   userAdminInsulina User_administracao_insulina[]
-  userInsulina      User_insulina[]
 }
 
 model User_insulina {
-  id          Int                    @id @default(autoincrement())
-  user        Users                  @relation(fields: [userId], references: [id])
-  userId      Int
-  insulina    Administracao_insulina @relation(fields: [insulinaId], references: [id])
-  insulinaId  Int
-  tipoDosagem String
-  dosagemQtd  Float
-  createdAt   DateTime               @default(now())
-  updatedAt   DateTime               @updatedAt
+  id         Int      @id @default(autoincrement())
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     Int
+  insulina   String
+  dosagemQtd Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Tipo_Glicemia {
+  id            Int             @id @default(autoincrement())
+  nome          String
+  User_Glicemia User_Glicemia[]
+}
+
+model User_Glicemia {
+  id         Int           @id @default(autoincrement())
+  user       Users         @relation(fields: [userId], references: [id])
+  userId     Int
+  glicemia   Tipo_Glicemia @relation(fields: [glicemiaId], references: [id])
+  glicemiaId Int
+  value      Int
+  createdAt  DateTime      @default(now())
 }
