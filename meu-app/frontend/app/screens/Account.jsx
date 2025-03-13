@@ -26,40 +26,31 @@ const Account = () => {
   };
 
   return (
-    <View style={styles.mainView}>
+    <View>
       <Header title="Conta" />
 
-      <View style={styles.contentAccount}>
-        <View style={styles.profileContent}>
+      <View>
+        <View>
           <Image source={ImageProfile} />
-          <Text style={styles.textName}>Nome do usuário</Text>
+          <Text>Nome do usuário</Text>
         </View>
 
-        <View style={styles.infoContent}>
-          <Text style={styles.textName}>Detalhes</Text>
+        <View>
+          <Text>Detalhes</Text>
 
           <TouchableOpacity
-            style={styles.infoItem}
             onPress={() => {
               router.push("../screens/infoDiabetes");
             }}
           >
-            <Text style={styles.textDescription}>Informações do Diabetes</Text>
+            <Text>Informações do Diabetes</Text>
             <NextIconSvg />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-            paddingTop: 182,
-          }}
-          onPress={logout}
-        >
+        <TouchableOpacity onPress={logout}>
           <LogoutIcon />
-          <Text style={styles.textDescription}>Sair da conta</Text>
+          <Text>Sair da conta</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -68,51 +59,4 @@ const Account = () => {
 
 export default Account;
 
-const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-    backgroundColor: "#FDFDFD",
-    paddingTop: 45,
-    paddingHorizontal: 20,
-  },
-  contentAccount: {
-    flex: 1,
-    paddingTop: 16,
-    flexDirection: "column",
-    gap: 32,
-  },
-  profileContent: {
-    alignItems: "flex-start",
-    alignSelf: "stretch",
-    gap: 16,
-    flexDirection: "row",
-    paddingTop: 12,
-    paddingBottom: 32,
-    borderBottomWidth: 1,
-    borderBottomColor: "#D1D1D0",
-  },
-  textName: {
-    paddingBottom: 16,
-    fontFamily: "Urbanist_700Bold",
-    fontSize: 18,
-    lineHeight: 19.8,
-  },
-  infoContent: {
-    paddingTop: 10,
-  },
-  infoItem: {
-    flexDirection: "row",
-    paddingVertical: 8,
-    gap: 16,
-    width: 320,
-    height: 52,
-    borderBottomWidth: 1,
-    borderBottomColor: "#D1D1D0",
-  },
-  textDescription: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 16,
-    lineHeight: 22,
-    width: 260,
-  },
-});
+const styles = StyleSheet.create({});
