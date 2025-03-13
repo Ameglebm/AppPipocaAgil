@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     width: 162,
-    height: 42,
+    height: 36,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#2F39D3",

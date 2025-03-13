@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -60,6 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: "#282828",
     textAlign: "center",
+    width: 325,
   },
   description: {
     fontWeight: "400",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     color: "#282828",
     textAlign: "center",
-    width: 308,
+    width: 325,
     height: 83,
   },
 });
