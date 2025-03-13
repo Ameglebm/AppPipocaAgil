@@ -83,6 +83,7 @@ export class GetUserGlicemiaDTO {
   id!: string;
 }
 
+/* Não precisa de id pois ele é automático. Falta colocar os campos date e time.*/
 export class CreateUserPressaoArterialDTO {
   @ApiProperty({ example: 'number', description: 'ID do usuário' })
   @IsNumber({}, { message: 'ID do usuário deve ser um número'})

@@ -156,21 +156,21 @@ model User_Glicemia {
 }
 
 model User_Pressao_Arterial {
-  id         Int            @id @default(autoincrement())
-  user       Users          @relation(fields: [userId], references: [id])
-  userId     Int 
+  id         Int      @id @default(autoincrement())
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     Int
   sistolica  Int
   diastolica Int
-  date       DateTime       @default(now())
-  time       DateTime       @default(now())            
-  createdAt  DateTime       @default(now())
-  
+  //date e time são informados pelo usuário. Não é default(now()). Eles são do tipo string
+  date       DateTime @default(now())
+  time       DateTime @default(now())
+  createdAt  DateTime @default(now())
 }
 
 model User_peso {
-  id         Int           @id @default(autoincrement())
-  user       Users         @relation(fields: [userId], references: [id])
-  userId     Int
-  peso       Float
-  createdAt  DateTime       @default(now())
+  id        Int      @id @default(autoincrement())
+  user      Users    @relation(fields: [userId], references: [id])
+  userId    Int
+  peso      Float
+  createdAt DateTime @default(now())
 }
