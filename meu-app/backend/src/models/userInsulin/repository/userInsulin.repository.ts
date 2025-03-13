@@ -16,6 +16,7 @@ export class UserInsulinRepository implements IUserInsulinRepository {
         });
     }
 
+    /* Corrigir o código após ajustar o DTO */
     async getUserInsulin(query: GetUserInsulinDTO): Promise<any | null> {
         await prisma.user_insulina.findMany({
             where: { 
@@ -25,6 +26,7 @@ export class UserInsulinRepository implements IUserInsulinRepository {
     }
 
 
+    /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */
     async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
         const { userId } = data;
         if (!data) {
@@ -37,6 +39,7 @@ export class UserInsulinRepository implements IUserInsulinRepository {
         });
     }
 
+    /* Está faltando passar o id do registro que quer excluir, juntamento com o userId */
     async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
         await prisma.user_insulina.deleteMany({ 
             where: { 

@@ -11,6 +11,7 @@ import { CreateUserInsulinDTO, DeleteUserInsulinDTO, GetUserInsulinDTO, PatchUse
 export class UserinsulinController { 
     constructor (@Inject('IUserInsulinService') private readonly userInsulinService: IUserInsulinService) {} 
 
+    /* Link deve ser vazio */
     @ApiOperation({ summary: 'Registrar administração de insulina'})
     @ApiResponse({ status: 201, description: 'Administração de insulina registrada com sucesso'})
     @ApiResponse({ status: 400, description: 'Erro de validação'})
@@ -25,6 +26,9 @@ export class UserinsulinController {
         }
     }
 
+    /* Link deve ser apenas :userId. Está faltando o try do try catch. Corrigir DTO para receber apenas o id.
+    No service deve converter o id que é uma string para um number e salvar na variável userId para buscar no repository 
+    Revisar texto do error.message para ser igual ao do service */
     @ApiOperation({ summary: 'Ober registro de insulina'})
     @ApiResponse({ status: 200, description: 'Registro de insulina encontrado'})
     @ApiResponse({ status: 400, description: 'Erro de validação' })
@@ -32,8 +36,7 @@ export class UserinsulinController {
     @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
     @Get('insulina/:id')
     async getUserInsulin(@Param() params: GetUserInsulinDTO) {
-        const record = await this.userInsulinService.getUserInsulin
-        (params)
+        const record = await this.userInsulinService.getUserInsulin(params)
 
         return {data: record}
 
@@ -47,6 +50,9 @@ export class UserinsulinController {
             'Erro interno do servidor'
         )}
 
+    /* PATCH deve usar BODY ao invés de PARAM. Deixar LINK em branco. 
+    Ajustar tratamento do erro, tanto no controller, como no service / repository 
+    Remover o record e chamar direto o await. Não deve retornar nada */
     @ApiOperation({ summary: 'Atualizar registro de insulina'})
     @ApiResponse({ status: 200, description: 'Registro de insulina atualizado com sucesso'})
     @ApiResponse({ status: 400, description: 'Erro de validação'})
@@ -64,6 +70,9 @@ export class UserinsulinController {
             }
          }
 
+        /* Link deve ser :userId/:id
+        Remover o record e chamar direto o await. Não deve retornar nada 
+        O service / repository não tem nenhum throw error, então o catch error do controller não está fazendo nada */
          @ApiOperation({ summary: 'Deletar registro de insulina'})
          @ApiResponse({ status: 200, description: 'Registro de insulina deletado com sucesso'})
          @ApiResponse({ status: 400, description: 'Erro de validação'})

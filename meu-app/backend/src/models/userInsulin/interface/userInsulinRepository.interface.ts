@@ -1,6 +1,7 @@
 import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
 
 export interface IUserInsulinRepository {
+    /* getUserInsulinByUserId não está sendo usado. Remover */
     getUserInsulinByUserId(userId: number): unknown;
     createUserInsulin(data: CreateUserInsulinDTO): Promise<void>;
     getUserInsulin(query: GetUserInsulinDTO): Promise<any | null >;
