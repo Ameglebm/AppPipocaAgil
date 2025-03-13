@@ -1,5 +1,5 @@
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -104,4 +104,19 @@ export class MedicalRecordService implements IMedicalRecordService {
 
     return record;
   }
+
+  async registerPeso(peso: UserPesoDTO): Promise<void> {
+    await this.medicalRecordRepository.registerPeso(peso);
+  }
+
+  async getUserPeso(params: GetUserPesoDTO): Promise<any | null> {
+    const userId = parseInt(params.id, 10);
+    const record = await this.medicalRecordRepository.getUserPeso(userId);
+
+    if (record.length === 0) {
+        throw new NotFoundException("Registro de peso não encontrado.");
+    }
+  
+    return record;
+	}
 }

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
@@ -32,6 +32,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
       }
     })
   }
+
   async registerGlucoseTarget(leitura: MetaGlicemicaDTO): Promise<void> {
     await prisma.meta_Glicemia.create({
       data: {
@@ -98,7 +99,20 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
 
   async getUserPressaoArterial(userId: number): Promise<any | null> {
-    return await prisma.user_Pressao_Arterial.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    return await prisma.user_Pressao_Arterial.findMany({ where: { userId } , orderBy: { createdAt:"desc" }});
   }
+
+	async registerPeso(peso: UserPesoDTO): Promise<void> {
+		await prisma.user_peso.create({
+            data: {
+                    userId: peso.userId,
+                    peso: peso.peso
+            }
+		});
+	}
+
+	async getUserPeso(userId: number): Promise<any | null> {
+        return await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    }
 
 }
