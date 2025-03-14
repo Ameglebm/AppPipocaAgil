@@ -196,7 +196,6 @@ export class MedicalRecordController {
       console.error('Erro ao obter registro de pressão arterial:', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
-  
   }
 
   @ApiOperation({ summary: 'Registra o peso do usuário' })
