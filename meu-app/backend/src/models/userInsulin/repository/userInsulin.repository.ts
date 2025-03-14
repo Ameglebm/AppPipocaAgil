@@ -2,10 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { IUserInsulinRepository } from "../interface/userInsulinRepository.interface";
 import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
 
+// Removido o getUserInsulinByUserId 
+// FINALIZADO
 export class UserInsulinRepository implements IUserInsulinRepository {
-    getUserInsulinByUserId(userId: number): unknown {
-        throw new Error("Metodo nao implemntado.");
-    }
     async createUserInsulin(data: CreateUserInsulinDTO): Promise<void> {
         await prisma.user_insulina.create({
             data: {
@@ -16,7 +15,8 @@ export class UserInsulinRepository implements IUserInsulinRepository {
         });
     }
 
-    /* Corrigido o código após ajustar o DTO */
+    /* Corrigido o código após ajustar o DTO */ 
+    //FINALIZADO
     async getUserInsulin(id: number): Promise<any | null> {
         return await prisma.user_insulina.findMany({
             where: {
@@ -24,32 +24,26 @@ export class UserInsulinRepository implements IUserInsulinRepository {
             }
         })
     }
-    
 
-    async getUserGlicemia(userId: number): Promise<any | null> {
-        return await prisma.user_Glicemia.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
-      }
-
-
-    /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */
+    /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */ //FINALIZADO
     async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
-        const { userId } = data;
-        if (!data) {
-            throw new Error("Nenhum dado fornecido para atualizar.");
-        }
-
-        await prisma.user_insulina.updateMany({
-            where: { userId },
-            data: {} 
+        const { id, ...updateData } = data; 
+        await prisma.user_insulina.update({
+            where: { id: Number(id) }, 
+            data: updateData, 
         });
     }
 
     /* Está faltando passar o id do registro que quer excluir, juntamento com o userId */
+    //FINALIZADO
     async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
-        await prisma.user_insulina.deleteMany({ 
-            where: { 
-                userId: Number(query.userId), 
-            } 
-        }); 
+        const id = Number(query.id); 
+        const userId = Number(query.userId);
+        await prisma.user_insulina.delete({
+            where: {
+                id,
+                userId
+            }
+        });
     }
 }

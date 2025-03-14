@@ -12,7 +12,7 @@ export class UserinsulinService implements IUserInsulinService{
     async createUserInsulin(data: CreateUserInsulinDTO): Promise<void> {
         await this.userInsulinRepository.createUserInsulin(data);
     }
-    
+    // FINALIZADO
     async getUserInsulin(params: GetUserInsulinDTO): Promise<any | null> {
         const userId = parseInt(params.id, 10);
         const record = await this.userInsulinRepository.getUserInsulin(userId);
@@ -23,15 +23,20 @@ export class UserinsulinService implements IUserInsulinService{
     
         return record;
     }
-    
-    
+    // FINALIZADO
     async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
+        const { id } = data;
+        const existingRecord = await this.userInsulinRepository.getUserInsulin(id);
+        if (!existingRecord) {
+            throw new NotFoundException(`Registro de insulina não encontrado`);
+        }
         await this.userInsulinRepository.patchUserInsulin(data);
     }
-    
+    // FINALIZADO
     async deleteUserInsulin(params: DeleteUserInsulinDTO): Promise<void> {
+        const userId = parseInt(params.userId, 10)
+        const id = parseInt(params.id, 10)
+
         await this.userInsulinRepository.deleteUserInsulin(params);
     }
 }
-
-

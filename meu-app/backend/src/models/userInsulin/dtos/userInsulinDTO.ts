@@ -29,11 +29,11 @@ export class PatchUserInsulinDTO{
     @IsNumber({}, {message: 'O ID do registro deve ser um numero'}) 
     id!: number
 
-    @ApiProperty({example: '1', description: 'ID do usuario'})
+    @ApiProperty({ example: '1', description: 'ID do usuario'})
     @IsNumber({}, {message: 'O ID do usuario deve ser um numero'}) 
     userId!: number
 
-    @ApiProperty({ example: 'Dosagem', description: 'dosagem da insulina'})
+    @ApiProperty({ example: 'Dosagem', description: 'Dosagem da insulina'})
     @IsNumber({}, {message: 'A dosagem deve ser um numero'})
     dosagemQtd!: number
 
