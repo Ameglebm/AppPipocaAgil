@@ -2,7 +2,7 @@ import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUse
 
 export interface IUserInsulinService {
     createUserInsulin(data: CreateUserInsulinDTO): Promise<void>;
-    getUserInsulin(query: GetUserInsulinDTO): Promise<any>;
+    getUserInsulin(data: GetUserInsulinDTO): Promise<any>;
     patchUserInsulin(data: PatchUserInsulinDTO): Promise<void>;
     deleteUserInsulin(data: DeleteUserInsulinDTO): Promise<void>;
 }

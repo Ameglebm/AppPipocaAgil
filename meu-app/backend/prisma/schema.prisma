@@ -161,9 +161,8 @@ model User_Pressao_Arterial {
   userId     Int
   sistolica  Int
   diastolica Int
-  //date e time são informados pelo usuário. Não é default(now()). Eles são do tipo string
-  date       DateTime @default(now())
-  time       DateTime @default(now())
+  date       String
+  time       String
   createdAt  DateTime @default(now())
 }
 

@@ -1,4 +1,4 @@
-import { CreateDiabetesDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, UserPesoDTO } from "../dtos/medicalRecordDTO";
 
 export interface IMedicalRecordRepository {
     getUserDiabetesByUserId(userId: number): Promise<any | null>;

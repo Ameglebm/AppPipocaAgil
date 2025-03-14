@@ -16,14 +16,19 @@ export class UserInsulinRepository implements IUserInsulinRepository {
         });
     }
 
-    /* Corrigir o código após ajustar o DTO */
-    async getUserInsulin(query: GetUserInsulinDTO): Promise<any | null> {
-        await prisma.user_insulina.findMany({
-            where: { 
-                userId: Number(query.userId), 
-            } 
-        });
+    /* Corrigido o código após ajustar o DTO */
+    async getUserInsulin(id: number): Promise<any | null> {
+        return await prisma.user_insulina.findMany({
+            where: {
+                userId: id
+            }
+        })
     }
+    
+
+    async getUserGlicemia(userId: number): Promise<any | null> {
+        return await prisma.user_Glicemia.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+      }
 
 
     /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */

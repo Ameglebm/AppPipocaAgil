@@ -80,6 +80,7 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getUserGlicemia(params: GetUserGlicemiaDTO): Promise<any | null> {
     const userId = parseInt(params.id, 10)
 
+
     const record = await this.medicalRecordRepository.getUserGlicemia(userId);
     
     if (record.length === 0) {

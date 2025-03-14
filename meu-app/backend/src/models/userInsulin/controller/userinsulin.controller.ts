@@ -11,12 +11,12 @@ import { CreateUserInsulinDTO, DeleteUserInsulinDTO, GetUserInsulinDTO, PatchUse
 export class UserinsulinController { 
     constructor (@Inject('IUserInsulinService') private readonly userInsulinService: IUserInsulinService) {} 
 
-    /* Link deve ser vazio */
+    // link ajustado para vazio
     @ApiOperation({ summary: 'Registrar administração de insulina'})
     @ApiResponse({ status: 201, description: 'Administração de insulina registrada com sucesso'})
     @ApiResponse({ status: 400, description: 'Erro de validação'})
     @ApiResponse({ status: 500, description: 'Erro interno no servidor'})
-    @Post('insulin')
+    @Post()
     async createUserInsulin(@Body() insulinDto: CreateUserInsulinDTO): Promise<void> {
         try {
             await this.userInsulinService.createUserInsulin(insulinDto);
@@ -29,27 +29,26 @@ export class UserinsulinController {
     /* Link deve ser apenas :userId. Está faltando o try do try catch. Corrigir DTO para receber apenas o id.
     No service deve converter o id que é uma string para um number e salvar na variável userId para buscar no repository 
     Revisar texto do error.message para ser igual ao do service */
+    // feito todos os ajustes
     @ApiOperation({ summary: 'Ober registro de insulina'})
     @ApiResponse({ status: 200, description: 'Registro de insulina encontrado'})
     @ApiResponse({ status: 400, description: 'Erro de validação' })
     @ApiResponse({ status: 404, description: 'Registro de insulina não encontrado'})
     @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
-    @Get('insulina/:id')
+    @Get(':userid')
     async getUserInsulin(@Param() params: GetUserInsulinDTO) {
-        const record = await this.userInsulinService.getUserInsulin(params)
-
-        return {data: record}
-
-    } catch (error: { message: string; }) {
-        if (error instanceof Error && error.message === 'Registro de insulua não encontrado') {
-            throw new NotFoundException(error.message)
+        try {
+            const data = await this.userInsulinService.getUserInsulin(params);
+            return { data };
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                throw error; 
+            }
+            console.error('Erro ao obter registro de insulina', error);
+            throw new InternalServerErrorException('Erro interno do servidor');
         }
-
-        console.error('Erro ao obter registro de insulina', error)
-        throw new InternalServerErrorException(
-            'Erro interno do servidor'
-        )}
-
+    }
+    
     /* PATCH deve usar BODY ao invés de PARAM. Deixar LINK em branco. 
     Ajustar tratamento do erro, tanto no controller, como no service / repository 
     Remover o record e chamar direto o await. Não deve retornar nada */

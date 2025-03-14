@@ -93,7 +93,9 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
       data: {
         userId: data.userId,
         sistolica: data.sistolica,
-        diastolica: data.diastolica
+        diastolica: data.diastolica,
+        date: data.date,
+        time: data.time
       },
     });
   }

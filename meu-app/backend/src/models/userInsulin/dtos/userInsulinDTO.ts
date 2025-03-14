@@ -17,24 +17,20 @@ export class CreateUserInsulinDTO{
     dosagemQtd!: number
 }
 
-/* userId é string */
+// Ajustado para uma string
 export class GetUserInsulinDTO{
-    @ApiProperty({ example: '1', description: 'ID do usuario'})
-    @IsNumber({}, {message: 'O ID deve ser um numero'})
-    Id!: number
-
     @ApiProperty({example: '1', description: 'ID do usuario'})
-    @IsNumber({}, {message: 'O ID deve ser um numero'})
-    userId!: number
+    @IsString({ message: 'O ID do usuario deve ser uma string'})
+    id!: string
 }
 
 export class PatchUserInsulinDTO{
     @ApiProperty({ example: '1', description: 'ID do registro'})
-    @IsNumber({}, {message: 'O ID deve ser um numero'}) // ID do registro
+    @IsNumber({}, {message: 'O ID do registro deve ser um numero'}) 
     id!: number
 
     @ApiProperty({example: '1', description: 'ID do usuario'})
-    @IsNumber({}, {message: 'O ID deve ser um numero'}) // ID do usuário
+    @IsNumber({}, {message: 'O ID do usuario deve ser um numero'}) 
     userId!: number
 
     @ApiProperty({ example: 'Dosagem', description: 'dosagem da insulina'})

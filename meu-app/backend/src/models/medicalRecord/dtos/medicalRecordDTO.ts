@@ -1,4 +1,4 @@
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateDiabetesDTO {
@@ -83,23 +83,27 @@ export class GetUserGlicemiaDTO {
   id!: string;
 }
 
-/* Não precisa de id pois ele é automático. Falta colocar os campos date e time.*/
+// date e hora ajustado e retirado o id
 export class CreateUserPressaoArterialDTO {
-  @ApiProperty({ example: 'number', description: 'ID do usuário' })
-  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
-  id!: number
-
-  @ApiProperty({ example: 'number', description: 'ID do usuário'})
+  @ApiProperty({ example: '1', description: 'ID do usuário'})
   @IsNumber({}, { message: 'ID do usuário deve ser um número'})
   userId!: number
   
-  @ApiProperty({ example: 'number', description: 'Valor da pressão arterial sistólica'})
+  @ApiProperty({ example: '10', description: 'Valor da pressão arterial sistólica'})
   @IsNumber({}, { message: 'Valor da pressão arterial sistólica deve ser um número'})
   sistolica!: number
 
-  @ApiProperty({ example: 'number', description: 'Valor da pressão arterial diastólica'})
+  @ApiProperty({ example: '80', description: 'Valor da pressão arterial diastólica'})
   @IsNumber({}, { message: 'Valor da pressão arterial distólica deve ser um número'})
   diastolica!: number
+
+  @ApiProperty({ example: '07/10/2024', description: 'Data da aferição'})
+  @IsString({ message: 'Valor da data deve ser uma string'})
+  date!: string
+
+  @ApiProperty({ example: '11:00', description: 'Hora da aferição'})
+  @IsString({ message: 'O valor da hora deve ser uma string'})
+  time!: string
 }
 
 export class GetUserPressaoArterialDTO {

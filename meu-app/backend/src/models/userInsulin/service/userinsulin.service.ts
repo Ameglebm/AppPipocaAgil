@@ -1,5 +1,5 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from '../dtos/userInsulinDTO';
+import { Inject, NotFoundException } from '@nestjs/common';
+import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO, } from '../dtos/userInsulinDTO';
 import { IUserInsulinRepository } from '../interface/userInsulinRepository.interface';
 import { IUserInsulinService } from '../interface/userInsulinService.interface';
 
@@ -14,12 +14,13 @@ export class UserinsulinService implements IUserInsulinService{
     }
     
     async getUserInsulin(params: GetUserInsulinDTO): Promise<any | null> {
-        const userId = params.userId;
-        const record = await this.userInsulinRepository.getUserInsulinByUserId(userId);
+        const userId = parseInt(params.id, 10);
+        const record = await this.userInsulinRepository.getUserInsulin(userId);
     
-        if (!record) {
-            throw new NotFoundException("Registro de insulina não encontrado.");
+        if (!record || record.length === 0) {
+            throw new NotFoundException('Registro de insulina não encontrado');
         }
+    
         return record;
     }
     
