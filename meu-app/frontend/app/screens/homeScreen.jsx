@@ -2,6 +2,9 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useState } from 'react'
+import { useRouter } from 'expo-router';
+
 //Import dos icones da TopBar
 import TabLabelSaude from "../components/tabTopIcons/TabLabelSaude";
 import TabLabelHistorico from "../components/tabTopIcons/TabLabelHistorico";
@@ -19,6 +22,7 @@ import HomeTab from "../components/tabBottomIcons/HomeTab";
 import MedicacaoTab from "../components/tabBottomIcons/MedicacaoTab";
 import EmergenciaTab from "../components/tabBottomIcons/EmergenciaTab";
 import RelatoriosTab from "../components/tabBottomIcons/RelatoriosTab";
+import ModalHome from "../components/modals/ModalHome";
 
 import Header from "../components/Header";
 
@@ -63,6 +67,23 @@ function TopTabs() {
       />
     </TopTab.Navigator>
   );
+}
+
+function PopupModalHome() {
+  const [modalVisible, setModalVisible] = useState(true);
+  const router = useRouter();
+
+  const handleContinue = () => {
+    setModalVisible(false);  // Fecha o modal
+    router.push('/screens/infoDiabetes');  // Navega para a tela de informações
+  };
+  return (
+    <ModalHome 
+      modalVisible={modalVisible}
+      onClose={() => setModalVisible(false)}
+      onContinue={handleContinue}
+    />
+  )
 }
 
 function BottomTabs() {
@@ -113,7 +134,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Header />
-
+      <PopupModalHome/>
       <BottomTabs />
     </View>
   );
