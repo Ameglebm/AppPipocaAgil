@@ -4,13 +4,38 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 //import Coracao from "../../components/SvgComponents/Coracao";
 //import Saude from "../../components/SvgComponents/Saude";
 import Cards from "../../components/Card";
+import { useRouter } from "expo-router";
+import { useSelector } from "react-redux";
 
 export default function ScreenOne() {
-  //const router = useRouter();
+  const router = useRouter();
+
+  const glucoseRecords =
+    useSelector((state) => state.health.glucoseRecords) || [];
+  const lastGlucose =
+    glucoseRecords.length > 0
+      ? glucoseRecords[glucoseRecords.length - 1].glucose
+      : "Sem registro";
+
   const cardData = [
-    { title: "Glicemia", value: "", record: "" },
-    { title: "Pressão Arterial", value: "", record: "" },
-    { title: "Peso", value: "", record: "" },
+    {
+      title: "Glicemia",
+      value: lastGlucose,
+      record: "Sem registro",
+      onPress: () => router.push("screens/registerGlucose"),
+    },
+    {
+      title: "Pressão Arterial",
+      value: "",
+      record: "Sem registro",
+      onPress: () => router.push("screens/registerPressArterial"),
+    },
+    {
+      title: "Peso",
+      value: "",
+      record: "Sem registro",
+      onPress: () => router.push("screens/Weight"),
+    },
   ];
 
   return (
@@ -26,7 +51,7 @@ export default function ScreenOne() {
             title={item.title}
             value={item.value}
             record={item.record}
-            onPress={() => console.log(`Card ${item.title} pressionado`)}
+            onPress={item.onPress}
           />
         ))}
       </View>
