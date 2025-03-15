@@ -2,6 +2,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { updateGlucose } from "../reducers/healthActions";
 
 // Componentes customizados
 import Header from "../components/CustomHeader";
@@ -13,6 +15,7 @@ import GlucoseLevels from "../components/modals/GlucoseLevels";
 
 export default function registerGlucose() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [glicose, setGlicose] = useState(0);
   const [treatment, setTreatment] = useState("");
@@ -46,6 +49,7 @@ export default function registerGlucose() {
   };
 
   const handleSave = () => {
+    dispatch(updateGlucose(glicose));
     if (glicose > 0 && treatment.trim() !== "") {
       if (glicose <= 75) {
         setGlucoseAlertData({
