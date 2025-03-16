@@ -170,7 +170,9 @@ export default function registerPressArterial() {
                 selectedDate && styles.dateTextStyleSelected, // Estilo quando a data foi salva
               ]}
             >
-              {selectedDate ? date.toLocaleDateString() : "/ /"}
+              {selectedDate
+                ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
+                : "/ /"}
             </Text>
           </TouchableOpacity>
           <Modal
