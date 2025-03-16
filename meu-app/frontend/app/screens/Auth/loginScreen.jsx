@@ -55,7 +55,7 @@ export default function Login() {
         senha: password,
       });
 
-      console.log("Resposta da API:", response);
+      console.log("Resposta da API:", response.data);
 
       const token = response.data?.token;
       const userId = response.data?.user?.id;
@@ -65,7 +65,6 @@ export default function Login() {
         dispatch(setUserId(userId));
 
         const savedToken = await getToken(); // Recupera o token salvo
-        console.log("Token recuperado do AsyncStorage:", savedToken);
 
         if (savedToken) {
           router.replace("../homeScreen");
