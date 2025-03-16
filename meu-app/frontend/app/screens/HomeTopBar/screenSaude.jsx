@@ -14,14 +14,17 @@ export default function ScreenOne() {
     useSelector((state) => state.health.glucoseRecords) || [];
   const lastGlucose =
     glucoseRecords.length > 0
-      ? glucoseRecords[glucoseRecords.length - 1].glucose
+      ? `${glucoseRecords[glucoseRecords.length - 1].glucose} ± 20 mg/dL`
       : "Sem registro";
+
+  const recordValue =
+    glucoseRecords.length > 0 ? "Média mensal" : "Sem registro";
 
   const cardData = [
     {
       title: "Glicemia",
       value: lastGlucose,
-      record: "Sem registro",
+      record: recordValue,
       onPress: () => router.push("screens/registerGlucose"),
     },
     {
