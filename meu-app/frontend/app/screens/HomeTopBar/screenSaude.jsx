@@ -26,18 +26,24 @@ export default function ScreenOne() {
       value: lastGlucose,
       record: recordValue,
       onPress: () => router.push("screens/registerGlucose"),
+      imageSource: require("../../assets/images/drop.png"),
+      iconBackgroundColor: "#F2E8E7",
     },
     {
       title: "Pressão Arterial",
       value: "",
       record: "Sem registro",
       onPress: () => router.push("screens/registerPressArterial"),
+      imageSource: require("../../assets/images/activity.png"),
+      iconBackgroundColor: "#EDF3FF",
     },
     {
       title: "Peso",
       value: "",
       record: "Sem registro",
       onPress: () => router.push("screens/Weight"),
+      imageSource: require("../../assets/images/path.png"),
+      iconBackgroundColor: "#DCECDC",
     },
   ];
 
@@ -55,6 +61,8 @@ export default function ScreenOne() {
             value={item.value}
             record={item.record}
             onPress={item.onPress}
+            imageSource={item.imageSource}
+            iconBackgroundColor={item.iconBackgroundColor}
           />
         ))}
       </View>

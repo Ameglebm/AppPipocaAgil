@@ -1,16 +1,24 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 
 // Componentes
-import DropIcon from "../components/SvgComponents/Drop";
 import Plus from "../components/SvgComponents/Plus";
 
-const Card = ({ title, value, record, onPress }) => {
+const Card = ({
+  title,
+  value,
+  record,
+  onPress,
+  imageSource,
+  iconBackgroundColor,
+}) => {
   return (
     <TouchableOpacity style={styles.mainView} onPress={onPress}>
       <View style={styles.headerCard}>
-        <View style={styles.contentIcon}>
-          <DropIcon />
+        <View
+          style={[styles.contentIcon, { backgroundColor: iconBackgroundColor }]}
+        >
+          <Image source={imageSource} resizeMode="contain" />
         </View>
 
         <Text style={styles.titleCard}>{title || "Default Title"}</Text>
