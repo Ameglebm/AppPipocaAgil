@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 
 // Componentes
 import User from "./SvgComponents/User";
-import Plus from "./SvgComponents/Plus";
+//import Plus from "./SvgComponents/Plus";
 
 export default function Header() {
   const router = useRouter(); // Mover o hook para o nível do componente
@@ -21,9 +21,9 @@ export default function Header() {
         <Text style={styles.perfil}>Conta</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer}>
+      {/*<TouchableOpacity style={styles.buttonContainer}>
         <Plus />
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     </View>
   );
 }
