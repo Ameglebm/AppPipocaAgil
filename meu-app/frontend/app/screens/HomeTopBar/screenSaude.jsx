@@ -26,7 +26,7 @@ export default function ScreenOne() {
       value: lastGlucose,
       record: recordValue,
       onPress: () => router.push("screens/registerGlucose"),
-      imageSource: require("../../assets/images/drop.png"),
+      imageSource: require("../../assets/images/icons/drop.png"),
       iconBackgroundColor: "#F2E8E7",
     },
     {
@@ -34,7 +34,7 @@ export default function ScreenOne() {
       value: "",
       record: "Sem registro",
       onPress: () => router.push("screens/registerPressArterial"),
-      imageSource: require("../../assets/images/activity.png"),
+      imageSource: require("../../assets/images/icons/activity.png"),
       iconBackgroundColor: "#EDF3FF",
     },
     {
@@ -42,7 +42,7 @@ export default function ScreenOne() {
       value: "",
       record: "Sem registro",
       onPress: () => router.push("screens/Weight"),
-      imageSource: require("../../assets/images/path.png"),
+      imageSource: require("../../assets/images/icons/path.png"),
       iconBackgroundColor: "#DCECDC",
     },
   ];

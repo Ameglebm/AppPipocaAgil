@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { RadioButton } from "react-native-paper";
-import InfoOctagon from "./SvgComponents/InfoOctagon";
+import InfoOctagon from "../SvgComponents/InfoOctagon";
 import PropTypes from "prop-types";
 
 const RadioButtonCustom = ({ title, label, value, selectedValue, onPress }) => {

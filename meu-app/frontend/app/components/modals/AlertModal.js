@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import IconSuccess from "./SvgComponents/IconSuccess";
+import IconSuccess from "../SvgComponents/IconSuccess";
 import PropTypes from "prop-types";
 
 const AlertModal = ({ modalVisible, onClose, message, buttons = [] }) => {

@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
-import IconSuccess from "./SvgComponents/IconSuccess";
+import IconSuccess from "../SvgComponents/IconSuccess";
 import PropTypes from "prop-types";
 
 const ModalCustom = ({ modalVisible, onClose, message }) => {

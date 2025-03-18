@@ -6,11 +6,11 @@ import { useRouter } from "expo-router";
 // Componentes
 import Header from "../../components/CustomHeader";
 import Input from "../../components/CustomInput";
-import ButtonSave from "../../components/ButtonSave";
-import ButtonCancel from "../../components/ButtonCancel";
-import CancelModal from "../../components/ModalConfirmCancel";
-import SuccessModal from "../../components/Modal";
-import ConfirmSaveModal from "../../components/ConfirmationModal";
+import ButtonSave from "../../components/buttons/ButtonSave";
+import ButtonCancel from "../../components/buttons/ButtonCancel";
+import CancelModal from "../../components/modals/ModalConfirmCancel";
+import SuccessModal from "../../components/modals/Modal";
+import ConfirmSaveModal from "../../components/modals/ConfirmationModal";
 
 // Redux
 import { useDispatch } from "react-redux";

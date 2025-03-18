@@ -8,8 +8,8 @@ import {
   Modal,
 } from "react-native";
 import styles from "../assets/styles/registerPressArterial";
-import backIcon from "../assets/images/backIcon.png";
-import alertSquare from "../assets/images/alert-square.png";
+import backIcon from "../assets/images/icons/backIcon.png";
+import alertSquare from "../assets/images/icons/alert-square.png";
 import DatePicker from "@react-native-community/datetimepicker"; // Biblioteca usada para criar calendario e relogio
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";

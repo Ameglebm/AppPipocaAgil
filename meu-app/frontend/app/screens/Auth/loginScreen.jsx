@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import PasswordInput from "../../components/passwordInput";
-import ButtonLogin from "../../components/ButtonLogin";
+import ButtonLogin from "../../components/buttons/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
 import { saveToken, getToken } from "../../Utils/tokenManager";

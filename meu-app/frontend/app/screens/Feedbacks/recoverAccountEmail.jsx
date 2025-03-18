@@ -11,7 +11,7 @@ import {
 import { useNavigation, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../services/api";
-import backIcon from "../../assets/images/backIcon.png";
+import backIcon from "../../assets/images/icons/backIcon.png";
 import mailSentImage from "../../assets/images/undraw_mail_sent_re_0ofv1.png";
 
 export default function RecoverAccountEmail() {

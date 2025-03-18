@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Input from "../../components/Input";
 import { useRouter } from "expo-router";
-import backIcon from "../../assets/images/backIcon.png";
+import backIcon from "../../assets/images/icons/backIcon.png";
 
 function TelaCadastro() {
   const router = useRouter();

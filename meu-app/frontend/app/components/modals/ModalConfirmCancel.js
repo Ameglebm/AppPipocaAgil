@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import alertSquare from "../assets/images/alert-square.png";
+import alertSquare from "../../assets/images/icons/alert-square.png";
 import PropTypes from "prop-types";
 
 const ModalConfirmCancel = ({ visible, onClose, onConfirm }) => {

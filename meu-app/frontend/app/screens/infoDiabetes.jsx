@@ -19,7 +19,7 @@ import AdmInsulina from "../components/infoDiabetesItems/admInsulinaItem"; // Te
 import MetaGlicemica from "../components/infoDiabetesItems/metaGlicemicaItem"; // Tela correspondente ao slide com id 3
 import Medicamentos from "../components/infoDiabetesItems/medicamentosItem"; // Tela correspondente ao slide com id 4
 import TipoDeInsulina from "../components/infoDiabetesItems/tipoDeInsulinaItem"; // Tela correspondente ao slide com id 5
-import backIcon from "../assets/images/backIcon.png"; // Importação da imagem do ícone de voltar
+import backIcon from "../assets/images/icons/backIcon.png"; // Importação da imagem do ícone de voltar
 
 import PaginatorInfo from "../components/PaginatorInfo"; // Paginador para exibir o progresso do carrossel
 

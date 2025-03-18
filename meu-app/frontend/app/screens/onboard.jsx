@@ -11,7 +11,7 @@ import { useNavigation, useRouter } from "expo-router";
 import OnboardingItem from "../components/OnboardingItem";
 import slides from "../components/slidesOnboard"; //slides do carrosel
 import Paginator from "../components/Paginator"; // Paginador
-import NavigationButtons from "../components/NextButton"; // Botões de avançar e retroceder
+import NavigationButtons from "../components/buttons/NextButton"; // Botões de avançar e retroceder
 
 export default function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);

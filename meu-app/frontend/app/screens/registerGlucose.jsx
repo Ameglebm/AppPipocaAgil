@@ -9,8 +9,8 @@ import { fetchGlucose, updateGlucose } from "../reducers/healthActions";
 import Header from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
-import ButtonSave from "../components/ButtonSave";
-import CancelModal from "../components/ConfirmationModal";
+import ButtonSave from "../components/buttons/ButtonSave";
+import CancelModal from "../components/modals/ConfirmationModal";
 import GlucoseLevels from "../components/modals/GlucoseLevels";
 
 export default function registerGlucose() {

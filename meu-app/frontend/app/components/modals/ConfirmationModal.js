@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import AlertTriangle from "./SvgComponents/AlertTriangle";
+import AlertTriangle from "../SvgComponents/AlertTriangle";
 import PropTypes from "prop-types";
 
 const ConfirmationModal = ({
