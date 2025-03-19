@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -194,43 +194,6 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de pressão arterial:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
-    }
-  }
-
-  @ApiOperation({ summary: 'Registra o peso do usuário' })
-  @ApiResponse({ status: 201 })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
-  @ApiBody({ type: UserPesoDTO })
-  @Post('userPeso')
-  async registerPeso(@Body() peso: UserPesoDTO): Promise<void> {
-    try {
-      await this.medicalRecordService.registerPeso(peso);
-    } catch (error) {
-      console.error('Erro ao registrar peso', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
-    }
-  }
-
-  @ApiOperation({ summary: '' })
-  @ApiResponse({ status: 200 })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
-  @Get('userPeso/:id')
-  async getUserPeso(@Param() params: GetUserPesoDTO) {
-     try {
-      const data = await this.medicalRecordService.getUserPeso(params);
-
-      return { data };
-
-    } catch (error) {
-
-      if (error instanceof Error && error.message === 'Registro de peso não encontrado') {
-        throw new NotFoundException(error.message);
-      }
-
-      console.error('Erro ao obter registro de peso:', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
