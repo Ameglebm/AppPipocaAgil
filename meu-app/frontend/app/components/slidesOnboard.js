@@ -1,6 +1,6 @@
-import onboarding1 from "../assets/images/onboarding1.webp";
-import onboarding2 from "../assets/images/onboarding4.webp";
-import onboarding3 from "../assets/images/onboarding3.webp";
+import onboarding1 from "../assets/images/onboard/onboarding1.webp";
+import onboarding2 from "../assets/images/onboard/onboarding2.webp";
+import onboarding3 from "../assets/images/onboard/onboarding3.webp";
 
 export default [
   {

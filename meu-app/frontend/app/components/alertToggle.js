@@ -10,8 +10,8 @@ import {
   Pressable,
 } from "react-native";
 
-import xCloseImage from "../assets/images/x-close.png";
-import infoOctagonImage from "../assets/images/info-octagon.png";
+import xCloseImage from "../assets/images/icons/x-close.png";
+import infoOctagonImage from "../assets/images/icons/info-octagon.png";
 
 const AlertToggle = () => {
   const [alertEnabled, setAlertEnabled] = useState(false);

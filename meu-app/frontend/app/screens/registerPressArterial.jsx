@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -8,41 +8,45 @@ import {
   Modal,
 } from "react-native";
 import styles from "../assets/styles/registerPressArterial";
-import backIcon from "../assets/images/backIcon.png";
-import alertSquare from "../assets/images/alert-square.png";
+import backIcon from "../assets/images/icons/backIcon.png";
+import alertSquare from "../assets/images/icons/alert-square.png";
 import DatePicker from "@react-native-community/datetimepicker"; // Biblioteca usada para criar calendario e relogio
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { updateBloodPressure } from "../reducers/healthActions";
 
 export default function registerPressArterial() {
-  const navigation = useNavigation();
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   const [selected, setSelected] = useState();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [openDateModal, setOpenDateModal] = useState(false); // abrir e fechar o modal
   const [openTimeModal, setOpenTimeModal] = useState(false);
+
   const [selectedDate, setSelectedDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState(false);
+
   const [systolic, setSystolic] = useState(""); // Valor do campo sistólico
   const [diastolic, setDiastolic] = useState(""); // Valor do campo diastólico
-  const [date, setDate] = useState("/ /"); // variavel de data
-  const [time, setTime] = useState("00:00");
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
 
-  useEffect(() => {
-    //Ao iniciar a página seta o header dela como false
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
+  const isButtonDisabled = !(
+    systolic &&
+    diastolic &&
+    selectedDate &&
+    selectedTime
+  );
 
   function handleDateModal() {
-    setOpenDateModal(!openDateModal);
+    setOpenDateModal((prev) => !prev);
   }
 
   function handleTimeModal() {
-    setOpenTimeModal(!openTimeModal);
-  }
-
-  function handleDateChange(propDate) {
-    setDate(propDate);
+    setOpenTimeModal((prev) => !prev);
   }
 
   // Mostra o modal de cancelamento
@@ -55,23 +59,6 @@ export default function registerPressArterial() {
     setIsModalVisible(false);
   }
 
-  function saveDate() {
-    if (date !== "/ /") {
-      setSelectedDate(true); // Marca que uma data válida foi selecionada
-      setOpenDateModal(false); // Fecha o modal
-    }
-  }
-
-  function handleTimeChange(propTime) {
-    setTime(propTime);
-  }
-
-  function saveTime() {
-    if (date !== "00:00") {
-      setSelectedTime(true); // Marca que uma hora válida foi selecionada
-      setOpenTimeModal(false); // Fecha o modal
-    }
-  }
   // Reseta todos os campos para os valores padrão
   function resetFields() {
     setSystolic("");
@@ -86,10 +73,19 @@ export default function registerPressArterial() {
   function confirmCancel() {
     resetFields();
     closeCancelModal();
+    router.back();
   }
   const saveRegister = () => {
-    console.log("Registro Salvo");
-    router.replace("./HomeScreen");
+    console.log("Salvando dados...");
+    const pressureData = {
+      systolic: Number(systolic),
+      diastolic: Number(diastolic),
+      timestamp: new Date().toISOString(),
+    };
+
+    dispatch(updateBloodPressure(pressureData)); // Salva no Redux
+    console.log("Dados salvos: ", pressureData);
+    router.back(); // Retorna para a tela anterior
   };
 
   /*API para validar e enviar os dados futuramente
@@ -115,7 +111,7 @@ export default function registerPressArterial() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => router.back()}>
           <Image source={backIcon} />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Registrar pressão arterial</Text>
@@ -175,7 +171,9 @@ export default function registerPressArterial() {
                 selectedDate && styles.dateTextStyleSelected, // Estilo quando a data foi salva
               ]}
             >
-              {date}
+              {selectedDate
+                ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
+                : "/ /"}
             </Text>
           </TouchableOpacity>
           <Modal
@@ -184,16 +182,19 @@ export default function registerPressArterial() {
             visible={openDateModal}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <View>
                 <DatePicker
                   mode="date"
                   display="spinner"
                   value={date}
-                  onChange={handleDateChange}
+                  onChange={(event, selectedDate) => {
+                    if (selectedDate) {
+                      setDate(selectedDate);
+                      setSelectedDate(true); // Marca que a data foi escolhida
+                      setOpenDateModal(false); // Fecha o modal automaticamente
+                    }
+                  }}
                 />
-                <TouchableOpacity onPress={saveDate}>
-                  <Text>Salvar</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </Modal>
@@ -211,7 +212,12 @@ export default function registerPressArterial() {
                 selectedTime && styles.dateTextStyleSelected, // Estilo quando a data foi salva
               ]}
             >
-              {time}
+              {selectedTime
+                ? time.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "00:00"}
             </Text>
           </TouchableOpacity>
           <Modal
@@ -220,16 +226,19 @@ export default function registerPressArterial() {
             visible={openTimeModal}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <View>
                 <DatePicker
                   mode="time"
                   display="spinner"
                   value={time}
-                  onChange={handleTimeChange}
+                  onChange={(event, selectedTime) => {
+                    if (selectedTime) {
+                      setTime(selectedTime);
+                      setSelectedTime(true); // Marca que a hora foi escolhida
+                      setOpenTimeModal(false); // Fecha o modal automaticamente
+                    }
+                  }}
                 />
-                <TouchableOpacity onPress={saveTime}>
-                  <Text>Salvar</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </Modal>
@@ -242,11 +251,10 @@ export default function registerPressArterial() {
           <TouchableOpacity
             style={[
               styles.btnRegister,
-              systolic && diastolic && selectedDate && selectedTime
-                ? styles.btnRegisterActive
-                : null, // Estilo ativo se os campos estiverem preenchidos
+              !isButtonDisabled ? styles.btnRegisterActive : null, // Estilo ativo se os campos estiverem preenchidos
             ]}
             onPress={saveRegister}
+            disabled={isButtonDisabled}
           >
             <Text style={styles.textRegister}>Registrar</Text>
           </TouchableOpacity>

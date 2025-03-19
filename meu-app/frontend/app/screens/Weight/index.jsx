@@ -16,9 +16,9 @@ import { useSelector } from "react-redux";
 // Componentes
 import Header from "../../components/CustomHeader";
 import Plus from "../../components/SvgComponents/Plus";
-import Path from "../../assets/images/path-01.png";
-import UpArrow from "../../assets/images/arrow-narrow-up.png";
-import DownArrow from "../../assets/images/arrow-narrow-down.png";
+import Path from "../../assets/images/icons/path-01.png";
+import UpArrow from "../../assets/images/icons/arrow-narrow-up.png";
+import DownArrow from "../../assets/images/icons/arrow-narrow-down.png";
 
 export default function weight() {
   const router = useRouter();

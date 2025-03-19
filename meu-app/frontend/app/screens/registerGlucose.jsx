@@ -2,17 +2,22 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGlucose, updateGlucose } from "../reducers/healthActions";
 
 // Componentes customizados
 import Header from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
-import ButtonSave from "../components/ButtonSave";
-import CancelModal from "../components/ConfirmationModal";
+import ButtonSave from "../components/buttons/ButtonSave";
+import CancelModal from "../components/modals/ConfirmationModal";
 import GlucoseLevels from "../components/modals/GlucoseLevels";
 
 export default function registerGlucose() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state.auth.userId);
 
   const [glicose, setGlicose] = useState(0);
   const [treatment, setTreatment] = useState("");
@@ -23,6 +28,30 @@ export default function registerGlucose() {
     title: "",
     message: "",
   });
+
+  const treatmentToId = {
+    "Antes do café da manhã": 1,
+    "Depois do café da manhã": 2,
+    "Antes do almoço": 3,
+    "Depois do almoço": 4,
+    "Antes do jantar": 5,
+    "Depois do jantar": 6,
+    "Antes de dormir": 7,
+    Extra: 8,
+  };
+
+  /*const glucoseList = useSelector((state) => state.health.glucoseRecords || []);*/
+
+  /*const glucoseDropdownItems = glucoseList.map((item) => ({
+    label: item.nome || `Glicemia ${item.id}`, // Ajuste conforme necessário
+    value: item.id.toString(),
+    id: item.id,
+  }));*/
+
+  // Buscar glicemia ao abrir a tela
+  useEffect(() => {
+    dispatch(fetchGlucose(userId));
+  }, []);
 
   // Função para verificar se o botão deve estar desabilitado
   useEffect(() => {
@@ -46,6 +75,26 @@ export default function registerGlucose() {
   };
 
   const handleSave = () => {
+    const glicemiaId = treatmentToId[treatment];
+
+    if (!glicemiaId) {
+      console.error("Erro: treatment inválido!", treatment);
+      return;
+    }
+
+    dispatch(updateGlucose(Number(userId), glicemiaId, Number(glicose)));
+
+    console.log("Enviando dados para API:", {
+      userId: Number(userId),
+      glicemiaId,
+      value: Number(glicose),
+    });
+
+    if (!userId || !glicemiaId || isNaN(Number(glicose))) {
+      console.error("Erro: Dados inválidos antes do envio!");
+      return;
+    }
+
     if (glicose > 0 && treatment.trim() !== "") {
       if (glicose <= 75) {
         setGlucoseAlertData({
@@ -54,7 +103,7 @@ export default function registerGlucose() {
             "Entre em contato com seu médico ou siga o plano de ação recomendado. Caso os sintomas persistam, busque atendimento médico imediatamente.",
           type: "low", // Ícone XClose
         });
-      } else if (glicose >= 120) {
+      } else if (glicose > 120) {
         setGlucoseAlertData({
           title: "Atenção! Sua glicemia está alta.",
           message:

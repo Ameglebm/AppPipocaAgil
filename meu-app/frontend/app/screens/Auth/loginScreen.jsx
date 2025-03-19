@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import PasswordInput from "../../components/passwordInput";
-import ButtonLogin from "../../components/ButtonLogin";
+import ButtonLogin from "../../components/buttons/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
 import { saveToken, getToken } from "../../Utils/tokenManager";
@@ -20,8 +20,8 @@ import { useDispatch } from "react-redux";
 import { setUserId } from "../../reducers/authActions";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("warlleyrocha@icloud.com");
+  const [password, setPassword] = useState("1601Wr20@");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 
@@ -55,7 +55,7 @@ export default function Login() {
         senha: password,
       });
 
-      console.log("Resposta da API:", response);
+      console.log("Resposta da API:", response.data);
 
       const token = response.data?.token;
       const userId = response.data?.user?.id;
@@ -65,7 +65,6 @@ export default function Login() {
         dispatch(setUserId(userId));
 
         const savedToken = await getToken(); // Recupera o token salvo
-        console.log("Token recuperado do AsyncStorage:", savedToken);
 
         if (savedToken) {
           router.replace("../homeScreen");

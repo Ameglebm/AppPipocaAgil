@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSelector, useDispatch } from "react-redux"; 
+import { useSelector, useDispatch } from "react-redux";
 
 // Redux
 import {
@@ -14,14 +14,14 @@ import {
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 
 // Componentes
-import Button from "../Button";
-import ButtonSave from "../ButtonSave";
+import Button from "../buttons/Button";
+import ButtonSave from "../buttons/ButtonSave";
 import Edit from "../SvgComponents/Edit";
 import Trash from "../SvgComponents/Trash";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 // Assets
-import plusImage from "../../assets/images/plus.png";
+import plusImage from "../../assets/images/icons/plus.png";
 
 const MedicamentoItem = () => {
   // Obtém depêndencias
@@ -78,7 +78,7 @@ const MedicamentoItem = () => {
       dispatch(removeMedication(selectedMedication.id));
       setModalVisible(false);
       setSelectedMedication(null);
-      console.log(`O item ${selectedMedication.name} foi removido!`)
+      console.log(`O item ${selectedMedication.name} foi removido!`);
     }
   };
 
@@ -115,7 +115,9 @@ const MedicamentoItem = () => {
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleDeletePress(medicamento)}>
+                    <TouchableOpacity
+                      onPress={() => handleDeletePress(medicamento)}
+                    >
                       <Trash />
                     </TouchableOpacity>
                   </View>

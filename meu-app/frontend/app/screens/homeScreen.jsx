@@ -2,23 +2,23 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useState } from 'react'
-import { useRouter } from 'expo-router';
+import { useState } from "react";
+import { useRouter } from "expo-router";
 
 //Import dos icones da TopBar
 import TabLabelSaude from "../components/tabTopIcons/TabLabelSaude";
 import TabLabelHistorico from "../components/tabTopIcons/TabLabelHistorico";
-import TabLabelEvolucao from "../components/tabTopIcons/TabLabelEvolucao";
+//import TabLabelEvolucao from "../components/tabTopIcons/TabLabelEvolucao";
 //Import das telas de cada icone da TopBar
 import ScreenSaude from "./HomeTopBar/screenSaude";
-import ScreenEvolucao from "./HomeTopBar/screenEvolucao";
+//import ScreenEvolucao from "./HomeTopBar/screenEvolucao";
 import ScreenHistorico from "./HomeTopBar/screenHistorico";
 //import das telas do BottomBar
 import Medicacao from "./HomeBottomBar/medicacao";
 import Relatorios from "./HomeBottomBar/relatorios";
 import Emergencia from "./HomeBottomBar/emergencia";
 //Import dos icones do BottomBar
-import HomeTab from "../components/tabBottomIcons/HomeTab";
+//import HomeTab from "../components/tabBottomIcons/HomeTab";
 import MedicacaoTab from "../components/tabBottomIcons/MedicacaoTab";
 import EmergenciaTab from "../components/tabBottomIcons/EmergenciaTab";
 import RelatoriosTab from "../components/tabBottomIcons/RelatoriosTab";
@@ -51,13 +51,13 @@ function TopTabs() {
           headerShown: false,
         }}
       />
-      <TopTab.Screen
+      {/*<TopTab.Screen
         name="Evolução"
         component={ScreenEvolucao}
         options={{
           tabBarLabel: ({ focused }) => <TabLabelEvolucao focused={focused} />,
         }}
-      />
+      />*/}
       <TopTab.Screen
         name="Histórico"
         component={ScreenHistorico}
@@ -74,16 +74,16 @@ function PopupModalHome() {
   const router = useRouter();
 
   const handleContinue = () => {
-    setModalVisible(false);  // Fecha o modal
-    router.push('/screens/infoDiabetes');  // Navega para a tela de informações
+    setModalVisible(false); // Fecha o modal
+    router.push("/screens/infoDiabetes"); // Navega para a tela de informações
   };
   return (
-    <ModalHome 
+    <ModalHome
       modalVisible={modalVisible}
       onClose={() => setModalVisible(false)}
       onContinue={handleContinue}
     />
-  )
+  );
 }
 
 function BottomTabs() {
@@ -98,8 +98,9 @@ function BottomTabs() {
         name="Home"
         component={TopTabs}
         options={{
-          tabBarIcon: ({ focused }) => <HomeTab focused={focused} />,
+          //tabBarIcon: ({ focused }) => <HomeTab focused={focused} />,
           headerShown: false,
+          tabBarStyle: { display: "none" },
         }}
       />
       <BottomTab.Screen
@@ -134,7 +135,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Header />
-      <PopupModalHome/>
+      <PopupModalHome />
       <BottomTabs />
     </View>
   );
