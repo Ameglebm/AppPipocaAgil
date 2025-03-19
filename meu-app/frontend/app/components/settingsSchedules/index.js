@@ -8,7 +8,7 @@ import Checkbox from "expo-checkbox";
 import styles from "./styles";
 
 // Componentes
-import Button from "../Button";
+import Button from "../buttons/Button";
 import CustomHeader from "../CustomHeader";
 import ModalClock from "../modalClock";
 

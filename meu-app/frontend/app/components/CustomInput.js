@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 1,
-    elevation: 5,
+    elevation: 2,
     backgroundColor: "#FDFDFD",
     width: "100%",
     height: 44,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   inputFocused: {
     borderColor: "#5FA8FF",
-    borderWidth: 1,
+    borderWidth: 2,
     shadowColor: "#B4D2F8", // Cor da sombra
     shadowOffset: { width: 0, height: 0 }, // Sem deslocamento
     shadowOpacity: 1, // Totalmente opaco

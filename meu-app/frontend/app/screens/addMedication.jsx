@@ -15,12 +15,12 @@ import {
 import api from "../services/api";
 
 // Componentes
-import ButtonSave from "../components/ButtonSave";
+import ButtonSave from "../components/buttons/ButtonSave";
 import CustomHeader from "../components/CustomHeader";
 import CustomInput from "../components/CustomInput";
 import Dropdown from "../components/DropDown";
 import InputWithPressable from "../components/InputWithPressable";
-import ModalCustom from "../components/Modal";
+import ModalCustom from "../components/modals/Modal";
 
 const addMedication = () => {
   const router = useRouter();

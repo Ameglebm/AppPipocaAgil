@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import ButtonSave from "../ButtonSave";
+import ButtonSave from "../buttons/ButtonSave";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import api from "../../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";

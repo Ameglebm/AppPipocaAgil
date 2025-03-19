@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import ButtonSave from "../ButtonSave";
+import ButtonSave from "../buttons/ButtonSave";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import api from "../../services/api";

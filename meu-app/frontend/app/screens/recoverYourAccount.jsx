@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-import backIcon from "../assets/images/backIcon.png";
-import alertTriangle from "../assets/images/alert-triangle.png";
-import Button from "../components/Button";
+import backIcon from "../assets/images/icons/backIcon.png";
+import alertTriangle from "../assets/images/icons/alert-triangle.png";
+import Button from "../components/buttons/Button";
 import useRecConta from "../hooks/useRecConta";
 import EmailInput from "../components/EmailInput";
 // arquivo config da API

@@ -1,27 +1,27 @@
-import onboarding1 from "../assets/images/onboarding1.webp";
-import onboarding2 from "../assets/images/onboarding2.webp";
-import onboarding3 from "../assets/images/onboarding3.webp";
+import onboarding1 from "../assets/images/onboard/onboarding1.webp";
+import onboarding2 from "../assets/images/onboard/onboarding4.webp";
+import onboarding3 from "../assets/images/onboard/onboarding3.webp";
 
 export default [
   {
     id: "1",
-    title: "Acompanhe seu progresso",
+    title: "Registre seus dados de saúde",
     description:
-      "Acompanhe a evolução da sua glicemia através dos gráficos, ajuste a dosagem da insulina e identifique padrões que podem te ajudar a controlar melhor a doença.",
+      "Mantenha o controle da sua saúde registrando seus principais indicadores como glicemia, pressão arterial e peso, de forma simples e rápida.",
     image: onboarding1,
   },
   {
     id: "2",
-    title: "Compartilhe sua evolução com seu Médico",
+    title: "Visualize seu histórico com facilidade",
     description:
-      "Com apenas alguns cliques, você pode gerar relatórios detalhados e compartilhá-los com seu médico.",
+      "Visualize suas medições ao longo do tempo e identifique padrões para entender melhor sua saúde e tomar decisões mais informadas.",
     image: onboarding2,
   },
   {
     id: "3",
-    title: "Alertas inteligentes para sua saúde",
+    title: "Gerencie melhor o seu diabetes",
     description:
-      "O InsuCheck te mantém seguro e no controle do seu diabetes, alertando se ultrapassar os limites dos níveis de glicemia.",
+      "Com um registro constante e organizado, fica mais fácil monitorar sua saúde e manter um controle mais seguro da sua condição.",
     image: onboarding3,
   },
 ];

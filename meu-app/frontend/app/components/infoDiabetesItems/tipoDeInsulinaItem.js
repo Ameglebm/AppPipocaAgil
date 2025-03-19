@@ -11,14 +11,14 @@ import { removeInsulin } from "../../reducers/insulinActions";
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
 
 // Componentes
-import ButtonSave from "../ButtonSave";
-import Button from "../Button";
+import ButtonSave from "../buttons/ButtonSave";
+import Button from "../buttons/Button";
 import Trash from "../SvgComponents/Trash";
 import Edit from "../SvgComponents/Edit";
-import ConfirmationModal from '../ConfirmationModal';
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 // Assets
-import plusIcon from "../../assets/images/plus.png";
+import plusIcon from "../../assets/images/icons/plus.png";
 
 const TipoDeInsulinaItem = () => {
   // Obtém depêndencias
@@ -80,7 +80,7 @@ const TipoDeInsulinaItem = () => {
       dispatch(removeInsulin(selectedInsulin.id));
       setModalVisible(false);
       setSelectedInsulin(null);
-      console.log(`O item ${selectedInsulin.name} foi removido!`)
+      console.log(`O item ${selectedInsulin.name} foi removido!`);
     }
   };
 
@@ -115,7 +115,9 @@ const TipoDeInsulinaItem = () => {
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleDeletePress(insulina)}>
+                    <TouchableOpacity
+                      onPress={() => handleDeletePress(insulina)}
+                    >
                       <Trash />
                     </TouchableOpacity>
                   </View>
