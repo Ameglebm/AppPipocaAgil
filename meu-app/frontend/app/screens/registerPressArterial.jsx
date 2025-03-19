@@ -73,6 +73,7 @@ export default function registerPressArterial() {
   function confirmCancel() {
     resetFields();
     closeCancelModal();
+    router.back();
   }
   const saveRegister = () => {
     console.log("Salvando dados...");
