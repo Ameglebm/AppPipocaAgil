@@ -28,6 +28,7 @@ export default function ScreenOne() {
       onPress: () => router.push("screens/registerGlucose"),
       imageSource: require("../../assets/images/icons/drop.png"),
       iconBackgroundColor: "#F2E8E7",
+      imageWave: require("../../assets/images/wave1.png"),
     },
     {
       title: "Pressão Arterial",
@@ -36,6 +37,7 @@ export default function ScreenOne() {
       onPress: () => router.push("screens/registerPressArterial"),
       imageSource: require("../../assets/images/icons/activity.png"),
       iconBackgroundColor: "#EDF3FF",
+      imageWave: require("../../assets/images/wave2.png"),
     },
     {
       title: "Peso",
@@ -44,11 +46,15 @@ export default function ScreenOne() {
       onPress: () => router.push("screens/Weight"),
       imageSource: require("../../assets/images/icons/path.png"),
       iconBackgroundColor: "#DCECDC",
+      imageWave: require("../../assets/images/wave3.png"),
     },
   ];
 
   return (
-    <ScrollView style={styles.mainView}>
+    <ScrollView
+      style={styles.mainView}
+      contentContainerStyle={styles.scrollContent}
+    >
       <View style={styles.contentTitle}>
         <Text style={styles.title}>Registros de Saúde</Text>
       </View>
@@ -63,6 +69,7 @@ export default function ScreenOne() {
             onPress={item.onPress}
             imageSource={item.imageSource}
             iconBackgroundColor={item.iconBackgroundColor}
+            imageWave={item.imageWave}
           />
         ))}
       </View>
@@ -76,6 +83,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDFDFD",
     width: 360,
     paddingHorizontal: 20,
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
   title: {
     fontFamily: "Lato_700Bold",
