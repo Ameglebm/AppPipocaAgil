@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGlucose, updateGlucose } from "../reducers/healthActions";
+import { fetchGlucoseTypes, updateGlucose } from "../reducers/healthActions";
 
 // Componentes customizados
 import Header from "../components/CustomHeader";
@@ -18,6 +18,7 @@ export default function registerGlucose() {
   const dispatch = useDispatch();
 
   const userId = useSelector((state) => state.auth.userId);
+  const glucoseTypes = useSelector((state) => state.health.glucoseTypes);
 
   const [glicose, setGlicose] = useState(0);
   const [treatment, setTreatment] = useState("");
@@ -40,17 +41,9 @@ export default function registerGlucose() {
     Extra: 8,
   };
 
-  /*const glucoseList = useSelector((state) => state.health.glucoseRecords || []);*/
-
-  /*const glucoseDropdownItems = glucoseList.map((item) => ({
-    label: item.nome || `Glicemia ${item.id}`, // Ajuste conforme necessário
-    value: item.id.toString(),
-    id: item.id,
-  }));*/
-
   // Buscar glicemia ao abrir a tela
   useEffect(() => {
-    dispatch(fetchGlucose(userId));
+    dispatch(fetchGlucoseTypes(userId));
   }, []);
 
   // Função para verificar se o botão deve estar desabilitado
@@ -77,23 +70,14 @@ export default function registerGlucose() {
   const handleSave = () => {
     const glicemiaId = treatmentToId[treatment];
 
-    if (!glicemiaId) {
-      console.error("Erro: treatment inválido!", treatment);
-      return;
-    }
-
-    dispatch(updateGlucose(Number(userId), glicemiaId, Number(glicose)));
-
-    console.log("Enviando dados para API:", {
-      userId: Number(userId),
-      glicemiaId,
-      value: Number(glicose),
-    });
-
     if (!userId || !glicemiaId || isNaN(Number(glicose))) {
       console.error("Erro: Dados inválidos antes do envio!");
       return;
     }
+
+    console.log("Salvando registro... ");
+
+    dispatch(updateGlucose(Number(userId), glicemiaId, Number(glicose)));
 
     if (glicose > 0 && treatment.trim() !== "") {
       if (glicose <= 75) {
@@ -136,22 +120,10 @@ export default function registerGlucose() {
         }}
       >
         <Dropdown
-          items={[
-            {
-              label: "Antes do café da manhã",
-              value: "Antes do café da manhã",
-            },
-            {
-              label: "Depois do café da manhã",
-              value: "Depois do café da manhã",
-            },
-            { label: "Antes do almoço", value: "Antes do almoço" },
-            { label: "Depois do almoço", value: "Depois do almoço" },
-            { label: "Antes do jantar", value: "Antes do jantar" },
-            { label: "Depois do jantar", value: "Depois do jantar" },
-            { label: "Antes de dormir", value: "Antes de dormir" },
-            { label: "Extra", value: "Extra" },
-          ]}
+          items={glucoseTypes.map((type) => ({
+            label: type.nome,
+            value: type.nome,
+          }))}
           placeholder={"Selecione o tipo"}
           title={"Informe o tipo de glicemia"}
           style={customDropdownStyle}

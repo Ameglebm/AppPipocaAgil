@@ -10,9 +10,12 @@ export const updateGlucose =
         value: Number(value),
       };
 
-      await api.post("/medicalRecord/userGlicemia", requestBody);
+      const response = await api.post(
+        "/medicalRecord/userGlicemia",
+        requestBody
+      );
 
-      console.log("Enviando dados para API:", requestBody);
+      if (response.status === 201) console.log("Registro salvo");
 
       dispatch({
         type: "UPDATE_GLUCOSE",
@@ -23,23 +26,15 @@ export const updateGlucose =
     }
   };
 
-export const fetchGlucose = (userId) => async (dispatch) => {
+export const fetchGlucoseTypes = () => async (dispatch) => {
   try {
-    console.log("Buscando glicemia para o userId:", userId); // DEBUG
-
-    const response = await api.get(`/medicalRecord/adminInsulina/${userId}`);
-
-    console.log("Resposta da API:", response.data); // Verificando os dados retornados
+    const response = await api.get("/medicalRecord/tiposGlicemia");
 
     dispatch({
-      type: "SET_GLUCOSE",
-      payload: response.data, // Supondo que a API retorna uma lista de registros
+      type: "SET_GLUCOSE_TYPES",
+      payload: response.data.data,
     });
   } catch (error) {
     console.error("Erro ao buscar glicemia:", error);
-
-    if (error.response) {
-      console.error("Detalhes do erro:", error.response.data);
-    }
   }
 };
