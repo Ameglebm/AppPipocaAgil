@@ -98,7 +98,7 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   }
 
 	async registerPeso(peso: UserPesoDTO): Promise<void> {
-		await prisma.user_peso.create({
+		await prisma.user_Peso.create({
             data: {
                     userId: peso.userId,
                     peso: peso.peso
@@ -107,6 +107,6 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
 	}
 
 	async getUserPeso(userId: number): Promise<any | null> {
-        return await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+        return await prisma.user_Peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
   }
 }
