@@ -55,8 +55,6 @@ export default function Login() {
         senha: password,
       });
 
-      console.log("Resposta da API:", response.data);
-
       const token = response.data?.token;
       const userId = response.data?.user?.id;
 
@@ -71,6 +69,7 @@ export default function Login() {
         } else {
           console.error("Token não foi salvo corretamente.");
         }
+        console.log("Login bem-sucedido");
       } else {
         console.error("Login bem-sucedido, mas sem token.");
       }
