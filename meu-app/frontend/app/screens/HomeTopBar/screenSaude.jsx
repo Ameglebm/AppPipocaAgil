@@ -14,7 +14,7 @@ export default function ScreenOne() {
     useSelector((state) => state.health.glucoseRecords) || [];
   const lastGlucose =
     glucoseRecords.length > 0
-      ? `${glucoseRecords[glucoseRecords.length - 1].glucose} ± 20 mg/dL`
+      ? `${glucoseRecords[glucoseRecords.length - 1].value} ± 20 mg/dL`
       : "Sem registro";
 
   const recordValue =

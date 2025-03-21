@@ -18,7 +18,7 @@ const Account = () => {
     try {
       // Remove o token do armazenamento
       await removeToken();
-      console.log("Token removido com sucesso. Usuário desconectado.");
+      console.log("Usuário desconectado");
       router.replace("../screens/Auth/loginScreen");
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
