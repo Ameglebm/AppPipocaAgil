@@ -25,8 +25,7 @@ model Users {
   userAdminInsulinas  User_administracao_insulina[]
   userGlicemia        User_Glicemia[]
   userPressaoArterial User_Pressao_Arterial[]
-
-  User_peso User_peso[]
+  User_peso           User_peso[]
 }
 
 model PasswordResetToken {

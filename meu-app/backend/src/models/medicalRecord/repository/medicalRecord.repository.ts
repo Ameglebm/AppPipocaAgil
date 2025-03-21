@@ -104,4 +104,25 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
     return await prisma.user_Pressao_Arterial.findMany({ where: { userId } , orderBy: { createdAt:"desc" }});
   }
 
+  async findAllTypesDiabetes(): Promise<any | null> {
+    return await prisma.tipo_diabetes.findMany();
+  }
+
+  async findAllTypesTreatments(): Promise<any | null> {
+    return await prisma.tipo_tratamento.findMany();
+  }
+
+  // async registerPeso(peso: UserPesoDTO): Promise<void> {
+	// 	await prisma.user_peso.create({
+  //           data: {
+  //                   userId: peso.userId,
+  //                   peso: peso.peso
+  //           }
+	// 	});
+	// }
+
+	// async getUserPeso(userId: number): Promise<any | null> {
+  //       return await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+  // }
 }
+
