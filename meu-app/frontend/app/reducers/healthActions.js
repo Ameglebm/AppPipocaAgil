@@ -10,19 +10,23 @@ export const updateGlucose =
         value: Number(value),
       };
 
-      const response = await api.post(
-        "/medicalRecord/userGlicemia",
-        requestBody
-      );
-
-      if (response.status === 201) console.log("Registro salvo");
+      await api.post("/medicalRecord/userGlicemia", requestBody);
+      console.log("Registro salvo");
 
       dispatch({
         type: "UPDATE_GLUCOSE",
         payload: { ...requestBody, timestamp: new Date().toISOString() },
       });
     } catch (error) {
-      console.log("Erro ao salvar glicemia: ", error);
+      if (error.response?.status === 400) {
+        console.error("Erro de validação: Verifique os dados enviados.");
+      } else if (error.response?.status === 500) {
+        console.error("Erro interno do servidor. Tente novamente mais tarde");
+      } else {
+        console.error(
+          `Erro inesperado: ${error.response?.status || "Desconhecido"} - ${error.response?.data?.message || "Erro desconhecido"}`
+        );
+      }
     }
   };
 

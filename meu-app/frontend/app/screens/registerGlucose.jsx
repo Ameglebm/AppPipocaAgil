@@ -70,11 +70,6 @@ export default function registerGlucose() {
   const handleSave = () => {
     const glicemiaId = treatmentToId[treatment];
 
-    if (!userId || !glicemiaId || isNaN(Number(glicose))) {
-      console.error("Erro: Dados inválidos antes do envio!");
-      return;
-    }
-
     console.log("Salvando registro... ");
 
     dispatch(updateGlucose(Number(userId), glicemiaId, Number(glicose)));
