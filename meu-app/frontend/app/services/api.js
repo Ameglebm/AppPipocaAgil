@@ -15,10 +15,6 @@ api.interceptors.request.use(
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(
-        "Enviando requisição com token:",
-        config.headers.Authorization
-      );
     }
     return config;
   },

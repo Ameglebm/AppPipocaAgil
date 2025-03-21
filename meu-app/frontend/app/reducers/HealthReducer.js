@@ -1,7 +1,6 @@
 const initialState = {
   glucoseRecords: [],
-  bloodPressureRecords: [],
-  weightRecords: [],
+  glucoseTypes: [],
 };
 
 const healthRecordsReducer = (state = initialState, action) => {
@@ -11,15 +10,10 @@ const healthRecordsReducer = (state = initialState, action) => {
         ...state,
         glucoseRecords: [...state.glucoseRecords, action.payload],
       };
-    case "UPDATE_BLOOD_PRESSURE":
+    case "SET_GLUCOSE_TYPES": // Nova action para armazenar os tipos
       return {
         ...state,
-        bloodPressureRecords: [...state.bloodPressureRecords, action.payload],
-      };
-    case "UPDATE_WEIGHT":
-      return {
-        ...state,
-        weightRecords: [...state.weightRecords, action.payload],
+        glucoseTypes: action.payload,
       };
     default:
       return state;
