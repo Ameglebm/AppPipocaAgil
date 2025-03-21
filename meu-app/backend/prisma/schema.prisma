@@ -24,6 +24,8 @@ model Users {
   userInsulinas       User_insulina[]
   userAdminInsulinas  User_administracao_insulina[]
   userGlicemia        User_Glicemia[]
+  userPressaoArterial User_Pressao_Arterial[]
+  User_peso           User_peso[]
 }
 
 model PasswordResetToken {
@@ -150,4 +152,23 @@ model User_Glicemia {
   glicemiaId Int
   value      Int
   createdAt  DateTime      @default(now())
+}
+
+model User_Pressao_Arterial {
+  id         Int      @id @default(autoincrement())
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     Int
+  sistolica  Int
+  diastolica Int
+  date       String
+  time       String
+  createdAt  DateTime @default(now())
+}
+
+model User_peso {
+  id        Int      @id @default(autoincrement())
+  user      Users    @relation(fields: [userId], references: [id])
+  userId    Int
+  peso      Float
+  createdAt DateTime @default(now())
 }
