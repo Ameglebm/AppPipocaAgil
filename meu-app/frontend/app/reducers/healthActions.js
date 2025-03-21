@@ -11,35 +11,34 @@ export const updateGlucose =
       };
 
       await api.post("/medicalRecord/userGlicemia", requestBody);
-
-      console.log("Enviando dados para API:", requestBody);
+      console.log("Registro salvo");
 
       dispatch({
         type: "UPDATE_GLUCOSE",
         payload: { ...requestBody, timestamp: new Date().toISOString() },
       });
     } catch (error) {
-      console.log("Erro ao salvar glicemia: ", error);
+      if (error.response?.status === 400) {
+        console.error("Erro de validação: Verifique os dados enviados.");
+      } else if (error.response?.status === 500) {
+        console.error("Erro interno do servidor. Tente novamente mais tarde");
+      } else {
+        console.error(
+          `Erro inesperado: ${error.response?.status || "Desconhecido"} - ${error.response?.data?.message || "Erro desconhecido"}`
+        );
+      }
     }
   };
 
-export const fetchGlucose = (userId) => async (dispatch) => {
+export const fetchGlucoseTypes = () => async (dispatch) => {
   try {
-    console.log("Buscando glicemia para o userId:", userId); // DEBUG
-
-    const response = await api.get(`/medicalRecord/adminInsulina/${userId}`);
-
-    console.log("Resposta da API:", response.data); // Verificando os dados retornados
+    const response = await api.get("/medicalRecord/tiposGlicemia");
 
     dispatch({
-      type: "SET_GLUCOSE",
-      payload: response.data, // Supondo que a API retorna uma lista de registros
+      type: "SET_GLUCOSE_TYPES",
+      payload: response.data.data,
     });
   } catch (error) {
     console.error("Erro ao buscar glicemia:", error);
-
-    if (error.response) {
-      console.error("Detalhes do erro:", error.response.data);
-    }
   }
 };
