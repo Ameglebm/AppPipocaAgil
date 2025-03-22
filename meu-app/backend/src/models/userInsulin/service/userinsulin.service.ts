@@ -37,6 +37,6 @@ export class UserinsulinService implements IUserInsulinService{
         const userId = parseInt(params.userId, 10)
         const id = parseInt(params.id, 10)
 
-        await this.userInsulinRepository.deleteUserInsulin(params);
+        await this.userInsulinRepository.deleteUserInsulin(userId, id);
     }
 }

@@ -36,9 +36,7 @@ export class UserInsulinRepository implements IUserInsulinRepository {
 
     /* Está faltando passar o id do registro que quer excluir, juntamento com o userId */
     //FINALIZADO
-    async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
-        const id = Number(query.id); 
-        const userId = Number(query.userId);
+    async deleteUserInsulin(id: number, userId: number): Promise<void> {
         await prisma.user_insulina.delete({
             where: {
                 id,
