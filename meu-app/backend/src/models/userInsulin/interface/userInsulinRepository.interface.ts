@@ -1,4 +1,4 @@
-import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
+import { CreateUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
 
 export interface IUserInsulinRepository {
     /* getUserInsulinByUserId não está sendo usado. Removido */ //FINALIZADO

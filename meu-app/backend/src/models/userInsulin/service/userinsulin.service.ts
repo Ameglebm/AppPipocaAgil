@@ -25,18 +25,18 @@ export class UserinsulinService implements IUserInsulinService{
     }
     // FINALIZADO
     async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
-        const { id } = data;
-        const existingRecord = await this.userInsulinRepository.getUserInsulin(id);
-        if (!existingRecord) {
+        const { userId } = data;
+        const record = await this.userInsulinRepository.getUserInsulin(userId);
+        if (!record) {
             throw new NotFoundException(`Registro de insulina não encontrado`);
         }
         await this.userInsulinRepository.patchUserInsulin(data);
     }
     // FINALIZADO
-    async deleteUserInsulin(params: DeleteUserInsulinDTO): Promise<void> {
-        const userId = parseInt(params.userId, 10)
-        const id = parseInt(params.id, 10)
+    async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
+        const userId = parseInt(query.userId, 10)
+        const id = parseInt(query.id, 10)
 
-        await this.userInsulinRepository.deleteUserInsulin(params);
+        await this.userInsulinRepository.deleteUserInsulin();
     }
 }

@@ -29,7 +29,7 @@ export class UserinsulinController {
 
     /* Link deve ser apenas :userId. Está faltando o try do try catch. Corrigir DTO para receber apenas o id.
     No service deve converter o id que é uma string para um number e salvar na variável userId para buscar no repository 
-    Revisar texto do error.message para ser igual ao do service */
+    Revisar texto do error.message para ser igual ao do service */ 
     // feito todos os ajustes FINALIZADO
     @ApiOperation({ summary: 'Ober registro de insulina'})
     @ApiResponse({ status: 200, description: 'Registro de insulina encontrado'})
@@ -39,8 +39,7 @@ export class UserinsulinController {
     @Get(':userid')
     async getUserInsulin(@Param() params: GetUserInsulinDTO) {
         try {
-            const data = await this.userInsulinService.getUserInsulin(params);
-            return { data };
+            await this.userInsulinService.getUserInsulin(params);
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error; 
@@ -59,10 +58,9 @@ export class UserinsulinController {
     @ApiResponse({ status: 400, description: 'Erro de validação'})
     @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
     @Patch()
-        async patchUserInsulin(@Body() params: PatchUserInsulinDTO) {
+        async patchUserInsulin(@Body() patchUserInsulin: PatchUserInsulinDTO) {
             try {
-                const data = await this.userInsulinService.patchUserInsulin(params);
-                return { data: data };
+                await this.userInsulinService.patchUserInsulin(patchUserInsulin);
             } catch (error) {
                 if (error instanceof NotFoundException) {
                     throw error;
