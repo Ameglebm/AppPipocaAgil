@@ -83,10 +83,7 @@ export class UserinsulinController {
          @Delete(':userId/:id')
          async deleteUserInsulin(@Param() params: DeleteUserInsulinDTO){
             try {
-                const record = await this.userInsulinService.deleteUserInsulin(params)
-
-                return {data: record}
-
+                await this.userInsulinService.deleteUserInsulin(params)
             } catch (error) {
                 if (error instanceof Error && error.message === 'Registro de insulina não encontrado') {
                     throw new NotFoundException(error.message)

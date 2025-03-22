@@ -5,5 +5,5 @@ export interface IUserInsulinRepository {
     createUserInsulin(data: CreateUserInsulinDTO): Promise<void>;
     getUserInsulin(id: number): Promise<any | null>;
     patchUserInsulin(data: PatchUserInsulinDTO): Promise<void>;
-    deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void>;
+    deleteUserInsulin(params: DeleteUserInsulinDTO): Promise<void>;
 }

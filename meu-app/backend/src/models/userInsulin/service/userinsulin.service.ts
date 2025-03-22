@@ -33,10 +33,10 @@ export class UserinsulinService implements IUserInsulinService{
         await this.userInsulinRepository.patchUserInsulin(data);
     }
     // FINALIZADO
-    async deleteUserInsulin(query: DeleteUserInsulinDTO): Promise<void> {
-        const userId = parseInt(query.userId, 10)
-        const id = parseInt(query.id, 10)
+    async deleteUserInsulin(params: DeleteUserInsulinDTO): Promise<void> {
+        const userId = parseInt(params.userId, 10)
+        const id = parseInt(params.id, 10)
 
-        await this.userInsulinRepository.deleteUserInsulin();
+        await this.userInsulinRepository.deleteUserInsulin(params);
     }
 }
