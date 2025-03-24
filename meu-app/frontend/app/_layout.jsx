@@ -245,6 +245,11 @@ export default function Layout() {
           name="screens/registerGlucose"
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name="screens/HomeTopBar/screenHistorico"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </Provider>
   );
