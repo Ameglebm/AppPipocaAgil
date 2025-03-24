@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 const Account = () => {
   const router = useRouter();
-  const userName = useSelector((state) => state.auth.userId) || "Usuário";
+  const userName = useSelector((state) => state.auth.userName) || "Usuário";
 
   // Função de logout
   const logout = async () => {
@@ -34,7 +34,7 @@ const Account = () => {
       <View style={styles.contentAccount}>
         <View style={styles.profileContent}>
           <Image source={ImageProfile} />
-          <Text style={styles.textName}>Usuário</Text>
+          <Text style={styles.textName}>{userName}</Text>
         </View>
 
         <View style={styles.infoContent}>

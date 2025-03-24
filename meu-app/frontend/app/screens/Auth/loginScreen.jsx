@@ -17,7 +17,7 @@ import api from "../../services/api";
 import { saveToken, getToken } from "../../Utils/tokenManager";
 import userImage from "../../assets/images/user.webp";
 import { useDispatch } from "react-redux";
-import { setUserId } from "../../reducers/authActions";
+import { setUserId, setUserName } from "../../reducers/authActions";
 
 export default function Login() {
   const [email, setEmail] = useState("warlleyrocha@icloud.com");
@@ -59,10 +59,12 @@ export default function Login() {
 
       const token = response.data?.token;
       const userId = response.data?.user?.id;
+      const userName = response.data?.user?.nome;
 
       if (response.status === 201 && token && userId) {
         await saveToken(response.data.token);
         dispatch(setUserId(userId));
+        dispatch(setUserName(userName));
 
         const savedToken = await getToken(); // Recupera o token salvo
 
