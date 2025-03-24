@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     width: 186,
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingRight: 38,
+    paddingRight: 10,
   },
   filtersView: {
     width: 107,
@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
   contentList: {
     backgroundColor: "#FDFDFD",
     position: "absolute",
+    zIndex: 10,
     borderRadius: 12,
     width: 185,
     height: 296,
     top: 50,
     paddingVertical: 16,
     paddingHorizontal: 15,
-    right: 20,
     gap: 10,
   },
   radioWrapper: {
