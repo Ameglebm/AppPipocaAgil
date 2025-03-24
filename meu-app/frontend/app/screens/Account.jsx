@@ -9,9 +9,11 @@ import ImageProfile from "../assets/images/monogram.png";
 import NextIconSvg from "../components/SvgComponents/NextIconSvg";
 import LogoutIcon from "../components/SvgComponents/LogoutIcon";
 import { removeToken } from "../Utils/tokenManager";
+import { useSelector } from "react-redux";
 
 const Account = () => {
   const router = useRouter();
+  const userName = useSelector((state) => state.auth.userName) || "Usuário";
 
   // Função de logout
   const logout = async () => {
@@ -26,31 +28,40 @@ const Account = () => {
   };
 
   return (
-    <View>
+    <View style={styles.mainView}>
       <Header title="Conta" />
 
-      <View>
-        <View>
+      <View style={styles.contentAccount}>
+        <View style={styles.profileContent}>
           <Image source={ImageProfile} />
-          <Text>Nome do usuário</Text>
+          <Text style={styles.textName}>{userName}</Text>
         </View>
 
-        <View>
-          <Text>Detalhes</Text>
+        <View style={styles.infoContent}>
+          <Text style={styles.textName}>Detalhes</Text>
 
           <TouchableOpacity
+            style={styles.infoItem}
             onPress={() => {
               router.push("../screens/infoDiabetes");
             }}
           >
-            <Text>Informações do Diabetes</Text>
+            <Text style={styles.textDescription}>Informações do Diabetes</Text>
             <NextIconSvg />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={logout}>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            paddingTop: 182,
+          }}
+          onPress={logout}
+        >
           <LogoutIcon />
-          <Text>Sair da conta</Text>
+          <Text style={styles.textDescription}>Sair da conta</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -59,4 +70,51 @@ const Account = () => {
 
 export default Account;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    backgroundColor: "#FDFDFD",
+    paddingTop: 45,
+    paddingHorizontal: 20,
+  },
+  contentAccount: {
+    flex: 1,
+    paddingTop: 16,
+    flexDirection: "column",
+    gap: 32,
+  },
+  profileContent: {
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+    gap: 16,
+    flexDirection: "row",
+    paddingTop: 12,
+    paddingBottom: 32,
+    borderBottomWidth: 1,
+    borderBottomColor: "#D1D1D0",
+  },
+  textName: {
+    paddingBottom: 16,
+    fontFamily: "Urbanist_700Bold",
+    fontSize: 18,
+    lineHeight: 19.8,
+  },
+  infoContent: {
+    paddingTop: 10,
+  },
+  infoItem: {
+    flexDirection: "row",
+    paddingVertical: 8,
+    gap: 16,
+    width: 320,
+    height: 52,
+    borderBottomWidth: 1,
+    borderBottomColor: "#D1D1D0",
+  },
+  textDescription: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 16,
+    lineHeight: 22,
+    width: 260,
+  },
+});
