@@ -29,6 +29,7 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+import { Sora_400Regular } from "@expo-google-fonts/sora";
 
 // Splash Screen
 import * as SplashScreen from "expo-splash-screen";
@@ -58,6 +59,7 @@ export default function Layout() {
     Lato_400Regular,
     Lato_700Bold,
     Roboto_400Regular,
+    Sora_400Regular,
   });
 
   useEffect(() => {
