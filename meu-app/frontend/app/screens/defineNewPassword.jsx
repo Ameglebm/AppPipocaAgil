@@ -63,7 +63,7 @@ export default function DefineNewPassword() {
 
       // Verifica se a resposta da API indica sucesso
       if (response.status === 201) {
-        router.replace("./Feedbacks/RecoverSucessfull"); // Nome da tela de feedback no seu navegador
+        router.replace("./Feedbacks/recoverSucessfull"); // Nome da tela de feedback no seu navegador
       } else if (response.status === 400) {
         console.log("Código inválido ou expirado / Erros de validação");
       }
