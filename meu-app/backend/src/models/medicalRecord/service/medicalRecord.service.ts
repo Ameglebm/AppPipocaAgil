@@ -1,6 +1,6 @@
 
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -89,4 +89,34 @@ export class MedicalRecordService implements IMedicalRecordService {
 
     return record;
   }
+
+  async getTypesDiabetes(): Promise<any | null> {
+    const allTypesDiabetes = await this.medicalRecordRepository.findAllTypesDiabetes();
+    if(allTypesDiabetes.length === 0) {
+        throw new NotFoundException('Tipos de diabetes não encontrados.');
+    }
+    return allTypesDiabetes;
+  }
+  
+  async getTypesTreatments(): Promise<any | null> {
+    const allTypesTreatments = await this.medicalRecordRepository.findAllTypesTreatments();
+    if(allTypesTreatments.length === 0) {
+        throw new NotFoundException('Tipos de tratamentos não encontrados.');
+    }
+    return allTypesTreatments;
+  }
+  
+  async getUserPeso(params: GetUserPesoDTO): Promise<any | null> {
+    const userId = parseInt(params.id, 10);
+    const record = await this.medicalRecordRepository.getUserPeso(userId);
+    if (record.length === 0) {
+        throw new NotFoundException("Registro de peso não encontrado.");
+    }
+    return record;
+  }
+
+  async registerPeso(peso: UserPesoDTO): Promise<void> {
+    await this.medicalRecordRepository.registerPeso(peso);
+  }
 }
+
