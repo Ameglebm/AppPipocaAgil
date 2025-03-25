@@ -107,7 +107,9 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
 	}
 
 	async getUserPeso(userId: number): Promise<any | null> {
-        return await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    const record = await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    const updatedRecord = record.map((r:any) => ({...r, weightDifference: "" }));
+    return updatedRecord;
   }
-  
+
 }

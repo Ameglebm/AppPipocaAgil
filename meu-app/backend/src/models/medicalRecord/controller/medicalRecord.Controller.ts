@@ -173,6 +173,9 @@ export class MedicalRecordController {
     try {
       return await this.medicalRecordService.getTypesDiabetes();
     } catch (error) {
+      if (error instanceof Error && error.message === 'Tipos de diabetes não encontrados') {
+        throw new NotFoundException(error.message);
+      }
       console.error('Erro ao buscar tipos de diabetes', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
@@ -187,6 +190,9 @@ export class MedicalRecordController {
     try {
       return await this.medicalRecordService.getTypesTreatments();
     } catch (error) {
+      if (error instanceof Error && error.message === 'Tipos de tratamentos não encontrados') {
+        throw new NotFoundException(error.message);
+      }
       console.error('Erro ao buscar tipos de tratamentos', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
@@ -200,15 +206,11 @@ export class MedicalRecordController {
   async getUserPeso(@Param() params: GetUserPesoDTO) {
      try {
       const data = await this.medicalRecordService.getUserPeso(params);
-
       return { data };
-
     } catch (error) {
-
       if (error instanceof Error && error.message === 'Registro de peso não encontrado') {
         throw new NotFoundException(error.message);
       }
-
       console.error('Erro ao obter registro de peso:', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }

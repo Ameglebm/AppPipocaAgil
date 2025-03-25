@@ -93,7 +93,7 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getTypesDiabetes(): Promise<any | null> {
     const allTypesDiabetes = await this.medicalRecordRepository.findAllTypesDiabetes();
     if(allTypesDiabetes.length === 0) {
-        throw new NotFoundException('Tipos de diabetes não encontrados.');
+        throw new NotFoundException('Tipos de diabetes não encontrados');
     }
     return allTypesDiabetes;
   }
@@ -101,7 +101,7 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getTypesTreatments(): Promise<any | null> {
     const allTypesTreatments = await this.medicalRecordRepository.findAllTypesTreatments();
     if(allTypesTreatments.length === 0) {
-        throw new NotFoundException('Tipos de tratamentos não encontrados.');
+        throw new NotFoundException('Tipos de tratamentos não encontrados');
     }
     return allTypesTreatments;
   }
@@ -109,8 +109,19 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getUserPeso(params: GetUserPesoDTO): Promise<any | null> {
     const userId = parseInt(params.id, 10);
     const record = await this.medicalRecordRepository.getUserPeso(userId);
-    if (record.length === 0) {
-        throw new NotFoundException("Registro de peso não encontrado.");
+    if(record.length === 0) {
+      throw new NotFoundException("Registro de peso não encontrado");
+    }
+    for(let i = 0; i < record.length; i++) {
+      if(i === record.length - 1) {
+        record[i].weightDifference = "";
+      } else if(record[i].peso > record[i+1].peso) {
+        record[i].weightDifference = "maior";
+      } else if(record[i].peso === record[i+1].peso) {
+        record[i].weightDifference = "";
+      } else {
+        record[i].weightDifference = "menor";
+      }
     }
     return record;
   }
