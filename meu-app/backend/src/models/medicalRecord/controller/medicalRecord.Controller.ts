@@ -166,7 +166,7 @@ export class MedicalRecordController {
 
   @ApiOperation({ summary: 'Retorna todos os tipos de diabetes' })
   @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
-  @ApiResponse({ status: 401, description: 'Erro de autenticação' })
+  @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @Get('typesDiabetes')
   async getTypesDiabetes(): Promise<any | null> {
@@ -183,7 +183,7 @@ export class MedicalRecordController {
 
   @ApiOperation({ summary: 'Retorna todos os tipos de tratamentos' })
   @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
-  @ApiResponse({ status: 401, description: 'Erro de autenticação' })
+  @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @Get('typesTreatments')
   async getTypesTreatments(): Promise<any | null> {
@@ -199,7 +199,7 @@ export class MedicalRecordController {
   }
 
   @ApiOperation({ summary: '' })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
   @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @Get('userPeso/:id')
@@ -217,7 +217,7 @@ export class MedicalRecordController {
   }
 
   @ApiOperation({ summary: 'Registra o peso do usuário' })
-  @ApiResponse({ status: 201 })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
   @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   @ApiBody({ type: UserPesoDTO })
