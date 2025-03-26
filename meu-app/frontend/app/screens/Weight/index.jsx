@@ -37,7 +37,7 @@ export default function weight() {
 
     if (isLastItem && weightRecords.length > 1) {
       const previousWeight = weightRecords[weightRecords.length - 2];
-      const diff = item.weight - previousWeight.weight;
+      const diff = item.value - previousWeight.value;
       weightChange = `${diff < 0 ? "-" : ""}${Math.abs(diff)} kg`;
 
       if (diff > 0) {
@@ -55,7 +55,7 @@ export default function weight() {
         </View>
 
         <View style={styles.historyItem}>
-          <Text style={styles.historyText}>{item.weight} kg</Text>
+          <Text style={styles.historyText}>{item.value} kg</Text>
           {isLastItem && arrow && (
             <View style={styles.weightChangeContainer}>
               {arrow}
@@ -75,7 +75,7 @@ export default function weight() {
         <Image source={Path} />
         <Text style={styles.textPeso}>
           {" "}
-          {lastWeight ? `${lastWeight.weight} kg` : "000 kg"}
+          {lastWeight ? `${lastWeight.value} kg` : "000 kg"}
         </Text>
         <Text style={styles.textRegister}>
           {lastWeight && lastWeight.date

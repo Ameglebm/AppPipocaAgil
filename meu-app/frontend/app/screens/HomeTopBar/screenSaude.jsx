@@ -20,6 +20,14 @@ export default function ScreenOne() {
   const recordValue =
     glucoseRecords.length > 0 ? "Média mensal" : "Sem registro";
 
+  const weightRecords =
+    useSelector((state) => state.weight.weightRecords) || [];
+  const lastWeightRecords =
+    weightRecords.length > 0
+      ? `${weightRecords[weightRecords.length - 1].value} kg`
+      : "Sem registro";
+  const recordValueWeight = glucoseRecords.length > 0 ? "Data" : "Sem registro";
+
   const cardData = [
     {
       title: "Glicemia",
@@ -41,8 +49,8 @@ export default function ScreenOne() {
     },
     {
       title: "Peso",
-      value: "",
-      record: "Sem registro",
+      value: lastWeightRecords,
+      record: recordValueWeight,
       onPress: () => router.push("screens/Weight"),
       imageSource: require("../../assets/images/icons/path.png"),
       iconBackgroundColor: "#DCECDC",

@@ -20,10 +20,10 @@ const weightReducer = (state = initialState, action) => {
         return `${day}/${month}/${year}`;
       };
 
-      const { weight } = action.payload;
+      const { value } = action.payload;
 
       const newRecord = {
-        weight,
+        value,
         // Data no formato DD-MM-YYYY
         date: formatDate(new Date()),
         // Hora formatada no formato HH:MM:SS
