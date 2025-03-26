@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -164,13 +164,13 @@ export class MedicalRecordController {
     }
   }
 }
-
+// Ajustar aqui
   @ApiOperation({ summary: 'Registrar pressão arterial do usuário' })
   @ApiResponse({ status: 201, description: 'Pressão arterial registrada com sucesso' })
   @ApiResponse({ status: 400, description: 'Erro de validação'})
   @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
   @Post('pressaoArterial')
-  async createUserPressaoArterial(@Body() dto: CreateUserPressaoArterialDTO) {
+  async CreateUserPressaoArterial(@Body() dto: CreateUserPressaoArterialDTO) {
     try {
       await this.medicalRecordService.createUserPressaoArterial(dto);
     } catch (error) {
@@ -178,7 +178,7 @@ export class MedicalRecordController {
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
-
+// Ajustar aqui
   @ApiOperation({ summary: 'Obter registro de pressão arterial do usuário por ID'})
   @ApiResponse({ status: 200, description: 'Registro encontrado'})
   @ApiResponse({ status: 400, description: 'Erro de validação'})
