@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO } from "../dtos/medicalRecordDTO";
 
 
 export class MedicalRecordRepository implements IMedicalRecordRepository {
@@ -97,16 +97,19 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
     return await prisma.tipo_tratamento.findMany();
   }
 
-	// async registerPeso(peso: UserPesoDTO): Promise<void> {
-	// 	await prisma.user_peso.create({
-  //           data: {
-  //                   userId: peso.userId,
-  //                   peso: peso.peso
-  //           }
-	// 	});
-	// }
+	async registerPeso(peso: UserPesoDTO): Promise<void> {
+		await prisma.user_peso.create({
+            data: {
+                    userId: peso.userId,
+                    peso: peso.peso
+            }
+		});
+	}
 
-	// async getUserPeso(userId: number): Promise<any | null> {
-  //       return await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
-  // }
+	async getUserPeso(userId: number): Promise<any | null> {
+    const record = await prisma.user_peso.findMany({where: { userId } , orderBy: { createdAt:"desc" }});
+    const updatedRecord = record.map((r:any) => ({...r, weightDifference: "" }));
+    return updatedRecord;
+  }
+
 }
