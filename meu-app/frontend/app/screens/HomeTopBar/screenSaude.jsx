@@ -12,6 +12,7 @@ export default function ScreenOne() {
 
   const glucoseRecords =
     useSelector((state) => state.health.glucoseRecords) || [];
+
   const lastGlucose =
     glucoseRecords.length > 0
       ? `${glucoseRecords[glucoseRecords.length - 1].value} ± 20 mg/dL`
@@ -22,11 +23,14 @@ export default function ScreenOne() {
 
   const weightRecords =
     useSelector((state) => state.weight.weightRecords) || [];
+
   const lastWeightRecords =
     weightRecords.length > 0
-      ? `${weightRecords[weightRecords.length - 1].value} kg`
+      ? `${weightRecords[weightRecords.length - 1].peso} kg`
       : "Sem registro";
-  const recordValueWeight = glucoseRecords.length > 0 ? "Data" : "Sem registro";
+
+  const recordValueWeight =
+    weightRecords.length > 0 ? weightRecords[0].date : "Sem registro";
 
   const cardData = [
     {

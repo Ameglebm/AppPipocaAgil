@@ -9,6 +9,7 @@ import HealthRecordList from "../../components/HealthRecordList";
 export default function ScreenHistory() {
   const glucoseRecords =
     useSelector((state) => state.health.glucoseRecords) || [];
+
   const weightRecords =
     useSelector((state) => state.weight.weightRecords) || [];
 
@@ -54,7 +55,14 @@ export default function ScreenHistory() {
         unit="mg/dL"
       />
 
-      <HealthRecordList records={weightRecords} title="Peso" unit="kg" />
+      <HealthRecordList
+        records={weightRecords.map((record) => ({
+          ...record,
+          value: record.peso, // Mapeia "peso" para "value"
+        }))}
+        title="Peso"
+        unit="kg"
+      />
     </View>
   );
 }
