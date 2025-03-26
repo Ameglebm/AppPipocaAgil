@@ -5,7 +5,7 @@ import ExpandLess from "../../assets/images/icons/expand_less.png";
 import Checkbox from "expo-checkbox";
 import { RadioButton } from "react-native-paper";
 
-export default function Filters() {
+export default function Filters({ onApplyFilters }) {
   // Abrir Filtros
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -140,7 +140,10 @@ export default function Filters() {
             <Text style={styles.options}>Últimos 30 dias</Text>
           </View>
 
-          <TouchableOpacity style={styles.buttonView}>
+          <TouchableOpacity
+            style={styles.buttonView}
+            onPress={() => onApplyFilters(selectedHealthParams)}
+          >
             <Text style={styles.textButton}>Aplicar</Text>
           </TouchableOpacity>
         </View>
