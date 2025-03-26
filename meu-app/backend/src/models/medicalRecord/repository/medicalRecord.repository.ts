@@ -1,9 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
 
-
+// Ajustar o codigo aqui
 export class MedicalRecordRepository implements IMedicalRecordRepository {
+  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getUserPressaoArterial(userId: number): Promise<any | null> {
+    throw new Error("Method not implemented.");
+  }
 
   async getUserDiabetesByUserId(id: number): Promise<any | null> {
     const userId = id;

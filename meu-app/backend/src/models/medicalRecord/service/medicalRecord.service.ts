@@ -1,6 +1,6 @@
 
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -8,6 +8,12 @@ export class MedicalRecordService implements IMedicalRecordService {
   constructor(
     @Inject('IMedicalRecordRepository') private readonly medicalRecordRepository: IMedicalRecordRepository,
   ) {}
+  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getUserPressaoArterial(userId: GetUserPressaoArterialDTO): Promise<any | null> {
+    throw new Error("Method not implemented.");
+  }
 
   async createUserDiabetes(data: CreateDiabetesDTO): Promise<void> {
 
