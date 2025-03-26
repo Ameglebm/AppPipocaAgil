@@ -7,8 +7,8 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
   createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  getUserPressaoArterial(userId: number): Promise<any | null> {
-    throw new Error("Method not implemented.");
+  async getUserPressaoArterial(userId: number): Promise<any | null> {
+    return await prisma.user_Pressao_Arterial.findMany({ where: { userId } , orderBy: { createdAt:"desc" }});
   }
 
   async getUserDiabetesByUserId(id: number): Promise<any | null> {

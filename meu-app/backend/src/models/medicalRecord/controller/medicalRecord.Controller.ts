@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -170,14 +170,21 @@ export class MedicalRecordController {
   @ApiResponse({ status: 400, description: 'Erro de validação'})
   @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
   @Post('pressaoArterial')
-  async CreateUserPressaoArterial(@Body() dto: CreateUserPressaoArterialDTO) {
+  async getUserPressaoArterial(@Param() userId: GetUserPressaoArterialDTO) {
     try {
-      await this.medicalRecordService.createUserPressaoArterial(dto);
+      const data = await this.medicalRecordService.getUserPressaoArterial(userId);
+
+      return { data };
     } catch (error) {
-      console.error('Erro ao registrar pressão arterial:', error);
+      if (error instanceof Error && error.message === 'Registro de pressão arterial não encontrado.') {
+        throw new NotFoundException(error.message);
+      }
+
+      console.error('Erro ao obter registro de pressão arterial:', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
+  
 // Ajustar aqui
   @ApiOperation({ summary: 'Obter registro de pressão arterial do usuário por ID'})
   @ApiResponse({ status: 200, description: 'Registro encontrado'})

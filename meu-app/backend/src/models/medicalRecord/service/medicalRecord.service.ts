@@ -10,8 +10,16 @@ export class MedicalRecordService implements IMedicalRecordService {
   createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  getUserPressaoArterial(userId: GetUserPressaoArterialDTO): Promise<any | null> {
-    throw new Error("Method not implemented.");
+
+  async getUserPressaoArterial(params: GetUserPressaoArterialDTO): Promise<any | null> {
+    const userId = parseInt(params.id, 10)
+    const record = await this.medicalRecordRepository.getUserPressaoArterial(userId);
+    
+    if (record.length === 0) {
+      throw new NotFoundException("Registro de pressão arterial do usuário não encontrado.");
+    }
+
+    return record;
   }
 
   async createUserDiabetes(data: CreateDiabetesDTO): Promise<void> {
