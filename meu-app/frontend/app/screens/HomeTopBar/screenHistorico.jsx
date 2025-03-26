@@ -1,13 +1,41 @@
 // screens/ScreenOne.js
 import React from "react";
-import { View, StyleSheet, Image, Text, FlatList } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import Filters from "../../components/filters/Filters";
 import IconHistory from "../../assets/images/icons/history.png";
 import { useSelector } from "react-redux";
+import HealthRecordList from "../../components/HealthRecordList";
 
 export default function ScreenHistory() {
   const glucoseRecords =
     useSelector((state) => state.health.glucoseRecords) || [];
+  const weightRecords =
+    useSelector((state) => state.weight.weightRecords) || [];
+
+  const allRecords = [...glucoseRecords, ...weightRecords].sort(
+    (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+  );
+
+  const firstRecord = allRecords.length > 0 ? allRecords[0] : null;
+
+  const monthNames = [
+    "JAN",
+    "FEV",
+    "MAR",
+    "ABR",
+    "MAI",
+    "JUN",
+    "JUL",
+    "AGO",
+    "SET",
+    "OUT",
+    "NOV",
+    "DEZ",
+  ];
+
+  const firstRecordMonth = firstRecord
+    ? monthNames[new Date(firstRecord.timestamp).getMonth()]
+    : "N/A"; // Se não houver registros
 
   return (
     <View style={styles.screen}>
@@ -17,28 +45,16 @@ export default function ScreenHistory() {
 
       <View style={{ flexDirection: "row", gap: 12, marginTop: 14 }}>
         <Image source={IconHistory} />
-        <Text style={{ color: "#7A98FF" }}>JAN</Text>
+        <Text style={{ color: "#7A98FF" }}>{firstRecordMonth}</Text>
       </View>
 
-      <FlatList
-        data={[...glucoseRecords].reverse()} // Inverte os registros
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => {
-          const date = new Date(item.timestamp);
-          const day = date.getDate();
-
-          return (
-            <View style={styles.recordItem}>
-              <View style={styles.recordContent}>
-                <Text style={styles.dateText}>{day} |</Text>
-                <Text style={styles.recordText}>Glicemia</Text>
-              </View>
-
-              <Text style={styles.textValue}>{item.value} mg/dL</Text>
-            </View>
-          );
-        }}
+      <HealthRecordList
+        records={glucoseRecords}
+        title="Glicemia"
+        unit="mg/dL"
       />
+
+      <HealthRecordList records={weightRecords} title="Peso" unit="kg" />
     </View>
   );
 }
