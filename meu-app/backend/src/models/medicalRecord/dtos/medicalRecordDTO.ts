@@ -82,3 +82,36 @@ export class GetUserGlicemiaDTO {
   @IsString({ message: 'O ID deve ser uma string.' })
   id!: string;
 }
+
+// date e hora ajustado e retirado o id
+export class CreateUserPressaoArterialDTO {
+  @ApiProperty({ example: '1', description: 'ID do usuário'})
+  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
+  userId!: number
+  
+  @ApiProperty({ example: '10', description: 'Valor da pressão arterial sistólica'})
+  @IsNumber({}, { message: 'Valor da pressão arterial sistólica deve ser um número'})
+  sistolica!: number
+
+  @ApiProperty({ example: '80', description: 'Valor da pressão arterial diastólica'})
+  @IsNumber({}, { message: 'Valor da pressão arterial distólica deve ser um número'})
+  diastolica!: number
+
+  @ApiProperty({ example: '07/10/2024', description: 'Data da aferição'})
+  @IsString({ message: 'Valor da data deve ser uma string'})
+  date!: string
+
+  @ApiProperty({ example: '11:00', description: 'Hora da aferição'})
+  @IsString({ message: 'O valor da hora deve ser uma string'})
+  time!: string
+}
+
+export class GetUserPressaoArterialDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+
+  @ApiProperty({ example: 'number', description: 'ID do usuário' })
+  @IsNumber({}, { message: 'ID do usuário deve ser um número'})
+  userId!: number;
+}
