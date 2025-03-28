@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO, getUserRecordLogDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -198,7 +198,7 @@ export class MedicalRecordController {
     }
   }
 
-  @ApiOperation({ summary: '' })
+  @ApiOperation({ summary: 'Retorna os registros de peso do usuário' })
   @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
   @ApiResponse({ status: 400, description: 'Erro de validação' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
@@ -230,4 +230,23 @@ export class MedicalRecordController {
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
+
+  @ApiOperation({ summary: 'Retorna o histórico de registros do usuário' })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
+  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @Get('userHistory/:id')
+  async getUserRecordLog(@Param() params: getUserRecordLogDTO) {
+     try {
+      const data = await this.medicalRecordService.getUserRecordLog(params);
+      return { data };
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Registros do usuário não encontrados') {
+        throw new NotFoundException(error.message);
+      }
+      console.error('Erro ao obter registros do usuário:', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  }
+
 }

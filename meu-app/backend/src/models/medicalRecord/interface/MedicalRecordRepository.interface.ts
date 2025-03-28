@@ -18,4 +18,5 @@ export interface IMedicalRecordRepository {
     findAllTypesTreatments(): Promise<any | null>;
     getUserPeso(userId: number): Promise<any | null>;
     registerPeso(peso: UserPesoDTO): Promise<void>;
+    logAllUserRecords(userId: number): Promise<any | null>;
 }

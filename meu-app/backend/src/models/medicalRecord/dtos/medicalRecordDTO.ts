@@ -98,3 +98,9 @@ export class UserPesoDTO {
   @IsNumber({ }, { message: 'Peso do usuário deve ser um número' })
   peso!: number;
 }
+
+export class getUserRecordLogDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+}
