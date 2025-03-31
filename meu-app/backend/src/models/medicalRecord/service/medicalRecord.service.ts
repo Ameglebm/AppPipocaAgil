@@ -133,8 +133,10 @@ export class MedicalRecordService implements IMedicalRecordService {
   async getUserRecordLog(params: getUserRecordLogDTO): Promise<any | null> {
     const userId = parseInt(params.id, 10);
     const userRecordLog = await this.medicalRecordRepository.logAllUserRecords(userId);
+    if(userRecordLog.length === 0) {
+      throw new NotFoundException("Registros do usuário não encontrados");
+    }
     return userRecordLog;
   }
 
 }
-
