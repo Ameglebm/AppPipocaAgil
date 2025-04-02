@@ -1,11 +1,21 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { RadioButton } from "react-native-paper";
+import Checkbox from "expo-checkbox";
+
+// Assets icons
 import ExpandMore from "../../assets/images/icons/expand_more.png";
 import ExpandLess from "../../assets/images/icons/expand_less.png";
-import Checkbox from "expo-checkbox";
-import { RadioButton } from "react-native-paper";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { setFilter } from "../../reducers/filtersActions";
+  
 export default function Filters({ onApplyFilters }) {
+  // Reducer
+  const dispatch = useDispatch();
+  
+
   // Abrir Filtros
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -142,7 +152,11 @@ export default function Filters({ onApplyFilters }) {
 
           <TouchableOpacity
             style={styles.buttonView}
-            onPress={() => onApplyFilters(selectedHealthParams)}
+            onPress={() => {
+              const action = setFilter(selectedHealthParams, selectedTimePeriod);
+              console.log("Dispatched action:", selectedHealthParams, selectedTimePeriod); // Exibe a ação no console
+              dispatch(action);
+            }}
           >
             <Text style={styles.textButton}>Aplicar</Text>
           </TouchableOpacity>

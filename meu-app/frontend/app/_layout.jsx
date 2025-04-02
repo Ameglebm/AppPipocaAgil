@@ -16,6 +16,7 @@ import InsulinReducer from "./reducers/InsulinReducer";
 import AuthReducer from "./reducers/authReducer";
 import WeightReducer from "./reducers/WeightReducer";
 import HealthReducer from "./reducers/HealthReducer";
+import FiltersReducer from "./reducers/FiltersReducer";
 
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   weight: WeightReducer,
   health: HealthReducer,
+  filter: FiltersReducer,
 });
 
 const store = configureStore({
