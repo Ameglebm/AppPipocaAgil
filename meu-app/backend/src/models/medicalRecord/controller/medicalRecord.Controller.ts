@@ -20,23 +20,23 @@ import { IMedicalRecordService } from '../interface/medicalRecordService.interfa
 export class MedicalRecordController {
   constructor(@Inject('IMedicalRecordService') private readonly medicalRecordService: IMedicalRecordService) {}
 
-  @ApiOperation({ summary: 'Cadastrar tipo de diabetes do usuário' })
-  @ApiResponse({ status: 201, description: 'Registro criado com sucesso' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @ApiOperation({ summary: 'Cadastrar tipo de diabetes do usuário.' })
+  @ApiResponse({ status: 201, description: 'Registro criado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor.' })
   @Post('diabetes')
   async createUserDiabetes(@Body() diabetesDto: CreateDiabetesDTO): Promise<void> {
     try {
       await this.medicalRecordService.createUserDiabetes(diabetesDto);
     } catch (error) {
       console.error('Erro ao cadastrar tipo de diabetes:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Obter registro de diabetes do usuário por ID' })
-  @ApiResponse({ status: 200, description: 'Registro encontrado' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiOperation({ summary: 'Obter registro de diabetes do usuário por ID.' })
+  @ApiResponse({ status: 200, description: 'Registro encontrado.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
   @ApiResponse({ status: 404, description: 'Registro de diabetes não encontrado.' })
   @Get('diabetes/:id')
   async getUserDiabetes(@Param() params: GetDiabetesDTO) {
@@ -52,14 +52,14 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de diabetes:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Registrar leitura glicêmica do usuário' })
-  @ApiResponse({ status: 201, description: 'Leitura glicêmica registrada com sucesso' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @ApiOperation({ summary: 'Registrar leitura glicêmica do usuário.' })
+  @ApiResponse({ status: 201, description: 'Leitura glicêmica registrada com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor.' })
   @ApiBody({ type: [MetaGlicemicaDTO] })
   @Post('metaGlicemica')
   async metaGlicemica(@Body() leituraGlicemia: MetaGlicemicaDTO[]): Promise<void> {
@@ -67,27 +67,27 @@ export class MedicalRecordController {
       await this.medicalRecordService.metaGlicemica(leituraGlicemia);
     } catch (error) {
       console.error('Erro ao registrar leitura glicêmica:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Registrar meio de administração de insulina do usuário' })
-  @ApiResponse({ status: 201 })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @ApiOperation({ summary: 'Registrar meio de administração de insulina do usuário.' })
+  @ApiResponse({ status: 201, description: 'Registro de administração de insulina encontrado.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor.' })
   @Post('adminInsulina')
   async addInsulinAdministration(@Body() insulinAdministrationDTO: InsulinAdministrationDTO) {
     try {
       await this.medicalRecordService.createInsulinAdministration(insulinAdministrationDTO);
     } catch (error) {
       console.error('Erro ao registrar administração de insulina:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
   
-  @ApiOperation({ summary: 'Obter registro de administração de insulina do usuário por ID' })
-  @ApiResponse({ status: 200, description: 'Registro encontrado' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiOperation({ summary: 'Obter registro de administração de insulina do usuário por ID.' })
+  @ApiResponse({ status: 200, description: 'Registro encontrado;' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
   @ApiResponse({ status: 404, description: 'Registro de administração de insulina não encontrado.' })
   @Get('adminInsulina/:id')
   async getInsulinAdministration(@Param() params: GetInsulinAdministrationDTO) {
@@ -103,12 +103,12 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de administração de insulina:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Obter tipos de glicemia' })
-  @ApiResponse({ status: 200, description: 'Registro encontrado' })
+  @ApiOperation({ summary: 'Obter tipos de glicemia.' })
+  @ApiResponse({ status: 200, description: 'Registro encontrado.' })
   @ApiResponse({ status: 404, description: 'Registro de tipo de glicemia não encontrado.' })
   @Get('tiposGlicemia')
   async getTiposGlicemia() {
@@ -124,27 +124,27 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de tipos de glicemia:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Registrar glicemia do usuário' })
-  @ApiResponse({ status: 201 })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @ApiOperation({ summary: 'Registrar glicemia do usuário.' })
+  @ApiResponse({ status: 201, description: 'Glicemia do usuário registrado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor.' })
   @Post('userGlicemia')
   async addUserGlicemia(@Body() dto: UserGlicemiaDTO) {
     try {
       await this.medicalRecordService.createUserGlicemia(dto);
     } catch (error) {
       console.error('Erro ao registrar a glicemia do usuário:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Obter registro de glicemia do usuário por ID' })
-  @ApiResponse({ status: 200, description: 'Registro encontrado' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiOperation({ summary: 'Obter registro de glicemia do usuário por ID.' })
+  @ApiResponse({ status: 200, description: 'Registro encontrado.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
   @ApiResponse({ status: 404, description: 'Registro de glicemia do usuário não encontrado.' })
   @Get('userGlicemia/:id')
   async getUserGlicemia(@Param() params: GetUserGlicemiaDTO) {
@@ -160,15 +160,15 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de glicemia do usuário:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 }
 // Ajustar aqui
-  @ApiOperation({ summary: 'Registrar pressão arterial do usuário' })
-  @ApiResponse({ status: 201, description: 'Pressão arterial registrada com sucesso' })
-  @ApiResponse({ status: 400, description: 'Erro de validação'})
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor'})
+  @ApiOperation({ summary: 'Registrar pressão arterial do usuário.' })
+  @ApiResponse({ status: 201, description: 'Pressão arterial registrada com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.'})
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor.'})
   @Post('pressaoArterial')
   async getUserPressaoArterial(@Param() userId: GetUserPressaoArterialDTO) {
     try {
@@ -181,14 +181,14 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de pressão arterial:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
   
 // Ajustar aqui
-  @ApiOperation({ summary: 'Obter registro de pressão arterial do usuário por ID'})
-  @ApiResponse({ status: 200, description: 'Registro encontrado'})
-  @ApiResponse({ status: 400, description: 'Erro de validação'})
+  @ApiOperation({ summary: 'Obter registro de pressão arterial do usuário por ID.'})
+  @ApiResponse({ status: 200, description: 'Registro encontrado.'})
+  @ApiResponse({ status: 400, description: 'Erro de validação.'})
   @ApiResponse({ status: 404, description: 'Registro de pressão arterial não encontrado.'})
   @Get('pressaoArterial/:id')
   async getUserPressaoArterial(@Param() params: GetUserPressaoArterialDTO) {
@@ -202,6 +202,6 @@ export class MedicalRecordController {
       }
 
       console.error('Erro ao obter registro de pressão arterial:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
