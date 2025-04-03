@@ -19,7 +19,7 @@ export class UserinsulinService implements IUserInsulinService{
         const record = await this.userInsulinRepository.getUserInsulin(userId);
     
         if (!record || record.length === 0) {
-            throw new NotFoundException('Registro de insulina não encontrado');
+            throw new NotFoundException('Registro de insulina não encontrado.');
         }
     
         return record;
@@ -29,7 +29,7 @@ export class UserinsulinService implements IUserInsulinService{
         const { userId } = data;
         const record = await this.userInsulinRepository.getUserInsulin(userId);
         if (!record) {
-            throw new NotFoundException(`Registro de insulina não encontrado`);
+            throw new NotFoundException(`Registro de insulina não encontrado.`);
         }
         await this.userInsulinRepository.patchUserInsulin(data);
     }

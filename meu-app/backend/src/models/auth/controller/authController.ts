@@ -26,18 +26,18 @@ import { IAuthService } from '../interface/authService.interface';
 export class AuthController {
   constructor(@Inject('IAuthService') private readonly authService: IAuthService) {}
 
-  @ApiOperation({ summary: 'Registrar um novo usuário' })
-  @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 409, description: 'Email ou CPF já está em uso' })
+  @ApiOperation({ summary: 'Registrar um novo usuário.' })
+  @ApiResponse({ status: 201, description: 'Usuário criado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 409, description: 'Email ou CPF já está em uso.' })
   @Post('register')
   async registerUser(@Body() newUserData: RegisterUserDTO) {
     try {
       await this.authService.registerUser(newUserData);
-      return { message: 'Usuário criado com sucesso' };
+      return { message: 'Usuário criado com sucesso.' };
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message === 'Email já está em uso' || error.message === 'CPF já está em uso') {
+        if (error.message === 'Email já está em uso.' || error.message === 'CPF já está em uso.') {
           throw new ConflictException(error.message);
         }
 
@@ -51,14 +51,14 @@ export class AuthController {
       }
 
       console.error('Erro no registro de usuário:', error);
-      throw new InternalServerErrorException('Erro interno do servidor');
+      throw new InternalServerErrorException('Erro interno do servidor.');
     }
   }
 
-  @ApiOperation({ summary: 'Realizar login do usuário' })
-  @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
-  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+  @ApiOperation({ summary: 'Realizar login do usuário.' })
+  @ApiResponse({ status: 200, description: 'Login realizado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas.' })
   @Post('login')
   async loginUser(@Body() loginData: LoginDTO) {
     try {
@@ -81,8 +81,8 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Solicitar redefinição de senha' })
-  @ApiResponse({ status: 200, description: 'Se o e-mail estiver registrado, um código será enviado' })
-  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiResponse({ status: 200, description: 'Se o e-mail estiver registrado, um código será enviado.' })
+  @ApiResponse({ status: 400, description: 'Erro de validação.' })
   @Post('request-password-reset')
   async requestPasswordReset(@Body() requestPasswordResetDto: RequestPasswordResetDTO) {
     try {
@@ -96,16 +96,16 @@ export class AuthController {
     }
   }
 
-  @ApiOperation({ summary: 'Verificar código de redefinição de senha' })
-  @ApiResponse({ status: 200, description: 'Código verificado com sucesso' })
-  @ApiResponse({ status: 400, description: 'Código inválido ou expirado' })
+  @ApiOperation({ summary: 'Verificar código de redefinição de senha.' })
+  @ApiResponse({ status: 200, description: 'Código verificado com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Código inválido ou expirado.' })
   @Post('verify-reset-code')
   async verifyResetCode(@Body() verifyResetCodeDto: VerifyResetCodeDTO) {
     try {
       await this.authService.verifyResetCode(verifyResetCodeDto);
       return { message: 'Código verificado com sucesso.' };
     } catch (error) {
-      if (error instanceof Error && error.message === 'Código inválido ou expirado') {
+      if (error instanceof Error && error.message === 'Código inválido ou expirado.') {
         throw new BadRequestException(error.message);
       }
 
@@ -114,16 +114,16 @@ export class AuthController {
     }
   }
 
-  @ApiOperation({ summary: 'Redefinir senha do usuário' })
-  @ApiResponse({ status: 200, description: 'Senha redefinida com sucesso' })
-  @ApiResponse({ status: 400, description: 'Código inválido ou expirado' })
+  @ApiOperation({ summary: 'Redefinir senha do usuário.' })
+  @ApiResponse({ status: 200, description: 'Senha redefinida com sucesso.' })
+  @ApiResponse({ status: 400, description: 'Código inválido ou expirado.' })
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDTO) {
     try {
       await this.authService.resetPassword(resetPasswordDto);
       return { message: 'Senha redefinida com sucesso.' };
     } catch (error) {
-      if (error instanceof Error && error.message === 'Código inválido ou expirado') {
+      if (error instanceof Error && error.message === 'Código inválido ou expirado.') {
         throw new BadRequestException(error.message);
       }
 
