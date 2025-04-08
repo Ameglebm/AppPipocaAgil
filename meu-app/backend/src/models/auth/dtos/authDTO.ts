@@ -54,7 +54,7 @@ export class RegisterUserDTO {
   )
   @Matches(
     /[!@#$%^&*(),.?":;{}|<>]/,
-    { message: 'Senha deve conter pelo menos um caractere especial' }
+    { message: 'Senha deve conter pelo menos um caractere especial.' }
   )
   senha!: string;
 
@@ -87,7 +87,7 @@ export class VerifyResetCodeDTO {
   email!: string;
 
   @ApiProperty()
-  @Length(6, 100, { message: 'Código deve ter 6 dígitos' })
+  @Length(6, 100, { message: 'Código deve ter 6 dígitos.' })
   code!: string;
 }
 
@@ -97,7 +97,7 @@ export class ResetPasswordDTO {
   email!: string;
 
   @ApiProperty()
-  @Length(6, 100, { message: 'Código deve ter 6 dígitos' })
+  @Length(6, 100, { message: 'Código deve ter 6 dígitos.' })
   code!: string;
 
   @ApiProperty()
@@ -109,7 +109,7 @@ export class ResetPasswordDTO {
   )
   @Matches(
     /[!@#$%^&*(),.?":;{}|<>]/,
-    { message: 'Senha deve conter pelo menos um caractere especial' }
+    { message: 'Senha deve conter pelo menos um caractere especial.' }
   )
   novaSenha!: string;
 
