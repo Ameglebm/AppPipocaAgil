@@ -5,19 +5,17 @@ import { IUserInsulinService } from '../interface/userInsulinService.interface';
 import { CreateUserInsulinDTO, DeleteUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO } from '../dtos/userInsulinDTO';
 
 @UseGuards(AuthGuard)
-@ApiTags('userInsulin')
-@Controller('userInsulin')
+@ApiTags('insulin')
+@Controller('insulin')
 
 export class UserinsulinController { 
     constructor (@Inject('IUserInsulinService') private readonly userInsulinService: IUserInsulinService) {} 
 
-    // link ajustado para vazio 
-    // FINALIZADO
     @ApiOperation({ summary: 'Registrar administração de insulina.'})
     @ApiResponse({ status: 201, description: 'Administração de insulina registrada com sucesso.'})
     @ApiResponse({ status: 400, description: 'Erro de validação.'})
     @ApiResponse({ status: 500, description: 'Erro interno no servidor.'})
-    @Post()
+    @Post('register')
     async createUserInsulin(@Body() insulinDto: CreateUserInsulinDTO): Promise<void> {
         try {
             await this.userInsulinService.createUserInsulin(insulinDto);
@@ -27,19 +25,15 @@ export class UserinsulinController {
         }
     }
 
-    /* Link deve ser apenas :userId. Está faltando o try do try catch. Corrigir DTO para receber apenas o id.
-    No service deve converter o id que é uma string para um number e salvar na variável userId para buscar no repository 
-    Revisar texto do error.message para ser igual ao do service */ 
-    // feito todos os ajustes FINALIZADO
     @ApiOperation({ summary: 'Ober registro de insulina.'})
     @ApiResponse({ status: 200, description: 'Registro de insulina encontrado.'})
     @ApiResponse({ status: 400, description: 'Erro de validação.' })
     @ApiResponse({ status: 404, description: 'Registro de insulina não encontrado.'})
     @ApiResponse({ status: 500, description: 'Erro interno do servidor.'})
-    @Get(':userid')
+    @Get('user/:userId')
     async getUserInsulin(@Param() params: GetUserInsulinDTO) {
         try {
-            await this.userInsulinService.getUserInsulin(params);
+            return await this.userInsulinService.getUserInsulin(params);
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw error; 
@@ -49,18 +43,19 @@ export class UserinsulinController {
         }
     }
     
-    /* PATCH deve usar BODY ao invés de PARAM. Deixar LINK em branco. 
-    Ajustar tratamento do erro, tanto no controller, como no service / repository 
-    Remover o record e chamar direto o await. Não deve retornar nada */ 
-    //FINALIZADO
     @ApiOperation({ summary: 'Atualizar registro de insulina.'})
     @ApiResponse({ status: 200, description: 'Registro de insulina atualizado com sucesso.'})
     @ApiResponse({ status: 400, description: 'Erro de validação.'})
     @ApiResponse({ status: 500, description: 'Erro interno do servidor.'})
-    @Patch()
-        async patchUserInsulin(@Body() patchUserInsulin: PatchUserInsulinDTO) {
+    @Patch('/user/:userId')
+        async patchUserInsulin(@Body() patchUserInsulin: PatchUserInsulinDTO, @Param('userId') userId: string) {
             try {
-                await this.userInsulinService.patchUserInsulin(patchUserInsulin);
+                const data = {
+                    id: patchUserInsulin.id,
+                    userId: userId,
+                    dosagemQtd: patchUserInsulin.dosagemQtd,
+                }
+                await this.userInsulinService.patchUserInsulin(data);
             } catch (error) {
                 if (error instanceof NotFoundException) {
                     throw error;
@@ -71,19 +66,15 @@ export class UserinsulinController {
             }
         }
 
-        /* Link deve ser :userId/:id
-        Remover o record e chamar direto o await. Não deve retornar nada 
-        O service / repository não tem nenhum throw error, então o catch error do controller não está fazendo nada */
-        // FINALIZADO
          @ApiOperation({ summary: 'Deletar registro de insulina.'})
          @ApiResponse({ status: 200, description: 'Registro de insulina deletado com sucesso.'})
          @ApiResponse({ status: 400, description: 'Erro de validação.'})
          @ApiResponse({ status: 404, description: 'Registro de insulina não encontrado.'})
          @ApiResponse({ status: 500, description: 'Erro interno do servidor.'})
-         @Delete(':userId/:id')
-         async deleteUserInsulin(@Param() params: DeleteUserInsulinDTO){
+         @Delete('/user/:userId')
+         async deleteUserInsulin(@Body() params: DeleteUserInsulinDTO, @Param('userId') userId: string){
             try {
-                await this.userInsulinService.deleteUserInsulin(params)
+                await this.userInsulinService.deleteUserInsulin({ ...params, userId})
             } catch (error) {
                 if (error instanceof Error && error.message === 'Registro de insulina não encontrado.') {
                     throw new NotFoundException(error.message)

@@ -7,12 +7,12 @@ export class MedicalRecordService implements IMedicalRecordService {
   constructor(
     @Inject('IMedicalRecordRepository') private readonly medicalRecordRepository: IMedicalRecordRepository,
   ) {}
-  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
-    throw new Error("Method not implemented.");
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await this.medicalRecordRepository.createUserPressaoArterial(data)
   }
 
   async getUserPressaoArterial(params: GetUserPressaoArterialDTO): Promise<any | null> {
-    const userId = parseInt(params.id, 10)
+    const userId = parseInt(params.userId, 10)
     const record = await this.medicalRecordRepository.getUserPressaoArterial(userId);
     
     if (record.length === 0) {

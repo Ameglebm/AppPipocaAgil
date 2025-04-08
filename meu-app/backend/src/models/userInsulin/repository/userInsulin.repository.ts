@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IUserInsulinRepository } from "../interface/userInsulinRepository.interface";
-import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchUserInsulinDTO, DeleteUserInsulinDTO } from "../dtos/userInsulinDTO";
+import { CreateUserInsulinDTO, PatchInsulinDTO, DeleteInsulinDTO } from "../dtos/userInsulinDTO";
 
 // Removido o getUserInsulinByUserId 
 // FINALIZADO
@@ -26,21 +26,23 @@ export class UserInsulinRepository implements IUserInsulinRepository {
     }
 
     /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */ //FINALIZADO
-    async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
+    async patchUserInsulin(data: PatchInsulinDTO): Promise<void> {
         const { id, ...updateData } = data; 
         await prisma.user_insulina.update({
-            where: { id: Number(id) }, 
-            data: updateData, 
+            where: { id: Number(id), userId: Number(updateData.userId) },
+            data: {
+                dosagemQtd: updateData.dosagemQtd
+            }, 
         });
     }
 
     /* Está faltando passar o id do registro que quer excluir, juntamento com o userId */
     //FINALIZADO
-    async deleteUserInsulin(id: number, userId: number): Promise<void> {
+    async deleteUserInsulin(params: DeleteInsulinDTO): Promise<void> {
         await prisma.user_insulina.delete({
             where: {
-                id,
-                userId
+                id: params.id,
+                userId: Number(params.userId)
             }
         });
     }

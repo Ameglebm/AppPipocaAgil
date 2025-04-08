@@ -4,8 +4,16 @@ import { CreateDiabetesDTO,  CreateUserPressaoArterialDTO,  InsulinAdministratio
 
 // Ajustar o codigo aqui
 export class MedicalRecordRepository implements IMedicalRecordRepository {
-  createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
-    throw new Error("Method not implemented.");
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await prisma.user_Pressao_Arterial.create({
+      data: {
+        userId: data.userId,
+        sistolica: data.sistolica,
+        diastolica: data.diastolica,
+        date: data.date,
+        time: data.time,  
+      }
+    })
   }
   async getUserPressaoArterial(userId: number): Promise<any | null> {
     return await prisma.user_Pressao_Arterial.findMany({ where: { userId } , orderBy: { createdAt:"desc" }});

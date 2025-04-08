@@ -107,11 +107,7 @@ export class CreateUserPressaoArterialDTO {
 }
 
 export class GetUserPressaoArterialDTO {
-  @ApiProperty({ example: '123', description: 'ID do usuário.' })
-  @IsString({ message: 'O ID deve ser uma string.' })
-  id!: string;
-
   @ApiProperty({ example: 'number', description: 'ID do usuário.' })
-  @IsNumber({}, { message: 'ID do usuário deve ser um número.'})
-  userId!: number;
+  @IsString({ message: 'ID do usuário deve ser uma string.'})
+  userId!: string;
 }
