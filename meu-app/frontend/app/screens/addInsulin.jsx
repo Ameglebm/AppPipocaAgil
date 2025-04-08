@@ -7,10 +7,10 @@ import { useDispatch } from "react-redux";
 import { pushInsulin, updateInsulinField } from "../reducers/insulinActions";
 // Componentes
 import CustomHeader from "../components/CustomHeader";
-import RadioButtonCustom from "../components/RadioButtonCustom";
+import RadioButtonCustom from "../components/buttons/RadioButtonCustom";
 import CustomInput from "../components/CustomInput";
-import ButtonSave from "../components/ButtonSave";
-import ModalCustom from "../components/Modal";
+import ButtonSave from "../components/buttons/ButtonSave";
+import ModalCustom from "../components/modals/Modal";
 
 function AddInsulin() {
   const router = useRouter();

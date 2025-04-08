@@ -1,4 +1,4 @@
-import { CreateDiabetesDTO, CreateUserPressaoArterialDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, GetUserPressaoArterialDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO} from '../dtos/medicalRecordDTO';
 
 export interface IMedicalRecordService {
   createUserDiabetes(data: CreateDiabetesDTO): Promise<void>;
@@ -11,4 +11,8 @@ export interface IMedicalRecordService {
   getUserGlicemia(userId: GetUserGlicemiaDTO): Promise<any | null>;
   createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void>;
   getUserPressaoArterial(userId: GetUserPressaoArterialDTO): Promise<any | null>;
+  getTypesDiabetes(): Promise<any | null>;
+  getTypesTreatments(): Promise<any | null>;
+  getUserPeso(params: GetUserPesoDTO): Promise<any | null>;
+  registerPeso(peso: UserPesoDTO): Promise<void>;
 }

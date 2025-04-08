@@ -11,17 +11,17 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import PasswordInput from "../../components/passwordInput";
-import ButtonLogin from "../../components/ButtonLogin";
+import ButtonLogin from "../../components/buttons/ButtonLogin";
 // arquivo config da API
 import api from "../../services/api";
 import { saveToken, getToken } from "../../Utils/tokenManager";
 import userImage from "../../assets/images/user.webp";
 import { useDispatch } from "react-redux";
-import { setUserId } from "../../reducers/authActions";
+import { setUserId, setUserName } from "../../reducers/authActions";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("warlleyrocha@icloud.com");
+  const [password, setPassword] = useState("1601Wr20@");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 
@@ -55,23 +55,23 @@ export default function Login() {
         senha: password,
       });
 
-      console.log("Resposta da API:", response);
-
       const token = response.data?.token;
       const userId = response.data?.user?.id;
+      const userName = response.data?.user?.nome;
 
       if (response.status === 201 && token && userId) {
         await saveToken(response.data.token);
         dispatch(setUserId(userId));
+        dispatch(setUserName(userName));
 
         const savedToken = await getToken(); // Recupera o token salvo
-        console.log("Token recuperado do AsyncStorage:", savedToken);
 
         if (savedToken) {
           router.replace("../homeScreen");
         } else {
           console.error("Token não foi salvo corretamente.");
         }
+        console.log("Login bem-sucedido");
       } else {
         console.error("Login bem-sucedido, mas sem token.");
       }

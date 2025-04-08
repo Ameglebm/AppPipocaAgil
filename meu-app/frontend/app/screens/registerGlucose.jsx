@@ -2,17 +2,23 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGlucoseTypes, updateGlucose } from "../reducers/healthActions";
 
 // Componentes customizados
 import Header from "../components/CustomHeader";
 import Dropdown from "../components/DropDown";
 import CustomInput from "../components/CustomInput";
-import ButtonSave from "../components/ButtonSave";
-import CancelModal from "../components/ConfirmationModal";
+import ButtonSave from "../components/buttons/ButtonSave";
+import CancelModal from "../components/modals/ConfirmationModal";
 import GlucoseLevels from "../components/modals/GlucoseLevels";
 
 export default function registerGlucose() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state.auth.userId);
+  const glucoseTypes = useSelector((state) => state.health.glucoseTypes);
 
   const [glicose, setGlicose] = useState(0);
   const [treatment, setTreatment] = useState("");
@@ -23,6 +29,22 @@ export default function registerGlucose() {
     title: "",
     message: "",
   });
+
+  const treatmentToId = {
+    "Antes do café da manhã": 1,
+    "Depois do café da manhã": 2,
+    "Antes do almoço": 3,
+    "Depois do almoço": 4,
+    "Antes do jantar": 5,
+    "Depois do jantar": 6,
+    "Antes de dormir": 7,
+    Extra: 8,
+  };
+
+  // Buscar glicemia ao abrir a tela
+  useEffect(() => {
+    dispatch(fetchGlucoseTypes(userId));
+  }, []);
 
   // Função para verificar se o botão deve estar desabilitado
   useEffect(() => {
@@ -46,6 +68,12 @@ export default function registerGlucose() {
   };
 
   const handleSave = () => {
+    const glicemiaId = treatmentToId[treatment];
+
+    console.log("Salvando registro... ");
+
+    dispatch(updateGlucose(Number(userId), glicemiaId, Number(glicose)));
+
     if (glicose > 0 && treatment.trim() !== "") {
       if (glicose <= 75) {
         setGlucoseAlertData({
@@ -54,7 +82,7 @@ export default function registerGlucose() {
             "Entre em contato com seu médico ou siga o plano de ação recomendado. Caso os sintomas persistam, busque atendimento médico imediatamente.",
           type: "low", // Ícone XClose
         });
-      } else if (glicose >= 120) {
+      } else if (glicose > 120) {
         setGlucoseAlertData({
           title: "Atenção! Sua glicemia está alta.",
           message:
@@ -87,22 +115,10 @@ export default function registerGlucose() {
         }}
       >
         <Dropdown
-          items={[
-            {
-              label: "Antes do café da manhã",
-              value: "Antes do café da manhã",
-            },
-            {
-              label: "Depois do café da manhã",
-              value: "Depois do café da manhã",
-            },
-            { label: "Antes do almoço", value: "Antes do almoço" },
-            { label: "Depois do almoço", value: "Depois do almoço" },
-            { label: "Antes do jantar", value: "Antes do jantar" },
-            { label: "Depois do jantar", value: "Depois do jantar" },
-            { label: "Antes de dormir", value: "Antes de dormir" },
-            { label: "Extra", value: "Extra" },
-          ]}
+          items={glucoseTypes.map((type) => ({
+            label: type.nome,
+            value: type.nome,
+          }))}
           placeholder={"Selecione o tipo"}
           title={"Informe o tipo de glicemia"}
           style={customDropdownStyle}

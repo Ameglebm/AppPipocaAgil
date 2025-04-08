@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
-import backIcon from "../../assets/images/backIcon.png";
+import backIcon from "../../assets/images/icons/backIcon.png";
 import confirmedImage from "../../assets/images/undraw_confirmed_re_sef71.png";
 
 export default function recoverAccountEmail() {

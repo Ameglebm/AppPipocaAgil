@@ -4,7 +4,6 @@ export const saveToken = async (token) => {
   // Armazena o token no AsyncStorage (ou localStorage no React Native Web)
   try {
     await AsyncStorage.setItem("authToken", token);
-    console.log("Token salvo com sucesso:", token); // Verificação do salvamento
   } catch (error) {
     console.error("Erro ao salvar o token:", error);
   }

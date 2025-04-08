@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TextInput, Text, StyleSheet, Image } from "react-native";
 import PropTypes from "prop-types";
-import warningCircle from "../assets/images/warning-circle.png";
+import warningCircle from "../assets/images/icons/warning-circle.png";
 
 const EmailInput = ({ value, onChangeText, error }) => {
   EmailInput.propTypes = {

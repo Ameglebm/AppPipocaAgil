@@ -15,6 +15,7 @@ import MedicationReducer from "./reducers/MedicationReducer";
 import InsulinReducer from "./reducers/InsulinReducer";
 import AuthReducer from "./reducers/authReducer";
 import WeightReducer from "./reducers/WeightReducer";
+import HealthReducer from "./reducers/HealthReducer";
 
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -22,6 +23,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 // Fontes
 import {
   Urbanist_400Regular,
+  Urbanist_600SemiBold,
   Urbanist_700Bold,
   useFonts,
 } from "@expo-google-fonts/urbanist";
@@ -39,6 +41,7 @@ const rootReducer = combineReducers({
   insulin: InsulinReducer,
   auth: AuthReducer,
   weight: WeightReducer,
+  health: HealthReducer,
 });
 
 const store = configureStore({
@@ -50,6 +53,7 @@ export default function Layout() {
 
   const [loaded, error] = useFonts({
     Urbanist_400Regular,
+    Urbanist_600SemiBold,
     Urbanist_700Bold,
     Lato_400Regular,
     Lato_700Bold,
@@ -232,6 +236,11 @@ export default function Layout() {
 
         <Stack.Screen
           name="screens/Weight/registerWeight"
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="screens/registerGlucose"
           options={{ headerShown: false }}
         />
       </Stack>

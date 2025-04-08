@@ -111,3 +111,19 @@ export class GetUserPressaoArterialDTO {
   @IsString({ message: 'ID do usuário deve ser uma string.'})
   userId!: string;
 }
+
+export class GetUserPesoDTO {
+  @ApiProperty({ example: '123', description: 'ID do usuário' })
+  @IsString({ message: 'O ID deve ser uma string.' })
+  id!: string;
+}
+
+export class UserPesoDTO {
+  @ApiProperty({ example: '1', description: 'ID do usuário' })
+  @IsNumber({ }, { message: 'ID do usuário deve ser um número' })
+  userId!: number;
+
+  @ApiProperty({ example: '1.0', description: 'Peso do usuário' })
+  @IsNumber({ }, { message: 'Peso do usuário deve ser um número' })
+  peso!: number;
+}
