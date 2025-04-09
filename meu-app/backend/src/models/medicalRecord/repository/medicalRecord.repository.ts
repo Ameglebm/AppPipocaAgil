@@ -1,9 +1,24 @@
 import { prisma } from "@/lib/prisma";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
-import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO, UserPesoDTO } from "../dtos/medicalRecordDTO";
 
+import { CreateDiabetesDTO,  InsulinAdministrationDTO,  MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, UserPesoDTO} from "../dtos/medicalRecordDTO";
 
+// Ajustar o codigo aqui
 export class MedicalRecordRepository implements IMedicalRecordRepository {
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await prisma.user_Pressao_Arterial.create({
+      data: {
+        userId: data.userId,
+        sistolica: data.sistolica,
+        diastolica: data.diastolica,
+        date: data.date,
+        time: data.time,  
+      }
+    })
+  }
+  async getUserPressaoArterial(userId: number): Promise<any | null> {
+    return await prisma.user_Pressao_Arterial.findMany({ where: { userId } , orderBy: { createdAt:"desc" }});
+  }
 
   async getUserDiabetesByUserId(id: number): Promise<any | null> {
     const userId = id;
