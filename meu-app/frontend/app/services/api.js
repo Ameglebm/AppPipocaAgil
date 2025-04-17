@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Criar a instância de conexão HTTP
 const api = axios.create({
-  baseURL: "https://apppipocaagil-production.up.railway.app/", // URL do banco de dados
+  baseURL: "https://nozomi.proxy.rlwy.net/", // URL do banco de dados
   timeout: 5000,
 });
 
