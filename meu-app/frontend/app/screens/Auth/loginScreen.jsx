@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { setUserId, setUserName } from "../../reducers/authActions";
 
 export default function Login() {
-  const [email, setEmail] = useState("warlleyrocha@icloud.com");
+  const [email, setEmail] = useState("warlleyrocha1@gmail.com");
   const [password, setPassword] = useState("1601Wr20@");
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
