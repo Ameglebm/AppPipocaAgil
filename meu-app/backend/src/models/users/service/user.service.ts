@@ -12,7 +12,7 @@ export class UserService implements IUserService{
 
     const user = await this.userRepository.findById(idNumber);
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     return {
@@ -29,7 +29,7 @@ export class UserService implements IUserService{
 
     const user = await this.userRepository.findById(idNumber);
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     await this.userRepository.deleteUser(idNumber);

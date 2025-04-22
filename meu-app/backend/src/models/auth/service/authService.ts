@@ -30,13 +30,13 @@ export class AuthService implements IAuthService {
       // Verificar se o e-mail já está em uso
       const existingUser = await this.userRepository.findByEmail(email);
       if (existingUser) {
-        throw new Error('Email já está em uso');
+        throw new Error('Email já está em uso.');
       }
 
       // Verificar se o CPF já está em uso
       const existingUserByCpf = await this.userRepository.findByCpf(cpf_number);
       if (existingUserByCpf) {
-        throw new Error('CPF já está em uso');
+        throw new Error('CPF já está em uso.');
       }
 
       // Hashear a senha
@@ -132,12 +132,12 @@ export class AuthService implements IAuthService {
 
       const user = await this.userRepository.findByEmail(email);
       if (!user) {
-        throw new Error('Código inválido ou expirado');
+        throw new Error('Código inválido ou expirado.');
       }
 
       const validToken = await this.authRepository.findPasswordResetTokenByEmailAndCode(email, code);
       if (!validToken) {
-        throw new Error('Código inválido ou expirado');
+        throw new Error('Código inválido ou expirado.');
       }
     } catch (error) {
       throw error;
@@ -150,12 +150,12 @@ export class AuthService implements IAuthService {
 
       const user = await this.userRepository.findByEmail(email);
       if (!user) {
-        throw new Error('Código inválido ou expirado');
+        throw new Error('Código inválido ou expirado.');
       }
 
       const validToken = await this.authRepository.findPasswordResetTokenByEmailAndCode(email, code);
       if (!validToken) {
-        throw new Error('Código inválido ou expirado');
+        throw new Error('Código inválido ou expirado.');
       }
 
       const hashedPassword = await bcrypt.hash(novaSenha, 10);

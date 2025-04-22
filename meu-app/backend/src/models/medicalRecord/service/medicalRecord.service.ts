@@ -1,6 +1,5 @@
-
 import { Inject, NotFoundException } from "@nestjs/common";
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
+import { CreateDiabetesDTO,  GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, ResponseDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO } from "../dtos/medicalRecordDTO";
 import { IMedicalRecordService } from "../interface/medicalRecordService.interface";
 import { IMedicalRecordRepository } from "../interface/MedicalRecordRepository.interface";
 
@@ -8,6 +7,20 @@ export class MedicalRecordService implements IMedicalRecordService {
   constructor(
     @Inject('IMedicalRecordRepository') private readonly medicalRecordRepository: IMedicalRecordRepository,
   ) {}
+  async createUserPressaoArterial(data: CreateUserPressaoArterialDTO): Promise<void> {
+    await this.medicalRecordRepository.createUserPressaoArterial(data)
+  }
+
+  async getUserPressaoArterial(params: GetUserPressaoArterialDTO): Promise<any | null> {
+    const userId = parseInt(params.userId, 10)
+    const record = await this.medicalRecordRepository.getUserPressaoArterial(userId);
+    
+    if (record.length === 0) {
+      throw new NotFoundException("Registro de pressão arterial do usuário não encontrado.");
+    }
+
+    return record;
+  }
 
   async createUserDiabetes(data: CreateDiabetesDTO): Promise<void> {
 
