@@ -93,10 +93,11 @@ const TipoDeInsulinaItem = () => {
               <Text style={styles.title}>Insulinas</Text>
             </View>
 
-            {insulinas.map((insulina) => {
+            {insulinas.map((insulina, index) => {
+
               return (
                 <View
-                  key={insulina.id}
+                  key={insulina.id ?? index}
                   style={styles.configuredContainerInsulin}
                 >
                   <View
@@ -106,7 +107,7 @@ const TipoDeInsulinaItem = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text style={styles.nomeInsulin}>{insulina.name}</Text>
+                    <Text style={styles.nomeInsulin}>{insulina.name|| 'Nome da insulina não encontrado'}</Text>
                     <Text style={styles.useText}>Uso contínuo</Text>
                   </View>
 
