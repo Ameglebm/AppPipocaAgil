@@ -123,7 +123,7 @@ function AddInsulin() {
       <ButtonSave
         onPress={handleSave}
         style={customButtonStyles}
-        disabled={nameInsulin !== "" && dosage !== 0 ? false : true}
+        ddisabled={!nameInsulin || !dosage}
       />
 
       {modalVisible && (

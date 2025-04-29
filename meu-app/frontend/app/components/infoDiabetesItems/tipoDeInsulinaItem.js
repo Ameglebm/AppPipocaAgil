@@ -1,7 +1,7 @@
 // Bibliotecas externas
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 
 // Redux
@@ -23,7 +23,7 @@ import plusIcon from "../../assets/images/icons/plus.png";
 const TipoDeInsulinaItem = () => {
   // Obtém depêndencias
   const dispatch = useDispatch();
-  const params = useLocalSearchParams();
+  //const params = useLocalSearchParams();
   const router = useRouter();
 
   // Busca e estados globais
@@ -33,10 +33,10 @@ const TipoDeInsulinaItem = () => {
   console.log("Insulinas armazenadas no Redux", insulinas); // Para depuração
 
   // Obtém a última insulina adicionada
-  const ultimaInsulina =
+ /* const ultimaInsulina =
     insulinas.find((ins) => ins.id === params?.id) ||
     insulinas[insulinas.length - 1] ||
-    null;
+    null;*/
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedInsulin, setSelectedInsulin] = useState(null);
@@ -47,16 +47,15 @@ const TipoDeInsulinaItem = () => {
     router.push("../../screens/homeScreen");
   };
 
-  const editInsulin = () => {
-    console.log("Editando", ultimaInsulina);
-    if (ultimaInsulina) {
+  const editInsulin = (insulina) => {
+    if (insulina) {
       router.push({
         pathname: "../../screens/addInsulin",
         params: {
-          id: ultimaInsulina.id,
-          name: ultimaInsulina.name,
-          unity: ultimaInsulina.unity,
-          dosage: ultimaInsulina.dosage,
+          id: insulina.id,
+          name: insulina.name,
+          unity: insulina.unity,
+          dosage: insulina.dosage,
           isEditing: true,
         },
       });
@@ -107,12 +106,12 @@ const TipoDeInsulinaItem = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text style={styles.nomeInsulin}>{insulina.name|| 'Nome da insulina não encontrado'}</Text>
+                    <Text style={styles.nomeInsulin}>{insulina.name|| 'Insulina não encontrada'}</Text>
                     <Text style={styles.useText}>Uso contínuo</Text>
                   </View>
 
                   <View style={styles.containerEditDel}>
-                    <TouchableOpacity onPress={editInsulin}>
+                    <TouchableOpacity onPress={() => editInsulin(insulina)}>
                       <Edit />
                     </TouchableOpacity>
 

@@ -13,7 +13,7 @@ export const pushInsulin = (insulin, userId) => async (dispatch) => {
       dosagemQtd: Number (insulin.dosage),
     };
 
-    console.log("Corpo da requisição (POST):", requestBody);
+    console.log("Enviando requisição:", requestBody);
 
     const response = await api.post("/insulin/register", requestBody, {
       headers: {
@@ -22,35 +22,28 @@ export const pushInsulin = (insulin, userId) => async (dispatch) => {
       },
     });
 
-    dispatch({
-      type: "PUSH_INSULIN",
-      payload: { ...requestBody, timestamp: new Date().toISOString() },
-    });
+    if (response.status === 201) {
+    
+      const newInsulin = {
+        unity: insulin.unity,  // O ID vem da resposta do backend
+        name: insulin.name,
+        dosage: insulin.dosage,
+        userId: userId,
+        timestamp: new Date().toISOString(),
+      };
 
-  switch (response.status) {
-        case 201:
-          console.log("Insulina do usuário registrado com sucesso!", response.data);
-          
-          break;
-
-        case 400:
-          console.error("Erro de validação! Verifique os dados enviados.");
-          break;
-
-        case 500:
-          console.error("Erro interno do servidor");
-          break;
-
-        default:
-          console.error("Resposta inesperada do servidor", response.status);
-          break;
-      }
-    } catch (error) {
-      console.error(
-        "Erro na requisição:",
-        error.response?.data || error.message
-      );
+       // Dispatch para salvar no Redux
+       dispatch({
+        type: "PUSH_INSULIN",
+        payload: newInsulin,
+      });
+      console.log("Insulina registrada com sucesso!", newInsulin);
+    } else {
+      console.error("Erro inesperado ao registrar insulina.", response.status);
     }
+  } catch (error) {
+    console.error("Erro na requisição:", error.response?.data || error.message);
+  }
 };
 
 export const updateInsulinField = (id, updatedData, userId) => async (dispatch) => {
