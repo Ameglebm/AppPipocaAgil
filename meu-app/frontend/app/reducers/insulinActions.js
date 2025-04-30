@@ -49,20 +49,22 @@ export const pushInsulin = (insulin, userId) => async (dispatch) => {
 export const updateInsulinField = (id, updatedData, userId) => async (dispatch) => {
   try {
     const requestBody = {
-      userId: Number(userId),
-      insulina: updatedData.name,
+      id: Number(userId),
       dosagemQtd: Number(updatedData.dosage),
     };
 
-    console.log("Corpo da requisição (PUT):", requestBody);
+    console.log("Corpo da requisição (PATCH):", requestBody);
 
-    const response = await api.put(`/insulin/register/${id}`, requestBody);
+    const response = await api.patch(`/insulin/user/${userId}`, requestBody);
 
     console.log("✅ Resposta do backend:", response.data);
 
     dispatch({
       type: "UPDATE_INSULIN_FIELD",
-      payload: { id: Number(id), ...updatedData },
+      payload: { 
+        id: Number(id), 
+        dosage: updatedData.dosage,
+      },
     });
   } catch (error) {
     console.error("❌ Erro completo:", error);

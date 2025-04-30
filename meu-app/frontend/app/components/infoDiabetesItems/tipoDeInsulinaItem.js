@@ -1,11 +1,13 @@
 // Bibliotecas externas
-import React, { useState } from "react";
+import React, { useState, useCallback  } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Redux
-import { removeInsulin } from "../../reducers/insulinActions";
+//import { removeInsulin } from "../../reducers/insulinActions";
 
 // Dados
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
@@ -20,23 +22,80 @@ import ConfirmationModal from "../modals/ConfirmationModal";
 // Assets
 import plusIcon from "../../assets/images/icons/plus.png";
 
+import api from "../../services/api"; // axios instance
+
 const TipoDeInsulinaItem = () => {
   // Obtém depêndencias
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
+  const userId = String(useSelector((state) => state.auth.userId));
+
+  console.log("✅ userId do Redux:", userId, "| Tipo:", typeof userId);
   //const params = useLocalSearchParams();
   const router = useRouter();
 
   // Busca e estados globais
   const tipoDeInsulinaItem = data.find((item) => item.id === "5"); // Busca o item com id === '5' no array de dados
-  const insulinas = useSelector((state) => state.insulin.insulinas);
+  const [insulinas, setInsulinas] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchInsulinas();
+    }, [])
+  );
+
+  const fetchInsulinas = async () => {
+    try {
+      const token = await AsyncStorage.getItem("authToken");
+
+      if (!token || !userId) throw new Error("Token ou userId não encontrado no AsyncStorage");
+
+      const response = await api.get(`/insulin/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        console.log("Insulinas recebidas:", response.data);
+        setInsulinas(response.data);
+      } else {
+        console.error("Erro inesperado ao buscar insulinas", response.status);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar insulinas:", error.response?.data || error.message);
+    }
+  };
+
+  const deleteInsulin = async () => {
+    try {
+      const token = await AsyncStorage.getItem("authToken");
+
+      console.log("Insulina a ser deletada:", selectedInsulin.id);
+
+      if (!userId || userId === "null" || userId === "undefined") {
+        console.error("ID de usuário inválido:", userId);
+      }
+
+      await api.delete(`/insulin/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        data: {
+          id: selectedInsulin.id,
+        },
+      });
+      setInsulinas((prev) => prev.filter((i) => i.id !== selectedInsulin.id));
+    } catch (error) {
+      console.error("Erro ao deletar insulina:", error.response?.data || error.message);
+    } finally {
+      setModalVisible(false);
+      setSelectedInsulin(null);
+    }
+  };
 
   console.log("Insulinas armazenadas no Redux", insulinas); // Para depuração
-
-  // Obtém a última insulina adicionada
- /* const ultimaInsulina =
-    insulinas.find((ins) => ins.id === params?.id) ||
-    insulinas[insulinas.length - 1] ||
-    null;*/
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedInsulin, setSelectedInsulin] = useState(null);
@@ -62,25 +121,9 @@ const TipoDeInsulinaItem = () => {
     }
   };
 
-  /*const deleteInsulin = () => {
-    if (ultimaInsulina) {
-      dispatch(removeInsulin(ultimaInsulina.id));
-      console.log("Removendo", ultimaInsulina);
-    } else {
-      console.warn("Nenhuma insulina para remover");*/
-
   const handleDeletePress = (insulina) => {
     setSelectedInsulin(insulina);
     setModalVisible(true);
-  };
-
-  const deleteInsulin = () => {
-    if (selectedInsulin) {
-      dispatch(removeInsulin(selectedInsulin.id));
-      setModalVisible(false);
-      setSelectedInsulin(null);
-      console.log(`O item ${selectedInsulin.name} foi removido!`);
-    }
   };
 
   return (
@@ -106,7 +149,7 @@ const TipoDeInsulinaItem = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text style={styles.nomeInsulin}>{insulina.name|| 'Insulina não encontrada'}</Text>
+                    <Text style={styles.nomeInsulin}>{insulina.insulina|| 'Insulina não encontrada'}</Text>
                     <Text style={styles.useText}>Uso contínuo</Text>
                   </View>
 
