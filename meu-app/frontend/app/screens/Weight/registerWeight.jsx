@@ -13,7 +13,7 @@ import SuccessModal from "../../components/modals/Modal";
 import ConfirmSaveModal from "../../components/modals/ConfirmationModal";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addWeightRecord } from "../../reducers/weightActions";
 
 export default function registerWeight() {
@@ -25,6 +25,7 @@ export default function registerWeight() {
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
 
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
   // Função para verificar se o botão deve estar desabilitado
   useEffect(() => {
@@ -63,7 +64,7 @@ export default function registerWeight() {
   };
 
   const handleConfirmSave = () => {
-    dispatch(addWeightRecord(peso)); // Adiciona o peso ao estado global
+    dispatch(addWeightRecord(peso, userId)); // Adiciona o peso ao estado global
 
     setModalConfirmVisible(false);
     setModalSuccessVisible(true);

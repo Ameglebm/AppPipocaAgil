@@ -10,7 +10,7 @@ import { useRouter } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import api from "../services/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Inputs() {
   const [nome, setNome] = useState("");
@@ -106,11 +106,9 @@ function Inputs() {
     try {
       const response = await api.post("/auth/register", novoUsuario);
 
-      if (response.status === 201) {
-        const token = response.data.token;
-        await AsyncStorage.setItem("userToken", token);
-        console.log("Usuário criado com sucesso");
-        router.replace("../Feedbacks/checkSuccess");
+      if (response.status === 201 ) {
+        console.log("Usuário cadastrado com sucesso")
+        router.replace("screens/Feedbacks/checkSuccess");
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -132,6 +130,7 @@ function Inputs() {
         }));
       }
     }
+    
   };
 
   const handlePress = () => {
