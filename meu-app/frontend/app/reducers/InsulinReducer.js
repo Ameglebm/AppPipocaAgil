@@ -17,7 +17,9 @@ const InsulinReducer = (state = initialState, action) => {
         if (Number(ins.id) === Number(action.payload.id)) {
           console.log("Atualizando insulina:", ins.id, "com", action.payload);
           return { 
-            ...ins, dosagemQtd: action.payload.dosage,
+            ...ins, 
+            dosagemQtd: action.payload.dosage, 
+            insulina: action.payload.insulina,
           };
         }
         return ins;
@@ -31,7 +33,13 @@ const InsulinReducer = (state = initialState, action) => {
       };
     }
 
-    case "REMOVE_INSULIN":
+    case "SET_INSULINAS":
+      return {
+        ...state,
+      insulinas: action.payload,
+    };
+
+    case "DELETE_INSULIN":
       return {
         ...state,
         insulinas: state.insulinas.filter((ins) => ins.id !== action.payload),

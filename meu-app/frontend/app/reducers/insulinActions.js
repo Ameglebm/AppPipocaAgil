@@ -49,7 +49,7 @@ export const pushInsulin = (insulin, userId) => async (dispatch) => {
 export const updateInsulinField = (id, updatedData, userId) => async (dispatch) => {
   try {
     const requestBody = {
-      id: Number(userId),
+      id: Number(id),
       dosagemQtd: Number(updatedData.dosage),
     };
 
@@ -64,6 +64,8 @@ export const updateInsulinField = (id, updatedData, userId) => async (dispatch) 
       payload: { 
         id: Number(id), 
         dosage: updatedData.dosage,
+        unity: updatedData.unity, // Adicionando a unidade ao payload
+        insulina: updatedData.name, // Adicionando o nome ao payload
       },
     });
   } catch (error) {
@@ -82,10 +84,47 @@ export const updateInsulinField = (id, updatedData, userId) => async (dispatch) 
   }
 };
 
-export const removeInsulin = (id) => ({
-  type: "REMOVE_INSULIN",
-  payload: id,
-});
+export const fetchInsulinas = (userId) => async (dispatch) => {
+  try {
+    const token = await AsyncStorage.getItem("authToken");
+
+    if (!token || !userId) throw new Error("Token ou userId não encontrado");
+
+    const response = await api.get(`/insulin/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      dispatch({ type: "SET_INSULINAS", payload: response.data });
+    }  
+  } catch (error) {
+      console.error("Erro ao buscar insulinas:", error.response?.data || error.message);
+    }
+  };
+
+  export const deleteInsulin = (id, userId) => {
+    return async (dispatch) => {
+    try {
+      const token = await AsyncStorage.getItem("authToken");
+
+      console.log("Insulina a ser deletada:", id);
+
+      await api.delete(`/insulin/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        data: { id },
+      });
+      dispatch({ type: "DELETE_INSULIN", payload: id });
+    } catch (error) {
+      console.error("Erro ao deletar insulina:", error.response?.data || error.message);
+    } 
+  };
+};
 
 export const resetInsulin = () => ({
   type: "RESET_INSULIN",
