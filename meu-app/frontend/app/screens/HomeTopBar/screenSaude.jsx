@@ -6,7 +6,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Cards from "../../components/Card";
 import { useRouter } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchBloodPressure } from "../../reducers/healthActions";
+import { fetchGlucose, fetchBloodPressure } from "../../reducers/healthActions";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function ScreenOne() {
@@ -19,6 +19,7 @@ export default function ScreenOne() {
     React.useCallback(() => {
       if (userId) {
         dispatch(fetchBloodPressure(userId));
+        dispatch(fetchGlucose(userId));
       }
     }, [userId])
   );
@@ -28,7 +29,7 @@ export default function ScreenOne() {
 
   const lastGlucose =
     glucoseRecords.length > 0
-      ? `${glucoseRecords[glucoseRecords.length - 1].value} ± 20 mg/dL`
+      ? `${glucoseRecords[0].value} ± 20 mg/dL`
       : "Sem registro";
 
   const recordValue =

@@ -16,6 +16,13 @@ const healthRecordsReducer = (state = initialState, action) => {
         ...state,
         glucoseTypes: action.payload,
       };
+    
+    case "SET_GLUCOSE":
+      return {
+        ...state,
+        glucoseRecords: action.payload,
+      };
+    
     case "UPDATE_BLOOD_PRESSURE":
       return {
         ...state,
