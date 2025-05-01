@@ -5,11 +5,24 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 //import Saude from "../../components/SvgComponents/Saude";
 import Cards from "../../components/Card";
 import { useRouter } from "expo-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchBloodPressure } from "../../reducers/healthActions";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function ScreenOne() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
+  const userId = useSelector((state) => state.auth.userId);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (userId) {
+        dispatch(fetchBloodPressure(userId));
+      }
+    }, [userId])
+  );
+  
   const glucoseRecords =
     useSelector((state) => state.health.glucoseRecords) || [];
 
@@ -25,12 +38,12 @@ export default function ScreenOne() {
     useSelector((state) => state.health.bloodPressureRecords) || [];
 
   const lastBloodPressure =
-    bloodPressureRecords.length > 0
-      ? `120/${bloodPressureRecords[bloodPressureRecords.length - 1].diastolica} mmHG`
-      : "Sem registro";
+  bloodPressureRecords.length > 0
+    ? `${bloodPressureRecords[0].sistolica}/${bloodPressureRecords[0].diastolica} mmHg`
+    : "Sem registro";
 
   const recordValueBloodPressure =
-    glucoseRecords.length > 0 ? bloodPressureRecords[0].date : "Sem registro";
+  bloodPressureRecords.length > 0 ? bloodPressureRecords[0].date : "Sem registro";
 
   const weightRecords =
     useSelector((state) => state.weight.weightRecords) || [];

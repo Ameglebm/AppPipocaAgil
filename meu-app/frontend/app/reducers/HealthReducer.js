@@ -24,6 +24,11 @@ const healthRecordsReducer = (state = initialState, action) => {
           action.payload,
         ],
       };
+      case "SET_BLOOD_PRESSURE":
+        return {
+          ...state,
+          bloodPressureRecords: action.payload,
+        };
     default:
       return state;
   }

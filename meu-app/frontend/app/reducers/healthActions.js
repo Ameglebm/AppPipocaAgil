@@ -75,7 +75,7 @@ export const updateBloodPressure = (userId, systolic, diastolic, date, time) => 
         payload: { ...requestBody, timestamp: new Date().toISOString() },
       });
 
-      console.log("Registro de pressão arterial salvo com sucesso:", response.data);
+      console.log("Registro de pressão arterial salvo com sucesso:", response.data.data);
     }
   } catch (error) {
     if (error.response?.status === 400) {
@@ -89,3 +89,27 @@ export const updateBloodPressure = (userId, systolic, diastolic, date, time) => 
     }
   }
 };
+
+export const fetchBloodPressure = (userId) => async (dispatch) => {
+  try {
+    const token = await AsyncStorage.getItem("authToken");
+
+    if (!token || !userId) throw new Error("Token ou userId não encontrado");
+
+    const response = await api.get(`/medicalRecord/pressaoArterial/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const registros = response.data.data;
+      const ultimoRegistro = registros.length > 0 ? [registros[0]] : [];
+      dispatch({ type: "SET_BLOOD_PRESSURE", payload: response.data.data });
+      console.log("Registros de pressão arterial recebidos", ultimoRegistro);
+    }  
+  } catch (error) {
+      console.error("Erro ao buscar registros de pressão:", error.response?.data || error.message);
+    }
+  };
