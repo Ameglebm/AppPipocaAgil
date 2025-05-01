@@ -90,7 +90,7 @@ const addMedication = () => {
       console.log("Enviando payload:", payload);
 
       const response = await api.post("/userMedicines", payload, {
-        header: {
+        headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },

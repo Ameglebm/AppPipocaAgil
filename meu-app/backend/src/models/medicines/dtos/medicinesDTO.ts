@@ -59,7 +59,7 @@ export class UpdateUserMedicineDTO {
   @ApiProperty({ example: '500mg', description: 'Dosagem do medicamento.' })
   @IsString()
   @IsNotEmpty()
-  @IsEnum(['mg', 'ml', 'g', 'UI', 'mgc', '%'])
+  @IsEnum(['mL', 'IU', '%', 'mcg', 'mg', 'g'])
   tipoDosagem!: TipoDosagens;
 
   @ApiProperty({ example: '1', description: 'ID do Tipo de Tratamento.' })
