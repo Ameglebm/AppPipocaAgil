@@ -16,6 +16,7 @@ import InsulinReducer from "./reducers/InsulinReducer";
 import AuthReducer from "./reducers/authReducer";
 import WeightReducer from "./reducers/WeightReducer";
 import HealthReducer from "./reducers/HealthReducer";
+import FiltersReducer from "./reducers/FiltersReducer";
 
 // Ícones
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -29,6 +30,7 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
 import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+import { Sora_400Regular } from "@expo-google-fonts/sora";
 
 // Splash Screen
 import * as SplashScreen from "expo-splash-screen";
@@ -42,6 +44,7 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   weight: WeightReducer,
   health: HealthReducer,
+  filter: FiltersReducer,
 });
 
 const store = configureStore({
@@ -58,6 +61,7 @@ export default function Layout() {
     Lato_400Regular,
     Lato_700Bold,
     Roboto_400Regular,
+    Sora_400Regular,
   });
 
   useEffect(() => {
@@ -241,6 +245,11 @@ export default function Layout() {
 
         <Stack.Screen
           name="screens/registerGlucose"
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="screens/HomeTopBar/screenHistorico"
           options={{ headerShown: false }}
         />
       </Stack>

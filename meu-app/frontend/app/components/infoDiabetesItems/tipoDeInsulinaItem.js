@@ -1,11 +1,12 @@
 // Bibliotecas externas
-import React, { useState } from "react";
+import React, { useState, useCallback  } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "expo-router";
+import { useSelector, useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Redux
-import { removeInsulin } from "../../reducers/insulinActions";
+import { fetchInsulinas, deleteInsulin } from "../../reducers/insulinActions";
 
 // Dados
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
@@ -21,68 +22,58 @@ import ConfirmationModal from "../modals/ConfirmationModal";
 import plusIcon from "../../assets/images/icons/plus.png";
 
 const TipoDeInsulinaItem = () => {
-  // Obtém depêndencias
-  const dispatch = useDispatch();
-  const params = useLocalSearchParams();
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  // Busca e estados globais
-  const tipoDeInsulinaItem = data.find((item) => item.id === "5"); // Busca o item com id === '5' no array de dados
+  const userId = String(useSelector((state) => state.auth.userId));
   const insulinas = useSelector((state) => state.insulin.insulinas);
-
-  console.log("Insulinas armazenadas no Redux", insulinas); // Para depuração
-
-  // Obtém a última insulina adicionada
-  const ultimaInsulina =
-    insulinas.find((ins) => ins.id === params?.id) ||
-    insulinas[insulinas.length - 1] ||
-    null;
-
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedInsulin, setSelectedInsulin] = useState(null);
 
+  // Carrega insulinas ao focar na tela
+  useFocusEffect(
+    useCallback(() => {
+      const timeout = setTimeout(() => {
+        if (userId) dispatch(fetchInsulinas(userId));
+      }, 150); // dá tempo do PATCH ser refletido no banco
+  
+      return () => clearTimeout(timeout);
+    }, [userId])
+  );
+  
+ 
+  // Busca e estados globais
+  const tipoDeInsulinaItem = data.find((item) => item.id === "5"); // Busca o item com id === '5' no array de dados
+
+  console.log("Insulinas armazenadas no Redux", insulinas); // Para depuração
+
   // Funções de manipulação de dados
   const handleSave = () => {
-    console.log("salvo");
     router.push("../../screens/homeScreen");
   };
 
-  const editInsulin = () => {
-    console.log("Editando", ultimaInsulina);
-    if (ultimaInsulina) {
+  const handleDeleteConfirm = () => {
+    if (selectedInsulin && userId) {
+      dispatch(deleteInsulin(selectedInsulin.id, userId));
+      setModalVisible(false);
+      setSelectedInsulin(null);
+    }
+  };
+
+  const handleEdit = (insulina) => {
+    if (insulina) {
       router.push({
         pathname: "../../screens/addInsulin",
         params: {
-          id: ultimaInsulina.id,
-          name: ultimaInsulina.name,
-          unity: ultimaInsulina.unity,
-          dosage: ultimaInsulina.dosage,
+          id: insulina.id,
+          name: insulina.name,
+          unity: insulina.unity,
+          dosage: insulina.dosagemQtd,
           isEditing: true,
         },
       });
     }
-  };
-
-  /*const deleteInsulin = () => {
-    if (ultimaInsulina) {
-      dispatch(removeInsulin(ultimaInsulina.id));
-      console.log("Removendo", ultimaInsulina);
-    } else {
-      console.warn("Nenhuma insulina para remover");*/
-
-  const handleDeletePress = (insulina) => {
-    setSelectedInsulin(insulina);
-    setModalVisible(true);
-  };
-
-  const deleteInsulin = () => {
-    if (selectedInsulin) {
-      dispatch(removeInsulin(selectedInsulin.id));
-      setModalVisible(false);
-      setSelectedInsulin(null);
-      console.log(`O item ${selectedInsulin.name} foi removido!`);
-    }
-  };
+  };;
 
   return (
     <View>
@@ -93,10 +84,11 @@ const TipoDeInsulinaItem = () => {
               <Text style={styles.title}>Insulinas</Text>
             </View>
 
-            {insulinas.map((insulina) => {
+            {insulinas.map((insulina, index) => {
+
               return (
                 <View
-                  key={insulina.id}
+                  key={insulina.id ?? index}
                   style={styles.configuredContainerInsulin}
                 >
                   <View
@@ -106,17 +98,19 @@ const TipoDeInsulinaItem = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text style={styles.nomeInsulin}>{insulina.name}</Text>
+                    <Text style={styles.nomeInsulin}>{insulina.insulina|| 'Insulina não encontrada'}</Text>
                     <Text style={styles.useText}>Uso contínuo</Text>
                   </View>
 
                   <View style={styles.containerEditDel}>
-                    <TouchableOpacity onPress={editInsulin}>
+                    <TouchableOpacity onPress={() => handleEdit(insulina)}>
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                      onPress={() => handleDeletePress(insulina)}
+                    <TouchableOpacity  onPress={() => {
+                     setSelectedInsulin(insulina);
+                     setModalVisible(true);
+                   }}
                     >
                       <Trash />
                     </TouchableOpacity>
@@ -162,7 +156,7 @@ const TipoDeInsulinaItem = () => {
       <ConfirmationModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        onConfirm={deleteInsulin}
+        onConfirm={handleDeleteConfirm}
         title="Confirmar exclusão de insulina?"
         message="Esta ação não pode ser desfeita."
       />

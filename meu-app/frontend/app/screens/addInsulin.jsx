@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pushInsulin, updateInsulinField } from "../reducers/insulinActions";
 // Componentes
 import CustomHeader from "../components/CustomHeader";
@@ -15,6 +15,7 @@ import ModalCustom from "../components/modals/Modal";
 function AddInsulin() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
   const params = useLocalSearchParams();
   const isEditing = params.isEditing || false;
 
@@ -54,9 +55,9 @@ function AddInsulin() {
     };
 
     if (isEditing) {
-      dispatch(updateInsulinField(params.id, insulinaData));
+      dispatch(updateInsulinField(params.id, insulinaData, userId));
     } else {
-      dispatch(pushInsulin({ id: new Date().getTime(), ...insulinaData }));
+      dispatch(pushInsulin(insulinaData, userId));
     }
 
     console.log("Insulina salva:", insulinaData);
@@ -122,7 +123,7 @@ function AddInsulin() {
       <ButtonSave
         onPress={handleSave}
         style={customButtonStyles}
-        disabled={nameInsulin !== "" && dosage !== 0 ? false : true}
+        ddisabled={!nameInsulin || !dosage}
       />
 
       {modalVisible && (

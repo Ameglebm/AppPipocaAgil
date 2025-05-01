@@ -34,7 +34,7 @@ function RecConta() {
           "Se o e-mail estiver registrado, você receberá um código para redefinir a senha.",
           email
         );
-        router.replace("./Feedbacks/RecoverAccountEmail");
+        router.replace("./Feedbacks/recoverAccountEmail");
       } else if (response.status === 400) {
         console.warn("Erro de validação");
       } else if (response.status === 500) {
