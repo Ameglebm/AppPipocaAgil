@@ -1,5 +1,4 @@
 import { Controller, Post, Body, Get, Param, NotFoundException, InternalServerErrorException, Patch, Delete, Inject } from '@nestjs/common';
-import { MedicinesService } from '../service/medicines.service';
 import { CreateUserMedicineDTO, DeleteUserMedicineDTO, GetUserMedicineDTO, UpdateUserMedicineDTO } from '../dtos/medicinesDTO';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IMedicinesService } from '../interface/medicinesService.interface';
