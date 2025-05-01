@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@/middlewares/auth.guard';
-import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO } from '../dtos/medicalRecordDTO';
+import { CreateDiabetesDTO, GetDiabetesDTO, GetInsulinAdministrationDTO, GetUserGlicemiaDTO, InsulinAdministrationDTO, MetaGlicemicaDTO, UserGlicemiaDTO, CreateUserPressaoArterialDTO, GetUserPressaoArterialDTO, UserPesoDTO, GetUserPesoDTO, getUserRecordLogDTO } from '../dtos/medicalRecordDTO';
 import { IMedicalRecordService } from '../interface/medicalRecordService.interface';
 
 @UseGuards(AuthGuard)
@@ -263,6 +263,24 @@ export class MedicalRecordController {
       await this.medicalRecordService.registerPeso(peso);
     } catch (error) {
       console.error('Erro ao registrar peso', error);
+      throw new InternalServerErrorException('Erro interno do servidor');
+    }
+  }
+
+  @ApiOperation({ summary: 'Retorna o histórico de registros do usuário' })
+  @ApiResponse({ status: 200, description: 'Requisição bem-sucedida' })
+  @ApiResponse({ status: 400, description: 'Erro de validação' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @Get('userHistory/:id')
+  async getUserRecordLog(@Param() params: getUserRecordLogDTO) {
+     try {
+      const data = await this.medicalRecordService.getUserRecordLog(params);
+      return { data };
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Registros do usuário não encontrados') {
+        throw new NotFoundException(error.message);
+      }
+      console.error('Erro ao obter registros do usuário:', error);
       throw new InternalServerErrorException('Erro interno do servidor');
     }
   }
