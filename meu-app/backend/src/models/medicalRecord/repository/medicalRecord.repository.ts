@@ -127,4 +127,27 @@ export class MedicalRecordRepository implements IMedicalRecordRepository {
     return updatedRecord;
   }
 
+  async logAllUserRecords(userId: number): Promise<any | null> {
+    const tableMap = {
+      glicemia: 'User_Glicemia',
+      peso: 'User_peso',
+      pressaoArterial: 'User_Pressao_Arterial',
+    };
+    const recordsLog: Record<string, Date|null> = {};
+    for(const tables in tableMap) {
+      const tableName = tableMap[tables as keyof typeof tableMap];
+      const record = await (prisma as any)[tableName].findFirst({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+      });
+      recordsLog[tables] = record ? record.createdAt : null;
+    }
+    const user = await prisma.users.findUnique({
+      where: { id: userId },
+      select: { nome: true },
+    });
+    return { username: user?.nome ?? null, recordsLog };
+  }
+
 }
+
