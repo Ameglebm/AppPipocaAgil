@@ -126,7 +126,7 @@ const TipoDeInsulinaItem = () => {
               >
                 <Text style={styles.textBtnAddInsulin}>Adicionar insulina</Text>
               </TouchableOpacity>
-              <Button style={{ width: 320, height: 42 }} title={"Avançar"} />
+              <Button onPress={handleSave} style={{ width: 320, height: 42 }} title={"Avançar"} />
             </View>
           </View>
         </>
