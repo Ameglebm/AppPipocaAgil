@@ -5,19 +5,32 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const updateGlucose =
   (userId, glicemiaId, value) => async (dispatch) => {
     try {
+      const token = await AsyncStorage.getItem("authToken");
+      if (!token || !userId) throw new Error("Token ou userId não encontrado");
+
       const requestBody = {
         userId: Number(userId),
         glicemiaId: Number(glicemiaId),
         value: Number(value),
       };
 
-      await api.post("/medicalRecord/userGlicemia", requestBody);
-      console.log("Registro salvo");
+      console.log("Enviando requisição:", requestBody);
 
-      dispatch({
-        type: "UPDATE_GLUCOSE",
-        payload: { ...requestBody, timestamp: new Date().toISOString() },
+      const response = await api.post("/medicalRecord/userGlicemia", requestBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
+
+      if (response.status === 201) {
+        dispatch({
+          type: "UPDATE_GLUCOSE",
+          payload: { ...requestBody, timestamp: new Date().toISOString() },
+        });
+  
+        console.log("Registro de glicemia salvo com sucesso:", response.data);
+      }
     } catch (error) {
       if (error.response?.status === 400) {
         console.error("Erro de validação: Verifique os dados enviados.");
@@ -43,6 +56,29 @@ export const fetchGlucoseTypes = () => async (dispatch) => {
     console.error("Erro ao buscar glicemia:", error);
   }
 };
+
+export const fetchGlucose = (userId) => async (dispatch) => {
+  try {
+    const token = await AsyncStorage.getItem("authToken");
+    if (!token || !userId) throw new Error("Token ou userId não encontrado");
+
+    const response = await api.get(`/medicalRecord/userGlicemia/${userId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (response.status === 200) {
+      const registros = response.data.data;
+      const ultimoRegistro = registros.length > 0 ? [registros[0]] : [];
+      dispatch({ type: "SET_GLUCOSE", payload: response.data.data});
+      console.log("Registros de glicemia recebidos", ultimoRegistro);
+    }  
+  } catch (error) {
+      console.error("Erro ao buscar registros de glicemia:", error.response?.data || error.message);
+    }
+  };
 
 export const updateBloodPressure = (userId, systolic, diastolic, date, time) => async (dispatch) => {
   try {
