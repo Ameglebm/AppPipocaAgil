@@ -17,7 +17,7 @@ export class CreateUserMedicineDTO {
   @ApiProperty({ example: '500mg', description: 'Dosagem do medicamento.' })
   @IsString()
   @IsNotEmpty()
-  @IsEnum(['mL', 'UI', '%', 'mcg', 'mg', 'g'])
+  @IsEnum(['mL', 'IU', '%', 'mcg', 'mg', 'g'])
   tipoDosagem!: TipoDosagens;
 
   @ApiProperty({ example: '1', description: 'ID do Tipo de Tratamento.' })
