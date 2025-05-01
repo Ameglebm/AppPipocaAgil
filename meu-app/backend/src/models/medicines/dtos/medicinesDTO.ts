@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumber, IsNotEmpty, IsEnum } from 'class-validator';
 
-type TipoDosagens = 'mg' | 'mL' | 'g' | 'IU' | 'mcg' | '%';
+type TipoDosagens = 'mL' | 'IU' | '%' | 'mcg' | 'mg' | 'g';
  
 export class CreateUserMedicineDTO {
 
@@ -17,7 +17,7 @@ export class CreateUserMedicineDTO {
   @ApiProperty({ example: '500mg', description: 'Dosagem do medicamento.' })
   @IsString()
   @IsNotEmpty()
-  @IsEnum(['mg', 'mL', 'g', 'IU', 'mcg', '%'])
+  @IsEnum(['mL', 'UI', '%', 'mcg', 'mg', 'g'])
   tipoDosagem!: TipoDosagens;
 
   @ApiProperty({ example: '1', description: 'ID do Tipo de Tratamento.' })
