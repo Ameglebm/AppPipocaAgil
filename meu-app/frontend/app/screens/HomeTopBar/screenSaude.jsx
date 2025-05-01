@@ -21,6 +21,17 @@ export default function ScreenOne() {
   const recordValue =
     glucoseRecords.length > 0 ? "Média mensal" : "Sem registro";
 
+  const bloodPressureRecords =
+    useSelector((state) => state.health.bloodPressureRecords) || [];
+
+  const lastBloodPressure =
+    bloodPressureRecords.length > 0
+      ? `120/${bloodPressureRecords[bloodPressureRecords.length - 1].diastolica} mmHG`
+      : "Sem registro";
+
+  const recordValueBloodPressure =
+    glucoseRecords.length > 0 ? bloodPressureRecords[0].date : "Sem registro";
+
   const weightRecords =
     useSelector((state) => state.weight.weightRecords) || [];
 
@@ -44,8 +55,8 @@ export default function ScreenOne() {
     },
     {
       title: "Pressão Arterial",
-      value: "",
-      record: "Sem registro",
+      value: lastBloodPressure,
+      record: recordValueBloodPressure,
       onPress: () => router.push("screens/registerPressArterial"),
       imageSource: require("../../assets/images/icons/activity.png"),
       iconBackgroundColor: "#EDF3FF",
