@@ -1,6 +1,7 @@
 const initialState = {
   glucoseRecords: [],
   glucoseTypes: [],
+  bloodPressureRecords: [],
 };
 
 const healthRecordsReducer = (state = initialState, action) => {
@@ -14,6 +15,14 @@ const healthRecordsReducer = (state = initialState, action) => {
       return {
         ...state,
         glucoseTypes: action.payload,
+      };
+    case "UPDATE_BLOOD_PRESSURE":
+      return {
+        ...state,
+        bloodPressureRecords: [
+          ...state.bloodPressureRecords,
+          action.payload,
+        ],
       };
     default:
       return state;

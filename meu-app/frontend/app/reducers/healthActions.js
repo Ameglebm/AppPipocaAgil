@@ -1,5 +1,6 @@
 // Actions
 import api from "../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const updateGlucose =
   (userId, glicemiaId, value) => async (dispatch) => {
@@ -40,5 +41,51 @@ export const fetchGlucoseTypes = () => async (dispatch) => {
     });
   } catch (error) {
     console.error("Erro ao buscar glicemia:", error);
+  }
+};
+
+export const updateBloodPressure = (userId, systolic, diastolic, date, time) => async (dispatch) => {
+  try {
+    const token = await AsyncStorage.getItem("authToken");
+
+    const requestBody = {
+      userId: Number(userId),
+      sistolica: Number(systolic),
+      diastolica: Number(diastolic),
+      date: date.toLocaleDateString("pt-BR"), // Formata a data para o padrão brasileiro
+      time: time.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }), // Formata a hora para o padrão brasileiro
+    };
+
+    console.log("Enviando requisição:", requestBody);
+
+    const response = await api.post("/medicalRecord/pressaoArterial", requestBody, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 201) {
+      dispatch({
+        type: "UPDATE_BLOOD_PRESSURE",
+        payload: { ...requestBody, timestamp: new Date().toISOString() },
+      });
+
+      console.log("Registro de pressão arterial salvo com sucesso:", response.data);
+    }
+  } catch (error) {
+    if (error.response?.status === 400) {
+      console.error("Erro de validação: Verifique os dados enviados.");
+    } else if (error.response?.status === 500) {
+      console.error("Erro interno do servidor. Tente novamente mais tarde");
+    } else {
+      console.error(
+        `Erro inesperado: ${error.response?.status || "Desconhecido"} - ${error.response?.data?.message || "Erro desconhecido"}`
+      );
+    }
   }
 };

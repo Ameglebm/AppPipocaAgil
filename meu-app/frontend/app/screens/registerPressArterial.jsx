@@ -12,13 +12,14 @@ import backIcon from "../assets/images/icons/backIcon.png";
 import alertSquare from "../assets/images/icons/alert-square.png";
 import DatePicker from "@react-native-community/datetimepicker"; // Biblioteca usada para criar calendario e relogio
 import { useRouter } from "expo-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateBloodPressure } from "../reducers/healthActions";
 
 export default function registerPressArterial() {
   const router = useRouter();
 
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
   const [selected, setSelected] = useState();
 
@@ -65,8 +66,8 @@ export default function registerPressArterial() {
     setDiastolic("");
     setSelectedDate(false);
     setSelectedTime(false);
-    setDate("/ /");
-    setTime("00:00");
+    setDate(new Date());
+    setTime(new Date());
   }
 
   // Confirma o cancelamento e reseta os campos
@@ -77,36 +78,11 @@ export default function registerPressArterial() {
   }
   const saveRegister = () => {
     console.log("Salvando dados...");
-    const pressureData = {
-      systolic: Number(systolic),
-      diastolic: Number(diastolic),
-      timestamp: new Date().toISOString(),
-    };
 
-    dispatch(updateBloodPressure(pressureData)); // Salva no Redux
-    console.log("Dados salvos: ", pressureData);
+    dispatch(updateBloodPressure(userId, systolic, diastolic, date, time)); // Salva no Redux
+
     router.back(); // Retorna para a tela anterior
   };
-
-  /*API para validar e enviar os dados futuramente
-  const sendForm = async () => {
-    try {
-      const response = await api.post("/endpoint-", {
-        systolic: systolic,
-        diastolic: diastolic,
-        date: date,
-        time: time,
-      });
-
-      console.log(response);
-
-      if (){
-        router.replace('/dir-tela')
-      } 
-    } catch {
-      console.log("Error ao registar")
-    }
-  };*/
 
   return (
     <View style={styles.container}>
@@ -136,7 +112,7 @@ export default function registerPressArterial() {
             placeholderTextColor="#B1B0AF"
             keyboardType="numeric"
             value={systolic}
-            onChangeText={(text) => setSystolic(text)} // Atualiza o valor do campo sistólico
+            onChangeText={(text) => setSystolic(text.trim())} // Atualiza o valor do campo sistólico
           />
           <TextInput
             style={[
@@ -213,9 +189,10 @@ export default function registerPressArterial() {
               ]}
             >
               {selectedTime
-                ? time.toLocaleTimeString([], {
+                ? time.toLocaleTimeString("pt-BR", {
                     hour: "2-digit",
                     minute: "2-digit",
+                    hour12: false,
                   })
                 : "00:00"}
             </Text>
