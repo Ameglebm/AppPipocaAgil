@@ -34,6 +34,11 @@ const weightReducer = (state = initialState, action) => {
       };
     }
 
+    case "SET_WEIGHT":
+      return {
+        ...state,
+        weightRecords: action.payload,
+      }
     default:
       return state;
   }

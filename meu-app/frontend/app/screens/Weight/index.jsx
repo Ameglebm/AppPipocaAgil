@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 
 //Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWeight } from "../../reducers/weightActions";
 
 // Componentes
 import Header from "../../components/CustomHeader";
@@ -22,21 +24,32 @@ import DownArrow from "../../assets/images/icons/arrow-narrow-down.png";
 
 export default function weight() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
+
+  useFocusEffect(
+      React.useCallback(() => {
+        if (userId) {
+          dispatch(fetchWeight(userId));
+        }
+      }, [userId])
+    );
 
   const weightRecords = useSelector((state) => state.weight.weightRecords);
+ 
   // Obtendo o último peso e o peso anterior
   const lastWeight =
-    weightRecords.length > 0 ? weightRecords[weightRecords.length - 1] : null;
+    weightRecords.length > 0 ? weightRecords[0] : null;
 
   // Função para renderizar cada item do histórico
   const renderHistoryItem = ({ item, index }) => {
-    const isLastItem = index === weightRecords.length - 1;
+    const isLastItem = index === 0;
 
     let weightChange = null;
     let arrow = null;
 
     if (isLastItem && weightRecords.length > 1) {
-      const previousWeight = weightRecords[weightRecords.length - 2];
+      const previousWeight = weightRecords[1];
       const diff = item.peso - previousWeight.peso;
       weightChange = `${diff < 0 ? "-" : ""}${Math.abs(diff)} kg`;
 
@@ -93,8 +106,6 @@ export default function weight() {
             data={weightRecords}
             renderItem={renderHistoryItem}
             keyExtractor={(item, index) => index.toString()}
-            inverted={true}
-            initialScrollIndex={weightRecords.length - 1} // Garante que o último item seja o primeiro a ser mostrado
             getItemLayout={
               (data, index) => ({
                 length: 65,
