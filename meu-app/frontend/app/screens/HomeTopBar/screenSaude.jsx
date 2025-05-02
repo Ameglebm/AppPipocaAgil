@@ -1,13 +1,16 @@
+// Bibliotecas externas
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-//import { useRouter } from "expo-router";
-//import Coracao from "../../components/SvgComponents/Coracao";
-//import Saude from "../../components/SvgComponents/Saude";
-import Cards from "../../components/Card";
+import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+
+// Components
+import Cards from "../../components/Card";
+
+// Redux
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGlucose, fetchBloodPressure } from "../../reducers/healthActions";
-import { useFocusEffect } from "@react-navigation/native";
+import { fetchWeight } from "../../reducers/weightActions";
 
 export default function ScreenOne() {
   const router = useRouter();
@@ -20,6 +23,7 @@ export default function ScreenOne() {
       if (userId) {
         dispatch(fetchBloodPressure(userId));
         dispatch(fetchGlucose(userId));
+        dispatch(fetchWeight(userId));
       }
     }, [userId])
   );
@@ -51,7 +55,7 @@ export default function ScreenOne() {
 
   const lastWeightRecords =
     weightRecords.length > 0
-      ? `${weightRecords[weightRecords.length - 1].peso} kg`
+      ? `${weightRecords[0].peso} kg`
       : "Sem registro";
 
   const recordValueWeight =
