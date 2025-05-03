@@ -84,7 +84,7 @@ export default function ScreenHistory() {
     ...glucoseRecords.map((item) => ({ ...item, type: "Glucose" })),
     ...bloodPressureRecords.map((item) => ({ ...item, type: "Blood Pressure" })),
     ...weightRecords.map((item) => ({ ...item, type: "Weight" })),
-  ];
+  ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
    // Função para formatar mês e ano
    const formatMonthYear = (dateStr) => {
