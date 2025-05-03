@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RadioButton } from "react-native-paper";
 import Checkbox from "expo-checkbox";
@@ -10,42 +10,47 @@ import ExpandLess from "../../assets/images/icons/expand_less.png";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../reducers/filtersActions";
-  
+
 export default function Filters() {
-  // Reducer
   const dispatch = useDispatch();
-  
-  // Abrir Filtros
   const [openOptions, setOpenOptions] = useState(false);
 
-  // Alterna entre aberto e fechado
-  const toggleFilter = () => {
-    setOpenOptions(!openOptions);
-  };
+  // Obter filtros atuais do Redux
+  const reduxHealthParams = useSelector((state) => state.filter?.selectedHealthParams || []);
+  const reduxTimeParam = useSelector((state) => state.filter?.selectedTimeParams || null);
 
-  // Estados separados para cada grupo de filtros
-  const selectedHealthParams = useSelector((state) => state.filter?.selectedHealthParams || []);
-  const selectedTimeParams = useSelector((state) => state.filter?.selectedTimeParams || null);
+  // Estados locais (temporários)
+  const [localHealthParams, setLocalHealthParams] = useState(reduxHealthParams);
+  const [localTimeParam, setLocalTimeParam] = useState(reduxTimeParam);
 
+  // Quando abrir os filtros, inicializa com os valores atuais do Redux
+  useEffect(() => {
+    if (openOptions) {
+      setLocalHealthParams(reduxHealthParams);
+      setLocalTimeParam(reduxTimeParam);
+    }
+  }, [openOptions]);
 
-  // Função para alternar seleção do checkbox
   const toggleCheckbox = (param) => {
-    // Atualizando os filtros selecionados no Redux
-    const updatedParams = selectedHealthParams.includes(param)
-      ? selectedHealthParams.filter((item) => item !== param)
-      : [...selectedHealthParams, param];
-
-    dispatch(setFilter(updatedParams, selectedTimeParams));
+    setLocalHealthParams((prev) =>
+      prev.includes(param)
+        ? prev.filter((item) => item !== param)
+        : [...prev, param]
+    );
   };
 
-  // Função para alterar o período de tempo
   const changeTimePeriod = (period) => {
-    dispatch(setFilter(selectedHealthParams, period));
+    setLocalTimeParam(period);
+  };
+
+  const aplicarFiltros = () => {
+    dispatch(setFilter(localHealthParams, localTimeParam));
+    setOpenOptions(false); // Fecha dropdown após aplicar
   };
 
   return (
     <View style={styles.mainView}>
-      <TouchableOpacity style={styles.filtersView} onPress={toggleFilter}>
+      <TouchableOpacity style={styles.filtersView} onPress={() => setOpenOptions(!openOptions)}>
         <Text style={styles.text}>Filtros</Text>
         <Image
           style={styles.contentIcon}
@@ -56,112 +61,45 @@ export default function Filters() {
       {openOptions && (
         <View style={styles.contentList}>
           <Text style={styles.titleOptions}>Parâmetros de Saúde</Text>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.checkboxWrapper}>
-              <Checkbox
-                style={styles.checkbox}
-                color={
-                  selectedHealthParams.includes("peso") ? "#2F39D3" : "#848484"
-                }
-                value={selectedHealthParams.includes("peso")}
-                onValueChange={() => toggleCheckbox("peso")}
-              />
-            </View>
-            <Text style={styles.options}>Peso</Text>
-          </View>
 
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.checkboxWrapper}>
-              <Checkbox
-                style={styles.checkbox}
-                color={
-                  selectedHealthParams.includes("glicemia")
-                    ? "#2F39D3"
-                    : "#848484"
-                }
-                value={selectedHealthParams.includes("glicemia")}
-                onValueChange={() => toggleCheckbox("glicemia")}
-              />
+          {["peso", "glicemia", "pressaoArterial"].map((param) => (
+            <View style={{ flexDirection: "row", gap: 10 }} key={param}>
+              <View style={styles.checkboxWrapper}>
+                <Checkbox
+                  style={styles.checkbox}
+                  color={localHealthParams.includes(param) ? "#2F39D3" : "#848484"}
+                  value={localHealthParams.includes(param)}
+                  onValueChange={() => toggleCheckbox(param)}
+                />
+              </View>
+              <Text style={styles.options}>
+                {param === "peso" ? "Peso" : param === "glicemia" ? "Glicemia" : "Pressão Arterial"}
+              </Text>
             </View>
-            <Text style={styles.options}>Glicemia</Text>
-          </View>
-
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.checkboxWrapper}>
-              <Checkbox
-                style={styles.checkbox}
-                color={
-                  selectedHealthParams.includes("pressaoArterial")
-                    ? "#2F39D3"
-                    : "#848484"
-                }
-                uncheckedColor="#848484"
-                value={selectedHealthParams.includes("pressaoArterial")}
-                onValueChange={() => toggleCheckbox("pressaoArterial")}
-              />
-            </View>
-            <Text style={styles.options}>Pressão Arterial</Text>
-          </View>
+          ))}
 
           <Text style={styles.titleOptions}>Dias da Semana</Text>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.radioWrapper}>
-              <RadioButton
-                color="#2F39D3"
-                uncheckedColor="#848484"
-                value="ultimaSemana"
-                status={
-                  selectedTimeParams === "ultimaSemana"
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => changeTimePeriod("ultimaSemana")}
-              />
-            </View>
-            <Text style={styles.options}>Última Semana</Text>
-          </View>
 
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.radioWrapper}>
-              <RadioButton
-                color="#2F39D3"
-                uncheckedColor="#848484"
-                value="ultimos15dias"
-                status={
-                  selectedTimeParams === "ultimos15dias"
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => changeTimePeriod("ultimos15dias")}
-              />
+          {[
+            { label: "Última Semana", value: "ultimaSemana" },
+            { label: "Últimos 15 dias", value: "ultimos15dias" },
+            { label: "Últimos 30 dias", value: "ultimos30dias" },
+          ].map(({ label, value }) => (
+            <View style={{ flexDirection: "row", gap: 10 }} key={value}>
+              <View style={styles.radioWrapper}>
+                <RadioButton
+                  color="#2F39D3"
+                  uncheckedColor="#848484"
+                  value={value}
+                  status={localTimeParam === value ? "checked" : "unchecked"}
+                  onPress={() => changeTimePeriod(value)}
+                />
+              </View>
+              <Text style={styles.options}>{label}</Text>
             </View>
-            <Text style={styles.options}>Últimos 15 dias</Text>
-          </View>
+          ))}
 
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <View style={styles.radioWrapper}>
-              <RadioButton
-                color="#2F39D3"
-                uncheckedColor="#848484"
-                value="ultimos30dias"
-                status={
-                  selectedTimeParams === "ultimos30dias"
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => changeTimePeriod("ultimos30dias")}
-              />
-            </View>
-            <Text style={styles.options}>Últimos 30 dias</Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.buttonView}
-            onPress={() => {
-              console.log("Dispatched action:", selectedHealthParams, selectedTimeParams);
-              // Não é mais necessário chamar dispatch diretamente no onPress, pois os filtros já são atualizados acima
-            }}
-          >
+          <TouchableOpacity style={styles.buttonView} onPress={aplicarFiltros}>
             <Text style={styles.textButton}>Aplicar</Text>
           </TouchableOpacity>
         </View>
