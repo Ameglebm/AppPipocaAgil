@@ -14,7 +14,7 @@ export default function ScreenHistory() {
     useSelector((state) => state.health.glucoseRecords) || [];
 
   const weightRecords =
-    useSelector((state) => state.weight.weightRecords) || [];
+    useSelector((state) => state.health.weightRecords) || [];
 
       // Obtendo os filtros do Redux
   const { selectedHealthParams, selectedTimePeriod } = useSelector(

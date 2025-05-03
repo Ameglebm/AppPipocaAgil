@@ -9,8 +9,7 @@ import Cards from "../../components/Card";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { fetchGlucose, fetchBloodPressure } from "../../reducers/healthActions";
-import { fetchWeight } from "../../reducers/weightActions";
+import { fetchGlucose, fetchBloodPressure, fetchWeight } from "../../reducers/healthActions";
 
 export default function ScreenOne() {
   const router = useRouter();
@@ -51,7 +50,7 @@ export default function ScreenOne() {
   bloodPressureRecords.length > 0 ? bloodPressureRecords[0].date : "Sem registro";
 
   const weightRecords =
-    useSelector((state) => state.weight.weightRecords) || [];
+    useSelector((state) => state.health.weightRecords) || [];
 
   const lastWeightRecords =
     weightRecords.length > 0
