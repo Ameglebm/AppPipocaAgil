@@ -14,7 +14,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import MedicationReducer from "./reducers/MedicationReducer";
 import InsulinReducer from "./reducers/InsulinReducer";
 import AuthReducer from "./reducers/authReducer";
-import WeightReducer from "./reducers/WeightReducer";
 import HealthReducer from "./reducers/HealthReducer";
 import FiltersReducer from "./reducers/FiltersReducer";
 
@@ -42,7 +41,6 @@ const rootReducer = combineReducers({
   medication: MedicationReducer,
   insulin: InsulinReducer,
   auth: AuthReducer,
-  weight: WeightReducer,
   health: HealthReducer,
   filter: FiltersReducer,
 });

@@ -14,7 +14,7 @@ import ConfirmSaveModal from "../../components/modals/ConfirmationModal";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { addWeightRecord } from "../../reducers/weightActions";
+import { addWeightRecord } from "../../reducers/healthActions";
 
 export default function registerWeight() {
   const router = useRouter();

@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeight } from "../../reducers/weightActions";
+import { fetchWeight } from "../../reducers/healthActions";
 
 // Componentes
 import Header from "../../components/CustomHeader";
@@ -35,7 +35,7 @@ export default function weight() {
       }, [userId])
     );
 
-  const weightRecords = useSelector((state) => state.weight.weightRecords);
+  const weightRecords = useSelector((state) => state.health.weightRecords);
  
   // Obtendo o último peso e o peso anterior
   const lastWeight =

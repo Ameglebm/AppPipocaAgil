@@ -1,6 +1,6 @@
 const initialState = {
     selectedHealthParams: [],
-    selectedTimePeriod: false,
+    selectedTimeParams: null,
 };
 
 const filtersReducer= (state = initialState, action) => {
