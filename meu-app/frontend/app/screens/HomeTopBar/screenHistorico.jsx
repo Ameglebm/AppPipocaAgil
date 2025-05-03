@@ -114,7 +114,14 @@ export default function ScreenHistory() {
       </View>
 
       <ScrollView style={{ marginTop: 20 }}>
-        {Object.entries(groupedByMonth).map(([month, records]) => (
+      {Object.entries(groupedByMonth)
+      .sort((a, b) => {
+      const dateA = new Date(b[1][0].createdAt); // mais recente primeiro
+      const dateB = new Date(a[1][0].createdAt);
+      return dateA - dateB;
+      })
+      .map(([month, records]) => (
+
           <View key={month}>
             <View style={{ flexDirection: "row", gap: 12, marginTop: 14, alignItems: "center" }}>
               <Image source={IconHistory} />
