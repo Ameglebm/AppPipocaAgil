@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"; // Importando o useSelector
 
 export default function HealthRecordList({ records, title, unit }) {
   // Obtendo os filtros do Redux
-  const { selectedHealthParams, selectedTimePeriod } = useSelector(
+  const { selectedHealthParams, selectedTimeParams } = useSelector(
     (state) => state.filter || {} // Garante que, se o estado estiver undefined, o fallback seja um objeto vazio
   );
 
@@ -19,13 +19,13 @@ export default function HealthRecordList({ records, title, unit }) {
     const today = new Date();
     let matchesTimePeriod = false;
 
-    if (selectedTimePeriod === "ultimaSemana") {
+    if (selectedTimeParams === "ultimaSemana") {
       const lastWeek = new Date(today.setDate(today.getDate() - 7));
       matchesTimePeriod = itemDate >= lastWeek;
-    } else if (selectedTimePeriod === "ultimos15dias") {
+    } else if (selectedTimeParams === "ultimos15dias") {
       const last15Days = new Date(today.setDate(today.getDate() - 15));
       matchesTimePeriod = itemDate >= last15Days;
-    } else if (selectedTimePeriod === "ultimos30dias") {
+    } else if (selectedTimeParams === "ultimos30dias") {
       const last30Days = new Date(today.setDate(today.getDate() - 30));
       matchesTimePeriod = itemDate >= last30Days;
     }

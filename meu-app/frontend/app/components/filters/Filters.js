@@ -8,14 +8,13 @@ import ExpandMore from "../../assets/images/icons/expand_more.png";
 import ExpandLess from "../../assets/images/icons/expand_less.png";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../reducers/filtersActions";
   
-export default function Filters({ onApplyFilters }) {
+export default function Filters() {
   // Reducer
   const dispatch = useDispatch();
   
-
   // Abrir Filtros
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -25,17 +24,23 @@ export default function Filters({ onApplyFilters }) {
   };
 
   // Estados separados para cada grupo de filtros
-  const [selectedHealthParams, setSelectedHealthParams] = useState([]);
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState(null);
+  const selectedHealthParams = useSelector((state) => state.filter?.selectedHealthParams || []);
+  const selectedTimeParams = useSelector((state) => state.filter?.selectedTimeParams || null);
+
 
   // Função para alternar seleção do checkbox
   const toggleCheckbox = (param) => {
-    setSelectedHealthParams(
-      (prev) =>
-        prev.includes(param)
-          ? prev.filter((item) => item !== param) // Remove se já estiver selecionado
-          : [...prev, param] // Adiciona se não estiver selecionado
-    );
+    // Atualizando os filtros selecionados no Redux
+    const updatedParams = selectedHealthParams.includes(param)
+      ? selectedHealthParams.filter((item) => item !== param)
+      : [...selectedHealthParams, param];
+
+    dispatch(setFilter(updatedParams, selectedTimeParams));
+  };
+
+  // Função para alterar o período de tempo
+  const changeTimePeriod = (period) => {
+    dispatch(setFilter(selectedHealthParams, period));
   };
 
   return (
@@ -106,11 +111,11 @@ export default function Filters({ onApplyFilters }) {
                 uncheckedColor="#848484"
                 value="ultimaSemana"
                 status={
-                  selectedTimePeriod === "ultimaSemana"
+                  selectedTimeParams === "ultimaSemana"
                     ? "checked"
                     : "unchecked"
                 }
-                onPress={() => setSelectedTimePeriod("ultimaSemana")}
+                onPress={() => changeTimePeriod("ultimaSemana")}
               />
             </View>
             <Text style={styles.options}>Última Semana</Text>
@@ -123,11 +128,11 @@ export default function Filters({ onApplyFilters }) {
                 uncheckedColor="#848484"
                 value="ultimos15dias"
                 status={
-                  selectedTimePeriod === "ultimos15dias"
+                  selectedTimeParams === "ultimos15dias"
                     ? "checked"
                     : "unchecked"
                 }
-                onPress={() => setSelectedTimePeriod("ultimos15dias")}
+                onPress={() => changeTimePeriod("ultimos15dias")}
               />
             </View>
             <Text style={styles.options}>Últimos 15 dias</Text>
@@ -140,11 +145,11 @@ export default function Filters({ onApplyFilters }) {
                 uncheckedColor="#848484"
                 value="ultimos30dias"
                 status={
-                  selectedTimePeriod === "ultimos30dias"
+                  selectedTimeParams === "ultimos30dias"
                     ? "checked"
                     : "unchecked"
                 }
-                onPress={() => setSelectedTimePeriod("ultimos30dias")}
+                onPress={() => changeTimePeriod("ultimos30dias")}
               />
             </View>
             <Text style={styles.options}>Últimos 30 dias</Text>
@@ -153,9 +158,8 @@ export default function Filters({ onApplyFilters }) {
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
-              const action = setFilter(selectedHealthParams, selectedTimePeriod);
-              console.log("Dispatched action:", selectedHealthParams, selectedTimePeriod); // Exibe a ação no console
-              dispatch(action);
+              console.log("Dispatched action:", selectedHealthParams, selectedTimeParams);
+              // Não é mais necessário chamar dispatch diretamente no onPress, pois os filtros já são atualizados acima
             }}
           >
             <Text style={styles.textButton}>Aplicar</Text>

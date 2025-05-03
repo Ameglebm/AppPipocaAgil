@@ -36,6 +36,10 @@ export default function ScreenHistory() {
   const bloodPressureRecords =
     useSelector((state) => state.health.bloodPressureRecords) || [];
 
+  const selectedFilters = useSelector((state) => state.filter.selectedHealthParams);
+  const selectedTime = useSelector((state) => state.filter.selectedTimeParams);
+    
+
   const generateTitle = (item) => {
     switch (item.type) {
       case "Glucose":
@@ -97,17 +101,46 @@ export default function ScreenHistory() {
     .toUpperCase();
   };
 
-  // Agrupar por mês
-  const groupedByMonth = combinedRecords.reduce((acc, item) => {
-    const month = formatMonthYear(item.createdAt);
-    if (!acc[month]) acc[month] = [];
-    acc[month].push(item);
-    return acc;
-  }, {});
+  // Filtro por tipo
+let filteredRecords = combinedRecords;
+if (selectedFilters.length > 0) {
+  const typeMap = {
+    glicemia: "Glucose",
+    pressaoArterial: "Blood Pressure",
+    peso: "Weight",
+  };
+  filteredRecords = filteredRecords.filter((item) =>
+    selectedFilters.includes(
+      Object.keys(typeMap).find((key) => typeMap[key] === item.type)
+    )
+  );
+}
 
+// Filtro por tempo
+if (selectedTime) {
+  const daysMap = {
+    ultimaSemana: 7,
+    ultimos15dias: 15,
+    ultimos30dias: 30,
+  };
+  const days = daysMap[selectedTime];
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  filteredRecords = filteredRecords.filter(
+    (item) => new Date(item.createdAt) >= cutoffDate
+  );
+}
+
+// Agrupar por mês
+const groupedByMonth = filteredRecords.reduce((acc, item) => {
+  const month = formatMonthYear(item.createdAt);
+  if (!acc[month]) acc[month] = [];
+  acc[month].push(item);
+  return acc;
+}, {});
 
   return (
-    
     <View style={styles.screen}>
       <View style={{ alignItems: "flex-end" }}>
         <Filters/>
