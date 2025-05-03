@@ -146,7 +146,7 @@ const groupedByMonth = filteredRecords.reduce((acc, item) => {
         <Filters/>
       </View>
 
-      <ScrollView style={{ marginTop: 20 }}>
+      <ScrollView>
       {Object.entries(groupedByMonth)
       .sort((a, b) => {
       const dateA = new Date(b[1][0].createdAt); // mais recente primeiro
