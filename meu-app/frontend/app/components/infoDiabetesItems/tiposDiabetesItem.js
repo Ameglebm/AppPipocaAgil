@@ -8,7 +8,7 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../buttons/ButtonSave";
 import { useSelector } from "react-redux";
@@ -27,15 +27,46 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
   const userId = useSelector((state) => state.auth.userId);
   const [error, setError] = useState(null);
 
-  // Função que altera o estado ao selecionar um tipo
-  const handleSelectType = (id) => {
-    setSelectedType((prev) => (prev === id ? 0 : id));
+  //Função para buscar os dados do usuário
+  useEffect(() => {
+    const fetchSavedDiabetes = async () => {
+      if (!isTipoDiabetesScreen || !userId) return;
+
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+
+        const response = await api.get(`/medicalRecord/diabetes/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response?.data?.diabetesId) {
+          const savedType = diabetesTypes.find(
+            (type) => type.id === response.data.diabetesId
+          );
+          if (savedType) setSelectedType(savedType);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar tipo de diabetes salvo:", error);
+        setError("Não foi possível carregar o tipo de diabetes salvo.");
+      }
+    };
+
+    fetchSavedDiabetes();
+  }, [userId, isTipoDiabetesScreen]);
+
+  const handleSelectType = (type) => {
+    setSelectedType((prev) => (prev?.id === type.id ? 0 : type));
   };
+
 
   // Função para salvar os dados na API
   const handleSave = async () => {
     let payload;
+
     console.log(payload);
+    
     if (!userId) {
       setError("Usuário não autenticado. Por favor, faça login novamente.");
       return;
