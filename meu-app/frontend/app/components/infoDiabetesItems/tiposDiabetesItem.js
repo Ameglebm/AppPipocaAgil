@@ -8,34 +8,72 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../buttons/ButtonSave";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../services/api";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
-  const isTipoDiabetesScreen = item.id === "1"; // Verifica se o slide atual é o da tela de tipos de diabetes
-  // Define os tipos de diabetes disponíveis, caso seja a tela correta
+  const isTipoDiabetesScreen = item.id === "1";
   const diabetesTypes = isTipoDiabetesScreen ? item.types : [];
 
-  // Estado para controlar qual tipo de diabetes está selecionado
-  const [selectedType, setSelectedType] = useState(0);
-
-  // Obtém o userId do estado Redux com validação
   const userId = useSelector((state) => state.auth.userId);
+  const [selectedType, setSelectedType] = useState(null);
   const [error, setError] = useState(null);
+  const [savedDiabetesId, setSavedDiabetesId] = useState(null);
 
-  // Função que altera o estado ao selecionar um tipo
-  const handleSelectType = (id) => {
-    setSelectedType((prev) => (prev === id ? 0 : id));
+  useFocusEffect(
+    useCallback(() => {
+      const fetchSavedDiabetesType = async () => {
+        if (!userId) return;
+  
+        try {
+          const token = await AsyncStorage.getItem("authToken");
+          const response = await api.get(`/medicalRecord/diabetes/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+  
+          if (response.status === 200) {
+            setSavedDiabetesId(response.data.data?.diabetesId);
+            console.log("Tipos de diabetes salvo no banco de dados:", response.data.data.diabetesId);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar tipo de diabetes salvo:", error);
+        }
+      };
+  
+      fetchSavedDiabetesType();
+    }, [userId])
+  );
+
+  useEffect(() => {
+  }, [diabetesTypes]);
+  
+  useEffect(() => {
+  }, [savedDiabetesId]);
+  
+  useEffect(() => {
+    if (savedDiabetesId && diabetesTypes.length > 0) {
+      const matchedType = diabetesTypes.find((type) => {
+        return type.id === savedDiabetesId;
+      });
+      if (matchedType) {
+        setSelectedType(matchedType);
+      }
+    }
+  }, [savedDiabetesId, diabetesTypes]);
+  
+  const handleSelectType = (type) => {
+    const isSame = selectedType?.id === type.id;
+    setSelectedType((prev) => (isSame ? null : type));
   };
 
-  // Função para salvar os dados na API
   const handleSave = async () => {
     let payload;
-    console.log(payload);
     if (!userId) {
       setError("Usuário não autenticado. Por favor, faça login novamente.");
       return;
@@ -49,7 +87,6 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
         return;
       }
 
-      // Formatação específica do payload
       payload = {
         userId,
         diabetesId: selectedType.id,
@@ -59,7 +96,7 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
       const response = await api.post("/medicalRecord/diabetes", payload, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Adiciona header explícito
+          "Content-Type": "application/json",
         },
       });
 
@@ -69,15 +106,12 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
           setError(null);
           scrollToNextSlide();
           break;
-
         case 400:
           setError("Erro de validação! Verifique os dados enviados.");
           break;
-
         case 500:
           setError("Erro interno do servidor");
           break;
-
         default:
           setError(`Erro inesperado: ${response.status}`);
           break;
@@ -107,34 +141,33 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
           {item.title}
         </Text>
         {error && <Text style={styles.errorText}>{error}</Text>}
-        {/* Renderiza a lista de tipos de diabetes, caso seja a tela correspondente */}
+
         {isTipoDiabetesScreen && (
           <FlatList
-            data={diabetesTypes} // Dados da lista
-            renderItem={({ item }) => (
+            data={diabetesTypes}
+            extraData={selectedType}
+            renderItem={({ item: diabetesType }) => (
               <View style={styles.list}>
-                {/* Renderiza cada tipo de diabetes como um botão selecionável */}
                 <TouchableOpacity
                   style={[
                     styles.typeContainer,
-                    { width: 320, height: 36 }, // Ajusta a largura de cada item para ocupar toda a tela com margens
-                    selectedType?.id === item.id &&
-                      styles.selectedTypeContainer, // Aplica estilo ao item selecionado
+                    { width: 320, height: 36 },
+                    selectedType?.id === diabetesType.id && styles.selectedTypeContainer,
                   ]}
-                  onPress={() => handleSelectType(item)} // Seleciona o tipo ao pressionar
+                  onPress={() => handleSelectType(diabetesType)}
                 >
                   <Text
                     style={[
                       styles.typeText,
-                      selectedType?.id === item.id && styles.selectedTypeText,
+                      selectedType?.id === diabetesType.id && styles.selectedTypeText,
                     ]}
                   >
-                    {item.name}
+                    {diabetesType.name}
                   </Text>
                 </TouchableOpacity>
               </View>
             )}
-            keyExtractor={(item) => item.id.toString()} // Define uma chave única para cada item da lista
+            keyExtractor={(item) => item.id.toString()}
           />
         )}
       </View>
