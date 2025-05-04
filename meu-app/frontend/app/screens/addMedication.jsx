@@ -36,6 +36,38 @@ const addMedication = () => {
   const [unit, setUnit] = useState(params.unit || "");
   const [doseLeft, setDoseLeft] = useState(params.doseLeft || 0);
   const [modalVisible, setModalVisible] = useState(false); //Controle de visibilidade do modal
+  const [treatmentOptions, setTreatmentOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchTreatmentTypes = async () => {
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+        if (!token) {
+          console.error("Token de autenticação não encontrado");
+          return;
+        }
+
+        const response = await api.get("/medicalRecord/typesTreatments", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (Array.isArray(response.data)) {
+          const formatted = response.data.map((item) => ({
+            id: item.id,
+            label: item.nome,
+            value: item.id.toString(),
+          }));
+          setTreatmentOptions(formatted);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar tipos de tratamento:", error);
+      }
+    };
+
+    fetchTreatmentTypes();
+  }, []);
 
   useEffect(() => {
     if (modalVisible) {
@@ -142,20 +174,7 @@ const addMedication = () => {
       />
 
       <Dropdown
-        items={[
-          { id: 1, label: "Pressão arterial", value: "1" },
-          { id: 2, label: "Diabetes", value: "2" },
-          { id: 3, label: "Colesterol", value: "3" },
-          { id: 4, label: "Obesidade", value: "4" },
-          { id: 5, label: "Doenças hepáticas", value: "5" },
-          {
-            id: 6,
-            label: "Doenças renal crônica",
-            value: "6",
-          },
-          { id: 7, label: "Doenças autoimunes", value: "7" },
-          { id: 8, label: "Infecções", value: "8" },
-        ]}
+        items={treatmentOptions}
         placeholder={"Selecione o tratamento"}
         value={treatment}
         onValueChange={(item) => setTreatment(item)}
