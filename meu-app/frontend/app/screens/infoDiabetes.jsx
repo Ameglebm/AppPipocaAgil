@@ -39,7 +39,7 @@ export default function InfoDiabetes() {
 
   // Navega diretamente para a tela final ao pressionar "Pular"
   const handleSkip = () => {
-    router.push("/");
+    router.push("./homeScreen");
   };
 
   // Definindo tamanhos variáveis para os slides
