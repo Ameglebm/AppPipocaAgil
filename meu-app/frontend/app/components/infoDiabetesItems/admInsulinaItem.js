@@ -35,29 +35,59 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   // Busca os dados do backend quando a tela é aberta
   useEffect(() => {
     const fetchAdminInsulina = async () => {
-      if (!userId) return;
+      if (!userId) {
+        console.log('❌ userId não encontrado no Redux');
+        return;
+      }
+  
+      console.log('1️⃣ Iniciando requisição GET para userId:', userId);
   
       try {
         const token = await AsyncStorage.getItem("authToken");
-        const response = await api.get(`/medicalRecord/adminInsulina?userId=${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        if (response.data?.adminInsulinaId) {
-          setSelectedType(response.data.adminInsulinaId); // Sincroniza com o estado
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error.response?.data || error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-  
-    fetchAdminInsulina();
-  }, [userId]);
+        console.log('2️⃣ Token JWT encontrado:', token ? '✔' : '❌ Não encontrado');
 
+        const url = `/medicalRecord/adminInsulina?userId=${userId}`;
+      console.log('3️⃣ URL completa da requisição:', url);
+
+      console.log('4️⃣ Headers sendo enviados:', {
+        Authorization: `Bearer ${token}`,
+      });
+
+      const response = await api.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log('5️⃣ Resposta da API:', {
+        status: response.status,
+        data: response.data,
+      });
+
+      if (response.data?.adminInsulinaId) {
+        console.log('6️⃣ Dados recebidos - adminInsulinaId:', response.data.adminInsulinaId);
+        setSelectedType(response.data.adminInsulinaId);
+      } else {
+        console.log('6️⃣ ⚠️ Dados recebidos, mas adminInsulinaId não encontrado');
+      }
+    } catch (error) {
+      console.error('7️⃣ Erro completo na requisição:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        config: {
+          url: error.config?.url,
+          method: error.config?.method,
+          headers: error.config?.headers,
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      console.log('8️⃣ Finalizado o carregamento');
+    }};
+  
+  fetchAdminInsulina();
+}, [userId]);
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = async () => {
     if (!userId) {
