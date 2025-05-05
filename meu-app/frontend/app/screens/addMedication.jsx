@@ -7,8 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import {
-  pushMedication,
-  updateMedicationField,
+  pushMedication, updateMedicationField,
 } from "../reducers/medicationActions";
 
 // API
@@ -24,12 +23,11 @@ import ModalCustom from "../components/modals/Modal";
 
 const addMedication = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
   const params = useLocalSearchParams();
   const isEditing = params.isEditing || false;
-  const dispatch = useDispatch();
-
-  const userId = useSelector((state) => state.auth.userId);
-
+  
   const [nameMedication, setNameMedication] = useState(params.name || "");
   const [treatment, setTreatment] = useState(params.treatment || "");
   const [dosageAdm, setDosageAdm] = useState(params.dosageAdm || "");
@@ -69,94 +67,38 @@ const addMedication = () => {
     fetchTreatmentTypes();
   }, []);
 
+  const handleSave = () => {
+    const medicationData = {
+      name: nameMedication,
+      treatment,
+      dosageAdm,
+      unit,
+      doseLeft,
+    };
+  
+    if (isEditing) {
+      dispatch(updateMedicationField(params.id, medicationData, userId));
+    } else {
+      dispatch(pushMedication(medicationData, userId));
+    }
+    console.log("Medicamento salvo:", medicationData);
+    setModalVisible(true);
+    setTimeout(() => {
+      setModalVisible(false);
+      router.back(); // Retorna para a tela anterior
+    }, 1500);
+  };
+
   useEffect(() => {
     if (modalVisible) {
       const timer = setTimeout(() => {
         setModalVisible(false);
-      }, 1000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [modalVisible]);
-
-  const handleSave = async () => {
-    const medicationData = {
-      name: nameMedication,
-      treatment: treatment,
-      dosageAdm: dosageAdm,
-      unit: unit,
-      doseLeft: doseLeft,
-    };
-
-    if (isEditing) {
-      dispatch(updateMedicationField(params.id, medicationData));
-    } else {
-      dispatch(pushMedication({ id: new Date().getTime(), ...medicationData }));
-    }
-
-    console.log("Medicamento salvo:", medicationData);
-
-    setModalVisible(true);
-
-    if (!userId) {
-      console.error("Erro: userId não encontrado");
-      return;
-    }
-
-    try {
-      const token = await AsyncStorage.getItem("authToken");
-      if (!token) {
-        console.error("Erro: Token de autenticação não encontrado");
-        return;
-      }
-
-      const payload = {
-        userId,
-        nomeMedicamento: nameMedication,
-        tipoDosagem: unit,
-        tipoTratamentoId: treatment ? parseInt(treatment, 10) : 1,
-        dosagemPorAdministracao: dosageAdm,
-        dosesRestantes: Number(doseLeft) || 0,
-      };
-
-      console.log("Enviando payload:", payload);
-
-      const response = await api.post("/userMedicines", payload, {
-        header: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      switch (response.status) {
-        case 201:
-          console.log("Medicamento do usuário registrado com sucesso!");
-          setTimeout(() => {
-            setModalVisible(false);
-            router.back(); // Redireciona para MedicamentoItem
-          }, 1500);
-          break;
-
-        case 400:
-          console.error("Erro de validação! Verifique os dados enviados.");
-          break;
-
-        case 500:
-          console.error("Erro interno do servidor");
-          break;
-
-        default:
-          console.error("Resposta inesperada do servidor", response.status);
-          break;
-      }
-    } catch (error) {
-      console.error(
-        "Erro na requisição:",
-        error.response?.data || error.message
-      );
-    }
-  };
-
+  
   return (
     <ScrollView
       style={styles.container}
