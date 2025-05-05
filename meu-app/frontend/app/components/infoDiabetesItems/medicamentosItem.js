@@ -65,11 +65,11 @@ const MedicamentoItem = () => {
         pathname: "../../screens/addMedication",
         params: {
           id: medicamento.id,
-          name: medicamento.name,
-          treatment: medicamento.treatment,
-          dosageAdm: medicamento.dosageAdm,
-          unit: medicamento.unit,
-          doseLeft: medicamento.doseLeft,
+          name: medicamento.medicamento,
+          treatment: medicamento.tipoTratamentoId,
+          dosageAdm: medicamento.dosagemPorAdministracao,
+          unit: medicamento.tipoDosagem,
+          doseLeft: medicamento.dosesRestantes,
           isEditing: true,
         },
       });
