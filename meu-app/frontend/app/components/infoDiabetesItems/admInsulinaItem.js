@@ -6,17 +6,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-} from "react-native";
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import ButtonSave from "../buttons/ButtonSave";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import api from "../../services/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import ButtonSave from '../buttons/ButtonSave';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import api from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
-  const isTipoDiabetesScreen = item.id === "2";
+  const isTipoDiabetesScreen = item.id === '2';
 
   const userId = useSelector((state) => state.auth.userId);
 
@@ -30,17 +31,48 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
     setSelectedType((prev) => (prev === id ? 0 : id));
   };
 
+  // Busca os dados do backend quando a tela é aberta
+  useFocusEffect(
+    useCallback(() => {
+      const fetchAdminInsulina = async () => {
+        if (!userId) return;
+
+        try {
+          const token = await AsyncStorage.getItem("authToken");
+
+          const response = await api.get(`/medicalRecord/adminInsulina/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.status === 200) {
+            const adminInsulinaId = response.data.data?.adminInsulinaId;
+            setSelectedType(adminInsulinaId ?? 0);
+            console.log("Administração de insulina salva:", adminInsulinaId);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar administração de insulina salva:", {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data,
+          });
+        }
+      };
+
+      fetchAdminInsulina();
+    }, [userId])
+  );
+
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = async () => {
     if (!userId) {
-      console.error("Erro: userId não encontrado");
+      console.error('Erro: userId não encontrado');
       return;
     }
 
     try {
-      const token = await AsyncStorage.getItem("authToken");
+      const token = await AsyncStorage.getItem('authToken');
       if (!token) {
-        console.error("Erro: Token de autenticação não encontrado.");
+        console.error('Erro: Token de autenticação não encontrado.');
         return;
       }
 
@@ -49,9 +81,9 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
         adminInsulinaId: selectedType,
       };
 
-      console.log("Enviando payload:", payload);
+      console.log('Enviando payload:', payload);
 
-      const response = await api.post("/medicalRecord/adminInsulina", payload, {
+      const response = await api.post('/medicalRecord/adminInsulina', payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,26 +91,26 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
 
       switch (response.status) {
         case 201:
-          console.log("Adminstração de insulina registrada com sucesso!");
+          console.log('Adminstração de insulina registrada com sucesso!');
           scrollToNextSlide();
           break;
 
         case 400:
-          console.error("Erro de validação! Verifique os dados enviados.");
+          console.error('Erro de validação! Verifique os dados enviados.');
           break;
 
         case 500:
-          console.error("Erro interno do servidor");
+          console.error('Erro interno do servidor');
           break;
 
         default:
-          console.error("Resposta inesperada do servidor", response.status);
+          console.error('Resposta inesperada do servidor', response.status);
           break;
       }
     } catch (error) {
       console.error(
-        "Erro na requisição:",
-        error.response?.data || error.message
+        'Erro na requisição:',
+        error.response?.data || error.message,
       );
     }
   };
@@ -86,11 +118,10 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <Text
-          style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 26 }]}
-        >
-          {item.title}
-        </Text>
+          <Text 
+            style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 26 }]}>
+            {item.title}
+          </Text>
         {isTipoDiabetesScreen && (
           <FlatList
             data={diabetesTypes}
@@ -116,7 +147,7 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
               </View>
             )}
             keyExtractor={(type, index) => index.toString()}
-          />
+        />
         )}
       </SafeAreaView>
       <ButtonSave onPress={handleSave} />
@@ -134,7 +165,7 @@ AdmInsulinaItem.propTypes = {
       PropTypes.shape({
         id: PropTypes.number.isRequired, // Cada tipo deve ter um id numérico
         name: PropTypes.string.isRequired, // Cada tipo deve ter um nome string obrigatório
-      })
+      }),
     ).isRequired, // O array de tipos é obrigatório
   }).isRequired,
 };
@@ -144,13 +175,13 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 16,
     paddingBottom: 2,
-    backgroundColor: "#EDF3FF",
+    backgroundColor: '#EDF3FF',
     borderRadius: 16,
   },
   title: {
-    color: "#282828",
-    fontFamily: "Urbanist_700Bold",
-    fontStyle: "normal",
+    color: '#282828',
+    fontFamily: 'Urbanist_700Bold',
+    fontStyle: 'normal',
     fontSize: 20,
     lineHeight: 22,
   },
@@ -158,22 +189,22 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 100,
-    backgroundColor: "#FDFDFD",
+    backgroundColor: '#FDFDFD',
   },
   list: {
     paddingBottom: 8,
   },
   selectedTypeContainer: {
-    backgroundColor: "#7A98FF", // Cor de destaque para o item selecionado
+    backgroundColor: '#7A98FF', // Cor de destaque para o item selecionado
   },
   typeText: {
-    color: "#282828",
-    fontFamily: "Lato_400Regular",
+    color: '#282828',
+    fontFamily: 'Lato_400Regular',
     fontSize: 14,
-    fontStyle: "normal",
+    fontStyle: 'normal',
     lineHeight: 21,
   },
   selectedTypeText: {
-    color: "#FDFDFD", // Cor de destaque do texto selecionado
+    color: '#FDFDFD', // Cor de destaque do texto selecionado
   },
 });
