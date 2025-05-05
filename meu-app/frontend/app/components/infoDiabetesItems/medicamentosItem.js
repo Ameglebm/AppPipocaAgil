@@ -1,14 +1,12 @@
 // Bibliotecas externas
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Redux
-import {
-  removeMedication,
-  resetMedication,
-} from "../../reducers/medicationActions";
+import { fetchMedications, deleteMedications } from "../../reducers/medicationActions";
 
 // Dados
 import data from "../slidesInfoDiabetes"; // Importa o array com os dados para o carrossel
@@ -24,61 +22,57 @@ import ConfirmationModal from "../modals/ConfirmationModal";
 import plusImage from "../../assets/images/icons/plus.png";
 
 const MedicamentoItem = () => {
-  // Obtém depêndencias
   const dispatch = useDispatch();
-  const params = useLocalSearchParams();
   const router = useRouter();
+
+  const userId = String(useSelector((state) => state.auth.userId));
+  const medicamentos = useSelector((state) => state.medication.medicamentos);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMedication, setSelectedMedication] = useState(null);
+
+  // Carrega Medicamentos ao focar na tela
+  useFocusEffect(
+  useCallback(() => {
+    const timeout = setTimeout(() => {
+      if (userId) dispatch(fetchMedications(userId));
+    }, 150); // dá tempo do PATCH ser refletido no banco
+
+    return () => clearTimeout(timeout);
+  }, [userId])
+  );
 
   // Busca e estados globais
   const medicamentosItem = data.find((item) => item.id === "4"); // Busca o item com id === '4' no array de dados
-  const medicamentos = useSelector(
-    (state) => state.medication.medicamentos || []
-  ); // Obtém o estado do Redux
-
+  
   console.log("Medicamentos armazenados no Redux", medicamentos); // Para depuração
-
-  // Obtém o último medicamento adicionado
-  const ultimoMedicamento =
-    medicamentos.find((med) => med.id === params?.id) ||
-    medicamentos[medicamentos.length - 1] ||
-    null;
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedMedication, setSelectedMedication] = useState(null);
+  
   // Funções de manipulação de dados
   const handleSave = () => {
     console.log("salvo");
   };
 
-  const editMedication = () => {
-    console.log("Editando", ultimoMedicamento);
-    if (ultimoMedicamento) {
+  const handleDeletePress = () => {
+    if (selectedMedication && userId) {
+      dispatch(deleteMedications(selectedMedication.id, userId));
+      setModalVisible(false);
+      setSelectedMedication(null);
+    }
+  };    
+
+  const editMedication = (medicamento) => {
+    if (medicamento) {
       router.push({
         pathname: "../../screens/addMedication",
         params: {
-          id: ultimoMedicamento.id,
-          name: ultimoMedicamento.name,
-          treatment: ultimoMedicamento.treatment,
-          dosageAdm: ultimoMedicamento.dosageAdm,
-          unit: ultimoMedicamento.unit,
-          doseLeft: ultimoMedicamento.doseLeft,
+          id: medicamento.id,
+          name: medicamento.medicamento,
+          treatment: medicamento.tipoTratamentoId,
+          dosageAdm: medicamento.dosagemPorAdministracao,
+          unit: medicamento.tipoDosagem,
+          doseLeft: medicamento.dosesRestantes,
           isEditing: true,
         },
       });
-    }
-  };
-
-  const handleDeletePress = (medication) => {
-    setSelectedMedication(medication);
-    setModalVisible(true);
-  };
-
-  const deleteMedication = () => {
-    if (selectedMedication) {
-      dispatch(removeMedication(selectedMedication.id));
-      setModalVisible(false);
-      setSelectedMedication(null);
-      console.log(`O item ${selectedMedication.name} foi removido!`);
     }
   };
 
@@ -91,10 +85,11 @@ const MedicamentoItem = () => {
               <Text style={styles.title}>Medicamentos</Text>
             </View>
 
-            {medicamentos.map((medicamento) => {
+            {medicamentos.map((medicamento, index) => {
+
               return (
                 <View
-                  key={medicamento.id}
+                  key={medicamento.id ?? index}
                   style={styles.configuredContainerMedication}
                 >
                   <View
@@ -105,18 +100,20 @@ const MedicamentoItem = () => {
                     }}
                   >
                     <Text style={styles.nomeMedicamento}>
-                      {medicamento.name}
+                    {medicamento.medicamento|| 'Medicamento não encontrado'}
                     </Text>
                     <Text style={styles.useText}>Uso contínuo</Text>
                   </View>
 
                   <View style={styles.containerEditDel}>
-                    <TouchableOpacity onPress={editMedication}>
+                    <TouchableOpacity onPress={() => editMedication(medicamento)}>
                       <Edit />
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                      onPress={() => handleDeletePress(medicamento)}
+                    <TouchableOpacity onPress={() => {
+                     setSelectedMedication(medicamento);
+                     setModalVisible(true);
+                   }}
                     >
                       <Trash />
                     </TouchableOpacity>
@@ -129,7 +126,6 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAddMedication}
                 onPress={() => {
-                  dispatch(resetMedication());
                   router.navigate("../../screens/addMedication");
                 }}
               >
@@ -152,7 +148,6 @@ const MedicamentoItem = () => {
               <TouchableOpacity
                 style={styles.btnAdd}
                 onPress={() => {
-                  dispatch(resetMedication());
                   router.navigate("../../screens/addMedication");
                 }}
               >
@@ -167,7 +162,7 @@ const MedicamentoItem = () => {
       <ConfirmationModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        onConfirm={deleteMedication}
+        onConfirm={handleDeletePress}
         title="Confirmar exclusão do medicamento?"
         message="Esta ação não pode ser desfeita."
       />

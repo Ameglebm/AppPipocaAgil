@@ -10,6 +10,12 @@ const MedicationReducer = (state = initialState, action) => {
         medicamentos: [...state.medicamentos, action.payload],
       };
 
+    case "SET_MEDICATIONS":
+      return {
+        ...state,
+        medicamentos: action.payload,
+      };
+
     case "UPDATE_MEDICATION_FIELD": {
       console.log("Recebido para atualização:", action.payload);
 
@@ -34,7 +40,7 @@ const MedicationReducer = (state = initialState, action) => {
       };
     }
 
-    case "REMOVE_MEDICATION":
+    case "DELETE_MEDICATION":
       return {
         ...state,
         medicamentos: state.medicamentos.filter(

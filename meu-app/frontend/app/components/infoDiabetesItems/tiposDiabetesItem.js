@@ -8,24 +8,49 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import ButtonSave from "../buttons/ButtonSave";
 import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../../services/api";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
+
+// API
+import api from "../../services/api";
 
 export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === "1";
-  const diabetesTypes = isTipoDiabetesScreen ? item.types : [];
 
   const userId = useSelector((state) => state.auth.userId);
+  const [diabetesTypes, setDiabetesTypes] = useState([]);
+  const [savedDiabetesId, setSavedDiabetesId] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [error, setError] = useState(null);
-  const [savedDiabetesId, setSavedDiabetesId] = useState(null);
 
+  // Busca tipos de diabetes da API
+  useEffect(() => {
+    const fetchDiabetesTypes = async () => {
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+        const response = await api.get("/medicalRecord/typesDiabetes", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.status === 200) {
+          setDiabetesTypes(response.data);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar tipos de diabetes:", err);
+        setError("Erro ao carregar tipos de diabetes.");
+      }
+    };
+
+    if (isTipoDiabetesScreen) {
+      fetchDiabetesTypes();
+    }
+  }, [isTipoDiabetesScreen]);
+
+  // Busca tipo salvo para o usuário
   useFocusEffect(
     useCallback(() => {
       const fetchSavedDiabetesType = async () => {
@@ -49,12 +74,6 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
       fetchSavedDiabetesType();
     }, [userId])
   );
-
-  useEffect(() => {
-  }, [diabetesTypes]);
-  
-  useEffect(() => {
-  }, [savedDiabetesId]);
   
   useEffect(() => {
     if (savedDiabetesId && diabetesTypes.length > 0) {
@@ -162,7 +181,7 @@ export default function TiposDiabetesItem({ item, scrollToNextSlide }) {
                       selectedType?.id === diabetesType.id && styles.selectedTypeText,
                     ]}
                   >
-                    {diabetesType.name}
+                    {diabetesType.nome}
                   </Text>
                 </TouchableOpacity>
               </View>
