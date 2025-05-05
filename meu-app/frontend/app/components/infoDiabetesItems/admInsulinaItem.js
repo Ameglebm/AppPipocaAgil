@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ButtonSave from '../buttons/ButtonSave';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   const isTipoDiabetesScreen = item.id === '2';
@@ -30,64 +31,37 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
     setSelectedType((prev) => (prev === id ? 0 : id));
   };
 
-  const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
-
   // Busca os dados do backend quando a tela é aberta
-  useEffect(() => {
-    const fetchAdminInsulina = async () => {
-      if (!userId) {
-        console.log('❌ userId não encontrado no Redux');
-        return;
-      }
-  
-      console.log('1️⃣ Iniciando requisição GET para userId:', userId);
-  
-      try {
-        const token = await AsyncStorage.getItem("authToken");
-        console.log('2️⃣ Token JWT encontrado:', token ? '✔' : '❌ Não encontrado');
+  useFocusEffect(
+    useCallback(() => {
+      const fetchAdminInsulina = async () => {
+        if (!userId) return;
 
-        const url = `/medicalRecord/adminInsulina?userId=${userId}`;
-      console.log('3️⃣ URL completa da requisição:', url);
+        try {
+          const token = await AsyncStorage.getItem("authToken");
 
-      console.log('4️⃣ Headers sendo enviados:', {
-        Authorization: `Bearer ${token}`,
-      });
+          const response = await api.get(`/medicalRecord/adminInsulina/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
-      const response = await api.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+          if (response.status === 200) {
+            const adminInsulinaId = response.data.data?.adminInsulinaId;
+            setSelectedType(adminInsulinaId ?? 0);
+            console.log("Administração de insulina salva:", adminInsulinaId);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar administração de insulina salva:", {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data,
+          });
+        }
+      };
 
-      console.log('5️⃣ Resposta da API:', {
-        status: response.status,
-        data: response.data,
-      });
+      fetchAdminInsulina();
+    }, [userId])
+  );
 
-      if (response.data?.adminInsulinaId) {
-        console.log('6️⃣ Dados recebidos - adminInsulinaId:', response.data.adminInsulinaId);
-        setSelectedType(response.data.adminInsulinaId);
-      } else {
-        console.log('6️⃣ ⚠️ Dados recebidos, mas adminInsulinaId não encontrado');
-      }
-    } catch (error) {
-      console.error('7️⃣ Erro completo na requisição:', {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data,
-        config: {
-          url: error.config?.url,
-          method: error.config?.method,
-          headers: error.config?.headers,
-        },
-      });
-    } finally {
-      setIsLoading(false);
-      console.log('8️⃣ Finalizado o carregamento');
-    }};
-  
-  fetchAdminInsulina();
-}, [userId]);
   // Simula uma ação de salvar (pode ser adaptado para integração com API)
   const handleSave = async () => {
     if (!userId) {
@@ -144,11 +118,8 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
   return (
     <SafeAreaProvider style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-      {isLoading ? (
-        <Text>Carregando...</Text>
-      ) : (
-        <>
-          <Text style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 26 }]}>
+          <Text 
+            style={[styles.title, isTipoDiabetesScreen && { paddingBottom: 26 }]}>
             {item.title}
           </Text>
         {isTipoDiabetesScreen && (
@@ -178,8 +149,6 @@ export default function AdmInsulinaItem({ item, scrollToNextSlide }) {
             keyExtractor={(type, index) => index.toString()}
         />
         )}
-        </>
-      )}
       </SafeAreaView>
       <ButtonSave onPress={handleSave} />
     </SafeAreaProvider>
