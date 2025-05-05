@@ -17,7 +17,6 @@ export class CreateUserInsulinDTO{
     dosagemQtd!: number
 }
 
-// Ajustado para uma string
 export class GetUserInsulinDTO{
     @ApiProperty({example: '1', description: 'ID do usuário.'})
     @IsString({ message: 'O ID do usuário deve ser uma string.'})
