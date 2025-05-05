@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.amegle.InsuCheck"
     },
     "web": {
       "favicon": ""
@@ -32,6 +33,14 @@
           "fonts": []
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "cdcfc3c0-2a5b-4a1f-9c2b-f8fd6ad8d57d"
+      }
+    }
   }
 }
