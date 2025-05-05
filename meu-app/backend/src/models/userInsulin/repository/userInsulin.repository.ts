@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { IUserInsulinRepository } from "../interface/userInsulinRepository.interface";
-import { CreateUserInsulinDTO, PatchInsulinDTO, DeleteInsulinDTO } from "../dtos/userInsulinDTO";
+import { CreateUserInsulinDTO, DeleteInsulinDTO, PatchUserInsulinDTO } from "../dtos/userInsulinDTO";
 
 // Removido o getUserInsulinByUserId 
 // FINALIZADO
@@ -26,12 +26,15 @@ export class UserInsulinRepository implements IUserInsulinRepository {
     }
 
     /* Update está errado. Ele não está atualizando nenhum dado e o where está faltando passar o id */ //FINALIZADO
-    async patchUserInsulin(data: PatchInsulinDTO): Promise<void> {
+    async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
         const { id, ...updateData } = data; 
         await prisma.user_insulina.update({
             where: { id: Number(id), userId: Number(updateData.userId) },
             data: {
-                dosagemQtd: updateData.dosagemQtd
+                dosagemQtd: updateData.dosagemQtd,
+                insulina: updateData.insulina,
+                userId: Number(updateData.userId)
+                
             }, 
         });
     }
