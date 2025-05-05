@@ -77,7 +77,15 @@ const addMedication = () => {
     };
   
     if (isEditing) {
-      dispatch(updateMedicationField(params.id, medicationData, userId));
+      dispatch(updateMedicationField({
+        id: Number(params.id),
+        userId: userId,
+        nomeMedicamento: nameMedication,
+        tipoTratamentoId: Number(treatment),
+        dosagemPorAdministracao: dosageAdm,
+        tipoDosagem: unit,
+        dosesRestantes: Number(doseLeft),
+      }));
     } else {
       dispatch(pushMedication(medicationData, userId));
     }

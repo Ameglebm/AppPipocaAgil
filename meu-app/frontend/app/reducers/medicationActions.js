@@ -71,20 +71,22 @@ export const fetchMedications = (userId) => {
   };
 };
 
-
 export const updateMedicationField = (updatedData) => {
   return async (dispatch) => {
     try {
       const token = await AsyncStorage.getItem("authToken");
       if (!token) throw new Error("Token não encontrado");
 
+      console.log("Corpo da requisição PATCH:", updatedData)
+
       const response = await api.patch(`/userMedicines/`, updatedData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
-      if (response.status === 201) {  // Verifica se o status é 200
+      if (response.status === 200) {  // Verifica se o status é 200
         console.log("Atualizando medicamento:", response.data);
         
         dispatch({
