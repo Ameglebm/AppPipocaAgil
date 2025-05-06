@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "scheme": "insucheck",
     "splash": {
-      "image": "./app/assets/images/splashScreen1.jpg",
+      "image": "./app/assets/images/splashScreen1.png",
       "resizeMode": "cover",
       "backgroundColor": "#EDF3FF"
     },
