@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Inject, NotFoundException } from '@nestjs/common';
-import { CreateUserInsulinDTO, GetUserInsulinDTO, PatchInsulinDTO, DeleteInsulinDTO, } from '../dtos/userInsulinDTO';
+import { CreateUserInsulinDTO, GetUserInsulinDTO, DeleteInsulinDTO, PatchUserInsulinDTO, } from '../dtos/userInsulinDTO';
 import { IUserInsulinRepository } from '../interface/userInsulinRepository.interface';
 import { IUserInsulinService } from '../interface/userInsulinService.interface';
 
@@ -25,7 +25,7 @@ export class UserinsulinService implements IUserInsulinService{
         return record;
     }
     // FINALIZADO
-    async patchUserInsulin(data: PatchInsulinDTO): Promise<void> {
+    async patchUserInsulin(data: PatchUserInsulinDTO): Promise<void> {
         console.log(data)
         const { userId } = data;
         const record = await this.userInsulinRepository.getUserInsulin(Number(userId));

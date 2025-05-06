@@ -54,6 +54,7 @@ export class UserinsulinController {
                     id: patchUserInsulin.id,
                     userId: userId,
                     dosagemQtd: patchUserInsulin.dosagemQtd,
+                    insulina: patchUserInsulin.insulina,
                 }
                 await this.userInsulinService.patchUserInsulin(data);
             } catch (error) {
