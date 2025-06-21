@@ -6,16 +6,38 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": "clean :app:assembleRelease"
+      }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "distribution": "store",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": "clean :app:bundleRelease",
+        "jdkVersion": "11",
+        "env": {
+          "GRADLE_OPTS": "-Xmx4608m -Dorg.gradle.daemon=true"
+        },
+        "image": "latest"
+      }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "path/to/service-account-key.json",
+        "track": "production"
+      }
+    }
   }
 }
